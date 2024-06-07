@@ -1,0 +1,30 @@
+# label: "Contact barn and bay object details"
+# description: "Show a contact's barn and bay object details"
+# $contact_id: "{{request.contact.contact_vid }}"
+
+query MyQuery($contact_id: String!) {
+  CRM {
+    contact(uniqueIdentifier: "id", uniqueIdentifierValue: $contact_id) {
+      associations {
+        p_barn_and_bays_collection__contact_to_barn_and_bays {
+          items {
+            barn_and_bay_name
+            barn_name
+            bay_name
+            deposit_amount___advertised
+            hs_object_id
+            length
+            price_advertised___annual
+            price_advertised___monthly
+            size
+            square_footage
+            status
+            storage_option
+            width
+            under_cancelation
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+[ {
+  "id" : "5352b0fb-d797-dc56-6491-1842d13cd016",
+  "name" : "crm_objects",
+  "display_width" : null,
+  "label" : "CRM objects",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : 1,
+    "max" : null,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "children" : [ {
+    "id" : "5384f594-43b6-2cf7-a177-6337394363d2",
+    "name" : "object_category",
+    "display_width" : null,
+    "label" : "Object category",
+    "required" : false,
+    "locked" : false,
+    "display" : "select",
+    "choices" : [ [ "HUBSPOT_DEFINED", "HubSpot Defined" ], [ "USER_DEFINED", "User Defined" ] ],
+    "multiple" : false,
+    "reordering_enabled" : true,
+    "preset" : null,
+    "type" : "choice"
+  }, {
+    "id" : "1df72f3c-f72f-8449-08aa-f93a243eb017",
+    "name" : "association_type_id",
+    "display_width" : null,
+    "label" : "Contact to object association type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "405"
+  }, {
+    "id" : "d6f5e95e-4fc6-de70-f753-8bc15a608b2c",
+    "name" : "add_custom_object",
+    "display_width" : null,
+    "label" : "Add custom object",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "default" : true
+  }, {
+    "id" : "1719bc03-aa3f-46d2-6fd9-a0a81d63f2ea",
+    "name" : "custom_object_details",
+    "display_width" : null,
+    "label" : "Custom object details",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "crm_objects.add_custom_object",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "873fd00c-8ff6-0f64-525a-489fcb5c0b68",
+      "name" : "custom_object_exact_name",
+      "display_width" : null,
+      "label" : "Custom object exact name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "p_barn_and_bays"
+    }, {
+      "id" : "a5a0082b-77c5-27bb-c048-4879fd91035c",
+      "name" : "custom_object_properties",
+      "display_width" : null,
+      "label" : "Custom object properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "barn_and_bay_name,bay_name,barn_name,size,width,square_footage,length,under_cancelation"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "custom_object_exact_name" : "p_barn_and_bays",
+      "custom_object_properties" : "barn_and_bay_name,bay_name,barn_name,size,width,square_footage,length,under_cancelation"
+    }
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "association_type_id" : "405",
+    "add_custom_object" : true,
+    "custom_object_details" : {
+      "custom_object_exact_name" : "p_barn_and_bays",
+      "custom_object_properties" : "barn_and_bay_name,bay_name,barn_name,size,width,square_footage,length,under_cancelation"
+    }
+  } ]
+} ]

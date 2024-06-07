@@ -1,0 +1,61 @@
+<!--
+  templateType: page
+  isAvailableForNewContent: true
+  label: About
+  screenshotPath: ../images/template-previews/about.png
+-->
+{% extends "./layouts/base.html" %}
+
+{% block body %}
+{% dnd_area "dnd_area"
+  label="Main section",
+  class="body-container body-container--about"
+%}
+
+{# Two column image left #}
+
+{% dnd_section
+vertical_alignment="TOP",
+    padding={
+      "default": {
+        "top": 30,
+        "right": 0,
+        "bottom": 30,
+        "left": 0
+      },
+      "mobile": {
+        "top": 30,
+        "right": 16,
+        "bottom": 30,
+        "left": 16
+      }
+    }
+%}
+{% dnd_module path="../modules/user-navbar" %}
+{% end_dnd_module %}
+{% end_dnd_section %}
+
+{% dnd_section
+vertical_alignment="TOP",
+    padding={
+      "default": {
+        "top": 0,
+        "right": 0,
+        "bottom": 60,
+        "left": 0
+      },
+      "mobile": {
+        "top": 0,
+        "right": 16,
+        "bottom": 60,
+        "left": 16
+      }
+    }
+%}
+{% dnd_module path="../modules/membership-associations" %}
+{% end_dnd_module %}
+{% end_dnd_section %}
+
+{% end_dnd_area %}
+
+{% endblock body %}
