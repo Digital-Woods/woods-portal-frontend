@@ -29,9 +29,11 @@
       https://github.com/HubSpot/cms-theme-boilerplate/wiki/Accessibility #}
 
       <main id="main-content" class="body-container-wrapper">
+        {#
         {% block react %} {% module "react" path='../../modules/react',
         label="Header", no_wrapper="true" %} {% endblock react %} {% block body
         %}
+        #}
 
         <!-- Render APP -->
         <div id="app"></div>

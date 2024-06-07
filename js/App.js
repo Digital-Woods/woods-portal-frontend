@@ -1,6 +1,6 @@
 const { BrowserRouter, Route, Link, HashRouter } = ReactRouterDOM;
 const { RecoilRoot } = Recoil;
-console.log("link_field", link_field);
+// console.log("link_field", link_field);
 
 const { QueryClientProvider, QueryClient } = ReactQuery;
 
