@@ -2,23 +2,24 @@ const { useQuery } = ReactQuery;
 
 const TnstackQuery = () => {
   const { error, data, isLoading } = useQuery({
-    queryKey: ["repoData"],
-    queryFn: () =>
-      fetch("https://api.github.com/repos/TanStack/query").then((res) =>
-        res.json()
-      ),
+    queryKey: ["userData"],
+    queryFn: async () => {
+      const response = await axios.get("https://dummyjson.com/products");
+      return response.data;
+    },
   });
+
   return (
     <div>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
         <div>
-          <h1>{data.name}</h1>
-          <p>{data.description}</p>
-          <strong>👀 {data.subscribers_count}</strong>{" "}
-          <strong>✨ {data.stargazers_count}</strong>{" "}
-          <strong>🍴 {data.forks_count}</strong>
+          <ul>
+            {data.products.map((product) => (
+              <li key={product.id}>{product.title}</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

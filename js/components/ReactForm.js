@@ -6,12 +6,6 @@ const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  // firstName: z.string().optional(),
-  // lastName: z.string().nonempty({ message: "Last name is required." }),
-  // age: z
-  //   .string()
-  //   .regex(/\d+/, { message: "Please enter number for age." })
-  //   .optional(),
 });
 
 const zodResolver = (schema) => async (data) => {
@@ -40,19 +34,22 @@ const ReactForm = () => {
 
   const { mutate: addUser, isLoading } = useMutation({
     mutationKey: ["addUser"],
-    mutationFn: async (input) =>
-      fetch("https://api.example.com/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
-      }).then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      }),
+    mutationFn: async (input) => {
+      try {
+        const response = await axios.post(
+          "https://api.example.com/users",
+          input,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        return response.data;
+      } catch (error) {
+        throw new Error("Network response was not ok");
+      }
+    },
     onSuccess: (data) => {
       console.log("data", data);
     },
@@ -65,18 +62,14 @@ const ReactForm = () => {
 
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-      <input {...register("username")} />
-      {errors.username && <p>{errors.username.message}</p>}
+      <div>
+        <input {...register("username")} />
+        {errors.username && <p>{errors.username.message}</p>}
+      </div>
 
-      {/* <input {...register("firstName")} />
-
-      <input {...register("lastName")} />
-      {errors.lastName && <p>{errors.lastName.message}</p>}
-
-      <input {...register("age")} />
-      {errors.age && <p>{errors.age.message}</p>} */}
-
-      <input type="submit" />
+      <button type="submit">
+        <span>{isLoading ? "Loading" : "Submit"}</span>
+      </button>
     </form>
   );
 };
