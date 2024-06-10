@@ -47,28 +47,28 @@ const MainLayout = () => {
               <nav className="hidden md:flex space-x-10">
                 <NavLink
                   to="/home"
-                  className="text-base text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   Home
                 </NavLink>
                 <NavLink
                   to="/recoil-js"
-                  className="text-base text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   Recoil js
                 </NavLink>
                 <NavLink
                   to="/tanstack-query"
-                  className="text-base text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   Tnstack Query
                 </NavLink>
                 <NavLink
                   to="/react-form"
-                  className="text-base text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   React Form
