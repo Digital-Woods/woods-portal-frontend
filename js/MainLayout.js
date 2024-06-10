@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <div className="bg-light dark:bg-slate-900">
       <div>
-        <div className="relative bg-white">
+        <div className="relative bg-light dark:bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
               <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -47,28 +47,28 @@ const MainLayout = () => {
               <nav className="hidden md:flex space-x-10">
                 <NavLink
                   to="/home"
-                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
+                  className="text-base text-gray-500 dark:text-light hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   Home
                 </NavLink>
                 <NavLink
                   to="/recoil-js"
-                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
+                  className="text-base text-gray-500 dark:text-light hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   Recoil js
                 </NavLink>
                 <NavLink
                   to="/tanstack-query"
-                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
+                  className="text-base text-gray-500 dark:text-light hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   Tnstack Query
                 </NavLink>
                 <NavLink
                   to="/react-form"
-                  className="text-base text-gray-500 hover:text-gray-500 hover:font-bold"
+                  className="text-base text-gray-500 dark:text-light hover:text-gray-500 hover:font-bold"
                   activeClassName="font-bold"
                 >
                   React Form
@@ -78,13 +78,13 @@ const MainLayout = () => {
                 <ThemeSwitcher />
                 <Link
                   to="/react-form"
-                  className="whitespace-nowrap text-base text-gray-500 hover:text-gray-900"
+                  className="whitespace-nowrap text-base text-gray-500 dark:text-light hover:text-gray-900 dark:hover:text-light"
                 >
                   Sign in
                 </Link>
                 <Link
                   to="/react-form"
-                  className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                  className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:hover:text-light"
                 >
                   Sign up
                 </Link>
@@ -309,7 +309,7 @@ const MainLayout = () => {
           </div>
         </div>
 
-        <div>
+        <div className='px-4 py-6'>
           <Route path="/home" component={Home} />
           <Route path="/recoil-js" component={Recoiljs} />
           <Route path="/tanstack-query" component={TnstackQuery} />
