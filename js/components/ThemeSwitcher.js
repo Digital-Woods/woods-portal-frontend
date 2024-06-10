@@ -39,10 +39,10 @@ const ThemeSwitcher = () => {
   return (
     <button className="js-theme-toggle" onClick={toggleTheme}>
       <span className="text-xl bg-red-700 dark:bg-red-400 p font-bold block dark:hidden text-slate-200">
-        Light Mode Enabled
+        Light
       </span>
       <span className="text-xl bg-red-700 dark:bg-red-400 font-bold hidden dark:block text-slate-900">
-        Dark Mode Enabled
+        Dark
       </span>
     </button>
   );
