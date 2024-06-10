@@ -13,8 +13,8 @@ const MainLayout = () => {
                 <a to="/home">
                   <span className="sr-only">Membership</span>
                   <img
-                    className="h-8 w-auto sm:h-10"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                    className="h-6 w-auto sm:h-8"
+                    src="https://dw-marketplace-dev-bucket.s3.amazonaws.com/989/DIGITAL-wood-hub-%281%29.svg"
                     alt=""
                   />
                 </a>
@@ -309,7 +309,7 @@ const MainLayout = () => {
           </div>
         </div>
 
-        <div className='px-4 py-6'>
+        <div className="px-4 py-6">
           <Route path="/home" component={Home} />
           <Route path="/recoil-js" component={Recoiljs} />
           <Route path="/tanstack-query" component={TnstackQuery} />
