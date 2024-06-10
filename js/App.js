@@ -1,4 +1,4 @@
-const { BrowserRouter, Route, Link, HashRouter } = ReactRouterDOM;
+const { BrowserRouter, Route, Link, HashRouter, NavLink } = ReactRouterDOM;
 const { RecoilRoot } = Recoil;
 // console.log("link_field", link_field);
 

@@ -45,36 +45,40 @@ const MainLayout = () => {
                 </button>
               </div>
               <nav className="hidden md:flex space-x-10">
-                <Link
+                <NavLink
                   to="/home"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-900"
+                  activeClassName="font-bold"
                 >
                   Home
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/recoil-js"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-900"
+                  activeClassName="font-bold"
                 >
                   Recoil js
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/tanstack-query"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-900"
+                  activeClassName="font-bold"
                 >
                   Tnstack Query
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/react-form"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  className="text-base text-gray-500 hover:text-gray-900"
+                  activeClassName="font-bold"
                 >
                   React Form
-                </Link>
+                </NavLink>
               </nav>
               <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                 <ThemeSwitcher />
                 <Link
                   to="/sign-in"
-                  className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  className="whitespace-nowrap text-base text-gray-500 hover:text-gray-900"
                 >
                   Sign in
                 </Link>
