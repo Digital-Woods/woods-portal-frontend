@@ -10,7 +10,7 @@ const TnstackQuery = () => {
   });
 
   return (
-    <div>
+    <div className="text-dark dark:text-light">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
