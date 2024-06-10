@@ -1,19 +1,30 @@
 class MainLayout extends React.Component {
   render() {
     return (
-      <div>
+      <div className="bg-light dark:bg-slate-900">
         <ul role="nav">
           <li>
-            <Link to="/home">Home</Link>
+            <Link className="text-dark dark:text-light" to="/home">
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/recoil-js">Recoil js</Link>
+            <Link className="text-dark dark:text-light" to="/recoil-js">
+              Recoil js
+            </Link>
           </li>
           <li>
-            <Link to="/tanstack-query">Tnstack Query</Link>
+            <Link className="text-dark dark:text-light" to="/tanstack-query">
+              Tnstack Query
+            </Link>
           </li>
           <li>
-            <Link to="/react-form">React Form</Link>
+            <Link className="text-dark dark:text-light" to="/react-form">
+              React Form
+            </Link>
+          </li>
+          <li>
+            <ThemeSwitcher />
           </li>
         </ul>
 

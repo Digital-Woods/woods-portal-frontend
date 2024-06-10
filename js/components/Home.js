@@ -5,7 +5,7 @@ const Home = () => {
 
   return (
     <div>
-      <p className="text-brand">You clicked {count} times</p>
+      <p className="text-dark dark:text-light">You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
