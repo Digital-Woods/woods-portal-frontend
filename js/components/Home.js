@@ -46,7 +46,9 @@ const Home = () => {
       </Card>
 
       <p>You clicked {count} times</p>
-      <Button onClick={() => setCount(count + 1)} label="Click" />
+      <Button onClick={() => setCount(count + 1)} label="Click">
+        Click
+      </Button>
     </div>
   );
 };

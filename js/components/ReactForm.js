@@ -121,13 +121,14 @@ const ReactForm = () => {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <Button label="Cancel" href='/home' />
+          <Button href="/home">Home</Button>
           <Button
             type="submit"
             onClick={() => setCount(count + 1)}
-            label="Submit"
             isLoading={isLoading}
-          />
+          >
+            Submit
+          </Button>
         </div>
       </form>
     </div>
