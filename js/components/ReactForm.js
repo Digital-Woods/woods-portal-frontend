@@ -121,18 +121,13 @@ const ReactForm = () => {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button
-            type="button"
-            className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-          >
-            Cancel
-          </button>
-          <button
+          <Button label="Cancel" href='/home' />
+          <Button
             type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            {isLoading ? "Loading" : "Submit"}
-          </button>
+            onClick={() => setCount(count + 1)}
+            label="Submit"
+            isLoading={isLoading}
+          />
         </div>
       </form>
     </div>

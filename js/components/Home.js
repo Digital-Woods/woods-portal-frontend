@@ -48,7 +48,7 @@ const Home = () => {
       </div>
 
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
+      <Button onClick={() => setCount(count + 1)} label="Click" />
     </div>
   );
 };
