@@ -78,6 +78,25 @@ const ReactForm = () => {
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            {/* <Input
+              label="First Name"
+              inputClassName="bg-light dark:bg-dark-300"
+              type="text"
+              {...register("firstName")}
+              error={errors && errors.firstName && errors.firstName.message}
+            />
+
+            <div className="sm:col-span-3">
+              <Input
+                label="Last Name"
+                inputClassName="bg-light dark:bg-dark-300"
+                type="text"
+                {...register("lastName")}
+                error={errors && errors.lastName && errors.lastName.message}
+              />
+            </div>
+             */}
+
             <div className="sm:col-span-3">
               <label
                 htmlFor="first-name"
