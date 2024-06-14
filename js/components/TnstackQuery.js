@@ -4,8 +4,8 @@ const TnstackQuery = () => {
   const { error, data, isLoading } = useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
-      const response = await axios.get("https://dummyjson.com/products");
-      return response.data;
+      const response = await Client.products.all({}, null, 1);
+      return response;
     },
   });
 

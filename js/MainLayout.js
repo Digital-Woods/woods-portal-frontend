@@ -15,7 +15,7 @@ const MainLayout = () => {
                   <img
                     className="h-6 w-auto sm:h-8"
                     src="https://dw-marketplace-dev-bucket.s3.amazonaws.com/989/DIGITAL-wood-hub-%281%29.svg"
-                    alt=""
+                    alt="Membership"
                   />
                 </a>
               </div>
