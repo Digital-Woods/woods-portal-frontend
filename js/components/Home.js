@@ -45,6 +45,36 @@ const Home = () => {
         </div>
       </Card>
 
+      <div className="py-4">
+        {/* <Tabs /> */}
+
+        {/* <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">Test 3</TabsContent>
+          <TabsContent value="password">Test 2</TabsContent>
+        </Tabs> */}
+
+        <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">Test Account Content</TabsContent>
+          <TabsContent value="password">Test Password Content</TabsContent>
+        </Tabs>
+      </div>
+
+      <div className="py-4">
+        <ActivityLog />
+      </div>
+
+      <div className="py-4">
+        <Timeline />
+      </div>
+
       <p>You clicked {count} times</p>
       <Button onClick={() => setCount(count + 1)} label="Click">
         Click
