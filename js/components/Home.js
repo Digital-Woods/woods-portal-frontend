@@ -55,9 +55,9 @@ const Home = () => {
           <FormMessage />
         </FormItem>
         <FormItem>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>Address</FormLabel>
           <FormControl>
-            <Input placeholder="Email" />
+            <Textarea placeholder="Email" />
           </FormControl>
 
           <FormMessage />

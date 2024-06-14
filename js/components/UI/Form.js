@@ -7,7 +7,9 @@ const FormItem = ({ children, className }) => (
 );
 
 const FormLabel = ({ children, className }) => (
-  <label className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${className}`}>
+  <label
+    className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${className}`}
+  >
     {children}
   </label>
 );
@@ -17,30 +19,39 @@ const FormControl = ({ children, className }) => (
 );
 
 const FormMessage = ({ children, className }) => (
-  <div className={`text-sm text-gray-500 dark:text-gray-400 ${className}`}>
-    {children}
-  </div>
+  <p class="mt-2 text-sm text-red-600 dark:text-red-500">{children}</p>
 );
 
-// const Input = ({ placeholder, className }) => (
-//   <input
-//     type="text"
-//     placeholder={placeholder}
-//     className={`block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 ${className}`}
-//   />
-// );
-
 const Input = React.forwardRef(({ className, type, ...props }, ref) => {
-  console.log("props", props)
   return (
-    (<input
+    <input
       type={type}
       className={classNames(
         "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       ref={ref}
-      {...props} />)
+      {...props}
+    />
   );
-})
-Input.displayName = "Input"
+});
+
+const Textarea = React.forwardRef(
+  (
+    { className, placeholder = "Leave a comment...", rows = 4, ...props },
+    ref
+  ) => {
+    return (
+      <textarea
+        rows={rows}
+        className={classNames(
+          "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+          className
+        )}
+        placeholder={placeholder}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
