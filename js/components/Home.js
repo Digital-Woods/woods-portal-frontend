@@ -45,6 +45,25 @@ const Home = () => {
         </div>
       </Card>
 
+      <Form>
+        <FormItem>
+          <FormLabel>Email</FormLabel>
+          <FormControl>
+            <Input placeholder="Email" />
+          </FormControl>
+
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Email</FormLabel>
+          <FormControl>
+            <Input placeholder="Email" />
+          </FormControl>
+
+          <FormMessage />
+        </FormItem>
+      </Form>
+
       <div className="py-4">
         <Tabs defaultValue="account" className="w-[400px]">
           <TabsList className="grid w-full grid-cols-2">
@@ -57,7 +76,10 @@ const Home = () => {
       </div>
 
       <div className="py-4">
-        <Avatar src='https://flowbite.com/docs/images/people/profile-picture-3.jpg' type='bordered' />
+        <Avatar
+          src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+          type="bordered"
+        />
       </div>
 
       <div className="py-4">

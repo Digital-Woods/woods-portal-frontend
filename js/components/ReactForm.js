@@ -65,91 +65,52 @@ const ReactForm = () => {
 
   return (
     <div className="bg-light-100 dark:bg-dark-100 p-5">
-      <form
-        onSubmit={handleSubmit((data) => onSubmit(data))}
-        className="bg-light-100 dark:bg-dark-100"
-      >
-        <div className="text-dark dark:text-light">
-          <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-light">
-            Personal Information
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600  dark:text-light">
-            Use a permanent address where you can receive mail.
-          </p>
+      <Form>
+        <form
+          onSubmit={handleSubmit((data) => onSubmit(data))}
+          className="bg-light-100 dark:bg-dark-100"
+        >
+          <div className="text-dark dark:text-light">
+            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-light">
+              Personal Information
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-gray-600  dark:text-light">
+              Use a permanent address where you can receive mail.
+            </p>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            {/* <Input
-              label="First Name"
-              inputClassName="bg-light dark:bg-dark-300"
-              type="text"
-              {...register("firstName")}
-              error={errors && errors.firstName && errors.firstName.message}
-            />
+            <FormItem>
+              <FormLabel>First name</FormLabel>
+              <FormControl>
+                <Input placeholder="Email" {...register("firstName")} />
+              </FormControl>
+              {errors.firstName && (
+                <FormMessage className="text-red-600">
+                  {errors.firstName.message}
+                </FormMessage>
+              )}
+            </FormItem>
 
-            <div className="sm:col-span-3">
-              <Input
-                label="Last Name"
-                inputClassName="bg-light dark:bg-dark-300"
-                type="text"
-                {...register("lastName")}
-                error={errors && errors.lastName && errors.lastName.message}
-              />
-            </div>
-             */}
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="first-name"
-                className="block text-sm font-medium leading-6 text-gray-900 dark:text-light"
-              >
-                First name
-              </label>
-              <div className="mt-2">
-                <input
-                  {...register("firstName")}
-                  type="text"
-                  id="first-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-                {errors.firstName && (
-                  <p className="text-red-600">{errors.firstName.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="last-name"
-                className="block text-sm font-medium leading-6 text-gray-900 dark:text-light"
-              >
-                Last name
-              </label>
-              <div className="mt-2">
-                <input
-                  {...register("lastName")}
-                  type="text"
-                  id="last-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-                {errors.lastName && (
-                  <p className="text-red-600">{errors.lastName.message}</p>
-                )}
-              </div>
-            </div>
+            <FormItem>
+              <FormLabel>Last name</FormLabel>
+              <FormControl>
+                <Input placeholder="Email" {...register("lastName")} />
+              </FormControl>
+              {errors.lastName && (
+                <FormMessage className="text-red-600">
+                  {errors.lastName.message}
+                </FormMessage>
+              )}
+            </FormItem>
           </div>
-        </div>
 
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <Button href="/home">Home</Button>
-          <Button
-            type="submit"
-            onClick={() => setCount(count + 1)}
-            isLoading={isLoading}
-          >
-            Submit
-          </Button>
-        </div>
-      </form>
+          <div className="mt-6 flex items-center justify-end gap-x-6">
+            <Button href="/home">Home</Button>
+            <Button type="submit" isLoading={isLoading}>
+              Submit
+            </Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };
