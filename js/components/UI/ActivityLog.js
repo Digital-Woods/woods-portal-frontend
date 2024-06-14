@@ -5,10 +5,10 @@ const ActivityLog = ({}) => {
     <ol className="relative border-s border-gray-200 dark:border-gray-700">
       <li className="mb-10 ms-6">
         <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-          <img
-            className="rounded-full shadow-lg"
+          <Avatar
             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-            alt="Bonnie image"
+            type="bordered"
+            className="w-5 h-5"
           />
         </span>
         <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
@@ -32,10 +32,10 @@ const ActivityLog = ({}) => {
       </li>
       <li className="mb-10 ms-6">
         <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-          <img
-            className="rounded-full shadow-lg"
+          <Avatar
             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-            alt="Thomas Lean image"
+            type="bordered"
+            className="w-5 h-5"
           />
         </span>
         <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
@@ -63,10 +63,10 @@ const ActivityLog = ({}) => {
       </li>
       <li className="ms-6">
         <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-          <img
-            className="rounded-full shadow-lg"
+          <Avatar
             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-            alt="Jese Leos image"
+            type="bordered"
+            className="w-5 h-5"
           />
         </span>
         <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
