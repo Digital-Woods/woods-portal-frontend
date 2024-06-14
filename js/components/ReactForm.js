@@ -37,29 +37,12 @@ const ReactForm = () => {
 
   const { mutate: addUser, isLoading } = useMutation({
     mutationKey: ["addUser"],
-    mutationFn: async (input) => {
-      try {
-        const response = await axios.post(
-          "https://api.example.com/users",
-          input,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        return response.data;
-      } catch (error) {
-        throw new Error("Network response was not ok");
-      }
-    },
+    mutationFn: async (input) => await Client.products.store(input),
     onSuccess: (data) => {
-      console.log("data", data);
     },
   });
 
   const onSubmit = (data) => {
-    console.log("data", data);
     addUser(data);
   };
 
@@ -81,7 +64,7 @@ const ReactForm = () => {
             <FormItem>
               <FormLabel>First name</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...register("firstName")} />
+                <Input placeholder="First name" {...register("firstName")} />
               </FormControl>
               {errors.firstName && (
                 <FormMessage className="text-red-600">
@@ -93,7 +76,7 @@ const ReactForm = () => {
             <FormItem>
               <FormLabel>Last name</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...register("lastName")} />
+                <Input placeholder="Last name" {...register("lastName")} />
               </FormControl>
               {errors.lastName && (
                 <FormMessage className="text-red-600">

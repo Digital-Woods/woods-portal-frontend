@@ -16,12 +16,10 @@ class Client {
           status: "publish",
         }),
       }),
-
-    // get: ({ slug, language }: GetParams) =>
-    //   HttpClient.get<Product>(`${API_ENDPOINTS.PRODUCTS}/${slug}`, {
-    //     language,
-    //     with: 'shop;tags;type',
-    //     withCount: 'orders',
-    //   }),
+    store: (data) =>
+      HttpClient.post(
+        API_ENDPOINTS.PRODUCTS,
+        data,
+      ),
   };
 }
