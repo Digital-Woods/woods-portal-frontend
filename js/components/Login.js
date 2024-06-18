@@ -15,7 +15,17 @@ const Login = () => {
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
     mutationFn: async (input) => await Client.authentication.login(input),
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      if (!data.token) {
+        new Notify({
+          title: 'Authorization',
+          text: 'Wrong username or password',
+          status: 'error',
+          effect: 'slide',
+        })
+        return;
+      }
+    },
     onError: (error) => {
       if(error.response.data) setServerError(error.response.data);
     },
