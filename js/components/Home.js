@@ -45,26 +45,6 @@ const Home = () => {
         </div>
       </Card>
 
-
-      <Form>
-        <FormItem>
-          <FormLabel>Email</FormLabel>
-          <FormControl>
-            <Input placeholder="Email" />
-          </FormControl>
-
-          <FormMessage />
-        </FormItem>
-        <FormItem>
-          <FormLabel>Address</FormLabel>
-          <FormControl>
-            <Textarea placeholder="Email" />
-          </FormControl>
-
-          <FormMessage />
-        </FormItem>
-      </Form>
-
       <div className="py-4">
         <Tabs defaultValue="account" className="w-[400px]">
           <TabsList className="grid w-full grid-cols-2">
