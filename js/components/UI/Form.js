@@ -1,5 +1,57 @@
-const Form = ({ children, className }) => {
-  return children;
+const { useForm } = ReactHookForm;
+
+const Form = ({
+  onSubmit,
+  children,
+  useFormProps,
+  validationSchema,
+  serverError,
+  resetFields,
+  ...formProps
+}) => {
+  const zodResolver = (schema) => async (data) => {
+    try {
+      const values = schema.parse(data);
+      return { values, errors: {} };
+    } catch (e) {
+      return {
+        values: {},
+        errors: e.errors.reduce((acc, error) => {
+          acc[error.path[0]] = { type: error.code, message: error.message };
+          return acc;
+        }, {}),
+      };
+    }
+  };
+
+  const methods = useForm({
+    ...useFormProps,
+    ...(validationSchema && {
+      resolver: zodResolver(validationSchema),
+    }),
+  });
+  useEffect(() => {
+    if (serverError) {
+      Object.entries(serverError).forEach(([key, value]) => {
+        methods.setError(key, {
+          type: "manual",
+          message: value,
+        });
+      });
+    }
+  }, [serverError, methods]);
+
+  useEffect(() => {
+    if (resetFields) {
+      methods.reset(resetFields);
+    }
+  }, [resetFields, methods]);
+
+  return (
+    <form noValidate onSubmit={methods.handleSubmit(onSubmit)} {...formProps}>
+      {children(methods)}
+    </form>
+  );
 };
 
 const FormItem = ({ children, className }) => (
