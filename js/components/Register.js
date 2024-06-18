@@ -4,7 +4,7 @@ const { z } = Zod;
 
 const formSchema = z.object({
   name: z.string().min(4, {
-    message: "Nmae must be at least 4 characters.",
+    message: "Name must be at least 4 characters.",
   }),
   email: z.string().email(),
   password: z.string().min(4, {

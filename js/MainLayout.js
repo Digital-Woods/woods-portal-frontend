@@ -66,13 +66,6 @@ const MainLayout = () => {
                 >
                   Tnstack Query
                 </NavLink>
-                <NavLink
-                  to="/react-form"
-                  className="text-base text-gray-500 dark:text-light hover:text-gray-500 hover:font-bold"
-                  activeClassName="font-bold"
-                >
-                  React Form
-                </NavLink>
               </nav>
               <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                 <ThemeSwitcher />
@@ -313,7 +306,6 @@ const MainLayout = () => {
           <Route path="/home" component={Home} />
           <Route path="/recoil-js" component={Recoiljs} />
           <Route path="/tanstack-query" component={TnstackQuery} />
-          <Route path="/react-form" component={ReactForm} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </div>
