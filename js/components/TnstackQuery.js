@@ -20,8 +20,8 @@ const TnstackQuery = () => {
       ) : (
         <div>
           <ul>
-            {data.products.map((product) => (
-              <li key={product.id}>{product.title}</li>
+            {data.data.map((product) => (
+              <li key={product.id}>{product.name}</li>
             ))}
           </ul>
         </div>

@@ -77,7 +77,7 @@ const MainLayout = () => {
               <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                 <ThemeSwitcher />
                 <Link
-                  to="/react-form"
+                  to="/login"
                   className="whitespace-nowrap text-base text-gray-500 dark:text-light hover:text-gray-900 dark:hover:text-light"
                 >
                   Sign in
@@ -297,7 +297,7 @@ const MainLayout = () => {
                   <p className="mt-6 text-center text-base font-medium text-gray-500">
                     Existing customer?
                     <Link
-                      to="/react-form"
+                      to="/login"
                       className="text-indigo-600 hover:text-indigo-500"
                     >
                       Sign in
@@ -314,6 +314,7 @@ const MainLayout = () => {
           <Route path="/recoil-js" component={Recoiljs} />
           <Route path="/tanstack-query" component={TnstackQuery} />
           <Route path="/react-form" component={ReactForm} />
+          <Route path="/login" component={Login} />
         </div>
       </div>
     </div>

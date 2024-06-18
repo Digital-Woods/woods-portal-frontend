@@ -1,5 +1,5 @@
 const Axios = axios.create({
-  baseURL: "https://dummyjson.com",
+  baseURL: "https://dev-one-marketplace.digitalwoods.cloud/api",
   timeout: 150000000,
   headers: {
     "Content-Type": "application/json",
