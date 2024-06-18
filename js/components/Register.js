@@ -3,6 +3,9 @@ const { useForm } = ReactHookForm;
 const { z } = Zod;
 
 const formSchema = z.object({
+  name: z.string().min(4, {
+    message: "Nmae must be at least 4 characters.",
+  }),
   email: z.string().email(),
   password: z.string().min(4, {
     message: "Password must be at least 4 characters.",
@@ -24,19 +27,31 @@ const zodResolver = (schema) => async (data) => {
   }
 };
 
-const Login = () => {
+const Register = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
   });
 
   const { mutate: addUser, isLoading } = useMutation({
-    mutationKey: ["loginUser"],
-    mutationFn: async (input) => await Client.authentication.login(input),
-    onSuccess: (data) => {},
+    mutationKey: ["registerUser"],
+    mutationFn: async (input) => await Client.authentication.register(input),
+    onSuccess: (data) => {
+      console.log("data", data)
+    },
+    onError: (error) => {
+      const serverErrors = error.response.data;
+      Object.entries(serverErrors).forEach(([key, value]) => {
+        setError(key, {
+          type: 'manual',
+          message: value,
+        });
+      });
+    },
   });
 
   const onSubmit = (data) => {
@@ -52,11 +67,23 @@ const Login = () => {
         >
           <div className="text-dark dark:text-light">
             <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-light">
-              Login
+              Register
             </h2>
             <p className="mt-1 text-sm leading-6 text-gray-600  dark:text-light">
               Use a permanent address where you can receive mail.
             </p>
+
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Name" {...register("name")} />
+              </FormControl>
+              {errors.name && (
+                <FormMessage className="text-red-600">
+                  {errors.name.message}
+                </FormMessage>
+              )}
+            </FormItem>
 
             <FormItem>
               <FormLabel>Email</FormLabel>

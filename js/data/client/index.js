@@ -2,7 +2,12 @@ class Client {
   static authentication = {
     login: (data) =>
       HttpClient.post(
-        API_ENDPOINTS.LOGIN,
+        API_ENDPOINTS.USERS_LOGIN,
+        data,
+      ),
+    register: (data) =>
+      HttpClient.post(
+        API_ENDPOINTS.USERS_REGISTER,
         data,
       ),
   };

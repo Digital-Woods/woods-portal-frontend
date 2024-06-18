@@ -1,4 +1,5 @@
 const API_ENDPOINTS = {
-  LOGIN: '/token',
+  USERS_LOGIN: '/token',
+  USERS_REGISTER: '/register',
   PRODUCTS: "/products",
 };
