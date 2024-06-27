@@ -1,4 +1,3 @@
-const { useRouter } = React;
 
 const Home = () => {
   const dummyData = [
@@ -10,11 +9,8 @@ const Home = () => {
     { id: 6, name: 'Patricia Davis', email: 'patriciadavis@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://via.placeholder.com/40' },
   ];
   
-  const router = useRouter();
 
-  const handleRoute = () => {
-     router.push("/home")
-  }
+
 
   return (
     <div>
@@ -122,9 +118,9 @@ const Home = () => {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-start space-x-2 gap-x-5">
-                    <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md" onClick={handleRoute}>
+                    <Link className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md" to="/details" >
                       View
-                    </button>
+                    </Link>
                     <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md">
                       Edit
                     </button>

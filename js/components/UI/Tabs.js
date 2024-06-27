@@ -6,9 +6,11 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
   };
 
   // Filter children to separate TabsList and content components
-  const tabs = children.filter((child) => child.type.name === "TabsList");
-  const contents = children.filter(
-    (child) => child.type.name === "TabsContent"
+  const tabs = React.Children.toArray(children).filter(
+    (child) => child.type === TabsList
+  );
+  const contents = React.Children.toArray(children).filter(
+    (child) => child.type === TabsContent
   );
 
   // Throw error if structure is incorrect
@@ -19,7 +21,7 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
   }
 
   // Map over tabs and contents to generate JSX elements
-  const tabsList = tabs[0].props.children.map((trigger) => (
+  const tabsList = React.Children.map(tabs[0].props.children, (trigger) => (
     <TabsTrigger
       key={trigger.props.value}
       value={trigger.props.value}
@@ -41,16 +43,14 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
 
   return (
     <div className={`Tabs ${className}`}>
-      <TabsList className="grid w-full grid-cols-2">{tabsList}</TabsList>
+      <TabsList>{tabsList}</TabsList>
       {tabContents}
     </div>
   );
 };
 
 const TabsList = ({ children, className }) => (
-  <ul
-    className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}
-  >
+  <ul className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}>
     {children}
   </ul>
 );
@@ -62,14 +62,14 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
     aria-selected={isActive}
     onClick={() => onClick(value)}
   >
-    <a
-      className={`inline-block px-3 py-2 cursor-pointer text-white rounded-lg ${
-        isActive ? "bg-black" : ""
+    <button
+      className={`inline-block px-3 py-2 cursor-pointer rounded-lg ${
+        isActive ? "bg-black text-white" : ""
       }`}
       aria-current="page"
     >
       {children}
-    </a>
+    </button>
   </li>
 );
 

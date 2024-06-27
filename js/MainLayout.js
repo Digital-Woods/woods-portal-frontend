@@ -10,6 +10,7 @@ const MainLayout = ({ children }) => {
           <Route path="/tanstack-query" component={TnstackQuery} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/details" component={Details} />
         </div>
       </div>
     </div>
