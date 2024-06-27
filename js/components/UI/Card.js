@@ -1,4 +1,3 @@
-const classNames = window.classNames;
 
 const Card = ({ className, ...props }, ref) => {
   return (
