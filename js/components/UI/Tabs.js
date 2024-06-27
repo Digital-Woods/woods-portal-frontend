@@ -23,7 +23,7 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
     <TabsTrigger
       key={trigger.props.value}
       value={trigger.props.value}
-      isSelected={selectedValue === trigger.props.value}
+      isActive={selectedValue === trigger.props.value}
       onClick={handleTabClick}
     >
       {trigger.props.children}
@@ -55,15 +55,17 @@ const TabsList = ({ children, className }) => (
   </ul>
 );
 
-const TabsTrigger = ({ value, isSelected, onClick, children }) => (
+const TabsTrigger = ({ value, isActive, onClick, children }) => (
   <li
-    className={`me-2 TabsTrigger ${isSelected ? "active" : ""}`}
+    className={`me-2 TabsTrigger ${isActive ? "active" : ""}`}
     role="tab"
-    aria-selected={isSelected}
+    aria-selected={isActive}
     onClick={() => onClick(value)}
   >
     <a
-      class="inline-block px-4 py-3 text-white bg-blue-600 rounded-lg active"
+      className={`inline-block px-3 py-2 cursor-pointer text-white rounded-lg ${
+        isActive ? "bg-black" : ""
+      }`}
       aria-current="page"
     >
       {children}

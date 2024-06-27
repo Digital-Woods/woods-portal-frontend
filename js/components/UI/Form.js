@@ -95,7 +95,7 @@ const Input = React.forwardRef(({ className, type = 'text', placeholder = "Searc
         type={type}
         placeholder={placeholder}
         className={classNames(
-          "h-9 w-full rounded-md bg-flatGray pl-10 pr-3 border-none py-1 text-sm shadow-sm transition-colors focus:bg-flatGray focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          "h-9 w-full rounded-md bg-flatGray pl-10 pr-3 border-none py-4 text-sm shadow-sm transition-colors focus:bg-flatGray focus:ring-0 border border-flatGray focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
         ref={ref}
