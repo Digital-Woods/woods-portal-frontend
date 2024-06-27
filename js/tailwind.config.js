@@ -93,17 +93,7 @@ tailwind.config = {
       fontFamily: {
         body: ["'Inter', sans-serif"],
       },
-      fontWeight: {
-        thin: '50',       // Originally 100
-        extralight: '50', // Originally 200 (minimum is 50)
-        light: '150',     // Originally 300
-        normal: '250',    // Originally 400
-        medium: '350',    // Originally 500
-        semibold: '450',  // Originally 600
-        bold: '550',      // Originally 700
-        extrabold: '650', // Originally 800
-        black: '750',     // Originally 900
-      },
+    
     },
   },
   // plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],

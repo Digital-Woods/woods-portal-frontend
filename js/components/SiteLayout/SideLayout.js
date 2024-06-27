@@ -75,7 +75,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="none"
+                  fill="white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -118,7 +118,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="none"
+                  fill="white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -161,7 +161,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="none"
+                  fill="white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -207,7 +207,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="none"
+                  fill="white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"

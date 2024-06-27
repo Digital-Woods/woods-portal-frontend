@@ -10,7 +10,7 @@ const HeaderLayout = () => {
   return (
     <div className="relative flex justify-between px-6 pt-4 pb-6">
       <div>
-        <p className="text-primary">Dashboard / Sites / Maps</p>
+        <p className="text-primary font-semibold">Dashboard / Sites / Maps</p>
       </div>
 
       <div>
