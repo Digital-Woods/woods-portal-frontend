@@ -3,6 +3,22 @@ const Home = () => {
 
   return (
     <div>
+
+      <div>
+      <div>
+        <h1 className="text-xl font-semibold mb-1">Site List</h1>
+        <p className="text-secondary text-sm">List view of all sites</p>
+      </div>
+
+      <div>
+        Toggle
+      </div>
+
+      <div>
+        <Button>New Site +</Button>
+      </div>
+      </div>
+      
     <Table className="border-2 border-flatGray rounded-md">
       <TableHeader>
         <TableRow>
