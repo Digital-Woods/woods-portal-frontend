@@ -1,4 +1,3 @@
-const { useState } = React;
 
 const Sites = () => {
   const dummyData = [
@@ -9,14 +8,6 @@ const Sites = () => {
     { id: 5, name: 'Chris Brown', email: 'chrisbrown@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
     { id: 6, name: 'Patricia Davis', email: 'patriciadavis@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
   ];
-  
-
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
-  };
-
 
 
   return (
