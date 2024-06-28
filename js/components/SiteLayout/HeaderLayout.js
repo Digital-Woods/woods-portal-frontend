@@ -1,11 +1,25 @@
-const { useState } = React;
+const { useState, useEffect, useRef } = React;
 
 const HeaderLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="relative flex justify-between px-6 pt-4 pb-6">
@@ -23,10 +37,7 @@ const HeaderLayout = () => {
             <Input placeholder="Search" />
           </div>
 
-          <div
-            className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer"
-            onClick={toggleDropdown}
-          >
+          <div className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -52,6 +63,7 @@ const HeaderLayout = () => {
           <div
             className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer"
             onClick={toggleDropdown}
+            ref={dropdownRef}
           >
             <div className="flex">
               <div className="flex flex-col items-center justify-center">
@@ -96,32 +108,35 @@ const HeaderLayout = () => {
         </div>
 
         {dropdownOpen && (
-  <div className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50">
-    <div className="flex flex-col p-4">
-      <div className="flex">
-        <Avatar
-          src={
-            "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"
-          }
-          className="w-10 h-10 rounded-full"
-        />
-        <div className="ml-4 flex flex-col">
-          <p className="font-semibold">John Doe</p>
-          <p className="text-xs text-secondary">johndoe@example.com</p>
-        </div>
-      </div>
-    </div>
-    <hr className="border-t border-gray-200" />
-    <div className="flex flex-col p-2">
-      <button className="py-2 px-4 text-left border-none font-medium rounded-md">
-        Profile
-      </button>
-      <button className="py-2 px-4 text-left border-none font-medium rounded-md">
-        Logout
-      </button>
-    </div>
-  </div>
-)}
+          <div
+            ref={dropdownRef}
+            className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50"
+          >
+            <div className="flex flex-col p-4">
+              <div className="flex">
+                <Avatar
+                  src={
+                    "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"
+                  }
+                  className="w-10 h-10 rounded-full"
+                />
+                <div className="ml-4 flex flex-col">
+                  <p className="font-semibold">John Doe</p>
+                  <p className="text-xs text-secondary">johndoe@example.com</p>
+                </div>
+              </div>
+            </div>
+            <hr className="border-t border-gray-200" />
+            <div className="flex flex-col p-2">
+              <button className="py-2 px-4 text-left border-none font-medium rounded-md">
+                Profile
+              </button>
+              <button className="py-2 px-4 text-left border-none font-medium rounded-md">
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

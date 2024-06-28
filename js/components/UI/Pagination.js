@@ -40,39 +40,75 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   }, [currentPage, numOfPages]);
 
   return (
-    <div className="flex justify-center mt-4">
-      <ul className="flex space-x-2">
-        <li
-          className={`cursor-pointer ${
-            currentPage === 1 ? "text-gray-400" : ""
-          }`}
-          onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
-        >
-          Prev
-        </li>
+    <div className="flex justify-end items-center py-6 px-4">
+      <ul className="flex items-center space-x-2">
+        <div className="bg-flatGray p-3 rounded-md">
+          <li
+            className={` ${
+              currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+            }`}
+            onClick={() =>
+              setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)
+            }
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M10 12L6 8L10 4"
+                stroke="#2F2F33"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </li>
+        </div>
         {arrOfCurrButtons.map((data, index) => (
           <li
             key={index}
-            className={`cursor-pointer px-2 py-1 ${
-              currentPage === data ? "bg-blue-500 text-white" : "text-blue-500"
+            className={`cursor-pointer px-4 py-2 rounded-md text-sm ${
+              currentPage === data ? "bg-primary text-white" : ""
             }`}
             onClick={() => setCurrentPage(data)}
           >
             {data}
           </li>
         ))}
-        <li
-          className={`cursor-pointer ${
-            currentPage === numOfPages ? "text-gray-400" : ""
-          }`}
-          onClick={() =>
-            setCurrentPage(
-              currentPage < numOfPages ? currentPage + 1 : numOfPages
-            )
-          }
-        >
-          Next
-        </li>
+        <div className="bg-flatGray p-3 rounded-md">
+          <li
+            className={` ${
+              currentPage === numOfPages
+                ? "cursor-not-allowed"
+                : "cursor-pointer"
+            }`}
+            onClick={() =>
+              setCurrentPage(
+                currentPage < numOfPages ? currentPage + 1 : numOfPages
+              )
+            }
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="6"
+              height="10"
+              viewBox="0 0 6 10"
+              fill="none"
+            >
+              <path
+                d="M1 9L5 5L1 1"
+                stroke="#2F2F33"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </li>
+        </div>
       </ul>
     </div>
   );

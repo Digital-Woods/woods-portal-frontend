@@ -18,22 +18,27 @@ const Select = ({ children }) => {
 const SelectSection = ({ setIsOpen, isOpen }) => {
   return (
     <SelectButton
-      className="px-4 hover:bg-gray-700 transition-colors active:bg-gray-600 py-2 bg-gray-800 rounded-md shadow-sm text-white font-medium"
+      className="border border-2 rounded-md text-black px-5 py-2  flex items-center gap-x-2"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >
-      Click me
+      Click me <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+  <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     </SelectButton>
   );
 };
 
 const Options = React.forwardRef(({ children, className }, ref) => (
   <div
-    className={`absolute text-sm w-40 text-white bg-gray-800 p-1 shadow-lg rounded-md right-0 mt-2 ${className}`}
+    className={`absolute text-sm w-64 px-3 py-2 bg-white border shadow-lg mt-1 rounded-md ${className}`}
     ref={ref}
   >
+     
     {children}
   </div>
+
 ));
 
 const Option = React.forwardRef(({ children, className }, ref) => {
@@ -41,7 +46,7 @@ const Option = React.forwardRef(({ children, className }, ref) => {
     <div
       as="button"
       className={classNames(
-        "w-full rounded-md text-center py-2 hover:bg-gray-700",
+        "w-full rounded-md text-center py-2",
         className
       )}
       ref={ref}

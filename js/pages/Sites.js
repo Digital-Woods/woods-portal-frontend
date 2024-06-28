@@ -30,62 +30,8 @@ const Sites = () => {
       jobs: [1, 2, 3, 4, 5],
       img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
     },
-    {
-      id: 5,
-      name: "Chris Brown",
-      email: "chrisbrown@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 6,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 7,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 8,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 9,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 10,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 11,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 12,
-      name: "Patricia Davis",
-      email: "patriciadavis@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
+    
+  
   ];
 
   const [posts, setPosts] = useState(dummyData);
@@ -153,7 +99,11 @@ const Sites = () => {
       </div>
 
       <div className="flex justify-between items-center pb-5">
-        <div>DROPDOWN</div>
+        <div className="flex gap-x-4">
+          <CustomCheckbox />
+          <CustomCheckbox />
+          <CustomCheckbox />
+        </div>
 
         <div className="w-[30%] h-10">
           <Input className="bg-transparent" />
@@ -172,7 +122,7 @@ const Sites = () => {
             <p className="text-secondary font-normal text-sm">Results</p>
           </div>
 
-          <div>Dropdown</div>
+          <div><CustomCheckbox /></div>
         </div>
 
         <Table className="">
@@ -181,7 +131,7 @@ const Sites = () => {
               <TableHead></TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Jobs</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
