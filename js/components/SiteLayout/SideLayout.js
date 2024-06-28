@@ -64,7 +64,7 @@ const SideLayout = () => {
         </div>
         <nav className="space-y-1">
           <NavLink
-            to="/home"
+            to="/sites"
             className="block hover:bg-primary p-3 hover:text-white rounded-md no-underline"
             activeClassName="bg-primary text-white"
           >

@@ -19,6 +19,6 @@ const Button = (
     ref={ref}
     type={type}
     onClick={onClick}
-    className="text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:primary dark:hover:primary focus:outline-none dark:focus:ring-primary"  {...props} />
+    className="text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-primary  rounded-md  py-2 px-5 me-2 mb-2 dark:primary dark:hover:primary focus:outline-none dark:focus:ring-primary"  {...props} />
   );
 };

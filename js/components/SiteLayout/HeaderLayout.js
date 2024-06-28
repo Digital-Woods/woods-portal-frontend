@@ -96,32 +96,32 @@ const HeaderLayout = () => {
         </div>
 
         {dropdownOpen && (
-          <div className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg">
-            <div className="flex flex-col p-4">
-              <div className="flex">
-                <Avatar
-                  src={
-                    "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"
-                  }
-                  className="w-10 h-10 rounded-full"
-                />
-                <div className="ml-4 flex flex-col">
-                  <p className="font-semibold">John Doe</p>
-                  <p className="text-xs text-secondary">johndoe@example.com</p>
-                </div>
-              </div>
-            </div>
-            <hr className="border-t border-gray-200" />
-            <div className="flex flex-col p-2">
-              <button className="py-2 px-4 text-left border-none font-medium rounded-md">
-                Profile
-              </button>
-              <button className="py-2 px-4 text-left border-none font-medium rounded-md">
-                Logout
-              </button>
-            </div>
-          </div>
-        )}
+  <div className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50">
+    <div className="flex flex-col p-4">
+      <div className="flex">
+        <Avatar
+          src={
+            "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"
+          }
+          className="w-10 h-10 rounded-full"
+        />
+        <div className="ml-4 flex flex-col">
+          <p className="font-semibold">John Doe</p>
+          <p className="text-xs text-secondary">johndoe@example.com</p>
+        </div>
+      </div>
+    </div>
+    <hr className="border-t border-gray-200" />
+    <div className="flex flex-col p-2">
+      <button className="py-2 px-4 text-left border-none font-medium rounded-md">
+        Profile
+      </button>
+      <button className="py-2 px-4 text-left border-none font-medium rounded-md">
+        Logout
+      </button>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
