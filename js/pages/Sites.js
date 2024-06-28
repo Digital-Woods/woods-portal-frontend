@@ -1,14 +1,113 @@
+const { useState, useEffect } = React;
 
 const Sites = () => {
   const dummyData = [
-    { id: 1, name: 'John Doe', email: 'johndoe@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
-    { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
-    { id: 3, name: 'Mike Johnson', email: 'mikejohnson@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
-    { id: 4, name: 'Sarah Williams', email: 'sarahwilliams@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
-    { id: 5, name: 'Chris Brown', email: 'chrisbrown@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
-    { id: 6, name: 'Patricia Davis', email: 'patriciadavis@example.com', jobs: [1, 2, 3, 4, 5], img: 'https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg' },
+    {
+      id: 1,
+      name: "John Doe",
+      email: "johndoe@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "janesmith@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 3,
+      name: "Mike Johnson",
+      email: "mikejohnson@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 4,
+      name: "Sarah Williams",
+      email: "sarahwilliams@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 5,
+      name: "Chris Brown",
+      email: "chrisbrown@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 6,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 7,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 8,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 9,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 10,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 11,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 12,
+      name: "Patricia Davis",
+      email: "patriciadavis@example.com",
+      jobs: [1, 2, 3, 4, 5],
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
   ];
 
+  const [posts, setPosts] = useState(dummyData);
+  const [postPerPage, setPostPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageItem = {
+    start: (currentPage - 1) * postPerPage,
+    end: currentPage * postPerPage,
+  };
+
+  const numOfPages = Math.ceil(posts.length / postPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset to the first page whenever posts or postPerPage changes
+  }, [postPerPage, posts]);
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
 
   return (
     <div>
@@ -54,9 +153,7 @@ const Sites = () => {
       </div>
 
       <div className="flex justify-between items-center pb-5">
-        <div>
-          DROPDOWN
-        </div>
+        <div>DROPDOWN</div>
 
         <div className="w-[30%] h-10">
           <Input className="bg-transparent" />
@@ -67,15 +164,15 @@ const Sites = () => {
         <div className="flex justify-between items-center px-6 py-5">
           <div className="flex items-center gap-x-2 font-semibold text-sm ">
             <p className="text-secondary font-normal">Showing</p>
-            <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md">63</span>
+            <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md">
+              63
+            </span>
             <span>/</span>
             <span className=" rounded-md">1280</span>
             <p className="text-secondary font-normal text-sm">Results</p>
           </div>
 
-          <div>
-            Dropdown
-          </div>
+          <div>Dropdown</div>
         </div>
 
         <Table className="">
@@ -88,27 +185,28 @@ const Sites = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {dummyData.map(user => (
-              <TableRow key={user.id}>
+            {posts.slice(pageItem.start, pageItem.end).map((data) => (
+              <TableRow key={data.id}>
                 <TableCell className="flex items-center">
                   <img
-                    src={user.img}
-                    alt={user.name}
+                    src={data.img}
+                    alt={data.name}
                     className="w-10 h-10 rounded-lg"
                   />
                 </TableCell>
                 <TableCell>
                   <div>
-                    <div className="">{user.name}</div>
-                    <div className="text-xs text-secondary">
-                      {user.email}
-                    </div>
+                    <div className="">{data.name}</div>
+                    <div className="text-xs text-secondary">{data.email}</div>
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-3">
-                    {user.jobs.map(job => (
-                      <button key={job} className="w-6 h-6 rounded-full bg-primary text-white">
+                    {data.jobs.map((job) => (
+                      <button
+                        key={job}
+                        className="w-6 h-6 rounded-full bg-primary text-white"
+                      >
                         {job}
                       </button>
                     ))}
@@ -116,20 +214,27 @@ const Sites = () => {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-start space-x-2 gap-x-5">
-                    <Link className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md" to="/details" >
-                      View      
-
+                    <Link
+                      className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md"
+                      to="/details"
+                    >
+                      View
                     </Link>
                     <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md">
                       Edit
                     </button>
                   </div>
                 </TableCell>
-                
               </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        <Pagination
+          numOfPages={numOfPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </div>
   );
