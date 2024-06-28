@@ -63,7 +63,7 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
     onClick={() => onClick(value)}
   >
     <button
-      className={`inline-block px-3 py-2 cursor-pointer rounded-lg ${
+      className={`inline-block px-5 py-2 cursor-pointer rounded-md ${
         isActive ? "bg-black text-white" : ""
       }`}
       aria-current="page"

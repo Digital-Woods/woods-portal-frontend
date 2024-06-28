@@ -35,7 +35,7 @@ const Details = () => {
 
         <div className="flex justify-between py-4 px-2 border border-2 rounded-md my-10">
           <div className="flex items-center gap-x-3">
-            <div className="h-20 w-20 bg-green-200 rounded-full"></div>
+            <div className="h-16 w-16 bg-green-200 rounded-full"></div>
             <div>
               <h1 className="text-4xl font-semibold">Goodwill Co.</h1>
               <p className="text-xs  text-secondary">Tokyo</p>
