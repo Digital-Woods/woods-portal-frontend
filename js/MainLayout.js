@@ -2,7 +2,7 @@ const MainLayout = ({ children }) => {
   return (
     <div className="flex">
       <SideLayout />
-      <div className="w-3/4 bg-light dark:bg-light p-4">
+      <div className="w-full bg-light dark:bg-light p-4">
         <HeaderLayout />
         <div className="px-4 py-6">
           <Route path="/sites" component={Sites} />

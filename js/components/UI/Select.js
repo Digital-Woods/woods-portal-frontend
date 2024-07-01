@@ -1,7 +1,7 @@
 const { useState, useRef, useEffect } = React;
 const classNames = window.classNames;
 
-const Select = ({ children }) => {
+const Select = ({ children, right }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -10,7 +10,7 @@ const Select = ({ children }) => {
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} />
-      {isOpen && children}
+      {isOpen && <Options right={right}>{children}</Options>}
     </div>
   );
 };
@@ -18,27 +18,30 @@ const Select = ({ children }) => {
 const SelectSection = ({ setIsOpen, isOpen }) => {
   return (
     <SelectButton
-      className="border border-2 rounded-md text-black px-5 py-2  flex items-center gap-x-2"
+      className="border border-2 rounded-md text-black px-5 py-2 flex items-center gap-x-2"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >
-     client <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
-  <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+      Client
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+        <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
     </SelectButton>
   );
 };
 
-const Options = React.forwardRef(({ children, className }, ref) => (
+const Options = React.forwardRef(({ children, className, right }, ref) => (
   <div
-    className={`absolute text-sm w-64 px-3 py-2 bg-white border shadow-lg mt-1 z-50 rounded-md ${className}`}
+    className={classNames(
+      "absolute text-sm w-64 px-3 py-2 bg-white border shadow-lg mt-1 z-50 rounded-md",
+      { "right-8": right },
+      className
+    )}
     ref={ref}
   >
-     
     {children}
   </div>
-
 ));
 
 const Option = React.forwardRef(({ children, className }, ref) => {
@@ -88,5 +91,11 @@ const Items = ({ children, ...props }) => {
 };
 
 const Item = ({ as: Component, children, ...props }) => {
-  return <Component  onClick={() => setIsOpen(!isOpen)} {...props}>{children}</Component>;
+  return (
+    <Component onClick={() => setIsOpen(!isOpen)} {...props}>
+      {children}
+    </Component>
+  );
 };
+
+

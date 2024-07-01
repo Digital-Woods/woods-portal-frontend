@@ -22,12 +22,12 @@ const SideLayout = () => {
   return (
     <div
       className={`w-${
-        sidebarCollapsed ? "1/12" : "1/4"
+        sidebarCollapsed ? "1/12" : "[24%]"
       } min-h-screen px-6 pt-6 pb-8 transition-width duration-300`}
     >
       <div>
-        <div className="flex justify-between items-center mb-6">
-          <div className="w-[50%] flex items-center">
+        <div className="flex justify-between items-center mb-10">
+          <div className="w-[60%] flex items-center">
             <Logo src="https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg" />
             <h1
               className={`text-xl font-semibold ml-4 ${
@@ -38,13 +38,21 @@ const SideLayout = () => {
             </h1>
           </div>
           <div className="cursor-pointer" onClick={toggleSidebar}>
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m480-193 85-85 57 56L480-80 338-222l57-56 85 85ZM193-480l85 85-56 57L80-480l142-142 56 57-85 85Zm574 0-85-85 56-57 142 142-142 142-56-57 85-85ZM480-767l-85 85-57-56 142-142 142 142-57 56-85-85Z"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#000000"
+            >
+              <path d="m480-193 85-85 57 56L480-80 338-222l57-56 85 85ZM193-480l85 85-56 57L80-480l142-142 56 57-85 85Zm574 0-85-85 56-57 142 142-142 142-56-57 85-85ZM480-767l-85 85-57-56 142-142 142 142-57 56-85-85Z" />
+            </svg>
           </div>
         </div>
         <nav className="space-y-1">
           <NavLink
             to="/sites"
-            className="block hover:bg-primary p-3 hover:text-white rounded-md no-underline"
+            className="block hover:bg-primary px-3 py-2.5 hover:text-white rounded-md no-underline"
             activeClassName="bg-primary text-white"
           >
             <div className="flex items-center gap-x-2">
@@ -87,7 +95,7 @@ const SideLayout = () => {
           </NavLink>
           <NavLink
             to="/recoil-js"
-            className="block hover:bg-primary p-3 hover:text-white rounded-md no-underline"
+            className="block hover:bg-primary  px-3 py-2.5 hover:text-white rounded-md no-underline"
             activeClassName="bg-primary text-white"
           >
             <div className="flex items-center gap-x-2">
@@ -130,7 +138,7 @@ const SideLayout = () => {
           </NavLink>
           <NavLink
             to="/tanstack-query"
-            className="block hover:bg-primary p-3 hover:text-white rounded-md no-underline"
+            className="block hover:bg-primary  px-3 py-2.5 hover:text-white rounded-md no-underline"
             activeClassName="bg-primary text-white"
           >
             <div className="flex items-center gap-x-2">
@@ -176,7 +184,7 @@ const SideLayout = () => {
           </div>
           <NavLink
             to="/logout"
-            className="block hover:bg-primary p-3 hover:text-white rounded-md no-underline"
+            className="block hover:bg-primary  px-3 py-2.5 hover:text-white rounded-md no-underline"
             activeClassName="bg-primary text-white"
           >
             <div className="flex items-center gap-x-2">

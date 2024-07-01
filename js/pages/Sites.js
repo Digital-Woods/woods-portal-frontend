@@ -46,7 +46,7 @@ const Sites = () => {
   const numOfPages = Math.ceil(posts.length / postPerPage);
 
   useEffect(() => {
-    setCurrentPage(1); // Reset to the first page whenever posts or postPerPage changes
+    setCurrentPage(1); 
   }, [postPerPage, posts]);
 
   const [isChecked, setIsChecked] = useState(false);
@@ -72,7 +72,7 @@ const Sites = () => {
                   height="24px"
                   viewBox="0 -960 960 960"
                   width="24px"
-                  fill="#8D8D99"
+                  fill="currentcolor"
                 >
                   <path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z" />
                 </svg>
@@ -83,7 +83,7 @@ const Sites = () => {
                   height="24px"
                   viewBox="0 -960 960 960"
                   width="24px"
-                  fill="#8D8D99"
+                  fill="currentcolor"
                 >
                   <path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z" />
                 </svg>
@@ -122,7 +122,25 @@ const Sites = () => {
             <p className="text-secondary font-normal text-sm">Results</p>
           </div>
 
-          <div><CustomCheckbox /></div>
+          <div>    <Select right={true}>
+                
+                <Options>
+                    <h1 className="py-3 font-[500] text-lg">Client Filter</h1>
+                    <hr className="py-1"></hr>
+                    <div className="flex gap-x-3 py-2">
+                    <p className="text-xs text-secondary cursor-pointer">select all</p>
+                    <p className="text-xs text-secondary cursor-pointer">clear all</p>
+                    </div>
+                
+    
+                  <Option>
+                    <Checkbox  label="Yokshire new housejbbb" />
+                  </Option>
+                  <Option>
+                  <Checkbox  label="Yokshire new house" />
+                  </Option>
+                </Options>
+              </Select></div>
         </div>
 
         <Table className="">
