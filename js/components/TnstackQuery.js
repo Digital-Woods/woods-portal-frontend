@@ -22,8 +22,17 @@ const TnstackQuery = () => {
           <ul>
             {data.data.map((product) => (
               <li key={product.id}>{product.name}</li>
+              
             ))}
           </ul>
+          <div className="bg-primary text-light-DEFAULT p-4">
+      <h1 className="text-secondary">Hello World</h1>
+      <p className="text-flatGray">
+        This is an example component using the configured Tailwind CSS colors.
+      </p>
+    
+    </div>
+    
         </div>
       )}
     </div>

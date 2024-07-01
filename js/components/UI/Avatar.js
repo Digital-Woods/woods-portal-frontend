@@ -1,6 +1,6 @@
 const classNames = window.classNames;
 
-const Avatar = ({ src, alt='avatar', type='rounded-full', className }, ref) => {
+const Avatar = ({ src, type='rounded-full', className }, ref) => {
 
   const avatarType = () => {
     switch (type) {
@@ -15,6 +15,6 @@ const Avatar = ({ src, alt='avatar', type='rounded-full', className }, ref) => {
     }
   }
   return (
-    <img ref={ref} class={classNames("w-10 h-10", className, avatarType())} alt={alt} src={src} />
+    <img ref={ref} class={classNames("w-15", className, avatarType())} src={src} />
   );
 };

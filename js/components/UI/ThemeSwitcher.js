@@ -38,7 +38,7 @@ const ThemeSwitcher = () => {
 
   return (
     <div
-      className="text-light-900 hover:bg-none hover:bg-light hover:text-dark  p-2.5 text-center dark:text-light-900 dark:hover:text-white dark:hover:bg-dark-100 cursor-pointer"
+      className="text-light-900  hover:text-dark  p-2 text-center dark:text-light-900  cursor-pointer"
       onClick={toggleTheme}
     >
       <span className="dark:hidden">

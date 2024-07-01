@@ -6,9 +6,11 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
   };
 
   // Filter children to separate TabsList and content components
-  const tabs = children.filter((child) => child.type.name === "TabsList");
-  const contents = children.filter(
-    (child) => child.type.name === "TabsContent"
+  const tabs = React.Children.toArray(children).filter(
+    (child) => child.type === TabsList
+  );
+  const contents = React.Children.toArray(children).filter(
+    (child) => child.type === TabsContent
   );
 
   // Throw error if structure is incorrect
@@ -19,11 +21,11 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
   }
 
   // Map over tabs and contents to generate JSX elements
-  const tabsList = tabs[0].props.children.map((trigger) => (
+  const tabsList = React.Children.map(tabs[0].props.children, (trigger) => (
     <TabsTrigger
       key={trigger.props.value}
       value={trigger.props.value}
-      isSelected={selectedValue === trigger.props.value}
+      isActive={selectedValue === trigger.props.value}
       onClick={handleTabClick}
     >
       {trigger.props.children}
@@ -41,33 +43,33 @@ const Tabs = ({ children, defaultValue = "account", className }) => {
 
   return (
     <div className={`Tabs ${className}`}>
-      <TabsList className="grid w-full grid-cols-2">{tabsList}</TabsList>
+      <TabsList>{tabsList}</TabsList>
       {tabContents}
     </div>
   );
 };
 
 const TabsList = ({ children, className }) => (
-  <ul
-    className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}
-  >
+  <ul className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}>
     {children}
   </ul>
 );
 
-const TabsTrigger = ({ value, isSelected, onClick, children }) => (
+const TabsTrigger = ({ value, isActive, onClick, children }) => (
   <li
-    className={`me-2 TabsTrigger ${isSelected ? "active" : ""}`}
+    className={`me-2 TabsTrigger ${isActive ? "active" : ""}`}
     role="tab"
-    aria-selected={isSelected}
+    aria-selected={isActive}
     onClick={() => onClick(value)}
   >
-    <a
-      class="inline-block px-4 py-3 text-white bg-blue-600 rounded-lg active"
+    <button
+      className={`inline-block px-5 py-2 cursor-pointer rounded-md ${
+        isActive ? "bg-black text-white" : ""
+      }`}
       aria-current="page"
     >
       {children}
-    </a>
+    </button>
   </li>
 );
 

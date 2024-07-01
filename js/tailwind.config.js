@@ -28,6 +28,11 @@ tailwind.config = {
     },
     extend: {
       colors: {
+        primary: "#2F2F33", // Dark gray
+        secondary: "#8D8D99", // Grey
+        flatGray: "#F7F7F7", // Flat grey
+        midGray: "#DFDFF2", // Mid grey
+        darkerGray: "#1C1C1F", // Darker grey
         brand: {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
@@ -88,7 +93,8 @@ tailwind.config = {
       fontFamily: {
         body: ["'Inter', sans-serif"],
       },
+    
     },
   },
-  //   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
+  // plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
