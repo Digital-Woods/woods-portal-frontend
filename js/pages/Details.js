@@ -29,14 +29,13 @@ const Details = () => {
       id: 4,
       name: "State",
       email: "sarahwilliams@example.com",
-      jobs:"japan",
+      jobs: "japan",
       img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
     },
   ];
 
   const [active, setActive] = useState(null);
   const [posts, setPosts] = useState(dummyData);
-
 
   const handleToggle = (index) => {
     if (active === index) {
@@ -143,7 +142,24 @@ const Details = () => {
           </div>
         </div>
         <Accordion>
-          <AccordionSummary>Company Information</AccordionSummary>
+          <AccordionSummary>
+            {" "}
+            <div className="flex items-center gap-x-2">
+              {" "}
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000000"
+                >
+                  <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
+                </svg>
+              </span>{" "}
+              <span>Company Info</span>
+            </div>
+          </AccordionSummary>
           <AccordionDetails>
             <div className="py-5">
               <Table className="border-none p-0">
@@ -157,13 +173,9 @@ const Details = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-3">
-                      
-                          
-                              {data.jobs}
-                        
+                          {data.jobs}
                         </div>
                       </TableCell>
-                    
                     </TableRow>
                   ))}
                 </TableBody>
@@ -173,7 +185,24 @@ const Details = () => {
         </Accordion>
 
         <Accordion>
-          <AccordionSummary>Gallery</AccordionSummary>
+          <AccordionSummary>
+            {" "}
+            <div className="flex items-center gap-x-2">
+              {" "}
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000000"
+                >
+                  <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
+                </svg>
+              </span>{" "}
+              <span>Gallery</span>
+            </div>
+          </AccordionSummary>
           <AccordionDetails>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="grid gap-4">
@@ -276,9 +305,26 @@ const Details = () => {
       <div className="col-span-2">
         <div>
           <Accordion>
-            <AccordionSummary>Summary 1</AccordionSummary>
+            <AccordionSummary>
+              {" "}
+              <div className="flex items-center gap-x-2">
+                {" "}
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#000000"
+                  >
+                    <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
+                  </svg>
+                </span>{" "}
+                <span>Summary 1</span>
+              </div>
+            </AccordionSummary>
             <AccordionDetails>
-              <div className="flex flex-col gap-y-3 py-3">
+              <div className="flex flex-col gap-y-4 py-3">
                 <div className="font-semibold text-2xl">
                   Service Reservior #1
                 </div>
@@ -316,12 +362,46 @@ const Details = () => {
           </Accordion>
 
           <Accordion>
-            <AccordionSummary>Summary 1</AccordionSummary>
+            <AccordionSummary>
+              {" "}
+              <div className="flex items-center gap-x-2">
+                {" "}
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#000000"
+                  >
+                    <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
+                  </svg>
+                </span>{" "}
+                <span>Summary 2</span>
+              </div>
+            </AccordionSummary>
             <AccordionDetails>Details 1</AccordionDetails>
           </Accordion>
 
           <Accordion>
-            <AccordionSummary>Summary 1</AccordionSummary>
+            <AccordionSummary>
+              {" "}
+              <div className="flex items-center gap-x-2">
+                {" "}
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#000000"
+                  >
+                    <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
+                  </svg>
+                </span>{" "}
+                <span>Summary 3</span>
+              </div>
+            </AccordionSummary>
             <AccordionDetails>Details 1</AccordionDetails>
           </Accordion>
         </div>
