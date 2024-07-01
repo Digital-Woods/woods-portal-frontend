@@ -1,53 +1,42 @@
 const { useState } = React;
 
-const faqs = [
-  {
-    id: 1,
-    header: "What is Lorem Ipsum?",
-    text: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="black"
-      >
-        <path d="M80-560v-320h320v320H80Zm80-80h160v-160H160v160ZM80-80v-320h320v320H80Zm80-80h160v-160H160v160Zm400-400v-320h320v320H560Zm80-80h160v-160H640v160ZM560-80v-320h320v320H560Zm80-80h160v-160H640v160ZM320-640Zm0 320Zm320-320Zm0 320Z" />
-      </svg>
-    ),
-  },
-  {
-    id: 2,
-    header: "Where does it come from?",
-    text: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.`,
-  },
-  {
-    id: 3,
-    header: "Why do we use it?",
-    text: `Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature,`,
-  },
-  {
-    id: 4,
-    header: "Where can I get some?",
-    text: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.`,
-  },
-  {
-    id: 5,
-    header: "Where can I get some?",
-    text: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.`,
-  },
-  {
-    id: 6,
-    header: "Where can I get some?",
-    text: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.`,
-  },
-];
-
 const Details = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
+  const dummyData = [
+    {
+      id: 1,
+      name: "Company Domain name",
+      email: "johndoe@example.com",
+      jobs: "hubspot-demo-account",
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 2,
+      name: "Industry",
+      email: "janesmith@example.com",
+      jobs: "Professional Training and Coaching",
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 3,
+      name: "City",
+      email: "mikejohnson@example.com",
+      jobs: "Tokyo",
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+    {
+      id: 4,
+      name: "State",
+      email: "sarahwilliams@example.com",
+      jobs:"japan",
+      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
+    },
+  ];
+
   const [active, setActive] = useState(null);
+  const [posts, setPosts] = useState(dummyData);
+
 
   const handleToggle = (index) => {
     if (active === index) {
@@ -153,13 +142,187 @@ const Details = () => {
             </div>
           </div>
         </div>
+        <Accordion>
+          <AccordionSummary>Company Information</AccordionSummary>
+          <AccordionDetails>
+            <div className="py-5">
+              <Table className="border-none p-0">
+                <TableBody className="border-none p-0">
+                  {posts.map((data) => (
+                    <TableRow className="border-none p-0" key={data.id}>
+                      <TableCell>
+                        <div>
+                          <div className="font-semibold">{data.name}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-3">
+                      
+                          
+                              {data.jobs}
+                        
+                        </div>
+                      </TableCell>
+                    
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion>
+          <AccordionSummary>Gallery</AccordionSummary>
+          <AccordionDetails>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid gap-4">
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="grid gap-4">
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="grid gap-4">
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="grid gap-4">
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-auto max-w-full rounded-lg"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
 
       <div className="col-span-2">
         <div>
           <Accordion>
-            <AccordionSummary>Accordion One</AccordionSummary>
-            <AccordionDetails>Accordion</AccordionDetails>
+            <AccordionSummary>Summary 1</AccordionSummary>
+            <AccordionDetails>
+              <div className="flex flex-col gap-y-3 py-3">
+                <div className="font-semibold text-2xl">
+                  Service Reservior #1
+                </div>
+                <div className="text-xs flex gap-x-2">
+                  <span className="font-bold">Type</span>{" "}
+                  <p>Service Reservior</p>
+                </div>
+                <div className="flex items-center text-xs font-bold gap-x-2">
+                  <span>Jobs</span>{" "}
+                  <div className="flex items-center space-x-2">
+                    <button className="w-6 h-6 rounded-full bg-primary text-white">
+                      1
+                    </button>
+
+                    <button className="w-6 h-6 rounded-full bg-primary text-white">
+                      2
+                    </button>
+
+                    <button className="w-6 h-6 rounded-full bg-primary text-white">
+                      3
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-y-3">
+                  <div className="text-xs font-bold">Specifications</div>
+
+                  <div className="text-sm text-darkerGray">
+                    Lorem ipsum dolor hdbs hbdcsbd uiwbfwrf wubfw webufnfbcd c
+                    webhfw
+                  </div>
+                </div>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion>
+            <AccordionSummary>Summary 1</AccordionSummary>
+            <AccordionDetails>Details 1</AccordionDetails>
+          </Accordion>
+
+          <Accordion>
+            <AccordionSummary>Summary 1</AccordionSummary>
+            <AccordionDetails>Details 1</AccordionDetails>
           </Accordion>
         </div>
       </div>

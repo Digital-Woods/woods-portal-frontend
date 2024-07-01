@@ -24,12 +24,12 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
   console.log("active", active);
   return (
     <div
-      className={`bg-gray-200 flex justify-between items-start p-3 cursor-pointer transition-colors ${
-        active != null ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+      className={`flex justify-between items-start p-4 cursor-pointer transition-colors ${
+        active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}
     >
-      <h5 className="font-medium text-lg">{children}</h5>
+      <h5 className="font-medium text-sm">{children}</h5>
       <i
         className={`fa fa-chevron-down transition-transform ${
           active != null ? "transform rotate-180 text-white" : "text-gray-700"
@@ -49,8 +49,8 @@ const AccordionDetails = ({ children, active, id }) => {
   return (
     <div
       ref={contentEl}
-      className={`transition-height duration-300 overflow-hidden ${
-        active != null ? "max-h-screen" : "max-h-0"
+      className={`transition-height duration-300 px-4 overflow-hidden ${
+        active != null ? "max-h-screens" : "max-h-0"
       }`}
       style={
         active != null
