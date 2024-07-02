@@ -1,6 +1,9 @@
 const { useState } = React;
 
 const NavLink = ({ to, className, activeClassName, children }) => {
+
+
+
   return (
     <NavLink
       to={to}
@@ -18,6 +21,11 @@ const SideLayout = () => {
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
+
+  const { routes, setRoutes } = useRoute();
+
+  console.log(routes)
+
 
   return (
     <div
@@ -50,8 +58,13 @@ const SideLayout = () => {
           </div>
         </div>
         <nav className="space-y-1">
-          <NavLink
-            to="/sites"
+          
+                
+          {routes.length > 0 &&
+            routes.map(({ path, title, icon }) => (
+              <NavLink
+              key={path}
+            to={path}
             className="block hover:bg-primary px-3 py-2.5 hover:text-white rounded-md no-underline"
             activeClassName="bg-primary text-white"
           >
@@ -90,95 +103,11 @@ const SideLayout = () => {
                   />
                 </svg>
               </div>
-              <p className={`${sidebarCollapsed ? "hidden" : ""}`}>Sites</p>
+              <p className={`${sidebarCollapsed ? "hidden" : ""}`}>{title}</p>
             </div>
           </NavLink>
-          <NavLink
-            to="/recoil-js"
-            className="block hover:bg-primary  px-3 py-2.5 hover:text-white rounded-md no-underline"
-            activeClassName="bg-primary text-white"
-          >
-            <div className="flex items-center gap-x-2">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="white"
-                >
-                  <path
-                    d="M6.66667 2H2V6.66667H6.66667V2Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <p className={`${sidebarCollapsed ? "hidden" : ""}`}>Assets</p>
-            </div>
-          </NavLink>
-          <NavLink
-            to="/tanstack-query"
-            className="block hover:bg-primary  px-3 py-2.5 hover:text-white rounded-md no-underline"
-            activeClassName="bg-primary text-white"
-          >
-            <div className="flex items-center gap-x-2">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="white"
-                >
-                  <path
-                    d="M6.66667 2H2V6.66667H6.66667V2Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
-                    stroke="black"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <p className={`${sidebarCollapsed ? "hidden" : ""}`}>Jobs</p>
-            </div>
-          </NavLink>
+            ))}
+
           <div>
             <hr className="h-px my-1 bg-gray-100 border-0 dark:bg-gray-700" />
           </div>

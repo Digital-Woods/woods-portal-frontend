@@ -1,57 +1,39 @@
 const MainLayout = ({ children }) => {
-  const routes = [
+  const { routes, setRoutes } = useRoute();
+
+  const apiroutes = [
     {
       path: "/sites",
-      component: Sites,
       title: "Sites",
-      description: "Manage your sites",
+      icon: "icon",
     },
     {
-      path: "/recoil-js",
-      component: Recoiljs,
-      title: "Recoil JS",
-      description: "Learn about Recoil JS",
-    },
-    {
-      path: "/tanstack-query",
-      component: TnstackQuery,
-      title: "TanStack Query",
-      description: "Learn about TanStack Query",
-    },
-    {
-      path: "/login",
-      component: Login,
-      title: "Login",
-      description: "Login to your account",
-    },
-    {
-      path: "/register",
-      component: Register,
-      title: "Register",
-      description: "Register a new account",
-    },
-    {
-      path: "/details",
-      component: Details,
-      title: "Details",
-      description: "View details",
+      path: "/dashboard",
+      title: "Dashboard",
+      icon: "icon",
     },
   ];
+
+  useEffect(() => {
+    setRoutes(apiroutes);
+  }, []);
+
   return (
     <div className="flex">
       <SideLayout />
       <div className="w-full bg-light dark:bg-light p-4">
         <HeaderLayout />
         <div className="px-4 py-6">
-          {routes.map(({ path, component: Component, title, description }) => (
-            <Route
-              key={path}
-              path={path}
-              render={(props) => (
-                <Component {...props} title={title} description={description} />
-              )}
-            />
-          ))}
+          {routes.length > 0 &&
+            routes.map(({ path, title, icon }) => (
+              <Route
+                key={path}
+                path={path}
+                render={(props) => (
+                  <DynamicComponent {...props} path={path} title={title} icon={icon} />
+                )}
+              />
+            ))}
         </div>
       </div>
     </div>

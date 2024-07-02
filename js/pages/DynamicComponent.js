@@ -1,6 +1,6 @@
 const { useState, useEffect } = React;
 
-const Sites = () => {
+const DynamicComponent = ({title, path}) => {
   const dummyData = [
     {
       id: 1,
@@ -59,7 +59,7 @@ const Sites = () => {
     <div>
       <div className="flex justify-between items-center pt-3 pb-8">
         <div>
-          <h1 className="text-xl font-semibold mb-1">Site List</h1>
+          <h1 className="text-xl font-semibold mb-1">{title}</h1>
           <p className="text-secondary text-sm">List view of all sites</p>
         </div>
 
