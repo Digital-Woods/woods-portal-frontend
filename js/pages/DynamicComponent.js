@@ -1,42 +1,49 @@
 const { useState, useEffect } = React;
+const { useQuery } = ReactQuery;
 
 const DynamicComponent = ({ title, path }) => {
-  const data = {
-    headers: [
-      {
-        id: 'name',
-        key: 'name',
-        label: 'Name',
-      },
-      {
-        id: 'address',
-        key: 'address',
-        label: 'Address',
-      },
-    ],
-    rows: [{ id: 1, name: 'Prosenjit Sarkar', address: 'Siliguri' }],
+  const fetchProducts = async (page) => {
+    const response = await Client.products.all({}, null, page);
+    return response;
   };
 
-  const [posts, setPosts] = useState(data.rows);
-  const [postPerPage, setPostPerPage] = useState(10);
+  const [activeTab, setActiveTab] = useState("account")
+
+  const { error, data, isLoading, refetch } = useQuery({
+    queryKey: ["userData", currentPage],
+    queryFn: () => fetchProducts(currentPage),
+  });
+
+  const [posts, setPosts] = useState([]);
+  const [postPerPage, setPostPerPage] = useState(15);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const pageItem = {
-    start: (currentPage - 1) * postPerPage,
-    end: currentPage * postPerPage,
-  };
-
-  const numOfPages = Math.ceil(posts.length / postPerPage);
+  const [totalPosts, setTotalPosts] = useState(0);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [postPerPage, posts]);
+    if (data) {
+      setPosts(data.data);
+      setTotalPosts(data.total);
+      setPostPerPage(data.per_page);
+    }
+  }, [data]);
 
-  const [isChecked, setIsChecked] = useState(false);
+  const numOfPages = Math.ceil(totalPosts / postPerPage);
 
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
+  useEffect(() => {
+    refetch();
+  }, [currentPage, postPerPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading data</div>;
+  }
 
   return (
     <div>
@@ -45,9 +52,8 @@ const DynamicComponent = ({ title, path }) => {
           <h1 className="text-xl font-semibold mb-1">{title}</h1>
           <p className="text-secondary text-sm">List view of all sites</p>
         </div>
-
         <div className="border rounded-lg py-1 px-1 border-flatGray">
-          <Tabs defaultValue="account" className="rounded-md">
+          <Tabs activeTab={activeTab} setActiveTab={setActiveTab} className="rounded-md">
             <TabsList>
               <TabsTrigger value="account">
                 <svg
@@ -81,7 +87,8 @@ const DynamicComponent = ({ title, path }) => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center pb-5">
+      {activeTab == "account" ? <div>
+        <div className="flex justify-between items-center pb-5">
         <div className="flex gap-x-4">
           <CustomCheckbox />
           <CustomCheckbox />
@@ -101,18 +108,22 @@ const DynamicComponent = ({ title, path }) => {
               {posts.length}
             </span>
             <span>/</span>
-            <span className="rounded-md">1280</span>
+            <span className="rounded-md">{totalPosts}</span>
             <p className="text-secondary font-normal text-sm">Results</p>
           </div>
 
           <div>
-            <Select right={true}>
-              <Options>
+            <Select>
+              <Options right={true}>
                 <h1 className="py-3 font-[500] text-lg">Client Filter</h1>
                 <hr className="py-1"></hr>
                 <div className="flex gap-x-3 py-2">
-                  <p className="text-xs text-secondary cursor-pointer">select all</p>
-                  <p className="text-xs text-secondary cursor-pointer">clear all</p>
+                  <p className="text-xs text-secondary cursor-pointer">
+                    select all
+                  </p>
+                  <p className="text-xs text-secondary cursor-pointer">
+                    clear all
+                  </p>
                 </div>
 
                 <Option>
@@ -126,56 +137,63 @@ const DynamicComponent = ({ title, path }) => {
           </div>
         </div>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead></TableHead>
-              {data.headers.map((header) => (
-                <TableHead key={header.id}>{header.label}</TableHead>
-              ))}
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {posts.slice(pageItem.start, pageItem.end).map((data) => (
-              <TableRow key={data.id}>
-                <TableCell className="flex items-center">
-                  <img
-                    src="https://via.placeholder.com/40"
-                    alt={data.name}
-                    className="w-10 h-10 rounded-lg"
-                  />
-                </TableCell>
-                <TableCell>
-                  <div>
-                    <div className="">{data.name}</div>
-                    <div className="text-xs text-secondary">{data.address}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center justify-start space-x-2 gap-x-5">
-                    <Link
-                      className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md"
-                      to="/details"
-                    >
-                      View
-                    </Link>
-                    <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md">
-                      Edit
-                    </button>
-                  </div>
-                </TableCell>
+        <div className="max-w-[1150px]">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                
+                {posts.length > 0 &&
+                  Object.keys(posts[0]).map((key) => (
+                    <TableHead key={key} className="whitespace-nowrap">
+                   {key.toUpperCase().replace("_", " ").replace("_", " ")} 
+                    </TableHead>
+                  ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {posts.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell className="flex items-center">
+                    <img
+                      src="https://via.placeholder.com/40"
+                      alt={product.name}
+                      className="w-10 h-10 rounded-lg"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <div>
+                      <div className="">{product.name}</div>
+                      <div className="text-xs text-secondary"></div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-start space-x-2 gap-x-5">
+                      <Link
+                        className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md"
+                        to="/details"
+                      >
+                        View
+                      </Link>
+                      <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md">
+                        Edit
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
         <Pagination
           numOfPages={numOfPages}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          setCurrentPage={handlePageChange}
         />
       </div>
+      </div> : <div>Under Construction</div>}
+
+      
     </div>
   );
 };

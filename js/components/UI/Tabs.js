@@ -1,8 +1,8 @@
-const Tabs = ({ children, defaultValue = "account", className }) => {
-  const [selectedValue, setSelectedValue] = useState(defaultValue);
-
+const Tabs = ({ children, activeTab, setActiveTab=null, className }) => {
+  const [selectedValue, setSelectedValue] = useState(activeTab);
   const handleTabClick = (value) => {
     setSelectedValue(value);
+    if(setActiveTab != null)setActiveTab(value);
   };
 
   // Filter children to separate TabsList and content components
