@@ -1,40 +1,23 @@
 const { useState, useEffect } = React;
 
-const DynamicComponent = ({title, path}) => {
-  const dummyData = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "janesmith@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      email: "mikejohnson@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    {
-      id: 4,
-      name: "Sarah Williams",
-      email: "sarahwilliams@example.com",
-      jobs: [1, 2, 3, 4, 5],
-      img: "https://cdn.pixabay.com/photo/2013/12/16/15/59/tree-229335_640.jpg",
-    },
-    
-  
-  ];
+const DynamicComponent = ({ title, path }) => {
+  const data = {
+    headers: [
+      {
+        id: 'name',
+        key: 'name',
+        label: 'Name',
+      },
+      {
+        id: 'address',
+        key: 'address',
+        label: 'Address',
+      },
+    ],
+    rows: [{ id: 1, name: 'Prosenjit Sarkar', address: 'Siliguri' }],
+  };
 
-  const [posts, setPosts] = useState(dummyData);
+  const [posts, setPosts] = useState(data.rows);
   const [postPerPage, setPostPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -46,7 +29,7 @@ const DynamicComponent = ({title, path}) => {
   const numOfPages = Math.ceil(posts.length / postPerPage);
 
   useEffect(() => {
-    setCurrentPage(1); 
+    setCurrentPage(1);
   }, [postPerPage, posts]);
 
   const [isChecked, setIsChecked] = useState(false);
@@ -65,7 +48,7 @@ const DynamicComponent = ({title, path}) => {
 
         <div className="border rounded-lg py-1 px-1 border-flatGray">
           <Tabs defaultValue="account" className="rounded-md">
-            <TabsList className="">
+            <TabsList>
               <TabsTrigger value="account">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -115,40 +98,41 @@ const DynamicComponent = ({title, path}) => {
           <div className="flex items-center gap-x-2 font-semibold text-sm ">
             <p className="text-secondary font-normal">Showing</p>
             <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md">
-              63
+              {posts.length}
             </span>
             <span>/</span>
-            <span className=" rounded-md">1280</span>
+            <span className="rounded-md">1280</span>
             <p className="text-secondary font-normal text-sm">Results</p>
           </div>
 
-          <div>    <Select right={true}>
-                
-                <Options>
-                    <h1 className="py-3 font-[500] text-lg">Client Filter</h1>
-                    <hr className="py-1"></hr>
-                    <div className="flex gap-x-3 py-2">
-                    <p className="text-xs text-secondary cursor-pointer">select all</p>
-                    <p className="text-xs text-secondary cursor-pointer">clear all</p>
-                    </div>
-                
-    
-                  <Option>
-                    <Checkbox  label="Yokshire new housejbbb" />
-                  </Option>
-                  <Option>
-                  <Checkbox  label="Yokshire new house" />
-                  </Option>
-                </Options>
-              </Select></div>
+          <div>
+            <Select right={true}>
+              <Options>
+                <h1 className="py-3 font-[500] text-lg">Client Filter</h1>
+                <hr className="py-1"></hr>
+                <div className="flex gap-x-3 py-2">
+                  <p className="text-xs text-secondary cursor-pointer">select all</p>
+                  <p className="text-xs text-secondary cursor-pointer">clear all</p>
+                </div>
+
+                <Option>
+                  <Checkbox label="Yokshire new housejbbb" />
+                </Option>
+                <Option>
+                  <Checkbox label="Yokshire new house" />
+                </Option>
+              </Options>
+            </Select>
+          </div>
         </div>
 
-        <Table className="">
+        <Table>
           <TableHeader>
             <TableRow>
               <TableHead></TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Jobs</TableHead>
+              {data.headers.map((header) => (
+                <TableHead key={header.id}>{header.label}</TableHead>
+              ))}
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -157,7 +141,7 @@ const DynamicComponent = ({title, path}) => {
               <TableRow key={data.id}>
                 <TableCell className="flex items-center">
                   <img
-                    src={data.img}
+                    src="https://via.placeholder.com/40"
                     alt={data.name}
                     className="w-10 h-10 rounded-lg"
                   />
@@ -165,19 +149,7 @@ const DynamicComponent = ({title, path}) => {
                 <TableCell>
                   <div>
                     <div className="">{data.name}</div>
-                    <div className="text-xs text-secondary">{data.email}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-3">
-                    {data.jobs.map((job) => (
-                      <button
-                        key={job}
-                        className="w-6 h-6 rounded-full bg-primary text-white"
-                      >
-                        {job}
-                      </button>
-                    ))}
+                    <div className="text-xs text-secondary">{data.address}</div>
                   </div>
                 </TableCell>
                 <TableCell>
