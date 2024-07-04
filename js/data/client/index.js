@@ -12,12 +12,13 @@ class Client {
       ),
   };
   static products = {
-    all: ({ categories, tags, name, shop_id, price, ...query }) =>
+    all: ({ categories, tags, name, shop_id, price, page, ...query }) =>
       HttpClient.get(API_ENDPOINTS.PRODUCTS, {
         searchJoin: "and",
         with: "shop",
         orderBy: "updated_at",
         sortedBy: "ASC",
+        page: page,
         ...query,
         search: HttpClient.formatSearchParams({
           categories,

@@ -3,10 +3,9 @@ const { useQuery } = ReactQuery;
 
 const DynamicComponent = ({ title, path }) => {
   const fetchProducts = async (page) => {
-    const response = await Client.products.all({}, null, page);
+    const response = await Client.products.all({ page });
     return response;
   };
-
   const [activeTab, setActiveTab] = useState("account")
 
   const { error, data, isLoading, refetch } = useQuery({
@@ -34,7 +33,9 @@ const DynamicComponent = ({ title, path }) => {
   }, [currentPage, postPerPage]);
 
   const handlePageChange = (page) => {
+    // setCurrentPage({page});
     setCurrentPage(page);
+    // fetchProducts({page:page})
   };
 
   if (isLoading) {
