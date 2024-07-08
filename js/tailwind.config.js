@@ -28,6 +28,7 @@ tailwind.config = {
     },
     extend: {
       colors: {
+        white: "#FFFFFF",
         primary: "#2F2F33", // Dark gray
         secondary: "#8D8D99", // Grey
         flatGray: "#F7F7F7", // Flat grey
