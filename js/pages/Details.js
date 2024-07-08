@@ -50,7 +50,7 @@ const Details = () => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4">
+    <div className="grid grid-cols-6 gap-4 h-screen dark:bg-gray-800">
       <div className="col-span-4">
         <div className="border bg-gray-100 dark:bg-gray-900 rounded-lg w-fit py-2 px-4 border-flatGray">
           <Tabs
