@@ -33,7 +33,8 @@ const MainLayout = ({ children }) => {
                   <DynamicComponent {...props} path={path} title={title} icon={icon} />
                 )}
               />
-            ))}
+            ))} 
+            
         </div>
       </div>
     </div>

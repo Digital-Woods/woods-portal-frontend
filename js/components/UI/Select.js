@@ -1,7 +1,7 @@
 const { useState, useRef, useEffect } = React;
 const classNames = window.classNames;
 
-const Select = ({ children, right }) => {
+const Select = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -10,7 +10,7 @@ const Select = ({ children, right }) => {
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} />
-      {isOpen && <Options right={right}>{children}</Options>}
+      {isOpen && children}
     </div>
   );
 };
