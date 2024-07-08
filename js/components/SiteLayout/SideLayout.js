@@ -4,7 +4,7 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   return (
     <a
       href={to}
-      className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
+      className={`block hover:bg-primary p-3 hover:text-white  rounded-md no-underline ${className}`}
     >
       {children}
     </a>
@@ -58,8 +58,8 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-primary px-3 py-2.5 hover:text-white rounded-md no-underline"
-                activeClassName="bg-primary text-white"
+                className="block hover:bg-gray-900 px-3 py-2.5 hover:text-white rounded-md no-underline"
+                activeClassName="bg-gray-900 text-white"
               >
                 <div className="flex items-center gap-x-2">
                   <div>

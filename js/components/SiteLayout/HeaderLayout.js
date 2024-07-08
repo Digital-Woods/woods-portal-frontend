@@ -22,14 +22,14 @@ const HeaderLayout = () => {
   }, []);
 
   return (
-    <div className="relative flex justify-between px-6 pt-4 pb-6">
+    <div className="relative flex justify-between px-6 pt-4 pb-6 dark:bg-gray-800">
       <div>
-        <p className="text-primary font-semibold">Dashboard / Sites / Maps</p>
+        <p className="text-primary font-semibold dark:text-white">Dashboard / Sites / Maps</p>
       </div>
 
       <div>
         <div className="flex gap-x-5">
-          <div className="bg-flatGray rounded-md">
+          <div className="bg-flatGray rounded-md dark:bg-gray-700">
             <ThemeSwitcher />
           </div>
 
@@ -37,7 +37,7 @@ const HeaderLayout = () => {
             <Input placeholder="Search" />
           </div>
 
-          <div className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer">
+          <div className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer dark:bg-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -50,18 +50,20 @@ const HeaderLayout = () => {
                 stroke="#2F2F33"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="dark:stroke-white"
               />
               <path
                 d="M9.15335 14C9.03614 14.2021 8.86791 14.3698 8.6655 14.4864C8.46309 14.6029 8.2336 14.6643 8.00001 14.6643C7.76643 14.6643 7.53694 14.6029 7.33453 14.4864C7.13212 14.3698 6.96389 14.2021 6.84668 14"
                 stroke="#2F2F33"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="dark:stroke-white"
               />
             </svg>
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer"
+            className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer dark:bg-gray-700"
             onClick={toggleDropdown}
             ref={dropdownRef}
           >
@@ -79,6 +81,7 @@ const HeaderLayout = () => {
                     stroke="#2F2F33"
                     strokeWidth="1.5"
                     strokeLinecap="round"
+                    className="dark:stroke-white"
                   />
                 </svg>
                 <svg
@@ -93,6 +96,7 @@ const HeaderLayout = () => {
                     stroke="#2F2F33"
                     strokeWidth="1.5"
                     strokeLinecap="round"
+                    className="dark:stroke-white"
                   />
                 </svg>
               </div>
@@ -110,7 +114,7 @@ const HeaderLayout = () => {
         {dropdownOpen && (
           <div
             ref={dropdownRef}
-            className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50"
+            className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50 dark:bg-gray-700"
           >
             <div className="flex flex-col p-4">
               <div className="flex">
@@ -121,17 +125,17 @@ const HeaderLayout = () => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-4 flex flex-col">
-                  <p className="font-semibold">John Doe</p>
-                  <p className="text-xs text-secondary">johndoe@example.com</p>
+                  <p className="font-semibold dark:text-white">John Doe</p>
+                  <p className="text-xs text-secondary dark:text-gray-400">johndoe@example.com</p>
                 </div>
               </div>
             </div>
-            <hr className="border-t border-gray-200" />
+            <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col p-2">
-              <button className="py-2 px-4 text-left border-none font-medium rounded-md">
+              <button className="py-2 px-4 text-left border-none font-medium rounded-md dark:text-white dark:bg-gray-600">
                 Profile
               </button>
-              <button className="py-2 px-4 text-left border-none font-medium rounded-md">
+              <button className="py-2 px-4 text-left border-none font-medium rounded-md dark:text-white dark:bg-gray-600">
                 Logout
               </button>
             </div>

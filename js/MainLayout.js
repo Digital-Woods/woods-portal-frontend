@@ -21,7 +21,7 @@ const MainLayout = ({ children }) => {
   return (
     <div className="flex">
       <SideLayout />
-      <div className="w-full bg-light dark:bg-light p-4">
+      <div className="w-full bg-light dark:bg-gray-800 p-4">
         <HeaderLayout />
         <div className="px-4 py-6">
           {routes.length > 0 &&
@@ -30,7 +30,7 @@ const MainLayout = ({ children }) => {
                 key={path}
                 path={path}
                 render={(props) => (
-                  <DynamicComponent {...props} path={path} title={title} icon={icon} />
+                  <Details {...props} path={path} title={title} icon={icon} />
                 )}
               />
             ))} 

@@ -39,7 +39,6 @@ tailwind.config = {
           dark: "#0091AE",
         },
         light: {
-          DEFAULT: "#ffffff",
           base: "#646464",
           100: "#f9f9f9",
           200: "#f2f2f2",
