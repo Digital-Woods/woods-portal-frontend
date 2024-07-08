@@ -103,7 +103,7 @@ const DynamicComponent = ({ title, path }) => {
           </div>
 
 
-          <div className="border border-2 rounded-md  dark:border-gray-700 dark:bg-gray-900 ">
+          <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900 ">
             <div className="flex justify-between items-center px-6 py-5">
               <div className="flex items-center gap-x-2 font-semibold text-sm">
                 <p className="text-secondary font-normal dark:text-gray-300">Showing</p>
@@ -140,7 +140,7 @@ const DynamicComponent = ({ title, path }) => {
               </div>
             </div>
 
-            <div className="overflow-x-auto md:max-w-[155vh] max-w-[100vh]">
+            <div className="overflow-x-auto md:max-w-[155vh] max-h-[45vh]  max-w-[100vh]">
               <Table>
                 <TableHeader>
                   <TableRow>
