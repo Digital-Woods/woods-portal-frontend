@@ -169,6 +169,24 @@ const DynamicComponent = ({ title, path }) => {
                         </div>
                       </TableCell>
                       <TableCell>
+                        <div>
+                          <div className="dark:text-white">{product.slug}</div>
+                          <div className="text-xs text-secondary"></div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>
+                          <div className="dark:text-white">{product.type.name}</div>
+                          <div className="text-xs text-secondary"></div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>
+                          <div className="dark:text-white">{product.language}</div>
+                          <div className="text-xs text-secondary"></div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
                         <div className="flex items-center justify-start space-x-2 gap-x-5">
                           <Link
                             className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
