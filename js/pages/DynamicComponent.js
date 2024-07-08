@@ -97,7 +97,7 @@ const DynamicComponent = ({ title, path }) => {
               <CustomCheckbox />
             </div>
 
-            <div className="w-[30%] h-10">
+            <div className="w-[20%] h-10">
               <Input className="bg-transparent dark:bg-gray-700" />
             </div>
           </div>
@@ -140,7 +140,7 @@ const DynamicComponent = ({ title, path }) => {
               </div>
             </div>
 
-            <div className="overflow-x-auto max-w-[155vh]">
+            <div className="overflow-x-auto md:max-w-[155vh] max-w-[100vh]">
               <Table>
                 <TableHeader>
                   <TableRow>
