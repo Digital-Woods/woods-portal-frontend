@@ -362,7 +362,7 @@ const Details = () => {
                 <div className="flex flex-col gap-y-3">
                   <div className="text-xs font-bold">Specifications</div>
 
-                  <div className="text-sm text-darkerGray">
+                  <div className="text-sm text-darkerGray dark:text-white">
                     Lorem ipsum dolor hdbs hbdcsbd uiwbfwrf wubfw webufnfbcd c
                     webhfw
                   </div>
