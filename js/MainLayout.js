@@ -30,7 +30,7 @@ const MainLayout = ({ children }) => {
                 key={path}
                 path={path}
                 render={(props) => (
-                  <Details {...props} path={path} title={title} icon={icon} />
+                  <DynamicComponent {...props} path={path} title={title} icon={icon} />
                 )}
               />
             ))} 
