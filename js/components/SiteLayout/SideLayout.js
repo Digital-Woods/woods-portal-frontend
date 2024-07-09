@@ -1,4 +1,4 @@
-const { useState } = React;
+const { useState , useEffect } = React;
 
 const NavLink = ({ to, className, activeClassName, children }) => {
   return (
@@ -12,7 +12,13 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 };
 
 const SideLayout = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const  { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+
+
+  console.log(sidebarCollapsed)
+
+
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -24,9 +30,7 @@ const SideLayout = () => {
 
   return (
     <div
-      className={`hidden lg:block md:w-${
-        sidebarCollapsed ? "1/12" : "1/4"
-      } min-h-screen lg:block hidden px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
+      className={`hidden lg:block min-h-screen  lg:block hidden px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
     >
       <div>
         <div className="flex justify-between items-center mb-10">

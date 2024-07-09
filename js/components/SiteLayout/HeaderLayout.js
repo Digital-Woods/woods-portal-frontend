@@ -22,7 +22,7 @@ const HeaderLayout = () => {
   }, []);
 
   return (
-    <div className="relative flex justify-between px-6 pt-4 pb-6 dark:bg-gray-800">
+    <div className=" flex justify-between px-6 pt-4 pb-6 dark:bg-gray-800">
       <div>
         <p className="text-primary font-semibold dark:text-white">Dashboard / Sites / Maps</p>
       </div>

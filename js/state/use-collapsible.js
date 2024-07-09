@@ -7,10 +7,10 @@ const isCollapsibleState = atom({
 });
 
 function useCollapsible() {
-  const [isCollapsible, setisCollapsible] = useRecoilState(isCollapsible);
+  const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(isCollapsibleState);
 
   return {
-    isCollapsible,
-    setisCollapsible,
+    sidebarCollapsed,
+    setSidebarCollapsed,
   };
 }

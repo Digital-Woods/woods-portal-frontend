@@ -1,5 +1,8 @@
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
+  const  { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+
+
 
   const apiroutes = [
     {
@@ -19,9 +22,13 @@ const MainLayout = ({ children }) => {
   }, []);
 
   return (
-    <div className="flex  dark:bg-gray-800">
+    <div className="flex dark:bg-gray-800">
+
+      <div className={`w-${sidebarCollapsed ? '[12%]' : '[20%]'}`}>
       <SideLayout />
-      <div className="w-full h-screen bg-light dark:bg-gray-800 p-4">
+      </div>
+    
+      <div className={`w-${sidebarCollapsed ? '[88%]' : '[80%]'} dark:bg-gray-800 p-4`}>
         <HeaderLayout />
         <div className="px-4 py-6">
           {routes.length > 0 &&
@@ -36,7 +43,11 @@ const MainLayout = ({ children }) => {
             ))} 
             
         </div>
-      </div>
+        </div>
+
+        
+      
+
     </div>
   );
 };
