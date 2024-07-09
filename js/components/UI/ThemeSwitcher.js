@@ -2,16 +2,21 @@ const { useEffect, useState } = React;
 
 const ThemeSwitcher = () => {
   const [theme, setTheme] = useState(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+  
+    console.log("URL Parameters: ", urlParams.toString());
+  
     if (
+      (urlParams.has('dark') && urlParams.get('dark') === 'true') ||
       localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       return "dark";
     } else {
       return "light";
     }
   });
+  
 
   useEffect(() => {
     if (theme === "dark") {
