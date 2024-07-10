@@ -11,14 +11,17 @@ function withOpacity(variableName) {
 function getUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   return {
-    primaryColor: urlParams.get('primaryColor'),
-    secondaryColor: urlParams.get('secondaryColor')
+    primaryColor: urlParams.get('primaryColor') || "#091B5A",
+    secondaryColor: urlParams.get('secondaryColor') || "#8D8D99"
   };
 }
 
 
 
 console.log("primaryColor", getUrlParams().primaryColor);
+console.log("secondaryColor", getUrlParams().secondaryColor);
+
+
 
 tailwind.config = {
 
