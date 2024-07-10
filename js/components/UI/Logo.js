@@ -1,5 +1,6 @@
 const Logo = ({ className }) => {
-  const [logoSrc, setLogoSrc] = useState("https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg");
+  const defaultLogoSrc = "https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg";
+  const [logoSrc, setLogoSrc] = useState(defaultLogoSrc);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -7,10 +8,10 @@ const Logo = ({ className }) => {
   
     console.log("Logo Param:", logoParam);
   
-    if (logoParam) {
-      setLogoSrc(logoParam);
+    if (logoParam === "null" || !logoParam || logoParam === "") {
+      setLogoSrc(defaultLogoSrc); 
     } else {
-      setLogoSrc("https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg");
+      setLogoSrc(logoParam);
     }
   }, []);
 
