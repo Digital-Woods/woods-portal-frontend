@@ -22,7 +22,7 @@ const MainLayout = ({ children }) => {
   }, []);
 
   return (
-    <div className="flex dark:bg-gray-800">
+    <div className="flex dark:bg-gray-800 bg-white">
 
       <div className={`w-${sidebarCollapsed ? '[12%]' : '[20%]'}`}>
       <SideLayout />
