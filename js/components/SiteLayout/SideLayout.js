@@ -62,8 +62,8 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-gray-900 px-3 py-2.5 hover:text-white rounded-md no-underline"
-                activeClassName="bg-gray-900 text-white"
+                className="block hover:bg-gray-100  px-3 py-2.5 rounded-md no-underline"
+                activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
               >
                 <div className="flex items-center gap-x-2">
                   <div>

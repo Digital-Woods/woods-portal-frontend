@@ -34,7 +34,7 @@ const HeaderLayout = () => {
           </div>
 
           <div className="w-64">
-            <Input placeholder="Search" />
+          <Input className="bg-transparent dark:bg-gray-700" placeholder="search" />
           </div>
 
           <div className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer dark:bg-gray-700">
