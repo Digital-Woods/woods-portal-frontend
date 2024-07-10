@@ -8,6 +8,22 @@ function withOpacity(variableName) {
   };
 }
 
+let primaryColor = "#2F2F33"; 
+let secondaryColor = "#8D8D99"; 
+
+const urlParams = new URLSearchParams(window.location.search);
+const primaryParam = urlParams.get('primary');
+const secondaryParam = urlParams.get('secondary');
+console.log("primary", primaryParam)
+
+
+if (primaryParam) {
+  primaryColor = primaryParam.startsWith("#") ? primaryParam : `#${primaryParam}`; 
+}
+if (secondaryParam) {
+  secondaryColor = secondaryParam.startsWith("#") ? secondaryParam : `#${secondaryParam}`; 
+}
+
 tailwind.config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -29,8 +45,8 @@ tailwind.config = {
     extend: {
       colors: {
         white: "#FFFFFF",
-        primary: "#2F2F33", // Dark gray
-        secondary: "#8D8D99", // Grey
+        primary: primaryColor,
+        secondary: secondaryColor,
         flatGray: "#F7F7F7", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F", // Darker grey
