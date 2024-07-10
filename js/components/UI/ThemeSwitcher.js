@@ -4,32 +4,38 @@ const { useState, useEffect } = React;
 const ThemeSwitcher = () => {
   const [theme, setTheme] = useState(() => {
     const urlParams = new URLSearchParams(window.location.search);
-
-    if (
-      urlParams.get('theme') === 'dark' ||
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      return 'dark';
-    } else {
-      return 'light';
+    const urlTheme = urlParams.get('theme');
+    switch (urlTheme) {
+      case 'dark':
+        return 'dark';
+      case 'light':
+        return 'light';
+      default:
+        return localStorage.theme === 'dark' ||
+          (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          ? 'dark'
+          : 'light';
     }
   });
 
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+    switch (theme) {
+      case 'dark':
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        break;
+      case 'light':
+      default:
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        break;
     }
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
-
+  
   return (
     <div
       className="text-light-900  hover:text-dark  p-2 text-center dark:text-light-900  cursor-pointer"
