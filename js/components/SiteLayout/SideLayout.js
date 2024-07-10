@@ -1,4 +1,4 @@
-const { useState , useEffect } = React;
+const { useState, useEffect } = React;
 
 const NavLink = ({ to, className, activeClassName, children }) => {
   return (
@@ -12,13 +12,9 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 };
 
 const SideLayout = () => {
+  const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
 
-  const  { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
-
-
-  console.log(sidebarCollapsed)
-
-
+  console.log(sidebarCollapsed);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -35,7 +31,7 @@ const SideLayout = () => {
       <div>
         <div className="flex justify-between items-center mb-10">
           <div className="w-[60%] flex items-center">
-            <Logo src="https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg" />
+            <Logo  />
             <h1
               className={`text-xl font-semibold ml-4 text-black dark:text-white ${
                 sidebarCollapsed ? "hidden" : "block"
@@ -45,7 +41,15 @@ const SideLayout = () => {
             </h1>
           </div>
           <div className="cursor-pointer" onClick={toggleSidebar}>
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="dark:fill-white"><path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              className="dark:fill-white"
+            >
+              <path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z" />
+            </svg>
           </div>
         </div>
         <nav className="space-y-1">
@@ -64,7 +68,7 @@ const SideLayout = () => {
                       width="16"
                       height="16"
                       viewBox="0 0 16 16"
-                    className="dark:fill-white"
+                      className="dark:fill-white"
                     >
                       <path
                         d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -92,7 +96,13 @@ const SideLayout = () => {
                       />
                     </svg>
                   </div>
-                  <p className={`${sidebarCollapsed ? "hidden" : ""} text-black dark:text-white`}>{title}</p>
+                  <p
+                    className={`${
+                      sidebarCollapsed ? "hidden" : ""
+                    } text-black dark:text-white`}
+                  >
+                    {title}
+                  </p>
                 </div>
               </NavLink>
             ))}
@@ -111,7 +121,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                className="dark:fill-white"
+                  className="dark:fill-white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -139,7 +149,13 @@ const SideLayout = () => {
                   />
                 </svg>
               </div>
-              <p className={`${sidebarCollapsed ? "hidden" : ""} text-black dark:text-white`}>Log Out</p>
+              <p
+                className={`${
+                  sidebarCollapsed ? "hidden" : ""
+                } text-black dark:text-white`}
+              >
+                Log Out
+              </p>
             </div>
           </NavLink>
         </nav>

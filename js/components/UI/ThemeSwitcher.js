@@ -4,8 +4,6 @@ const ThemeSwitcher = () => {
   const [theme, setTheme] = useState(() => {
     const urlParams = new URLSearchParams(window.location.search);
   
-    console.log("URL Parameters: ", urlParams.toString());
-  
     if (
       (urlParams.has('dark') && urlParams.get('dark') === 'true') ||
       localStorage.theme === "dark" ||

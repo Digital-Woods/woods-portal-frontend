@@ -1,8 +1,22 @@
-const Logo = ({ src, className }) => {
-    return (
-        <div>
-      <img src={src} alt="Logo" className={`h-auto ${className} rounded-md`} />
+const Logo = ({ className }) => {
+  const [logoSrc, setLogoSrc] = useState("https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg");
 
-        </div>
-    );
-  };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const logoParam = urlParams.get('logo');
+  
+    console.log("Logo Param:", logoParam);
+  
+    if (logoParam) {
+      setLogoSrc(logoParam);
+    } else {
+      setLogoSrc("https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg");
+    }
+  }, []);
+
+  return (
+    <div>
+      <img src={logoSrc} alt="Logo" className={`h-auto ${className} rounded-md`} />
+    </div>
+  );
+};
