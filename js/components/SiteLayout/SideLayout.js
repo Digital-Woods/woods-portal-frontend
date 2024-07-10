@@ -54,7 +54,7 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-gray-100  px-3 py-2.5 rounded-md no-underline"
+                className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
                 activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
               >
                 <div className="flex items-center gap-x-2">
@@ -64,7 +64,7 @@ const SideLayout = () => {
                       width="16"
                       height="16"
                       viewBox="0 0 16 16"
-                      fill="currentColor"
+                    className="dark:fill-white"
                     >
                       <path
                         d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -101,8 +101,8 @@ const SideLayout = () => {
           </div>
           <NavLink
             to="/logout"
-            className="block hover:bg-primary px-3 py-2.5 hover:text-white rounded-md no-underline"
-            activeClassName="bg-primary text-white"
+            className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+            activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
           >
             <div className="flex items-center gap-x-2">
               <div>
@@ -111,7 +111,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="currentColor"
+                className="dark:fill-white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"
