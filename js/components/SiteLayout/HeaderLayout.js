@@ -24,7 +24,7 @@ const HeaderLayout = () => {
   return (
     <div className=" flex justify-between px-6 pt-4 pb-6 dark:bg-gray-800">
       <div>
-        <p className="text-primary font-semibold dark:text-white">Dashboard / Sites / Maps</p>
+        <p className="text-primary font-semibold dark:text-white md:block hidden">Dashboard / Sites / Maps</p>
       </div>
 
       <div>
@@ -131,7 +131,7 @@ const HeaderLayout = () => {
               </div>
             </div>
             <hr className="border-t border-gray-200 dark:border-gray-600" />
-            <div className="flex flex-col p-2">
+            <div className="flex flex-col gap-y-1  p-2">
               <button className="py-2 px-4 text-left border-none font-medium rounded-md dark:text-white dark:bg-gray-600">
                 Profile
               </button>

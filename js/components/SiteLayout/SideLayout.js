@@ -26,7 +26,7 @@ const SideLayout = () => {
 
   return (
     <div
-      className={`hidden lg:block min-h-screen  lg:block hidden px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
+      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
     >
       <div>
         <div className="flex justify-between items-center mb-10">
