@@ -26,9 +26,9 @@ const MainLayout = ({ children }) => {
       </div>
 
       <div
-        className={` md:w-${
+        className={` lg:w-${
           sidebarCollapsed ? "[88%]" : "[80%]"
-        } dark:bg-gray-800 p-4`}
+        } w-[100%] dark:bg-gray-800 lg:p-4 p-1 h-screen`}
       >
         <HeaderLayout />
         <div className="px-4 py-6">

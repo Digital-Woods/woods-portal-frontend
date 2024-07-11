@@ -1,8 +1,30 @@
 const { useState, useEffect, useRef } = React;
 
+
+const NavLink = ({ to, className, activeClassName, children }) => {
+  return (
+    <a
+      href={to}
+      className={`block hover:bg-primary p-3 hover:text-white  rounded-md no-underline ${className}`}
+    >
+      {children}
+    </a>
+  );
+};
+
 const HeaderLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+
+  console.log(sidebarCollapsed);
+
+
+
+  const { routes, setRoutes } = useRoute();
+
+  console.log(routes);
+
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -13,6 +35,11 @@ const HeaderLayout = () => {
       setDropdownOpen(false);
     }
   };
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -22,13 +49,145 @@ const HeaderLayout = () => {
   }, []);
 
   return (
-    <div className=" flex justify-between px-6 pt-4 pb-6 dark:bg-gray-800">
-      <div>
-        <p className="text-primary font-semibold dark:text-white md:block hidden">Dashboard / Sites / Maps</p>
+    <div className=" flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-gray-800">
+      <div className="hidden lg:block">
+        <p className="text-primary font-semibold dark:text-white">Dashboard / Sites / Maps</p>
       </div>
+
+      <div className="lg:hidden">
+      <div className="cursor-pointer" onClick={toggleSidebar}>
+        <p className="text-primary font-semibold dark:text-white"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="dark:fill-white fill-black"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></p>
+      </div>
+      <div className={`fixed top-0 left-0 h-full z-50 w-64 bg-gray-200 dark:bg-gray-800 shadow-lg transform transition-transform ease-in-out duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div
+      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
+    >
+      <div>
+        <div className="flex justify-between items-center mb-10">
+          <div className="w-[60%] flex items-center">
+            <Logo  />
+
+            <div className="text-white cursor-pointer ml-6 bg-gray-900 p-3 rounded-md" onClick={toggleSidebar}>
+              X
+            </div>
+          </div>
+        
+        </div>
+        <nav className="space-y-1">
+          {routes.length > 0 &&
+            routes.map(({ path, title, icon }) => (
+              <NavLink
+                key={path}
+                to={path}
+                className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+              >
+                <div className="flex items-center gap-x-2">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      className="dark:fill-white"
+                    >
+                      <path
+                        d="M6.66667 2H2V6.66667H6.66667V2Z"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <p
+                    className={`${
+                      sidebarCollapsed ? "hidden" : ""
+                    } text-black dark:text-white`}
+                  >
+                    {title}
+                  </p>
+                </div>
+              </NavLink>
+            ))}
+          <div>
+            <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700" />
+          </div>
+          <NavLink
+            to="/logout"
+            className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+            activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+          >
+            <div className="flex items-center gap-x-2">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  className="dark:fill-white"
+                >
+                  <path
+                    d="M6.66667 2H2V6.66667H6.66667V2Z"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <p
+                className={`${
+                  sidebarCollapsed ? "hidden" : ""
+                } text-black dark:text-white`}
+              >
+                Log Out
+              </p>
+            </div>
+          </NavLink>
+        </nav>
+      </div>
+    </div>
+      </div>
+    </div>
 
       <div>
         <div className="flex gap-x-5">
+          
           <div className="bg-flatGray rounded-md dark:bg-gray-700">
             <ThemeSwitcher />
           </div>
