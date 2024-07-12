@@ -50,9 +50,9 @@ const Details = () => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4">
+    <div className="grid grid-cols-6 gap-4 h-screen dark:bg-gray-800">
       <div className="col-span-4">
-        <div className="border bg-gray-100 rounded-lg w-fit py-2 px-4 border-flatGray">
+        <div className="border bg-gray-100 dark:bg-gray-900 rounded-lg w-fit py-2 px-4 border-flatGray">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -82,11 +82,11 @@ const Details = () => {
         {activeTab == "overview" ? (
           <div>
             {" "}
-            <div className="flex justify-between py-4 px-2 border border-2 rounded-md my-10">
+            <div className="flex justify-between py-4 px-2 dark:bg-gray-900 border border-2 rounded-md my-10">
               <div className="flex items-center gap-x-3">
                 <div className="h-16 w-16 bg-green-200 rounded-full"></div>
                 <div>
-                  <h1 className="text-4xl font-semibold">Goodwill Co.</h1>
+                  <h1 className="text-4xl dark:text-white font-semibold">Goodwill Co.</h1>
                   <p className="text-xs  text-secondary">Tokyo</p>
                 </div>
               </div>
@@ -159,7 +159,7 @@ const Details = () => {
                       height="24px"
                       viewBox="0 -960 960 960"
                       width="24px"
-                      fill="#000000"
+                      fill="currentColor"
                     >
                       <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
                     </svg>
@@ -201,7 +201,7 @@ const Details = () => {
                       height="24px"
                       viewBox="0 -960 960 960"
                       width="24px"
-                      fill="#000000"
+                      fill="currentColor"
                     >
                       <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
                     </svg>
@@ -325,7 +325,7 @@ const Details = () => {
                     height="24px"
                     viewBox="0 -960 960 960"
                     width="24px"
-                    fill="#000000"
+                    fill="currentColor"
                   >
                     <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
                   </svg>
@@ -362,7 +362,7 @@ const Details = () => {
                 <div className="flex flex-col gap-y-3">
                   <div className="text-xs font-bold">Specifications</div>
 
-                  <div className="text-sm text-darkerGray">
+                  <div className="text-sm text-darkerGray dark:text-white">
                     Lorem ipsum dolor hdbs hbdcsbd uiwbfwrf wubfw webufnfbcd c
                     webhfw
                   </div>
@@ -382,7 +382,7 @@ const Details = () => {
                     height="24px"
                     viewBox="0 -960 960 960"
                     width="24px"
-                    fill="#000000"
+                    fill="currentColor"
                   >
                     <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
                   </svg>
@@ -404,7 +404,7 @@ const Details = () => {
                     height="24px"
                     viewBox="0 -960 960 960"
                     width="24px"
-                    fill="#000000"
+                    fill="currentColor"
                   >
                     <path d="M580-340h40v-80h80v-40h-80v-80h-40v80h-80v40h80v80ZM184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h199.23l80 80h311.53q27.62 0 46.12 18.5Q840-643 840-615.38v350.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm0-40h590.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H447.77l-80-80H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM160-240v-480 480Z" />
                   </svg>

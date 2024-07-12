@@ -3,10 +3,10 @@ const classNames = window.classNames;
 
 const Table = React.forwardRef(
   ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
+    <div className="">
       <table
         ref={ref}
-        className={classNames("w-full caption-bottom text-sm", className)}
+        className={classNames("caption-bottom text-sm", className)}
         {...props}
       />
     </div>

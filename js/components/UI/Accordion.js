@@ -9,7 +9,7 @@ const Accordion = ({ children }) => {
     }
   };
   return (
-    <div className="border border-gray-300 rounded mb-2 overflow-hidden">
+    <div className="border border-gray-300 rounded mb-2 overflow-hidden dark:bg-gray-900 dark:text-white">
       {React.Children.map(children, (child, index) =>
         React.cloneElement(child, {
           active,

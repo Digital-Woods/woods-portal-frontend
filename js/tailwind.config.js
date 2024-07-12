@@ -8,7 +8,23 @@ function withOpacity(variableName) {
   };
 }
 
+function getUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    primaryColor: urlParams.get('primaryColor') || "#091B5A",
+    secondaryColor: urlParams.get('secondaryColor') || "#8D8D99"
+  };
+}
+
+
+
+console.log("primaryColor", getUrlParams().primaryColor);
+console.log("secondaryColor", getUrlParams().secondaryColor);
+
+
+
 tailwind.config = {
+
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
@@ -29,8 +45,8 @@ tailwind.config = {
     extend: {
       colors: {
         white: "#FFFFFF",
-        primary: "#2F2F33", // Dark gray
-        secondary: "#8D8D99", // Grey
+         primary: getUrlParams().primaryColor,
+        secondary: getUrlParams().secondaryColor,
         flatGray: "#F7F7F7", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F", // Darker grey
@@ -39,7 +55,6 @@ tailwind.config = {
           dark: "#0091AE",
         },
         light: {
-          DEFAULT: "#ffffff",
           base: "#646464",
           100: "#f9f9f9",
           200: "#f2f2f2",

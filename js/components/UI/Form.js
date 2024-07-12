@@ -76,9 +76,9 @@ const FormMessage = ({ children, className }) => (
 
 const Input = React.forwardRef(({ className, type = 'text', placeholder = "Search", ...props }, ref) => {
   return (
-    <div className="relative flex items-center ">
+    <div className="relative dark:bg-gray-800 flex items-center ">
       <svg
-        className="absolute left-3 h-5 w-5 text-gray-500"
+        className="absolute left-3 h-5 w-5  text-gray-500"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

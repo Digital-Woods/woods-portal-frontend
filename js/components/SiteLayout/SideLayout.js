@@ -1,10 +1,10 @@
-const { useState } = React;
+const { useState, useEffect } = React;
 
 const NavLink = ({ to, className, activeClassName, children }) => {
   return (
     <a
       href={to}
-      className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
+      className={`block hover:bg-primary p-3 hover:text-white  rounded-md no-underline ${className}`}
     >
       {children}
     </a>
@@ -12,7 +12,9 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 };
 
 const SideLayout = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+
+  console.log(sidebarCollapsed);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -24,14 +26,12 @@ const SideLayout = () => {
 
   return (
     <div
-      className={`w-full md:w-${
-        sidebarCollapsed ? "1/12" : "1/4"
-      } min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
+      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800 hidden lg:block`}
     >
       <div>
         <div className="flex justify-between items-center mb-10">
           <div className="w-[60%] flex items-center">
-            <Logo src="https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg" />
+            <Logo  />
             <h1
               className={`text-xl font-semibold ml-4 text-black dark:text-white ${
                 sidebarCollapsed ? "hidden" : "block"
@@ -46,9 +46,9 @@ const SideLayout = () => {
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
-              fill="currentColor"
+              className="dark:fill-white"
             >
-              <path d="m480-193 85-85 57 56L480-80 338-222l57-56 85 85ZM193-480l85 85-56 57L80-480l142-142 56 57-85 85Zm574 0-85-85 56-57 142 142-142 142-56-57 85-85ZM480-767l-85 85-57-56 142-142 142 142-57 56-85-85Z" />
+              <path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z" />
             </svg>
           </div>
         </div>
@@ -58,8 +58,8 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-primary px-3 py-2.5 hover:text-white rounded-md no-underline"
-                activeClassName="bg-primary text-white"
+                className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
               >
                 <div className="flex items-center gap-x-2">
                   <div>
@@ -68,7 +68,7 @@ const SideLayout = () => {
                       width="16"
                       height="16"
                       viewBox="0 0 16 16"
-                      fill="currentColor"
+                      className="dark:fill-white"
                     >
                       <path
                         d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -96,7 +96,13 @@ const SideLayout = () => {
                       />
                     </svg>
                   </div>
-                  <p className={`${sidebarCollapsed ? "hidden" : ""} text-black dark:text-white`}>{title}</p>
+                  <p
+                    className={`${
+                      sidebarCollapsed ? "hidden" : ""
+                    } text-black dark:text-white`}
+                  >
+                    {title}
+                  </p>
                 </div>
               </NavLink>
             ))}
@@ -105,8 +111,8 @@ const SideLayout = () => {
           </div>
           <NavLink
             to="/logout"
-            className="block hover:bg-primary px-3 py-2.5 hover:text-white rounded-md no-underline"
-            activeClassName="bg-primary text-white"
+            className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+            activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
           >
             <div className="flex items-center gap-x-2">
               <div>
@@ -115,7 +121,7 @@ const SideLayout = () => {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="currentColor"
+                  className="dark:fill-white"
                 >
                   <path
                     d="M6.66667 2H2V6.66667H6.66667V2Z"
@@ -143,7 +149,13 @@ const SideLayout = () => {
                   />
                 </svg>
               </div>
-              <p className={`${sidebarCollapsed ? "hidden" : ""} text-black dark:text-white`}>Log Out</p>
+              <p
+                className={`${
+                  sidebarCollapsed ? "hidden" : ""
+                } text-black dark:text-white`}
+              >
+                Log Out
+              </p>
             </div>
           </NavLink>
         </nav>
