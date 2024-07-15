@@ -1,8 +1,11 @@
 const Axios = axios.create({
-  baseURL: "https://dev-one-marketplace.digitalwoods.cloud/api",
+  baseURL: "https://welcome-informally-macaw.ngrok-free.app/",
   timeout: 150000000,
   headers: {
     "Content-Type": "application/json",
+    "X-User-Email" : "john.doe@example.com",
+    "X-User-Roles" : "ROLE_USER, ROLE_ADMIN",
+    "ngrok-skip-browser-warning" : 1
   },
 });
 
@@ -28,7 +31,7 @@ Axios.interceptors.response.use(
 );
 
 class HttpClient {
-  static async get(url, params) {
+  static async get(url, params) { 
     const response = await Axios.get(url, { params });
     return response.data;
   }

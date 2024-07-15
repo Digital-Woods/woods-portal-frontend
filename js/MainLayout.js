@@ -1,32 +1,41 @@
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
-  const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+  const { sidebarCollapsed } = useCollapsible();
 
-  const apiroutes = [
-    {
-      path: "/sites",
-      title: "Sites",
-      icon: "icon",
-    },
-    {
-      path: "/dashboard",
-      title: "Dashboard",
-      icon: "icon",
-    },
-  ];
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["features"],
+    queryFn: async () => await Client.fetchFeatures.all,
+  });
 
   useEffect(() => {
-    setRoutes(apiroutes);
-  }, []);
+    if (!isLoading && data) {
+      console.log('Data:', data.data.map((labels) => labels.label));
+
+      const apiroutes = data.data.map((label) => ({
+        path: `${label.name}`,
+        title: label.label,
+        icon: "icon",
+      }));
+      setRoutes(apiroutes); 
+    }
+  }, [data, isLoading, setRoutes]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching data</div>;
+  }
 
   return (
     <div className="flex dark:bg-gray-800 bg-white">
-      <div className={`md:w-${sidebarCollapsed ? "[12%]" : "[20%]"}`}>
+      <div className={`lg:w-${sidebarCollapsed ? "[12%]" : "[20%]"}`}>
         <SideLayout />
       </div>
 
       <div
-        className={` lg:w-${
+        className={`lg:w-${
           sidebarCollapsed ? "[88%]" : "[80%]"
         } w-[100%] dark:bg-gray-800 lg:p-4 p-1 h-screen`}
       >
@@ -38,7 +47,7 @@ const MainLayout = ({ children }) => {
                 key={path}
                 path={path}
                 render={(props) => (
-                  <DynamicComponent
+                  <Details 
                     {...props}
                     path={path}
                     title={title}

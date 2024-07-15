@@ -4,10 +4,10 @@ const { QueryClientProvider, QueryClient } = ReactQuery;
 
 ReactDOM.render(
   <RecoilRoot>
-    <QueryClientProvider client={new QueryClient()}>
+    <QueryClientProvider client={new QueryClient()}>s
       <HashRouter>
         <MainLayout />
-      </HashRouter>
+      </HashRouter>    
     </QueryClientProvider>
   </RecoilRoot>,
   document.getElementById("app")
