@@ -1,21 +1,29 @@
 const { useState, useEffect } = React;
 const { useQuery } = ReactQuery;
 
+
 const DynamicComponent = ({ title, path }) => {
-  const fetchProducts = async (page) => {
-    const response = await Client.products.all({ page });
+
+console.log('Path:', path); 
+console.log('Title',  title)
+
+
+  const fetchObjects = async (page) => {
+    const response = await Client.objects.all({ path });
     return response;
   };
-  const [activeTab, setActiveTab] = useState("account");
 
+
+
+  const [activeTab, setActiveTab] = useState('account');
   const [posts, setPosts] = useState([]);
   const [postPerPage, setPostPerPage] = useState(15);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
 
   const { error, data, isLoading, refetch } = useQuery({
-    queryKey: ["userData", currentPage],
-    queryFn: () => fetchProducts(currentPage),
+    queryKey: ['userData', currentPage],
+    queryFn: () => fetchObjects(currentPage),
   });
 
   useEffect(() => {
@@ -26,8 +34,6 @@ const DynamicComponent = ({ title, path }) => {
     }
   }, [data]);
 
-  const numOfPages = Math.ceil(totalPosts / postPerPage);
-
   useEffect(() => {
     refetch();
   }, [currentPage, postPerPage]);
@@ -36,6 +42,9 @@ const DynamicComponent = ({ title, path }) => {
     setCurrentPage(page);
   };
 
+
+
+
   if (isLoading) {
     return <div className="text-white">Loading...</div>;
   }
@@ -43,6 +52,7 @@ const DynamicComponent = ({ title, path }) => {
   if (error) {
     return <div className="text-white">Error loading data</div>;
   }
+
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">

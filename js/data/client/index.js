@@ -16,6 +16,19 @@ class Client {
     all: HttpClient.get(API_ENDPOINTS.FEATURES)
   }
 
+
+  static objects = {
+    all: ({ path, limit = 10, sort = 'updatedAt', ...query }) =>
+      HttpClient.get(`${API_ENDPOINTS.OBJECTS}/${path}`, {
+        params: {
+          limit,
+          sort,
+          ...query,
+        },
+      }),
+  };
+  
+
   static products = {
     all: ({ categories, tags, name, shop_id, price, page, ...query }) =>
       HttpClient.get(API_ENDPOINTS.PRODUCTS, {
