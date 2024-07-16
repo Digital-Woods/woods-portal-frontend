@@ -4,7 +4,7 @@ const { QueryClientProvider, QueryClient } = ReactQuery;
 
 ReactDOM.render(
   <RecoilRoot>
-    <QueryClientProvider client={new QueryClient()}>s
+    <QueryClientProvider client={new QueryClient()}>
       <HashRouter>
         <MainLayout />
       </HashRouter>    
