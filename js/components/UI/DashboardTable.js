@@ -1,13 +1,16 @@
 const { useQuery } = ReactQuery;
 
-const DashboardTable = ({ path }) => {
+const DashboardTable = ({ path , inputValue }) => {
   const [tableData, setTableData] = useState([]);
   const [totalitems, setTotalItems] = useState(null);
+  const [itemsPerPage, setItemsPerPage] = useState(10); 
+  const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
+  const [after, setAfter] = useState("");
 
-  const { error, data, isLoading } = useQuery({
-    queryKey: ["TableData", path],
-    queryFn: async () => await Client.objects.all({ path }),
+  const { error, data, isLoading, refetch } = useQuery({
+    queryKey: ["TableData", path, itemsPerPage, after],
+    queryFn: async () => await Client.objects.all({ path, limit: itemsPerPage, after, inputValue }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
         setTableData(data.data.results);
@@ -27,6 +30,19 @@ const DashboardTable = ({ path }) => {
     },
   });
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    setAfter((page - 1) * itemsPerPage); 
+    refetch();
+  };
+
+  const numOfPages = Math.ceil( totalitems / itemsPerPage);
+
+  useEffect(() => {
+    refetch();
+  }, [inputValue]);
+
+
   console.log(data, "TAble Data");
 
   return (
@@ -38,7 +54,7 @@ const DashboardTable = ({ path }) => {
             Showing
           </p>
           <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-            5
+          {itemsPerPage}
           </span>
           <span>/</span>
           <span className="rounded-md">{totalitems}</span>
@@ -115,7 +131,13 @@ const DashboardTable = ({ path }) => {
         </Table>
       </div>
 
-      <Pagination />
+      <div className="flex justify-end p-4">
+        <Pagination
+          numOfPages={numOfPages}
+          currentPage={currentPage}
+          setCurrentPage={handlePageChange}
+        />
+      </div>
     </div>
   );
 };
