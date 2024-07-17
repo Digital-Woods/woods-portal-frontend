@@ -5,8 +5,13 @@ const DynamicComponent = ({ title, path }) => {
   console.log("Path:", path);
   console.log("Title", title);
 
-
+  const [inputValue, setInputValue] = useState('')
   const [activeTab, setActiveTab] = useState("account");
+
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">
@@ -66,11 +71,12 @@ const DynamicComponent = ({ title, path }) => {
             </div>
 
             <div className="w-[20%] h-10">
-              <Input className="bg-transparent dark:bg-gray-700" />
+              <Input className="bg-transparent dark:bg-gray-700"  value={inputValue}
+                onChange={handleInputChange} />
             </div>
           </div>
 
-          <DashboardTable path={path} />
+          <DashboardTable path={path} inputValue={inputValue} />
         </div>
       ) : (
         <div className="dark:text-white">Under Construction</div>
