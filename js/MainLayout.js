@@ -9,7 +9,7 @@ const MainLayout = ({ children }) => {
       const apiRoutes = response.data.map((label) => ({
         path: `/${label.name}`,
         title: label.label,
-        icon: "icon",
+        icon: label.icon,
       }));
       setRoutes(apiRoutes);
     },
