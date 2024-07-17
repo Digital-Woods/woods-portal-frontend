@@ -32,7 +32,7 @@ const MainLayout = ({ children }) => {
       <div
         className={`lg:w-${
           sidebarCollapsed ? "[88%]" : "[80%]"
-        } w-[100%] dark:bg-gray-800 lg:p-4 p-1 h-screen`}
+        } w-[100%] dark:bg-gray-800 lg:p-4 p-1 h-full`}
       >
         <HeaderLayout />
         <div className="px-4 py-6">
