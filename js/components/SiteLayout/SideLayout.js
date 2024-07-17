@@ -59,7 +59,7 @@ const SideLayout = () => {
               >
                 <div className="flex items-center gap-x-2">
                 <div>
-                  <SvgRenderer svg={icon} />
+                  <SvgRenderer svgContent={icon} />
                 </div>
                   <p
                     className={`${
