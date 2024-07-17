@@ -1,6 +1,6 @@
 const { useQuery } = ReactQuery;
 
-const DashboardTable = ({ path }) => {
+const DashboardTable = ({ path , inputValue }) => {
   const [tableData, setTableData] = useState([]);
   const [totalitems, setTotalItems] = useState(null);
   const [itemsPerPage, setItemsPerPage] = useState(10); 
@@ -10,7 +10,7 @@ const DashboardTable = ({ path }) => {
 
   const { error, data, isLoading, refetch } = useQuery({
     queryKey: ["TableData", path, itemsPerPage, after],
-    queryFn: async () => await Client.objects.all({ path, limit: itemsPerPage, after }),
+    queryFn: async () => await Client.objects.all({ path, limit: itemsPerPage, after, inputValue }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
         setTableData(data.data.results);
@@ -35,8 +35,12 @@ const DashboardTable = ({ path }) => {
     setAfter((page - 1) * itemsPerPage); 
     refetch();
   };
-  
+
   const numOfPages = Math.ceil( totalitems / itemsPerPage);
+
+  useEffect(() => {
+    refetch();
+  }, [inputValue]);
 
 
   console.log(data, "TAble Data");
@@ -50,7 +54,7 @@ const DashboardTable = ({ path }) => {
             Showing
           </p>
           <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-            5
+          {itemsPerPage}
           </span>
           <span>/</span>
           <span className="rounded-md">{totalitems}</span>
