@@ -99,6 +99,11 @@ const DashboardTable = ({ path , inputValue }) => {
                   {item.label}
                 </TableHead>
               ))}
+              <TableHead
+                  className="whitespace-nowrap dark:text-white"
+                >
+                  Actions
+                </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -112,19 +117,19 @@ const DashboardTable = ({ path , inputValue }) => {
                   </TableCell>
                 ))}
 
-                {/* <TableCell>
-                  <div className="flex items-center justify-start space-x-2 gap-x-5">
+                <TableCell>
+                  <div className="flex items-center justify-end space-x-2 gap-x-5">
                     <Link
                       className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
                       to="/details"
                     >
                       View
                     </Link>
-                    <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
+                    {/* <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
                       Edit
-                    </button>
+                    </button> */}
                   </div>
-                </TableCell> */}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
