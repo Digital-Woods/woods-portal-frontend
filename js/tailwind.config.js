@@ -16,13 +16,6 @@ function getUrlParams() {
   };
 }
 
-
-
-console.log("primaryColor", getUrlParams().primaryColor);
-console.log("secondaryColor", getUrlParams().secondaryColor);
-
-
-
 tailwind.config = {
 
   content: [

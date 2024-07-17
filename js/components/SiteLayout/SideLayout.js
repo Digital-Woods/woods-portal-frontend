@@ -14,15 +14,11 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 const SideLayout = () => {
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
 
-  console.log(sidebarCollapsed);
-
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
   const { routes, setRoutes } = useRoute();
-
-  console.log(routes);
 
   return (
     <div

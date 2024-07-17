@@ -1,28 +1,23 @@
 const { useState, useEffect } = React;
 const { useQuery } = ReactQuery;
 
-
 const DynamicComponent = ({ title, path }) => {
-
-console.log('Path:', path); 
-console.log('Title',  title)
-
+  console.log("Path:", path);
+  console.log("Title", title);
 
   const fetchObjects = async (page) => {
     const response = await Client.objects.all({ path });
     return response;
   };
 
-
-
-  const [activeTab, setActiveTab] = useState('account');
+  const [activeTab, setActiveTab] = useState("account");
   const [posts, setPosts] = useState([]);
   const [postPerPage, setPostPerPage] = useState(15);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
 
   const { error, data, isLoading, refetch } = useQuery({
-    queryKey: ['userData', currentPage],
+    queryKey: ["userData", currentPage],
     queryFn: () => fetchObjects(currentPage),
   });
 
@@ -42,9 +37,6 @@ console.log('Title',  title)
     setCurrentPage(page);
   };
 
-
-
-
   if (isLoading) {
     return <div className="text-white">Loading...</div>;
   }
@@ -52,7 +44,6 @@ console.log('Title',  title)
   if (error) {
     return <div className="text-white">Error loading data</div>;
   }
-
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">
@@ -62,7 +53,11 @@ console.log('Title',  title)
           <p className="text-secondary text-sm">List view of all sites</p>
         </div>
         <div className="border rounded-lg py-1 px-1 border-flatGray dark:border-gray-700">
-          <Tabs activeTab={activeTab} setActiveTab={setActiveTab} className="rounded-md">
+          <Tabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            className="rounded-md"
+          >
             <TabsList>
               <TabsTrigger value="account">
                 <svg
@@ -112,17 +107,20 @@ console.log('Title',  title)
             </div>
           </div>
 
-
           <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900 w-[100%]">
             <div className="flex justify-between items-center px-6 py-5">
               <div className="flex items-center gap-x-2 font-semibold text-sm">
-                <p className="text-secondary font-normal dark:text-gray-300">Showing</p>
+                <p className="text-secondary font-normal dark:text-gray-300">
+                  Showing
+                </p>
                 <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
                   {posts.length}
                 </span>
                 <span>/</span>
                 <span className="rounded-md">{totalPosts}</span>
-                <p className="text-secondary font-normal text-sm dark:text-gray-300">Results</p>
+                <p className="text-secondary font-normal text-sm dark:text-gray-300">
+                  Results
+                </p>
               </div>
 
               <div>
@@ -156,8 +154,14 @@ console.log('Title',  title)
                   <TableRow>
                     {posts.length > 0 &&
                       Object.keys(posts[0]).map((key) => (
-                        <TableHead key={key} className="whitespace-nowrap dark:text-white">
-                          {key.toUpperCase().replace("_", " ").replace("_", " ")}
+                        <TableHead
+                          key={key}
+                          className="whitespace-nowrap dark:text-white"
+                        >
+                          {key
+                            .toUpperCase()
+                            .replace("_", " ")
+                            .replace("_", " ")}
                         </TableHead>
                       ))}
                   </TableRow>
@@ -186,13 +190,17 @@ console.log('Title',  title)
                       </TableCell>
                       <TableCell>
                         <div>
-                          <div className="dark:text-white">{product.type.name}</div>
+                          <div className="dark:text-white">
+                            {product.type.name}
+                          </div>
                           <div className="text-xs text-secondary"></div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div>
-                          <div className="dark:text-white">{product.language}</div>
+                          <div className="dark:text-white">
+                            {product.language}
+                          </div>
                           <div className="text-xs text-secondary"></div>
                         </div>
                       </TableCell>
@@ -222,7 +230,6 @@ console.log('Title',  title)
             />
           </div>
         </div>
-      
       ) : (
         <div className="dark:text-white">Under Construction</div>
       )}

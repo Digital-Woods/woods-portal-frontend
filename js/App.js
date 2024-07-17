@@ -7,7 +7,7 @@ ReactDOM.render(
     <QueryClientProvider client={new QueryClient()}>
       <HashRouter>
         <MainLayout />
-      </HashRouter>    
+      </HashRouter>
     </QueryClientProvider>
   </RecoilRoot>,
   document.getElementById("app")

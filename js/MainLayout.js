@@ -5,20 +5,15 @@ const MainLayout = ({ children }) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["features"],
     queryFn: async () => await Client.fetchFeatures.all,
-  });
-
-  useEffect(() => {
-    if (!isLoading && data) {
-      console.log('Data:', data.data.map((labels) => labels.label));
-
-      const apiroutes = data.data.map((label) => ({
+    onSuccess: (response) => {
+      const apiRoutes = response.data.map((label) => ({
         path: `${label.name}`,
         title: label.label,
         icon: "icon",
       }));
-      setRoutes(apiroutes); 
-    }
-  }, [data, isLoading, setRoutes]);
+      setRoutes(apiRoutes);
+    },
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
