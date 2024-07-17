@@ -8,7 +8,6 @@ const DashboardTable = ({ path, inputValue }) => {
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
   const [filterSvgUp, setFilterSvgUp] = useState(true);
-  
 
   const { error, data, isLoading, refetch } = useQuery({
     queryKey: ["TableData", path, itemsPerPage, after],
@@ -50,12 +49,9 @@ const DashboardTable = ({ path, inputValue }) => {
     refetch();
   }, [inputValue]);
 
-  
-  
-
   const handleFilterChange = () => {
-    setFilterSvgUp(!filterSvgUp)
-  }
+    setFilterSvgUp(!filterSvgUp);
+  };
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900 w-full">
@@ -112,42 +108,36 @@ const DashboardTable = ({ path, inputValue }) => {
                     {item.label}
                     {filterSvgUp ? (
                       <div onClick={handleFilterChange}>
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        className="dark:fill-white cursor-pointer"
-                      >
-                        <path d="m280-400 200-200 200 200H280Z" />
-                      </svg>
-
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="24px"
+                          viewBox="0 -960 960 960"
+                          width="24px"
+                          className="dark:fill-white cursor-pointer"
+                        >
+                          <path d="m280-400 200-200 200 200H280Z" />
+                        </svg>
                       </div>
                     ) : (
-
                       <div>
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        className="dark:fill-white cursor-pointer"
-                      >
-                        <path d="M480-360 280-560h400L480-360Z" />
-                      </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="24px"
+                          viewBox="0 -960 960 960"
+                          width="24px"
+                          className="dark:fill-white cursor-pointer"
+                        >
+                          <path d="M480-360 280-560h400L480-360Z" />
+                        </svg>
                       </div>
                     )}{" "}
                     <div></div>
                   </div>
                 </TableHead>
               ))}
-              <TableHead
-                  className="whitespace-nowrap dark:text-white"
-                >
-                  Actions
-                </TableHead>
+              <TableHead className="whitespace-nowrap dark:text-white">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

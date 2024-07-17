@@ -2,12 +2,8 @@ const { useState, useEffect } = React;
 const { useQuery } = ReactQuery;
 
 const DynamicComponent = ({ title, path }) => {
-  console.log("Path:", path);
-  console.log("Title", title);
-
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
-
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -71,8 +67,11 @@ const DynamicComponent = ({ title, path }) => {
             </div>
 
             <div className="w-[20%] h-10">
-              <Input className="bg-transparent dark:bg-gray-700"  value={inputValue}
-                onChange={handleInputChange} />
+              <Input
+                className="bg-transparent dark:bg-gray-700"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
             </div>
           </div>
 
