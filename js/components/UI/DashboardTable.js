@@ -1,16 +1,24 @@
 const { useQuery } = ReactQuery;
 
-const DashboardTable = ({ path , inputValue }) => {
+const DashboardTable = ({ path, inputValue }) => {
   const [tableData, setTableData] = useState([]);
   const [totalitems, setTotalItems] = useState(null);
-  const [itemsPerPage, setItemsPerPage] = useState(10); 
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
+  const [filterSvgUp, setFilterSvgUp] = useState(true);
+  
 
   const { error, data, isLoading, refetch } = useQuery({
     queryKey: ["TableData", path, itemsPerPage, after],
-    queryFn: async () => await Client.objects.all({ path, limit: itemsPerPage, after, inputValue }),
+    queryFn: async () =>
+      await Client.objects.all({
+        path,
+        limit: itemsPerPage,
+        after,
+        inputValue,
+      }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
         setTableData(data.data.results);
@@ -32,18 +40,22 @@ const DashboardTable = ({ path , inputValue }) => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    setAfter((page - 1) * itemsPerPage); 
+    setAfter((page - 1) * itemsPerPage);
     refetch();
   };
 
-  const numOfPages = Math.ceil( totalitems / itemsPerPage);
+  const numOfPages = Math.ceil(totalitems / itemsPerPage);
 
   useEffect(() => {
     refetch();
   }, [inputValue]);
 
+  
+  
 
-  console.log(data, "TAble Data");
+  const handleFilterChange = () => {
+    setFilterSvgUp(!filterSvgUp)
+  }
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900 w-full">
@@ -54,7 +66,7 @@ const DashboardTable = ({ path , inputValue }) => {
             Showing
           </p>
           <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-          {itemsPerPage}
+            {itemsPerPage}
           </span>
           <span>/</span>
           <span className="rounded-md">{totalitems}</span>
@@ -96,7 +108,39 @@ const DashboardTable = ({ path , inputValue }) => {
                   key={item.name}
                   className="whitespace-nowrap dark:text-white"
                 >
-                  {item.label}
+                  <div className="flex">
+                    {item.label}
+                    {filterSvgUp ? (
+                      <div onClick={handleFilterChange}>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        className="dark:fill-white cursor-pointer"
+                      >
+                        <path d="m280-400 200-200 200 200H280Z" />
+                      </svg>
+
+                      </div>
+                    ) : (
+
+                      <div>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        className="dark:fill-white cursor-pointer"
+                      >
+                        <path d="M480-360 280-560h400L480-360Z" />
+                      </svg>
+                      </div>
+                    )}{" "}
+                    <div></div>
+                  </div>
                 </TableHead>
               ))}
             </TableRow>
