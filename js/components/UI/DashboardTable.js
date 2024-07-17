@@ -1,4 +1,3 @@
-const { useState, useEffect } = React;
 const { useQuery } = ReactQuery;
 
 const DashboardTable = () => {
@@ -44,7 +43,7 @@ const DashboardTable = () => {
   }
 
   return (
-    <>
+    <Fragment>
       <div className="max-w-[1150px]">
         <Table>
           <TableHeader>
@@ -97,6 +96,6 @@ const DashboardTable = () => {
         currentPage={currentPage}
         setCurrentPage={handlePageChange}
       />
-    </>
+    </Fragment>
   );
 };
