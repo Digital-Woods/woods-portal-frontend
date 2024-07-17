@@ -7,7 +7,7 @@ const MainLayout = ({ children }) => {
     queryFn: async () => await Client.fetchFeatures.all,
     onSuccess: (response) => {
       const apiRoutes = response.data.map((label) => ({
-        path: `${label.name}`,
+        path: `/${label.name}`,
         title: label.label,
         icon: "icon",
       }));
