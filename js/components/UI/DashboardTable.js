@@ -31,6 +31,7 @@ const DashboardTable = ({ path }) => {
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900 w-full">
+      {isLoading && <div className="loader-line"></div>}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 font-semibold text-sm">
           <p className="text-secondary font-normal dark:text-gray-300">
