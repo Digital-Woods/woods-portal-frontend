@@ -69,7 +69,7 @@ const DashboardTable = ({ path, inputValue }) => {
             Showing
           </p>
           <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-            {itemsPerPage}
+            {tableData.length}
           </span>
           <span>/</span>
           <span className="rounded-md">{totalItems}</span>
