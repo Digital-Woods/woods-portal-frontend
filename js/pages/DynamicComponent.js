@@ -61,9 +61,9 @@ const DynamicComponent = ({ title, path }) => {
         <div>
           <div className="flex justify-between items-center pb-5">
             <div className="flex gap-x-4">
+              {/* <CustomCheckbox />
               <CustomCheckbox />
-              <CustomCheckbox />
-              <CustomCheckbox />
+              <CustomCheckbox /> */}
             </div>
 
             <div className="w-[20%] h-10">
