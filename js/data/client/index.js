@@ -10,7 +10,7 @@ class Client {
 
   static objects = {
     all: ({ path, limit = 10, after = "", sort = "updatedAt", inputValue, ...query }) =>
-      HttpClient.get(`/api/feature-data/2/tech_template_1${path}`, {
+      HttpClient.get(`/api/feature-data/333/school_management_test${path}`, {
     
           limit,
           sort,

@@ -26,13 +26,22 @@ const DashboardTable = ({ path, inputValue }) => {
         setTotalItems(data.data.total);
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-        const headersArray = Object.keys(results[0] || {}).map((key) => ({
-          name: key,
-          label: key
-            .split(/(?=[A-Z])/)
-            .join(" ")
-            .replace(/\b\w/g, (l) => l.toUpperCase()),
-        }));
+        const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
+          if (typeof results[0][key] === "object" && results[0][key] !== null) {
+            Object.keys(results[0][key]).forEach((nestedKey) => {
+              acc.push({
+                name: `${key}.${nestedKey}`,
+                label: `${key.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, (l) => l.toUpperCase())} ${nestedKey.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, (l) => l.toUpperCase())}`,
+              });
+            });
+          } else {
+            acc.push({
+              name: key,
+              label: key.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, (l) => l.toUpperCase()),
+            });
+          }
+          return acc;
+        }, []);
         setTableHeader(headersArray);
       }
     },
@@ -61,7 +70,7 @@ const DashboardTable = ({ path, inputValue }) => {
   }, [inputValue]);
 
   return (
-    <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900 w-full">
+    <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900">
       {isLoading && <div className="loader-line"></div>}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 font-semibold text-sm">
@@ -86,7 +95,7 @@ const DashboardTable = ({ path, inputValue }) => {
             </p>
           </div>
         ) : (
-          <Table>
+          <Table className="w-full">
             <TableHeader>
               <TableRow>
                 {tableHeader.map((item) => (
@@ -133,7 +142,9 @@ const DashboardTable = ({ path, inputValue }) => {
                   {tableHeader.map((row) => (
                     <TableCell key={row.name}>
                       <div>
-                        <div className="dark:text-white">{item[row.name]}</div>
+                        <div className="dark:text-white">
+                          {row.name.split('.').reduce((o, k) => (o || {})[k], item)}
+                        </div>
                       </div>
                     </TableCell>
                   ))}
