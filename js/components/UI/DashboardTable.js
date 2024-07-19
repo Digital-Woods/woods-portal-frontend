@@ -26,22 +26,37 @@ const DashboardTable = ({ path, inputValue }) => {
         setTotalItems(data.data.total);
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-        const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
-          if (typeof results[0][key] === "object" && results[0][key] !== null) {
-            Object.keys(results[0][key]).forEach((nestedKey) => {
-              acc.push({
-                name: `${key}.${nestedKey}`,
-                label: `${key.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, (l) => l.toUpperCase())} ${nestedKey.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, (l) => l.toUpperCase())}`,
+        const headersArray = Object.keys(results[0] || {}).reduce(
+          (acc, key) => {
+            if (
+              typeof results[0][key] === "object" &&
+              results[0][key] !== null
+            ) {
+              Object.keys(results[0][key]).forEach((nestedKey) => {
+                acc.push({
+                  name: `${key}.${nestedKey}`,
+                  label: `${key
+                    .split(/(?=[A-Z])/)
+                    .join(" ")
+                    .replace(/\b\w/g, (l) => l.toUpperCase())} ${nestedKey
+                    .split(/(?=[A-Z])/)
+                    .join(" ")
+                    .replace(/\b\w/g, (l) => l.toUpperCase())}`,
+                });
               });
-            });
-          } else {
-            acc.push({
-              name: key,
-              label: key.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, (l) => l.toUpperCase()),
-            });
-          }
-          return acc;
-        }, []);
+            } else {
+              acc.push({
+                name: key,
+                label: key
+                  .split(/(?=[A-Z])/)
+                  .join(" ")
+                  .replace(/\b\w/g, (l) => l.toUpperCase()),
+              });
+            }
+            return acc;
+          },
+          []
+        );
         setTableHeader(headersArray);
       }
     },
@@ -143,7 +158,9 @@ const DashboardTable = ({ path, inputValue }) => {
                     <TableCell key={row.name}>
                       <div>
                         <div className="dark:text-white">
-                          {row.name.split('.').reduce((o, k) => (o || {})[k], item)}
+                          {row.name
+                            .split(".")
+                            .reduce((o, k) => (o || {})[k], item)}
                         </div>
                       </div>
                     </TableCell>
@@ -153,13 +170,13 @@ const DashboardTable = ({ path, inputValue }) => {
                     <div className="flex items-center justify-end space-x-2 gap-x-5">
                       <Link
                         className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
-                        to="/details"
+                        to={`/details${path}/${item.id}`}
                       >
                         View
                       </Link>
                       {/* <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
-                        Edit
-                      </button> */}
+      Edit
+    </button> */}
                     </div>
                   </TableCell>
                 </TableRow>

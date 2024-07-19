@@ -11,14 +11,15 @@ class Client {
   static objects = {
     all: ({ path, limit = 10, after = "", sort = "updatedAt", inputValue, ...query }) =>
       HttpClient.get(`/api/feature-data/333/school_management_test${path}`, {
-    
           limit,
           sort,
           after,
           search: inputValue,
           ...query,
-        
       }),
+  
+    byObjectId: ({ path, objectId }) =>
+      HttpClient.get(`/api/feature-data/333/school_management_test/${path}/${objectId}`),
   };
 
   static products = {

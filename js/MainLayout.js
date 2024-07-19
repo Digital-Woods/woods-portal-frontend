@@ -15,6 +15,8 @@ const MainLayout = ({ children }) => {
     },
   });
 
+  console.log()
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -52,7 +54,9 @@ const MainLayout = ({ children }) => {
               />
             ))}
 
-      
+             <Route key="/details" path='/details/:feature/:id' render={(props) => <Details id={props.match.params.id} path={props.match.params.feature} />} />
+                
+            
         </div>
       </div>
     </div>
