@@ -25,7 +25,7 @@ const SideLayout = () => {
       className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800 hidden lg:block`}
     >
       <div>
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between items-center mb-10 h-[50px]">
           <div className="flex items-center">
             <Logo />
             <h1
@@ -63,8 +63,8 @@ const SideLayout = () => {
                   </div>
                   <p
                     className={`${
-                      sidebarCollapsed ? "hidden" : ""
-                    } text-black dark:text-white`}
+                      sidebarCollapsed ? "hidden opacity-0" : "opacity-100"
+                    } text-black dark:text-white transition-opacity duration-500 opacity-0`}
                   >
                     {title}
                   </p>

@@ -27,14 +27,14 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className="flex dark:bg-gray-800 bg-white">
-      <div className={`lg:w-${sidebarCollapsed ? "[100px]" : "[250px]"}`}>
+      <div className={`lg:w-${sidebarCollapsed ? "[100px]" : "[250px]"} transition-[width] duration-300`}>
         <SideLayout />
       </div>
 
       <div
         className={`lg:w-${
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_250px)]"
-        } w-[100%] dark:bg-gray-800 lg:p-4 p-1 lg:h-full h-screen`}
+        } w-[100%] dark:bg-gray-800 lg:p-4 p-1 lg:h-full h-screen  transition-[width] duration-300`}
       >
         {routes.length > 0 &&
             routes.map(({ path, title, icon }) => (
