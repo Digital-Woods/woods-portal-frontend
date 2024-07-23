@@ -11,10 +11,11 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const HeaderLayout = () => {
+const HeaderLayout = ({title}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+  console.log(title)
 
   const { routes, setRoutes } = useRoute();
 
@@ -44,7 +45,7 @@ const HeaderLayout = () => {
     <div className=" flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-gray-800">
       <div className="hidden lg:block">
         <p className="text-primary font-semibold dark:text-white">
-          Dashboard / Sites / Maps
+          Home / {title}
         </p>
       </div>
 
@@ -168,13 +169,13 @@ const HeaderLayout = () => {
             <ThemeSwitcher />
           </div>
 
-          <div className="w-64">
+          {/* <div className="w-64">
             <Input
               className="bg-transparent dark:bg-gray-700"
               placeholder="search"
             />
-          </div>
-
+          </div> */}
+{/* 
           <div className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer dark:bg-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +199,7 @@ const HeaderLayout = () => {
                 className="dark:stroke-white"
               />
             </svg>
-          </div>
+          </div> */}
 
           <div
             className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer dark:bg-gray-700"

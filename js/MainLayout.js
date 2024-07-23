@@ -1,7 +1,7 @@
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
-
+  
   const { data, error, isLoading } = useQuery({
     queryKey: ["features"],
     queryFn: async () => await Client.fetchFeatures.all,
@@ -36,7 +36,21 @@ const MainLayout = ({ children }) => {
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_250px)]"
         } w-[100%] dark:bg-gray-800 lg:p-4 p-1 lg:h-full h-screen`}
       >
-        <HeaderLayout />
+        {routes.length > 0 &&
+            routes.map(({ path, title, icon }) => (
+              <Route
+                key={path}
+                path={path}
+                render={(props) => (
+                  <HeaderLayout
+                    {...props}
+                    path={path}
+                    title={title}
+                    icon={icon}
+                  />
+                )}
+              />
+            ))}
         <div className="px-4 py-6">
           {routes.length > 0 && (
             <div>

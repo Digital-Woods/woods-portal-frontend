@@ -1,5 +1,3 @@
-const { useQuery } = ReactQuery;
-
 const DashboardTable = ({ path, inputValue }) => {
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -27,6 +25,9 @@ const DashboardTable = ({ path, inputValue }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
+          if (key === "id" || key === "archived") {
+            return acc; // Skip these columns
+          }
           if (
             typeof results[0][key] === "object" &&
             results[0][key] !== null &&
@@ -75,6 +76,12 @@ const DashboardTable = ({ path, inputValue }) => {
   }, [inputValue]);
 
   const renderCellContent = (value, name, itemId) => {
+    if (value === undefined || value === null || value === "") {
+      return "-";
+    }
+    if (typeof value === "object" && Object.keys(value).length === 0) {
+      return "-";
+    }
     if (typeof value === "object" && value !== null && value.type === "link") {
       return (
         <Link
@@ -140,7 +147,7 @@ const DashboardTable = ({ path, inputValue }) => {
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           height="24px"
-                          viewBox="0 -960 960 960"
+                          viewBox="http://www.w3.org/2000/svg"
                           width="24px"
                           className="dark:fill-white cursor-pointer"
                         >

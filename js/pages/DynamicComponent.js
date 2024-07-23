@@ -53,7 +53,7 @@ const DynamicComponent = ({ title, path }) => {
           </Tabs>
         </div>
         <div>
-          <Button>New Site +</Button>
+          {/* <Button>New Site +</Button> */}
         </div>
       </div>
 
