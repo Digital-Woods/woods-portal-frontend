@@ -1,8 +1,16 @@
-function isDate(data) {
-  const date = new Date(data);
+function isDate(dateString) {
+  // Regular expression to match the expected date format
+  const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+  if (!regex.test(dateString)) {
+    return false;
+  }
+
+  // Parse the date string and check if it's valid
+  const date = new Date(dateString);
   const isValid = !isNaN(date.getTime());
   return isValid;
 }
+
 
 const formatDateString = (date) => {
   const options = {
@@ -17,8 +25,8 @@ const formatDateString = (date) => {
 };
 
 const formatDate = (data) => {
-  const date = new Date(data);
-  if (!isNaN(date.getTime())) {
+  if (isDate(data)) {
+    const date = new Date(data);
     const formatted = formatDateString(date);
     const [datePart, timePart] = formatted.split(", ");
     const [day, month, year] = datePart.split("/");
