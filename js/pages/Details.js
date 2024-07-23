@@ -129,18 +129,19 @@ const Details = ({ path, id }) => {
           <div>
             {activeTab === "overview" ? (
               <div>
-                <div className="py-3 dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
-                  {item &&
-                    filteredAndSortedEntries(item).map(([key, value]) => (
-                      <div
-                        key={key}
-                        className="py-4 px-3 flex gap-x-5 border-b"
-                      >
-                        <div className="font-semibold">{formatKey(key)}:</div>
-                        <div>{renderCellContent(key, value)}</div>
-                      </div>
-                    ))}
-                </div>
+              <div className="py-3 dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
+  {item &&
+    filteredAndSortedEntries(item).map(([key, value], index, array) => (
+      <div
+        key={key}
+        className={`py-4 px-3 flex gap-x-5 ${index === array.length - 1 ? '' : 'border-b'}`}
+      >
+        <div className="font-semibold">{formatKey(key)}:</div>
+        <div>{renderCellContent(key, value)}</div>
+      </div>
+    ))}
+</div>
+
               </div>
             ) : (
               <div>2</div>
