@@ -51,7 +51,7 @@ const DashboardTable = ({ path, inputValue }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
-          if (key === "id" || key === "archived") {
+          if (key === "id" || key === "archived" || key === 'associations') {
             return acc; 
           }
           if (
