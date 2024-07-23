@@ -29,6 +29,7 @@ const formatKey = (key) => {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
+
 const Details = ({ path, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [active, setActive] = useState(null);
@@ -67,22 +68,22 @@ const Details = ({ path, id }) => {
   };
 
   const priorityKeys = ["name", "description", "email", "city"];
-  
+
   const filteredAndSortedEntries = (obj) => {
     const entries = Object.entries(obj).filter(([key, value]) => key !== "id" && key !== "archived" && typeof value !== "object");
-  
+
     entries.sort(([keyA], [keyB]) => {
       const isNameA = keyA.toLowerCase().includes("name");
       const isNameB = keyB.toLowerCase().includes("name");
-  
+
       if (isNameA && !isNameB) return -1;
       if (!isNameA && isNameB) return 1;
-  
+
       const indexA = priorityKeys.indexOf(keyA);
       const indexB = priorityKeys.indexOf(keyB);
       if (indexA !== -1 && indexB === -1) return -1;
       if (indexA === -1 && indexB !== -1) return 1;
-  
+
       if (indexA === -1 && indexB === -1) {
         if (["createdAt", "updatedAt"].includes(keyA) && !["createdAt", "updatedAt"].includes(keyB)) return 1;
         if (["createdAt", "updatedAt"].includes(keyB) && !["createdAt", "updatedAt"].includes(keyA)) return -1;
@@ -90,10 +91,17 @@ const Details = ({ path, id }) => {
       }
       return indexA - indexB;
     });
-  
+
     const additionalEntries = entries.filter(([key]) => ["createdAt", "updatedAt"].includes(key));
     const sortedEntries = entries.filter(([key]) => !["createdAt", "updatedAt"].includes(key));
     return [...sortedEntries, ...additionalEntries];
+  };
+
+  const renderCellContent = (key, value) => {
+    if (isDate(value)) {
+      return formatDate(value);
+    }
+    return String(value);
   };
 
   return (
@@ -128,7 +136,6 @@ const Details = ({ path, id }) => {
 
         {activeTab === "overview" ? (
           <div>
-            {" "}
             {isLoading && !item ? (
               <Loader />
             ) : (
@@ -137,7 +144,7 @@ const Details = ({ path, id }) => {
                   filteredAndSortedEntries(item).map(([key, value]) => (
                     <div key={key} className="py-4 px-3 flex gap-x-5 border-b">
                       <div className="font-semibold">{formatKey(key)}:</div>
-                      <div>{String(value)}</div>
+                      <div>{renderCellContent(key, value)}</div>
                     </div>
                   ))}
               </div>
@@ -214,7 +221,7 @@ const Details = ({ path, id }) => {
                                           key={itemKey}
                                           className="px-4 py-2 text-gray-900 dark:text-gray-100"
                                         >
-                                          {String(itemValue)}
+                                          {renderCellContent(itemKey, itemValue)}
                                         </TableCell>
                                       ))}
                                   </TableRow>

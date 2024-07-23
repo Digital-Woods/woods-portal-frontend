@@ -119,8 +119,10 @@ const DashboardTable = ({ path, inputValue }) => {
     if (isDate(value)) {
       return formatDate(value);
     }
-    return isObject(value) ? JSON.stringify(value) : value;
+    const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
+    return truncateString(cellContent);
   };
+  
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900">
@@ -193,7 +195,7 @@ const DashboardTable = ({ path, inputValue }) => {
               {tableData.map((item) => (
                 <TableRow key={item.id}>
                   {tableHeader.map((row) => (
-                    <TableCell key={row.name}>
+                    <TableCell key={row.name} className="whitespace-nowrap">
                       <div className="dark:text-white">
                         {renderCellContent(
                           row.name.split(".").reduce((o, k) => (o || {})[k], item),

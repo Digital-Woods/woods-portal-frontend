@@ -56,3 +56,11 @@ function isEmptyObject(data) {
   }
   return false;
 }
+
+function truncateString (str, MAX_LENGTH = 50) {
+
+  if (str.length > MAX_LENGTH) {
+    return str.substring(0, MAX_LENGTH) + '...';
+  }
+  return str;
+};
