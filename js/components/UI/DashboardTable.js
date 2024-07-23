@@ -206,7 +206,7 @@ const DashboardTable = ({ path, inputValue }) => {
                     </TableCell>
                   ))}
                   <TableCell>
-                    <div className="flex items-center justify-end space-x-2 gap-x-5">
+                    <div className="flex items-center space-x-2 gap-x-5">
                       <Link
                         className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
                         to={`/details${path}/${item.id}`}
