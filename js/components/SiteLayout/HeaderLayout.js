@@ -15,7 +15,7 @@ const HeaderLayout = ({title}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
-  console.log(title)
+
 
   const { routes, setRoutes } = useRoute();
 

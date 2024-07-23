@@ -15,7 +15,7 @@ const MainLayout = ({ children }) => {
     },
   });
 
-  console.log();
+
 
   if (isLoading) {
     return <div>Loading...</div>;

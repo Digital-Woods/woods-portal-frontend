@@ -27,9 +27,12 @@ const SideLayout = () => {
       <div>
         <div className="flex justify-between items-center mb-10 h-[50px]">
           <div className="flex items-center">
+            <div className="mr-2 w-10">
             <Logo />
+            </div>
+          
             <h1
-              className={`text-xl font-semibold ml-4 text-black dark:text-white ${
+              className={`text-lg font-semibold pr-4 pl-1 text-black dark:text-white ${
                 sidebarCollapsed ? "hidden" : "block"
               }`}
             >
@@ -39,9 +42,9 @@ const SideLayout = () => {
           <div className="cursor-pointer" onClick={toggleSidebar}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              height="24px"
+              height="18px"
               viewBox="0 -960 960 960"
-              width="24px"
+              width="18px"
               className="dark:fill-white"
             >
               <path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z" />
