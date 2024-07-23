@@ -10,14 +10,18 @@ const DynamicComponent = ({ title, path }) => {
   };
 
   const viewText =
-  activeTab === "account" ? `Table view of ${title}` : `List view of ${title}`;
+  (activeTab === "account" ? `Table view of ${title}` : `List view of ${title}`)
+    .charAt(0).toUpperCase() + 
+  (activeTab === "account" ? `Table view of ${title}` : `List view of ${title}`)
+    .slice(1).toLowerCase();
+
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">
       <div className="flex justify-between items-center pt-3 pb-8">
         <div>
           <h1 className="text-xl font-semibold mb-1">{title}</h1>
-          <p className="text-secondary lowercase text-sm">{viewText}</p>
+          <p className="text-secondary text-sm">{viewText}</p>
         </div>
         <div className="border rounded-lg py-1 px-1 border-flatGray dark:border-gray-700">
           <Tabs
