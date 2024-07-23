@@ -1,7 +1,7 @@
 const formatKey = (key) => {
   return key
-    .replace(/_/g, ' ') 
-    .replace(/\b\w/g, (l) => l.toUpperCase()); 
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (l) => l.toUpperCase());
 };
 
 const priorityOrder = {
@@ -52,7 +52,7 @@ const DashboardTable = ({ path, inputValue }) => {
 
         const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
           if (key === "id" || key === "archived") {
-            return acc; // Skip these columns
+            return acc; 
           }
           if (
             typeof results[0][key] === "object" &&
@@ -100,13 +100,13 @@ const DashboardTable = ({ path, inputValue }) => {
   }, [inputValue]);
 
   const renderCellContent = (value, name, itemId) => {
-    if (value === undefined || value === null || value === "") {
+    if (isNull(value)) {
       return "-";
     }
-    if (typeof value === "object" && Object.keys(value).length === 0) {
+    if (isObject(value) && isEmptyObject(value)) {
       return "-";
     }
-    if (typeof value === "object" && value !== null && value.type === "link") {
+    if (isObject(value) && value.type === "link") {
       return (
         <Link
           className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -116,7 +116,10 @@ const DashboardTable = ({ path, inputValue }) => {
         </Link>
       );
     }
-    return typeof value === "object" && value !== null ? JSON.stringify(value) : value;
+    if (isDate(value)) {
+      return formatDate(value);
+    }
+    return isObject(value) ? JSON.stringify(value) : value;
   };
 
   return (
