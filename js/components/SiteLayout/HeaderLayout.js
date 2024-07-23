@@ -43,9 +43,9 @@ const HeaderLayout = ({title}) => {
 
   return (
     <div className=" flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-gray-800">
-      <div className="hidden lg:block">
-        <p className="text-primary font-semibold dark:text-white">
-          Home / {title}
+      <div className="hidden  lg:block">
+        <p className="text-primary font-semibold flex dark:text-white">
+          Home <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="18px" className="dark:fill-white mt-[2px]"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg> {title}
         </p>
       </div>
 
@@ -210,10 +210,10 @@ const HeaderLayout = ({title}) => {
               <div className="flex flex-col items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="12"
+                  width="16"
                   height="2"
                   viewBox="0 0 16 2"
-                  fill="none"
+                  className="dark:fill-white mb-[3px] mr-1"
                 >
                   <path
                     d="M1 1H15"
@@ -228,7 +228,7 @@ const HeaderLayout = ({title}) => {
                   width="12"
                   height="2"
                   viewBox="0 0 16 2"
-                  fill="none"
+                  className="dark:fill-white  mr-1"
                 >
                   <path
                     d="M1 1H15"

@@ -13,9 +13,11 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 
 const SideLayout = () => {
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+  const [isSecondIcon, setIsSecondIcon] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
+    setIsSecondIcon(!isSecondIcon);
   };
 
   const { routes, setRoutes } = useRoute();
@@ -39,17 +41,29 @@ const SideLayout = () => {
               STONBURY
             </h1>
           </div>
-          <div className="cursor-pointer" onClick={toggleSidebar}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="18px"
-              className="dark:fill-white"
-            >
-              <path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z" />
-            </svg>
-          </div>
+          <div className="cursor-pointer flex items-center" onClick={toggleSidebar}>
+      {isSecondIcon ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="20px"
+          viewBox="0 -960 960 960"
+          width="20px"
+          className="dark:fill-white"
+        >
+          <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="20px"
+          viewBox="0 -960 960 960"
+          width="20px"
+          className="dark:fill-white"
+        >
+          <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
+        </svg>
+      )}
+    </div>
         </div>
         <nav className="space-y-1">
           {routes.length > 0 &&
@@ -84,38 +98,7 @@ const SideLayout = () => {
           >
             <div className={`flex items-center gap-x-2  ${sidebarCollapsed ? 'justify-center' : 'justify-start'}`}>
               <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  className="dark:fill-white"
-                >
-                  <path
-                    d="M6.66667 2H2V6.66667H6.66667V2Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="dark:fill-white"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
               </div>
               <p
                 className={`${

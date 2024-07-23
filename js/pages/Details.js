@@ -96,7 +96,7 @@ const Details = ({ path, id }) => {
   return (
     <div className="grid grid-cols-6 gap-4 h-full dark:bg-gray-800">
       <div className="col-span-4">
-        <div className="border bg-gray-100 dark:bg-gray-900 rounded-lg w-fit py-2 px-4 border-flatGray">
+        <div className="border bg-gray-100 dark:bg-gray-900 rounded-lg w-fit p-1 border-flatGray">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -123,28 +123,33 @@ const Details = ({ path, id }) => {
           </Tabs>
         </div>
 
+        
+
         {isLoading && !item ? (
           <div className="loader-line"></div>
         ) : (
           <div>
             {activeTab === "overview" ? (
               <div>
-              <div className="py-3 dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
-  {item &&
-    filteredAndSortedEntries(item).map(([key, value], index, array) => (
-      <div
-        key={key}
-        className={`py-4 px-3 flex gap-x-5 ${index === array.length - 1 ? '' : 'border-b'}`}
-      >
-        <div className="font-semibold">{formatKey(key)}:</div>
-        <div>{renderCellContent(key, value)}</div>
-      </div>
-    ))}
-</div>
-
+                <div className="py-3 dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
+                  {item &&
+                    filteredAndSortedEntries(item).map(
+                      ([key, value], index, array) => (
+                        <div
+                          key={key}
+                          className={`py-4 px-3 flex gap-x-5 ${
+                            index === array.length - 1 ? "" : "border-b"
+                          }`}
+                        >
+                          <div className="font-semibold">{formatKey(key)}:</div>
+                          <div>{renderCellContent(key, value)}</div>
+                        </div>
+                      )
+                    )}
+                </div>
               </div>
             ) : (
-              <div>2</div>
+              <div className="dark:text-white">Under Construction</div>
             )}
           </div>
         )}

@@ -23,7 +23,7 @@ const DynamicComponent = ({ title, path }) => {
           <h1 className="text-xl font-semibold mb-1">{title}</h1>
           <p className="text-secondary text-sm">{viewText}</p>
         </div>
-        <div className="border rounded-lg py-1 px-1 border-flatGray dark:border-gray-700">
+        <div className="border rounded-lg p-1 border-flatGray dark:border-gray-700">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -31,18 +31,9 @@ const DynamicComponent = ({ title, path }) => {
           >
             <TabsList>
               <TabsTrigger value="account">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="currentcolor"
-                  className="dark:fill-white"
-                >
-                  <path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z" />
-                </svg>
-              </TabsTrigger>
-              <TabsTrigger value="password">
+              
+
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -52,6 +43,18 @@ const DynamicComponent = ({ title, path }) => {
                   className="dark:fill-white"
                 >
                   <path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z" />
+                </svg>
+              </TabsTrigger>
+              <TabsTrigger value="password">
+              <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="currentcolor"
+                  className="dark:fill-white"
+                >
+                  <path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z" />
                 </svg>
               </TabsTrigger>
             </TabsList>
