@@ -44,7 +44,6 @@ const Details = ({ path, id }) => {
         objectId: id,
       }),
     onSuccess: (data) => {
-      console.log("Fetched data:", data);
       setAssociations(data.data.associations || {});
       delete data.data["associations"];
       setItems(data.data);
