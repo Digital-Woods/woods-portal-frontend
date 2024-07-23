@@ -15,7 +15,7 @@ const MainLayout = ({ children }) => {
     },
   });
 
-  console.log()
+  console.log();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -38,25 +38,46 @@ const MainLayout = ({ children }) => {
       >
         <HeaderLayout />
         <div className="px-4 py-6">
-          {routes.length > 0 &&
-            routes.map(({ path, title, icon }) => (
+          {routes.length > 0 && (
+            <div>
               <Route
-                key={path}
-                path={path}
+                exact
+                path="/"
                 render={(props) => (
                   <DynamicComponent
                     {...props}
-                    path={path}
-                    title={title}
-                    icon={icon}
+                    path={routes[0].path}
+                    title={routes[0].title}
+                    icon={routes[0].icon}
                   />
                 )}
               />
-            ))}
-
-             <Route key="/details" path='/details/:feature/:id' render={(props) => <Details id={props.match.params.id} path={props.match.params.feature} />} />
-                
-            
+              {routes.map(({ path, title, icon }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  render={(props) => (
+                    <DynamicComponent
+                      {...props}
+                      path={path}
+                      title={title}
+                      icon={icon}
+                    />
+                  )}
+                />
+              ))}
+            </div>
+          )}
+          <Route
+            key="/details"
+            path="/details/:feature/:id"
+            render={(props) => (
+              <Details
+                id={props.match.params.id}
+                path={props.match.params.feature}
+              />
+            )}
+          />
         </div>
       </div>
     </div>
