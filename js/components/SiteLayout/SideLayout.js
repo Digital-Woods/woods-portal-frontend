@@ -26,8 +26,8 @@ const SideLayout = () => {
     >
       <div>
         <div className="flex justify-between items-center mb-10">
-          <div className="w-[60%] flex items-center">
-            <Logo  />
+          <div className="flex items-center">
+            <Logo />
             <h1
               className={`text-xl font-semibold ml-4 text-black dark:text-white ${
                 sidebarCollapsed ? "hidden" : "block"
@@ -57,10 +57,10 @@ const SideLayout = () => {
                 className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
                 activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
               >
-                <div className="flex items-center gap-x-2">
-                <div>
-                  <SvgRenderer svgContent={icon} />
-                </div>
+                <div className={`flex items-center gap-x-2 ${sidebarCollapsed ? 'justify-center' : 'justify-start'}`}>
+                  <div>
+                    <SvgRenderer svgContent={icon} />
+                  </div>
                   <p
                     className={`${
                       sidebarCollapsed ? "hidden" : ""
@@ -79,7 +79,7 @@ const SideLayout = () => {
             className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
             activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
           >
-            <div className="flex items-center gap-x-2">
+            <div className={`flex items-center gap-x-2  ${sidebarCollapsed ? 'justify-center' : 'justify-start'}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
