@@ -1,7 +1,7 @@
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
-  
+
   const { data, error, isLoading } = useQuery({
     queryKey: ["features"],
     queryFn: async () => await Client.fetchFeatures.all,
@@ -25,9 +25,15 @@ const MainLayout = ({ children }) => {
     return <div>Error fetching data</div>;
   }
 
+  const { Switch } = ReactRouterDOM;
+
   return (
     <div className="flex dark:bg-gray-800 bg-white">
-      <div className={`lg:w-${sidebarCollapsed ? "[100px]" : "[250px]"} transition-[width] duration-300`}>
+      <div
+        className={`lg:w-${
+          sidebarCollapsed ? "[100px]" : "[250px]"
+        } transition-[width] duration-300`}
+      >
         <SideLayout />
       </div>
 
@@ -37,23 +43,23 @@ const MainLayout = ({ children }) => {
         } w-[100%] dark:bg-gray-800 lg:p-4 p-1 lg:h-full h-screen  transition-[width] duration-300`}
       >
         {routes.length > 0 &&
-            routes.map(({ path, title, icon }) => (
-              <Route
-                key={path}
-                path={path}
-                render={(props) => (
-                  <HeaderLayout
-                    {...props}
-                    path={path}
-                    title={title}
-                    icon={icon}
-                  />
-                )}
-              />
-            ))}
+          routes.map(({ path, title, icon }) => (
+            <Route
+              key={path}
+              path={path}
+              render={(props) => (
+                <HeaderLayout
+                  {...props}
+                  path={path}
+                  title={title}
+                  icon={icon}
+                />
+              )}
+            />
+          ))}
         <div className="px-4 py-6">
           {routes.length > 0 && (
-            <div>
+            <Switch>
               <Route
                 exact
                 path="/"
@@ -66,6 +72,15 @@ const MainLayout = ({ children }) => {
                   />
                 )}
               />
+              {routes.map(({ path }) => (
+                <Route
+                  key={`${path}/:id`}
+                  path={`${path}/:id`}
+                  render={(props) => (
+                    <Details path={path} id={props.match.params.id} />
+                  )}
+                />
+              ))}
               {routes.map(({ path, title, icon }) => (
                 <Route
                   key={path}
@@ -80,18 +95,8 @@ const MainLayout = ({ children }) => {
                   )}
                 />
               ))}
-            </div>
+            </Switch>
           )}
-          <Route
-            key="/details"
-            path="/details/:feature/:id"
-            render={(props) => (
-              <Details
-                id={props.match.params.id}
-                path={props.match.params.feature}
-              />
-            )}
-          />
         </div>
       </div>
     </div>

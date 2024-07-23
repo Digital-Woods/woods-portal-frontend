@@ -19,7 +19,7 @@ class Client {
       }),
   
     byObjectId: ({ path, objectId }) =>
-      HttpClient.get(`/api/feature-data/333/school_management_test/${path}/${objectId}`),
+      HttpClient.get(`/api/feature-data/333/school_management_test${path}/${objectId}`),
   };
 
   static products = {
