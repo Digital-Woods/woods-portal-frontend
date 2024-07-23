@@ -26,37 +26,27 @@ const DashboardTable = ({ path, inputValue }) => {
         setTotalItems(data.data.total);
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-        const headersArray = Object.keys(results[0] || {}).reduce(
-          (acc, key) => {
-            if (
-              typeof results[0][key] === "object" &&
-              results[0][key] !== null
-            ) {
-              Object.keys(results[0][key]).forEach((nestedKey) => {
-                acc.push({
-                  name: `${key}.${nestedKey}`,
-                  label: `${key
-                    .split(/(?=[A-Z])/)
-                    .join(" ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())} ${nestedKey
-                    .split(/(?=[A-Z])/)
-                    .join(" ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())}`,
-                });
-              });
-            } else {
-              acc.push({
-                name: key,
-                label: key
-                  .split(/(?=[A-Z])/)
-                  .join(" ")
-                  .replace(/\b\w/g, (l) => l.toUpperCase()),
-              });
-            }
-            return acc;
-          },
-          []
-        );
+        const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
+          if (
+            typeof results[0][key] === "object" &&
+            results[0][key] !== null &&
+            results[0][key].type === "link"
+          ) {
+            acc.push({
+              name: key,
+              label: results[0][key].label,
+            });
+          } else {
+            acc.push({
+              name: key,
+              label: key
+                .split(/(?=[A-Z])/)
+                .join(" ")
+                .replace(/\b\w/g, (l) => l.toUpperCase()),
+            });
+          }
+          return acc;
+        }, []);
         setTableHeader(headersArray);
       }
     },
@@ -83,6 +73,20 @@ const DashboardTable = ({ path, inputValue }) => {
   useEffect(() => {
     refetch();
   }, [inputValue]);
+
+  const renderCellContent = (value, name, itemId) => {
+    if (typeof value === "object" && value !== null && value.type === "link") {
+      return (
+        <Link
+          className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
+          to={`/${value.featureName}`}
+        >
+          View
+        </Link>
+      );
+    }
+    return typeof value === "object" && value !== null ? JSON.stringify(value) : value;
+  };
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900">
@@ -156,16 +160,15 @@ const DashboardTable = ({ path, inputValue }) => {
                 <TableRow key={item.id}>
                   {tableHeader.map((row) => (
                     <TableCell key={row.name}>
-                      <div>
-                        <div className="dark:text-white">
-                          {row.name
-                            .split(".")
-                            .reduce((o, k) => (o || {})[k], item)}
-                        </div>
+                      <div className="dark:text-white">
+                        {renderCellContent(
+                          row.name.split(".").reduce((o, k) => (o || {})[k], item),
+                          row.name,
+                          item.id
+                        )}
                       </div>
                     </TableCell>
                   ))}
-
                   <TableCell>
                     <div className="flex items-center justify-end space-x-2 gap-x-5">
                       <Link
@@ -174,9 +177,6 @@ const DashboardTable = ({ path, inputValue }) => {
                       >
                         View
                       </Link>
-                      {/* <button className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
-      Edit
-    </button> */}
                     </div>
                   </TableCell>
                 </TableRow>

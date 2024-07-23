@@ -1,7 +1,6 @@
 const { useState } = React;
 const { useQuery } = ReactQuery;
 
-
 const Loader = () => (
   <div role="status" className="flex items-center justify-center p-4">
     <svg
@@ -44,8 +43,6 @@ const Details = ({ path, id }) => {
       setItems(data.data);
     },
   });
-
-  
 
   if (error) {
     return <div>Error fetching data</div>;
@@ -97,20 +94,19 @@ const Details = ({ path, id }) => {
           <div>
             {" "}
             {isLoading && !item ? (
-                <Loader />
-              ) :
-            <div className=" py-3  dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
-              
-              {item &&
-                Object.entries(item).map(([key, value]) => (
-                  <div key={key} className="py-4 px-3 flex gap-x-5 border-b">
-                    <div className="font-semibold">{key}:</div>
-                    <div> {String(value)} </div>
-                  </div>
-                ))}
-            </div>
-}
-          </div> 
+              <Loader />
+            ) : (
+              <div className="py-3 dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
+                {item &&
+                  Object.entries(item).map(([key, value]) => (
+                    <div key={key} className="py-4 px-3 flex gap-x-5 border-b">
+                      <div className="font-semibold">{key}:</div>
+                      <div>{String(value)}</div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
         ) : (
           <div>2</div>
         )}
@@ -119,30 +115,83 @@ const Details = ({ path, id }) => {
       <div className="col-span-2">
         <div className="col-span-2">
           <div className="col-span-2">
-          <div>
-          {associations && Object.entries(associations).map(([key, association]) => (
-            <Accordion key={key}>
-              <AccordionSummary>
-                <div className="flex items-center gap-x-2">
-                  <span>{association.label || key}</span> 
-                </div>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="flex flex-col gap-y-4 py-3">
-                  {association.list && association.list.map((item) => (
-                    <div key={item.id} className="py-1">
-                      {Object.entries(item).map(([itemKey, itemValue]) => (
-                        <div key={itemKey}>
-                          <strong>{itemKey}:</strong> {String(itemValue)}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </div>
+            <div>
+              {associations &&
+                Object.entries(associations).map(([key, association]) => (
+                  <Accordion key={key}>
+                    <AccordionSummary>
+                      <div className="flex items-center gap-x-2">
+                        <span>{association.label || key}</span>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <div className="flex flex-col gap-y-4 py-3">
+                        {association.list && association.list.length > 0 && (
+                          <div className="overflow-x-auto">
+                            <Table className="w-full text-left border-collapse">
+                              <TableHeader>
+                                <TableRow>
+                                  {Object.keys(association.list[0])
+                                    .filter(
+                                      (itemKey) =>
+                                        ![
+                                          "id",
+                                          "createdAt",
+                                          "archived",
+                                          "updatedAt",
+                                          "hs_lastmodifieddate",
+                                          "hs_createdate",
+                                          "hs_object_id",
+                                        ].includes(itemKey)
+                                    )
+                                    .map((itemKey) => (
+                                      <TableHead
+                                        key={itemKey}
+                                        className="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                                      >
+                                        {itemKey}
+                                      </TableHead>
+                                    ))}
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                {association.list.map((item) => (
+                                  <TableRow
+                                    key={item.id}
+                                    className="border-b last:border-none"
+                                  >
+                                    {Object.entries(item)
+                                      .filter(
+                                        ([itemKey]) =>
+                                          ![
+                                            "id",
+                                            "createdAt",
+                                            "archived",
+                                            "updatedAt",
+                                            "hs_lastmodifieddate",
+                                            "hs_createdate",
+                                            "hs_object_id",
+                                          ].includes(itemKey)
+                                      )
+                                      .map(([itemKey, itemValue]) => (
+                                        <TableCell
+                                          key={itemKey}
+                                          className="px-4 py-2 text-gray-900 dark:text-gray-100"
+                                        >
+                                          {String(itemValue)}
+                                        </TableCell>
+                                      ))}
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </div>
+                        )}
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+            </div>
           </div>
         </div>
       </div>
