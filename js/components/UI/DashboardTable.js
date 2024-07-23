@@ -1,3 +1,29 @@
+const formatKey = (key) => {
+  return key
+    .replace(/_/g, ' ') 
+    .replace(/\b\w/g, (l) => l.toUpperCase()); 
+};
+
+const priorityOrder = {
+  email: 2,
+  description: 3,
+  city: 4,
+  role: 5,
+};
+
+const getPriority = (key) => {
+  const keyLower = key.toLowerCase();
+  if (keyLower.includes('name')) {
+    return 1; 
+  }
+  const extractedKey = key.split('.').pop().toLowerCase();
+  return priorityOrder[extractedKey] || Number.MAX_VALUE; 
+};
+
+const sortedHeaders = (headers) => {
+  return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
+};
+
 const DashboardTable = ({ path, inputValue }) => {
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -40,15 +66,13 @@ const DashboardTable = ({ path, inputValue }) => {
           } else {
             acc.push({
               name: key,
-              label: key
-                .split(/(?=[A-Z])/)
-                .join(" ")
-                .replace(/\b\w/g, (l) => l.toUpperCase()),
+              label: formatKey(key),
             });
           }
           return acc;
         }, []);
-        setTableHeader(headersArray);
+        const sortedHeadersArray = sortedHeaders(headersArray);
+        setTableHeader(sortedHeadersArray);
       }
     },
   });
