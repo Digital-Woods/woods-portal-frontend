@@ -23,6 +23,12 @@ const Loader = () => (
   </div>
 );
 
+const formatKey = (key) => {
+  return key
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 const Details = ({ path, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [active, setActive] = useState(null);
@@ -60,25 +66,31 @@ const Details = ({ path, id }) => {
     setActiveTab(value);
   };
 
-  const priorityKeys = ["student_name", "description", "email", "city"];
+  const priorityKeys = ["name", "description", "email", "city"];
   
   const filteredAndSortedEntries = (obj) => {
-    const entries = Object.entries(obj).filter(([key]) => key !== "id");
-
-    
+    const entries = Object.entries(obj).filter(([key, value]) => key !== "id" && key !== "archived" && typeof value !== "object");
+  
     entries.sort(([keyA], [keyB]) => {
+      const isNameA = keyA.toLowerCase().includes("name");
+      const isNameB = keyB.toLowerCase().includes("name");
+  
+      if (isNameA && !isNameB) return -1;
+      if (!isNameA && isNameB) return 1;
+  
       const indexA = priorityKeys.indexOf(keyA);
       const indexB = priorityKeys.indexOf(keyB);
+      if (indexA !== -1 && indexB === -1) return -1;
+      if (indexA === -1 && indexB !== -1) return 1;
+  
       if (indexA === -1 && indexB === -1) {
         if (["createdAt", "updatedAt"].includes(keyA) && !["createdAt", "updatedAt"].includes(keyB)) return 1;
         if (["createdAt", "updatedAt"].includes(keyB) && !["createdAt", "updatedAt"].includes(keyA)) return -1;
         return 0;
       }
-      if (indexA === -1) return 1;
-      if (indexB === -1) return -1;
       return indexA - indexB;
     });
-    
+  
     const additionalEntries = entries.filter(([key]) => ["createdAt", "updatedAt"].includes(key));
     const sortedEntries = entries.filter(([key]) => !["createdAt", "updatedAt"].includes(key));
     return [...sortedEntries, ...additionalEntries];
@@ -114,7 +126,7 @@ const Details = ({ path, id }) => {
           </Tabs>
         </div>
 
-        {activeTab == "overview" ? (
+        {activeTab === "overview" ? (
           <div>
             {" "}
             {isLoading && !item ? (
@@ -124,7 +136,7 @@ const Details = ({ path, id }) => {
                 {item &&
                   filteredAndSortedEntries(item).map(([key, value]) => (
                     <div key={key} className="py-4 px-3 flex gap-x-5 border-b">
-                      <div className="font-semibold">{key}:</div>
+                      <div className="font-semibold">{formatKey(key)}:</div>
                       <div>{String(value)}</div>
                     </div>
                   ))}
@@ -145,7 +157,7 @@ const Details = ({ path, id }) => {
                   <Accordion key={key}>
                     <AccordionSummary>
                       <div className="flex items-center gap-x-2">
-                        <span>{association.label || key}</span>
+                        <span>{association.label || formatKey(key)}</span>
                       </div>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -173,7 +185,7 @@ const Details = ({ path, id }) => {
                                         key={itemKey}
                                         className="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
                                       >
-                                        {itemKey}
+                                        {formatKey(itemKey)}
                                       </TableHead>
                                     ))}
                                 </TableRow>
