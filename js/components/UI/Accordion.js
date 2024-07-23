@@ -1,4 +1,5 @@
 const { useState, useRef, useEffect } = React;
+
 const Accordion = ({ children }) => {
   const [active, setActive] = useState(null);
   const handleToggle = (index) => {
@@ -21,7 +22,6 @@ const Accordion = ({ children }) => {
   );
 };
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
-  console.log("active", active);
   return (
     <div
       className={`flex justify-between items-start p-4 cursor-pointer transition-colors ${
@@ -30,11 +30,18 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
       onClick={() => handleToggle(id)}
     >
       <h5 className="font-medium text-sm">{children}</h5>
-      <i
-        className={`fa fa-chevron-down transition-transform ${
-          active != null ? "transform rotate-180 text-white" : "text-gray-700"
-        }`}
-      ></i>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        className={`transition-transform duration-300 ${
+          active === id ? "rotate-180" : ""
+        } dark:fill-white`}
+      >
+        <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" />
+      </svg>
     </div>
   );
 };
