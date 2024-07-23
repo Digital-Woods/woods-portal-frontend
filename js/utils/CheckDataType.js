@@ -24,7 +24,27 @@ const formatDate = (data) => {
     const [day, month, year] = datePart.split("/");
     const formattedLocalDate = `${day}-${month}-${year} ${timePart.toLowerCase()}`;
     return formattedLocalDate;
-  } else {
-    return data;
   }
+  return data;
 };
+
+function isNull(data) {
+  if (data === undefined || data === null || data === "") {
+    return true;
+  }
+  return false;
+}
+
+function isObject(data) {
+  if (typeof data === "object") {
+    return true;
+  }
+  return false;
+}
+
+function isEmptyObject(data) {
+  if (Object.keys(data).length === 0) {
+    return true;
+  }
+  return false;
+}
