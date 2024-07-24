@@ -130,7 +130,7 @@ const SideLayout = () => {
             </div>
           </div>
 
-          <Dialog open={logoutDialog} >
+          <Dialog open={logoutDialog} onClose={setLogoutDialog} >
             <div>
               <div className="pb-4 sm:pb-4" >
                 <div className="sm:flex sm:items-start">
