@@ -25,7 +25,7 @@ const SideLayout = () => {
 
   return (
     <div
-      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800 hidden lg:block`}
+      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-dark-200 hidden lg:block`}
     >
       <div>
         <div className="flex justify-between items-center mb-10 h-[50px]">
@@ -75,8 +75,8 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
-                activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+                className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
               >
                 <div
                   className={`flex items-center gap-x-2 ${
@@ -97,11 +97,11 @@ const SideLayout = () => {
               </NavLink>
             ))}
           <div>
-            <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700" />
+            <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-dark-400" />
           </div>
 
           <div
-            className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline cursor-pointer"
+            className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline cursor-pointer"
             onClick={() => setLogoutDialog(true)}
           >
             <div

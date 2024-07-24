@@ -123,7 +123,7 @@ const DashboardTable = ({ path, inputValue }) => {
     if (isObject(value) && value.type === "link") {
       return (
         <Link
-          className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
+          className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-dark-400 dark:hover:text-white"
           to={`/${value.featureName}`}
         >
           View
@@ -138,7 +138,7 @@ const DashboardTable = ({ path, inputValue }) => {
   };
 
   return (
-    <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900">
+    <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -222,7 +222,7 @@ const DashboardTable = ({ path, inputValue }) => {
                   <TableCell>
                     <div className="flex items-center space-x-2 gap-x-5">
                       <Link
-                        className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
+                        className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-dark-400 dark:hover:text-white"
                         to={`${path}/${item.id}`}
                       >
                         View

@@ -34,7 +34,7 @@ const SelectSection = ({ setIsOpen, isOpen }) => {
 const Options = React.forwardRef(({ children, className, right }, ref) => (
   <div
     className={classNames(
-      "absolute text-sm w-64 px-3 py-2 bg-white border dark:bg-gray-900 dark:text-white shadow-lg mt-1 z-50 rounded-md",
+      "absolute text-sm w-64 px-3 py-2 bg-white border dark:bg-dark-300 dark:text-white shadow-lg mt-1 z-50 rounded-md",
       { "right-8": right },
       className
     )}

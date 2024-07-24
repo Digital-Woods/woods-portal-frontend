@@ -94,9 +94,9 @@ const Details = ({ path, id }) => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4 h-full dark:bg-gray-800">
+    <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
       <div className="col-span-4">
-        <div className="border bg-gray-100 dark:bg-gray-900 rounded-lg w-fit p-1 border-flatGray">
+        <div className="border bg-gray-100 dark:bg-dark-300 rounded-lg w-fit p-1 border-flatGray">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -131,7 +131,7 @@ const Details = ({ path, id }) => {
           <div>
             {activeTab === "overview" ? (
               <div>
-                <div className="py-3 dark:bg-gray-900 border border-2 rounded-md my-10 dark:text-white">
+                <div className="py-3 dark:bg-dark-300 border border-2 rounded-md my-10 dark:text-white">
                   {item &&
                     filteredAndSortedEntries(item).map(
                       ([key, value], index, array) => (

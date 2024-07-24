@@ -17,7 +17,7 @@ const DynamicComponent = ({ title, path }) => {
 
 
   return (
-    <div className="dark:bg-gray-800 dark:text-white">
+    <div className="dark:bg-dark-200 dark:text-white">
       <div className="flex justify-between items-center pt-3 pb-8">
         <div>
           <h1 className="text-xl font-semibold mb-1">{title}</h1>
@@ -78,7 +78,7 @@ const DynamicComponent = ({ title, path }) => {
 
             <div className="w-[20%] h-10">
               <Input
-                className="bg-transparent dark:bg-gray-700"
+                className="bg-transparent dark:bg-dark-400"
                 value={inputValue}
                 onChange={handleInputChange}
               />

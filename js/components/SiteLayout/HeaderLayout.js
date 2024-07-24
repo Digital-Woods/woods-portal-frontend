@@ -47,7 +47,7 @@ const HeaderLayout = ({ title }) => {
   }, []);
 
   return (
-    <div className="flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-gray-800">
+    <div className="flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-dark-200">
       <div className="hidden lg:block">
         <p className="text-primary font-semibold flex dark:text-white">
           Home{" "}
@@ -79,11 +79,11 @@ const HeaderLayout = ({ title }) => {
           </p>
         </div>
         <div
-          className={`fixed top-0 left-0 h-full z-50 w-64 bg-gray-200 dark:bg-gray-800 shadow-lg transform transition-transform ease-in-out duration-300 ${
+          className={`fixed top-0 left-0 h-full z-50 w-64 bg-dark-100 dark:bg-dark-200 shadow-lg transform transition-transform ease-in-out duration-300 ${
             isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div className="min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800">
+          <div className="min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-dark-200">
             <div>
               <div className="flex justify-between items-center mb-10">
                 <div className="w-[60%] flex items-center">
@@ -103,8 +103,8 @@ const HeaderLayout = ({ title }) => {
                     <NavLink
                       key={path}
                       to={path}
-                      className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
-                      activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+                      className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
+                      activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
                     >
                       <div className="flex items-center gap-x-2">
                         <SvgRenderer svgContent={icon} />
@@ -119,12 +119,12 @@ const HeaderLayout = ({ title }) => {
                     </NavLink>
                   ))}
                 <div>
-                  <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700" />
+                  <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-dark-400" />
                 </div>
                 <NavLink
                   to="/logout"
-                  className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
-                  activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+                  className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
+                  activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
                 >
                   <div className="flex items-center gap-x-2">
                     <div>
@@ -178,12 +178,12 @@ const HeaderLayout = ({ title }) => {
 
       <div>
         <div className="flex gap-x-5">
-          <div className="bg-flatGray rounded-md dark:bg-gray-700">
+          <div className="bg-flatGray rounded-md dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer dark:bg-gray-700"
+            className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer dark:bg-dark-400"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >
@@ -234,7 +234,7 @@ const HeaderLayout = ({ title }) => {
         {dropdownOpen && (
           <div
             ref={dropdownRef}
-            className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50 dark:bg-gray-700"
+            className="absolute right-8 mt-2 w-64 bg-white rounded-md shadow-lg z-50 dark:bg-dark-400"
           >
             <div className="flex flex-col p-4">
               <div className="flex">

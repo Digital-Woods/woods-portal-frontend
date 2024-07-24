@@ -74,7 +74,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
           <li
             key={index}
             className={`cursor-pointer px-4 py-2 rounded-md text-sm ${
-              currentPage === data ? "dark:bg-gray-600 bg-primary  text-white" : ""
+              currentPage === data ? "dark:bg-dark-300 bg-primary  text-white" : ""
             }`}
             onClick={() => setCurrentPage(data)}
           >
