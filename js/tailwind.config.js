@@ -11,20 +11,12 @@ function withOpacity(variableName) {
 function getUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   return {
-    primaryColor: urlParams.get('primaryColor') || "#091B5A",
-    secondaryColor: urlParams.get('secondaryColor') || "#8D8D99"
+    primaryColor: urlParams.get("primaryColor") || "#000000",
+    secondaryColor: urlParams.get("secondaryColor") || "#8D8D99",
   };
 }
 
-
-
-console.log("primaryColor", getUrlParams().primaryColor);
-console.log("secondaryColor", getUrlParams().secondaryColor);
-
-
-
 tailwind.config = {
-
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
@@ -45,7 +37,7 @@ tailwind.config = {
     extend: {
       colors: {
         white: "#FFFFFF",
-         primary: getUrlParams().primaryColor,
+        primary: getUrlParams().primaryColor,
         secondary: getUrlParams().secondaryColor,
         flatGray: "#F7F7F7", // Flat grey
         midGray: "#DFDFF2", // Mid grey
@@ -109,7 +101,6 @@ tailwind.config = {
       fontFamily: {
         body: ["'Inter', sans-serif"],
       },
-    
     },
   },
   // plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],

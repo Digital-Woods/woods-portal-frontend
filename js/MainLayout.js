@@ -1,52 +1,102 @@
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
-  const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
+  const { sidebarCollapsed } = useCollapsible();
 
-  const apiroutes = [
-    {
-      path: "/sites",
-      title: "Sites",
-      icon: "icon",
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["features"],
+    queryFn: async () => await Client.fetchFeatures.all,
+    onSuccess: (response) => {
+      const apiRoutes = response.data.map((label) => ({
+        path: `/${label.name}`,
+        title: label.label,
+        icon: label.icon,
+      }));
+      setRoutes(apiRoutes);
     },
-    {
-      path: "/dashboard",
-      title: "Dashboard",
-      icon: "icon",
-    },
-  ];
+  });
 
-  useEffect(() => {
-    setRoutes(apiroutes);
-  }, []);
+
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching data</div>;
+  }
+
+  const { Switch } = ReactRouterDOM;
 
   return (
-    <div className="flex dark:bg-gray-800 bg-white">
-      <div className={`md:w-${sidebarCollapsed ? "[12%]" : "[20%]"}`}>
+    <div className="flex dark:bg-dark-200 bg-white">
+      <div
+        className={`lg:w-${
+          sidebarCollapsed ? "[100px]" : "[250px]"
+        } transition-[width] duration-300`}
+      >
         <SideLayout />
       </div>
 
       <div
-        className={` lg:w-${
-          sidebarCollapsed ? "[88%]" : "[80%]"
-        } w-[100%] dark:bg-gray-800 lg:p-4 p-1 h-screen`}
+        className={`lg:w-${
+          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_250px)]"
+        } w-[100%] dark:bg-dark-200 lg:p-4 p-1 lg:h-full h-screen  transition-[width] duration-300`}
       >
-        <HeaderLayout />
+        {routes.length > 0 &&
+          routes.map(({ path, title, icon }) => (
+            <Route
+              key={path}
+              path={path}
+              render={(props) => (
+                <HeaderLayout
+                  {...props}
+                  path={path}
+                  title={title}
+                  icon={icon}
+                />
+              )}
+            />
+          ))}
         <div className="px-4 py-6">
-          {routes.length > 0 &&
-            routes.map(({ path, title, icon }) => (
+          {routes.length > 0 && (
+            <Switch>
               <Route
-                key={path}
-                path={path}
+                exact
+                path="/"
                 render={(props) => (
                   <DynamicComponent
                     {...props}
-                    path={path}
-                    title={title}
-                    icon={icon}
+                    path={routes[0].path}
+                    title={routes[0].title}
+                    icon={routes[0].icon}
                   />
                 )}
               />
-            ))}
+              {routes.map(({ path }) => (
+                <Route
+                  key={`${path}/:id`}
+                  path={`${path}/:id`}
+                  render={(props) => (
+                    <Details path={path} id={props.match.params.id} />
+                  )}
+                />
+              ))}
+              {routes.map(({ path, title, icon }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  render={(props) => (
+                    <DynamicComponent
+                      {...props}
+                      path={path}
+                      title={title}
+                      icon={icon}
+                    />
+                  )}
+                />
+              ))}
+            </Switch>
+          )}
         </div>
       </div>
     </div>

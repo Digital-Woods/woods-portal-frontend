@@ -6,8 +6,6 @@ const Logo = ({ className }) => {
     const urlParams = new URLSearchParams(window.location.search);
     const logoParam = urlParams.get('logo');
   
-    console.log("Logo Param:", logoParam);
-  
     if (logoParam === "null" || !logoParam || logoParam === "") {
       setLogoSrc(defaultLogoSrc); 
     } else {

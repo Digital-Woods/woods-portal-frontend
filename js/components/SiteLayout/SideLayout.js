@@ -12,44 +12,61 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 };
 
 const SideLayout = () => {
+  const [logoutDialog, setLogoutDialog] = useState(false);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
-
-  console.log(sidebarCollapsed);
+  const [isSecondIcon, setIsSecondIcon] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
+    setIsSecondIcon(!isSecondIcon);
   };
 
   const { routes, setRoutes } = useRoute();
 
-  console.log(routes);
-
   return (
     <div
-      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800 hidden lg:block`}
+      className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-dark-200 hidden lg:block`}
     >
       <div>
-        <div className="flex justify-between items-center mb-10">
-          <div className="w-[60%] flex items-center">
-            <Logo  />
+        <div className="flex justify-between items-center mb-10 h-[50px]">
+          <div className="flex items-center">
+            <div className="mr-2 w-10">
+              <Logo />
+            </div>
+
             <h1
-              className={`text-xl font-semibold ml-4 text-black dark:text-white ${
+              className={`text-lg font-semibold pr-4 pl-1 text-black dark:text-white ${
                 sidebarCollapsed ? "hidden" : "block"
               }`}
             >
               STONBURY
             </h1>
           </div>
-          <div className="cursor-pointer" onClick={toggleSidebar}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              className="dark:fill-white"
-            >
-              <path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z" />
-            </svg>
+          <div
+            className="cursor-pointer flex items-center"
+            onClick={toggleSidebar}
+          >
+            {isSecondIcon ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                className="dark:fill-white"
+              >
+                <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                className="dark:fill-white"
+              >
+                <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
+              </svg>
+            )}
           </div>
         </div>
         <nav className="space-y-1">
@@ -58,48 +75,21 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
-                activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+                className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
               >
-                <div className="flex items-center gap-x-2">
+                <div
+                  className={`flex items-center gap-x-2 ${
+                    sidebarCollapsed ? "justify-center" : "justify-start"
+                  }`}
+                >
                   <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      className="dark:fill-white"
-                    >
-                      <path
-                        d="M6.66667 2H2V6.66667H6.66667V2Z"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <SvgRenderer svgContent={icon} />
                   </div>
                   <p
                     className={`${
-                      sidebarCollapsed ? "hidden" : ""
-                    } text-black dark:text-white`}
+                      sidebarCollapsed ? "hidden opacity-0" : "opacity-100"
+                    } text-black dark:text-white transition-opacity duration-500 opacity-0`}
                   >
                     {title}
                   </p>
@@ -107,46 +97,27 @@ const SideLayout = () => {
               </NavLink>
             ))}
           <div>
-            <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700" />
+            <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-dark-400" />
           </div>
-          <NavLink
-            to="/logout"
-            className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
-            activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
+
+          <div
+            className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline cursor-pointer"
+            onClick={() => setLogoutDialog(true)}
           >
-            <div className="flex items-center gap-x-2">
+            <div
+              className={`flex items-center gap-x-2  ${
+                sidebarCollapsed ? "justify-center" : "justify-start"
+              }`}
+            >
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
                   className="dark:fill-white"
                 >
-                  <path
-                    d="M6.66667 2H2V6.66667H6.66667V2Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
                 </svg>
               </div>
               <p
@@ -154,10 +125,64 @@ const SideLayout = () => {
                   sidebarCollapsed ? "hidden" : ""
                 } text-black dark:text-white`}
               >
-                Log Out
+                Logout
               </p>
             </div>
-          </NavLink>
+          </div>
+
+          <Dialog open={logoutDialog} onClose={setLogoutDialog} >
+            <div>
+              <div className="pb-4 sm:pb-4" >
+                <div className="sm:flex sm:items-start">
+                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <svg
+                      className="h-6 w-6 text-red-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3
+                      className="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+                      id="modal-title"
+                    >
+                      Logout
+                    </h3>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Are you sure you want to log out?
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-3  sm:flex sm:flex-row-reverse">
+                <Button
+              variant="destructive"
+              className="dark:text-white"
+                  onClick={() => setLogoutDialog(false)}
+                >
+                  Logout
+                </Button>
+                <Button
+                 variant="outline"
+                className="dark:text-white mr-3"
+                  onClick={() => setLogoutDialog(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </Dialog>
         </nav>
       </div>
     </div>

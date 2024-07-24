@@ -2,6 +2,8 @@
 const { useState, useEffect } = React;
 
 const ThemeSwitcher = () => {
+  const { themeMode, setThemeMode } = useTheme();
+
   const [theme, setTheme] = useState(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlTheme = urlParams.get('theme');
@@ -34,6 +36,7 @@ const ThemeSwitcher = () => {
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+    setThemeMode((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
   
   return (

@@ -1,4 +1,5 @@
 const { useState, useRef, useEffect } = React;
+
 const Accordion = ({ children }) => {
   const [active, setActive] = useState(null);
   const handleToggle = (index) => {
@@ -9,7 +10,7 @@ const Accordion = ({ children }) => {
     }
   };
   return (
-    <div className="border border-gray-300 rounded mb-2 overflow-hidden dark:bg-gray-900 dark:text-white">
+    <div className="border border-gray-300 rounded mb-2 overflow-hidden dark:bg-dark-300 dark:text-white">
       {React.Children.map(children, (child, index) =>
         React.cloneElement(child, {
           active,
@@ -21,7 +22,6 @@ const Accordion = ({ children }) => {
   );
 };
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
-  console.log("active", active);
   return (
     <div
       className={`flex justify-between items-start p-4 cursor-pointer transition-colors ${
@@ -30,11 +30,14 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
       onClick={() => handleToggle(id)}
     >
       <h5 className="font-medium text-sm">{children}</h5>
-      <i
-        className={`fa fa-chevron-down transition-transform ${
-          active != null ? "transform rotate-180 text-white" : "text-gray-700"
-        }`}
-      ></i>
+
+    {active  === id ?       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="dark:fill-white"><path d="M200-440v-80h560v80H200Z"/></svg>:  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="dark:fill-white"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+    }  
+
+
+
+
+      
     </div>
   );
 };
