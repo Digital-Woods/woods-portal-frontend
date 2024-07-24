@@ -18,7 +18,7 @@ const Select = ({ children }) => {
 const SelectSection = ({ setIsOpen, isOpen }) => {
   return (
     <SelectButton
-      className="border border-2 dark:text-white rounded-md text-black px-5 py-2 flex items-center gap-x-2"
+      className="border border-2 text-sm font-medium dark:text-white bg-white rounded-md text-black px-4 py-3 flex items-center gap-x-3"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >

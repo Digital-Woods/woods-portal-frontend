@@ -20,25 +20,23 @@ const DynamicComponent = ({ title, path }) => {
     <div className="dark:bg-dark-200 dark:text-white">
       <div className="flex justify-between items-center pt-3 pb-8">
         <div>
-          <h1 className="text-xl font-semibold mb-1">{title}</h1>
-          <p className="text-secondary text-sm">{viewText}</p>
+          <h1 className="text-xl font-semibold mb-2">{title}</h1>
+          <p className="text-secondary leading-5 text-sm">{viewText}</p>
         </div>
-        <div className="border rounded-lg p-1 border-flatGray dark:border-gray-700">
+        <div className="border rounded-lg p-1 bg-white border-flatGray dark:border-gray-700">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            className="rounded-md"
+            className="rounded-md "
           >
             <TabsList>
               <TabsTrigger value="account">
-              
-
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
+                  height="18px"
                   viewBox="0 -960 960 960"
-                  width="24px"
+                  width="18px"
                   fill="currentcolor"
                   className="dark:fill-white"
                 >
@@ -48,9 +46,9 @@ const DynamicComponent = ({ title, path }) => {
               <TabsTrigger value="password">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
+                  height="18px"
                   viewBox="0 -960 960 960"
-                  width="24px"
+                  width="18px"
                   fill="currentcolor"
                   className="dark:fill-white"
                 >
@@ -63,20 +61,20 @@ const DynamicComponent = ({ title, path }) => {
           </Tabs>
         </div>
         <div>
-          {/* <Button>New Site +</Button> */}
+          <Button className="text-white">New Site <span className="ml-2"> + </span> </Button>
         </div>
       </div>
 
       {activeTab === "account" ? (
         <div>
-          <div className="flex justify-between items-center pb-5">
+          <div className="flex justify-between items-center py-6">
             <div className="flex gap-x-4">
-              {/* <CustomCheckbox />
               <CustomCheckbox />
-              <CustomCheckbox /> */}
+              <CustomCheckbox />
+              <CustomCheckbox />
             </div>
 
-            <div className="w-[20%] h-10">
+            <div className="w-[25%]">
               <Input
                 className="bg-transparent dark:bg-dark-400"
                 value={inputValue}

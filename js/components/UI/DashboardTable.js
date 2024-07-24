@@ -121,7 +121,7 @@ const DashboardTable = ({ path, inputValue }) => {
     if (isObject(value) && value.type === "link") {
       return (
         <Link
-          className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-dark-400 dark:hover:text-white"
+          className="text-xs px-2 py-1 border border-input rounded-md"
           to={`/${value.featureName}`}
         >
           View
@@ -146,7 +146,7 @@ const DashboardTable = ({ path, inputValue }) => {
   
 
   return (
-    <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-dark-300">
+    <div className="shadow-md rounded-md dark:border-gray-700 bg-white dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -156,19 +156,21 @@ const DashboardTable = ({ path, inputValue }) => {
         </div>
       )}
       <div className="flex justify-between items-center px-6 py-5">
-        <div className="flex items-center gap-x-2 font-semibold text-sm">
-          <p className="text-secondary font-normal dark:text-gray-300">
+        <div className="flex items-center gap-x-2 pt-3 text-sm">
+          <p className="text-secondary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
-          <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+          <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {tableData.length}
           </span>
           <span>/</span>
-          <span className="rounded-md">{totalItems}</span>
+          <span className="rounded-md font-medium">{totalItems}</span>
           <p className="text-secondary font-normal text-sm dark:text-gray-300">
             Results
           </p>
         </div>
+
+        <Select right={true} />
       </div>
       <div className="overflow-x-auto">
         {!isLoading && tableData.length > 0 && (
@@ -182,7 +184,7 @@ const DashboardTable = ({ path, inputValue }) => {
                     onClick={() => handleSort(item.name)}
                   >
                     <div className="flex">
-                      {item.label}
+                   <span className="font-semibold text-xs" >   {item.label} </span>  
                       {sortConfig === item.name && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +199,7 @@ const DashboardTable = ({ path, inputValue }) => {
                       {sortConfig === `-${item.name}` && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          height="24px"
+                      height="24px"
                           viewBox="0 -960 960 960"
                           width="24px"
                           className="dark:fill-white cursor-pointer"
@@ -208,7 +210,7 @@ const DashboardTable = ({ path, inputValue }) => {
                     </div>
                   </TableHead>
                 ))}
-                <TableHead className="whitespace-nowrap dark:text-white">
+                <TableHead className="font-semibold text-xs">
                   Actions
                 </TableHead>
               </TableRow>
@@ -232,7 +234,7 @@ const DashboardTable = ({ path, inputValue }) => {
                   <TableCell>
                     <div className="flex items-center space-x-2 gap-x-5">
                       <Link
-                        className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-dark-400 dark:hover:text-white"
+                        className="text-xs px-2 py-1 border border-input rounded-md  "
                         to={`${path}/${item.id}`}
                       >
                         View

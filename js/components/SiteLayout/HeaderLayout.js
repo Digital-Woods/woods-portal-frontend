@@ -47,21 +47,34 @@ const HeaderLayout = ({ title }) => {
   }, []);
 
   return (
-    <div className="flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-dark-200">
-      <div className="hidden lg:block">
-        <p className="text-primary font-semibold flex dark:text-white">
+    <div className="flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-3 dark:bg-dark-200">
+      <div className="hidden  lg:block">
+        <div className="text-primary flex items-center gap-x-1  font-medium text-sm flex dark:text-white">
+
+          <p>
           Home{" "}
+
+          </p>
+
+          <div>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
             viewBox="0 -960 960 960"
             width="18px"
-            className="dark:fill-white mt-[2px]"
+            className="dark:fill-white"
           >
             <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-          </svg>{" "}
-          {title}
+          </svg>
+          </div>
+        
+
+        <p>
+        {title}
+
         </p>
+        </div>
       </div>
 
       <div className="lg:hidden">
@@ -126,7 +139,7 @@ const HeaderLayout = ({ title }) => {
                   className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                   activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
                 >
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex items-center gap-x-4">
                     <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -177,13 +190,13 @@ const HeaderLayout = ({ title }) => {
       </div>
 
       <div>
-        <div className="flex gap-x-5">
-          <div className="bg-flatGray rounded-md dark:bg-dark-400">
+        <div className="flex gap-x-4">
+          <div className="bg-white rounded-md dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer dark:bg-dark-400"
+            className="flex flex-col justify-center items-center bg-white rounded-md pl-2 cursor-pointer dark:bg-dark-400"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >
@@ -220,7 +233,7 @@ const HeaderLayout = ({ title }) => {
                   />
                 </svg>
               </div>
-              <div className="w-8">
+              <div className="w-8 pr-2">
                 <Avatar
                   src={
                     "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"

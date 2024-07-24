@@ -40,7 +40,7 @@ const MainLayout = ({ children }) => {
       <div
         className={`lg:w-${
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_250px)]"
-        } w-[100%] dark:bg-dark-200 lg:p-4 p-1 lg:h-full h-screen  transition-[width] duration-300`}
+        } w-[100%] dark:bg-dark-200 lg:p-4 p-1  bg-flatGray transition-[width] duration-300`}
       >
         {routes.length > 0 &&
           routes.map(({ path, title, icon }) => (
@@ -57,7 +57,7 @@ const MainLayout = ({ children }) => {
               )}
             />
           ))}
-        <div className="px-4 py-6">
+        <div className="px-4">
           {routes.length > 0 && (
             <Switch>
               <Route

@@ -3,8 +3,8 @@ const SvgRenderer = ({ svgContent }) => {
   const { themeMode, setThemeMode } = useTheme();
 
   useEffect(() => {
-    const newColor1 = themeMode === "dark" ? "#FFFFFF" : "none";
-    const newColor2 = themeMode === "dark" ? "#FFFFFF" : "#000000";
+    const newColor1 = themeMode === "dark" ? "#FFFFFF" : "#FFFFFF";
+    const newColor2 = themeMode === "dark" ? "#FFFFFF" : "#FFFFFF";
 
     let updatedSvg = svgContent;
 
