@@ -14,10 +14,10 @@ const priorityOrder = {
 const getPriority = (key) => {
   const keyLower = key.toLowerCase();
   if (keyLower.includes('name')) {
-    return 1; 
+    return 1;
   }
   const extractedKey = key.split('.').pop().toLowerCase();
-  return priorityOrder[extractedKey] || Number.MAX_VALUE; 
+  return priorityOrder[extractedKey] || Number.MAX_VALUE;
 };
 
 const sortedHeaders = (headers) => {
@@ -32,8 +32,9 @@ const DashboardTable = ({ path, inputValue }) => {
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
   const [sortConfig, setSortConfig] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { error, data, isLoading, refetch } = useQuery({
+  const { error, data, refetch } = useQuery({
     queryKey: ["TableData", path, itemsPerPage, after, sortConfig, inputValue],
     queryFn: async () =>
       await Client.objects.all({
@@ -45,36 +46,45 @@ const DashboardTable = ({ path, inputValue }) => {
       }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
-        const results = data.data.results;
+        const results = data.data.results || [];
         setTableData(results);
-        setTotalItems(data.data.total);
+        setTotalItems(data.data.total || 0);
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-        const headersArray = Object.keys(results[0] || {}).reduce((acc, key) => {
-          if (key === "id" || key === "archived" || key === 'associations') {
-            return acc; 
-          }
-          if (
-            typeof results[0][key] === "object" &&
-            results[0][key] !== null &&
-            results[0][key].type === "link"
-          ) {
-            acc.push({
-              name: key,
-              label: results[0][key].label,
-            });
-          } else {
-            acc.push({
-              name: key,
-              label: formatKey(key),
-            });
-          }
-          return acc;
-        }, []);
-        const sortedHeadersArray = sortedHeaders(headersArray);
-        setTableHeader(sortedHeadersArray);
+        if (results.length > 0) {
+          const headersArray = Object.keys(results[0]).reduce((acc, key) => {
+            if (key === "id" || key === "archived" || key === 'associations') {
+              return acc;
+            }
+            if (
+              typeof results[0][key] === "object" &&
+              results[0][key] !== null &&
+              results[0][key].type === "link"
+            ) {
+              acc.push({
+                name: key,
+                label: results[0][key].label,
+              });
+            } else {
+              acc.push({
+                name: key,
+                label: formatKey(key),
+              });
+            }
+            return acc;
+          }, []);
+          const sortedHeadersArray = sortedHeaders(headersArray);
+          setTableHeader(sortedHeadersArray);
+        } else {
+          setTableHeader([]);
+        }
       }
+      setIsLoading(false);  
     },
+    onError: () => {
+      setIsLoading(false);
+      setTableData([]);
+    }
   });
 
   const handleSort = (column) => {
@@ -85,17 +95,21 @@ const DashboardTable = ({ path, inputValue }) => {
       newSortConfig = column;
     }
     setSortConfig(newSortConfig);
+    setIsLoading(true);  
+    refetch();
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     setAfter((page - 1) * itemsPerPage);
+    setIsLoading(true);  
     refetch();
   };
 
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
+    setIsLoading(true);  
     refetch();
   }, [inputValue]);
 
@@ -122,11 +136,17 @@ const DashboardTable = ({ path, inputValue }) => {
     const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
     return truncateString(cellContent);
   };
-  
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-gray-900">
       {isLoading && <div className="loader-line"></div>}
+      {!isLoading && tableData.length === 0 && (
+        <div className="text-center p-5">
+          <p className="text-secondary dark:text-gray-300">
+            Sorry, unfortunately, there is no data available.
+          </p>
+        </div>
+      )}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 font-semibold text-sm">
           <p className="text-secondary font-normal dark:text-gray-300">
@@ -143,13 +163,7 @@ const DashboardTable = ({ path, inputValue }) => {
         </div>
       </div>
       <div className="overflow-x-auto">
-        {tableData.length === 0 ? (
-          <div className="text-center p-5">
-            <p className="text-secondary dark:text-gray-300">
-              Sorry, unfortunately, there is no data available.
-            </p>
-          </div>
-        ) : (
+        {!isLoading && tableData.length > 0 && (
           <Table className="w-full">
             <TableHeader>
               <TableRow>
@@ -176,7 +190,7 @@ const DashboardTable = ({ path, inputValue }) => {
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           height="24px"
-                          viewBox="http://www.w3.org/2000/svg"
+                          viewBox="0 -960 960 960"
                           width="24px"
                           className="dark:fill-white cursor-pointer"
                         >
@@ -222,7 +236,7 @@ const DashboardTable = ({ path, inputValue }) => {
         )}
       </div>
 
-      {tableData.length > 0 && (
+      {!isLoading && tableData.length > 0 && (
         <div className="flex justify-end p-4">
           <Pagination
             numOfPages={numOfPages}

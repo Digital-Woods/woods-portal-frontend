@@ -4,30 +4,35 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   return (
     <a
       href={to}
-      className={`block hover:bg-primary p-3 hover:text-white  rounded-md no-underline ${className}`}
+      className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
     >
       {children}
     </a>
   );
 };
 
-const HeaderLayout = ({title}) => {
+const HeaderLayout = ({ title }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const toggleButtonRef = useRef(null);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
-
-
   const { routes, setRoutes } = useRoute();
 
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen((prevState) => !prevState);
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      toggleButtonRef.current &&
+      !toggleButtonRef.current.contains(event.target)
+    ) {
       setDropdownOpen(false);
     }
   };
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -42,10 +47,20 @@ const HeaderLayout = ({title}) => {
   }, []);
 
   return (
-    <div className=" flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-gray-800">
-      <div className="hidden  lg:block">
+    <div className="flex justify-between px-2 lg:px-6 lg:pt-4 lg:pb-6 dark:bg-gray-800">
+      <div className="hidden lg:block">
         <p className="text-primary font-semibold flex dark:text-white">
-          Home <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="18px" className="dark:fill-white mt-[2px]"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg> {title}
+          Home{" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="18px"
+            className="dark:fill-white mt-[2px]"
+          >
+            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+          </svg>{" "}
+          {title}
         </p>
       </div>
 
@@ -68,9 +83,7 @@ const HeaderLayout = ({title}) => {
             isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div
-            className={`min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800`}
-          >
+          <div className="min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-gray-800">
             <div>
               <div className="flex justify-between items-center mb-10">
                 <div className="w-[60%] flex items-center">
@@ -90,11 +103,11 @@ const HeaderLayout = ({title}) => {
                     <NavLink
                       key={path}
                       to={path}
-                      className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                      className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                       activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
                     >
                       <div className="flex items-center gap-x-2">
-                      <SvgRenderer svgContent={icon} />
+                        <SvgRenderer svgContent={icon} />
                         <p
                           className={`${
                             sidebarCollapsed ? "hidden" : ""
@@ -110,7 +123,7 @@ const HeaderLayout = ({title}) => {
                 </div>
                 <NavLink
                   to="/logout"
-                  className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                  className="block hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                   activeClassName="dark:bg-gray-900 dark:text-white bg-gray-100"
                 >
                   <div className="flex items-center gap-x-2">
@@ -169,42 +182,10 @@ const HeaderLayout = ({title}) => {
             <ThemeSwitcher />
           </div>
 
-          {/* <div className="w-64">
-            <Input
-              className="bg-transparent dark:bg-gray-700"
-              placeholder="search"
-            />
-          </div> */}
-{/* 
-          <div className="flex flex-col items-center justify-center bg-flatGray rounded-md p-2 cursor-pointer dark:bg-gray-700">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                d="M12 5.33337C12 4.27251 11.5786 3.25509 10.8284 2.50495C10.0783 1.7548 9.06087 1.33337 8 1.33337C6.93913 1.33337 5.92172 1.7548 5.17157 2.50495C4.42143 3.25509 4 4.27251 4 5.33337C4 10 2 11.3334 2 11.3334H14C14 11.3334 12 10 12 5.33337Z"
-                stroke="#2F2F33"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dark:stroke-white"
-              />
-              <path
-                d="M9.15335 14C9.03614 14.2021 8.86791 14.3698 8.6655 14.4864C8.46309 14.6029 8.2336 14.6643 8.00001 14.6643C7.76643 14.6643 7.53694 14.6029 7.33453 14.4864C7.13212 14.3698 6.96389 14.2021 6.84668 14"
-                stroke="#2F2F33"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dark:stroke-white"
-              />
-            </svg>
-          </div> */}
-
           <div
             className="flex flex-col justify-center items-center bg-flatGray rounded-md pl-2 cursor-pointer dark:bg-gray-700"
             onClick={toggleDropdown}
-            ref={dropdownRef}
+            ref={toggleButtonRef}
           >
             <div className="flex">
               <div className="flex flex-col items-center justify-center">
@@ -286,3 +267,4 @@ const HeaderLayout = ({title}) => {
     </div>
   );
 };
+
