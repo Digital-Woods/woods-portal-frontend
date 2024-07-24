@@ -254,12 +254,12 @@ const HeaderLayout = ({ title }) => {
             </div>
             <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col gap-y-1  p-2">
-              <button className="py-2 px-4 text-left border-none font-medium rounded-md dark:text-white dark:bg-gray-600">
+              <Button variant="outline" className="dark:text-white">
                 Profile
-              </button>
-              <button className="py-2 px-4 text-left border-none font-medium rounded-md dark:text-white dark:bg-gray-600">
+              </Button>
+              <Button variant="destructive" className="dark:text-white">
                 Logout
-              </button>
+              </Button>
             </div>
           </div>
         )}
