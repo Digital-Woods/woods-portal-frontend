@@ -1,13 +1,13 @@
-const {useState} = React;
+const { useState } = React;
 
 const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
 
   useEffect(() => {
     let tempNumberOfButtons = [];
-    let dotsInitial = "...";
-    let dotsLeft = "... ";
-    let dotsRight = " ...";
+    const dotsInitial = "...";
+    const dotsLeft = "... ";
+    const dotsRight = " ...";
 
     if (numOfPages < 6) {
       tempNumberOfButtons = Array.from({ length: numOfPages }, (_, i) => i + 1);
@@ -30,12 +30,6 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
     } else if (currentPage > numOfPages - 3) {
       const sliced = Array.from({ length: 4 }, (_, i) => numOfPages - 3 + i);
       tempNumberOfButtons = [1, dotsLeft, ...sliced];
-    } else if (currentPage === dotsInitial) {
-      setCurrentPage(arrOfCurrButtons[arrOfCurrButtons.length - 3] + 1);
-    } else if (currentPage === dotsRight) {
-      setCurrentPage(arrOfCurrButtons[3] + 2);
-    } else if (currentPage === dotsLeft) {
-      setCurrentPage(arrOfCurrButtons[3] - 2);
     }
 
     setArrOfCurrButtons(tempNumberOfButtons);
@@ -49,9 +43,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
             className={` ${
               currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
             }`}
-            onClick={() =>
-              setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)
-            }
+            onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,9 +55,9 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
               <path
                 d="M10 12L6 8L10 4"
                 stroke="#2F2F33"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </li>
@@ -74,9 +66,13 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
           <li
             key={index}
             className={`cursor-pointer px-4 py-2 rounded-md text-sm ${
-              currentPage === data ? "dark:bg-dark-300 bg-primary  text-white" : ""
+              currentPage === data
+                ? "dark:bg-dark-300 bg-primary text-white"
+                : ""
+            } ${
+              data === "..." ? "cursor-default" : ""
             }`}
-            onClick={() => setCurrentPage(data)}
+            onClick={() => data !== "..." && setCurrentPage(data)}
           >
             {data}
           </li>
@@ -89,24 +85,23 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
                 : "cursor-pointer"
             }`}
             onClick={() =>
-              setCurrentPage(
-                currentPage < numOfPages ? currentPage + 1 : numOfPages
-              )
+              currentPage < numOfPages && setCurrentPage(currentPage + 1)
             }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="6"
-              height="10"
-              viewBox="0 0 6 10"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
               fill="none"
+              transform="rotate(180)"
             >
               <path
-                d="M1 9L5 5L1 1"
+                d="M10 12L6 8L10 4"
                 stroke="#2F2F33"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </li>
