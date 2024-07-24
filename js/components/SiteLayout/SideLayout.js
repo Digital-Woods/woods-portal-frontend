@@ -130,9 +130,9 @@ const SideLayout = () => {
             </div>
           </div>
 
-          <Dialog open={logoutDialog}>
+          <Dialog open={logoutDialog} >
             <div>
-              <div className="pb-4 sm:pb-4">
+              <div className="pb-4 sm:pb-4" >
                 <div className="sm:flex sm:items-start">
                   <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                     <svg
@@ -152,13 +152,13 @@ const SideLayout = () => {
                   </div>
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <h3
-                      className="text-base font-semibold leading-6 text-gray-900"
+                      className="text-base font-semibold leading-6 text-gray-900 dark:text-white"
                       id="modal-title"
                     >
                       Logout
                     </h3>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Are you sure you want to log out?
                       </p>
                     </div>
@@ -166,20 +166,20 @@ const SideLayout = () => {
                 </div>
               </div>
               <div className="pt-3 sm:flex sm:flex-row-reverse">
-                <button
-                  type="button"
+                <Button
+              
                   className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                   onClick={() => setLogoutDialog(false)}
                 >
                   Logout
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                </Button>
+                <Button
+                
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-gray-600 dark:text-white"
                   onClick={() => setLogoutDialog(false)}
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </Dialog>
