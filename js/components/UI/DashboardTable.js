@@ -1,7 +1,5 @@
 const formatKey = (key) => {
-  return key
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
 };
 
 const priorityOrder = {
@@ -13,10 +11,10 @@ const priorityOrder = {
 
 const getPriority = (key) => {
   const keyLower = key.toLowerCase();
-  if (keyLower.includes('name')) {
+  if (keyLower.includes("name")) {
     return 1;
   }
-  const extractedKey = key.split('.').pop().toLowerCase();
+  const extractedKey = key.split(".").pop().toLowerCase();
   return priorityOrder[extractedKey] || Number.MAX_VALUE;
 };
 
@@ -53,7 +51,7 @@ const DashboardTable = ({ path, inputValue }) => {
 
         if (results.length > 0) {
           const headersArray = Object.keys(results[0]).reduce((acc, key) => {
-            if (key === "id" || key === "archived" || key === 'associations') {
+            if (key === "id" || key === "archived" || key === "associations") {
               return acc;
             }
             if (
@@ -79,12 +77,12 @@ const DashboardTable = ({ path, inputValue }) => {
           setTableHeader([]);
         }
       }
-      setIsLoading(false);  
+      setIsLoading(false);
     },
     onError: () => {
       setIsLoading(false);
       setTableData([]);
-    }
+    },
   });
 
   const handleSort = (column) => {
@@ -95,21 +93,21 @@ const DashboardTable = ({ path, inputValue }) => {
       newSortConfig = column;
     }
     setSortConfig(newSortConfig);
-    setIsLoading(true);  
+    setIsLoading(true);
     refetch();
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     setAfter((page - 1) * itemsPerPage);
-    setIsLoading(true);  
+    setIsLoading(true);
     refetch();
   };
 
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
-    setIsLoading(true);  
+    setIsLoading(true);
     refetch();
   }, [inputValue]);
 
@@ -133,9 +131,19 @@ const DashboardTable = ({ path, inputValue }) => {
     if (isDate(value)) {
       return formatDate(value);
     }
+  
     const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
-    return truncateString(cellContent);
+    const { truncated, isTruncated } = truncateString(cellContent);
+  
+    return isTruncated ? (
+      <Tooltip content={cellContent}>
+        {truncated}
+      </Tooltip>
+    ) : (
+      truncated
+    );
   };
+  
 
   return (
     <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-dark-300">
@@ -212,7 +220,9 @@ const DashboardTable = ({ path, inputValue }) => {
                     <TableCell key={row.name} className="whitespace-nowrap">
                       <div className="dark:text-white">
                         {renderCellContent(
-                          row.name.split(".").reduce((o, k) => (o || {})[k], item),
+                          row.name
+                            .split(".")
+                            .reduce((o, k) => (o || {})[k], item),
                           row.name,
                           item.id
                         )}
