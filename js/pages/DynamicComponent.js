@@ -68,11 +68,12 @@ const DynamicComponent = ({ title, path }) => {
       {activeTab === "account" ? (
         <div>
           <div className="flex justify-between items-center py-6">
-            <div className="flex gap-x-4">
-              <CustomCheckbox />
-              <CustomCheckbox />
-              <CustomCheckbox />
-            </div>
+          <div className="flex gap-x-4">
+    <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true}/>
+    <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
+    <CustomCheckbox buttonText="Status" spanText="3" showSpan={true}/>
+    <CustomCheckbox buttonText="Job Type" spanText="3" showSpan={true} />
+  </div>
 
             <div className="w-[25%]">
               <Input

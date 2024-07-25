@@ -40,7 +40,7 @@ const MainLayout = ({ children }) => {
       <div
         className={`lg:w-${
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
-        } w-[100%] dark:bg-dark-200 lg:p-4 p-1  bg-flatGray transition-[width] duration-300`}
+        } w-[100%] dark:bg-dark-200    bg-flatGray transition-[width] duration-300`}
       >
         {routes.length > 0 &&
           routes.map(({ path, title, icon }) => (

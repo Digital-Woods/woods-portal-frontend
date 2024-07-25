@@ -1,7 +1,7 @@
 const { useState, useRef, useEffect } = React;
 const classNames = window.classNames;
 
-const Select = ({ children }) => {
+const Select = ({ children, buttonText, spanText, showSpan }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -9,24 +9,21 @@ const Select = ({ children }) => {
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
-      <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} />
+      <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} buttonText={buttonText} spanText={spanText} showSpan={showSpan} />
       {isOpen && children}
     </div>
   );
 };
 
-const SelectSection = ({ setIsOpen, isOpen }) => {
+const SelectSection = ({ setIsOpen, isOpen, buttonText, spanText, showSpan }) => {
   return (
     <SelectButton
       className="border border-2 text-sm font-medium dark:text-white bg-white rounded-md text-black px-4 py-3 flex items-center gap-x-3"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >
-      Client 
-
-      <span className="bg-blue-600 rounded-md p-1 text-xs text-white">
-        3
-      </span>
+      {buttonText}
+      {showSpan && <span className="bg-blue-600 rounded-md p-1 text-xs text-white">{spanText}</span>}
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="currentcolor">
         <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
@@ -101,5 +98,3 @@ const Item = ({ as: Component, children, ...props }) => {
     </Component>
   );
 };
-
-

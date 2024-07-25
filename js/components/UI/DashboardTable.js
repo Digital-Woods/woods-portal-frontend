@@ -51,7 +51,7 @@ const DashboardTable = ({ path, inputValue }) => {
 
         if (results.length > 0) {
           const headersArray = Object.keys(results[0]).reduce((acc, key) => {
-            if (key === "id" || key === "archived" || key === "associations") {
+            if (key === "id" || key === "archived" || key === "associations" || key === "createdAt" || key === "updatedAt") {
               return acc;
             }
             if (
@@ -170,7 +170,7 @@ const DashboardTable = ({ path, inputValue }) => {
           </p>
         </div>
 
-        <Select right={true} />
+        <Select buttonText="Order: Ascending" />
       </div>
       <div className="overflow-x-auto">
         {!isLoading && tableData.length > 0 && (
