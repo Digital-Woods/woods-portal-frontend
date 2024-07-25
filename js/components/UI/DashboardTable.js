@@ -219,7 +219,7 @@ const DashboardTable = ({ path, inputValue }) => {
               {tableData.map((item) => (
                 <TableRow key={item.id}>
                   {tableHeader.map((row) => (
-                    <TableCell key={row.name} className="whitespace-nowrap">
+                    <TableCell key={row.name} className="whitespace-nowrap border-b">
                       <div className="dark:text-white">
                         {renderCellContent(
                           row.name
@@ -249,7 +249,7 @@ const DashboardTable = ({ path, inputValue }) => {
       </div>
 
       {!isLoading && tableData.length > 0 && (
-        <div className="flex justify-end p-4">
+        <div className="flex justify-end px-4">
           <Pagination
             numOfPages={numOfPages}
             currentPage={currentPage}
