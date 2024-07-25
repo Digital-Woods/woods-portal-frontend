@@ -10,7 +10,7 @@ const Accordion = ({ children }) => {
     }
   };
   return (
-    <div className="rounded  overflow-hidden dark:bg-dark-300 dark:text-white ">
+    <div className="rounded mb-2 overflow-hidden dark:bg-dark-300 bg-white dark:text-white">
       {React.Children.map(children, (child, index) =>
         React.cloneElement(child, {
           active,
@@ -24,7 +24,7 @@ const Accordion = ({ children }) => {
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
   return (
     <div
-      className={`flex justify-between border mb-3 bg-white items-start p-4 cursor-pointer transition-colors ${
+      className={`flex justify-between border items-start p-4 bg-white cursor-pointer transition-colors ${
         active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}
@@ -52,7 +52,7 @@ const AccordionDetails = ({ children, active, id }) => {
   return (
     <div 
       ref={contentEl}
-      className={`transition-height duration-300 px-4 border    overflow-hidden ${
+      className={`transition-height duration-300 px-4 border mt-2 overflow-hidden ${
         active != null ? "max-h-screens" : "max-h-0"
       }`}
       style={
