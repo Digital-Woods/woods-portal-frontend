@@ -94,6 +94,8 @@ const Details = ({ path, id }) => {
   };
 
   return (
+
+
     <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
       <div className="col-span-4">
         {/* <div className="border bg-gray-100 dark:bg-dark-300 rounded-lg w-fit p-1 border-flatGray">
@@ -122,6 +124,10 @@ const Details = ({ path, id }) => {
             <TabsContent value="history"></TabsContent>
           </Tabs>
         </div> */}
+
+{isLoading && !item && (
+          <div className="loader-line"></div>
+) } 
 
         <div className="relative bg-[url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center h-32 rounded-lg w-full flex items-center justify-between overflow-hidden">
           <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -172,9 +178,7 @@ const Details = ({ path, id }) => {
 </div>
 
 
-        {isLoading && !item ? (
-          <div className="loader-line"></div>
-        ) : (
+       
           <div>
             <div>
               <div className="py-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
@@ -198,7 +202,7 @@ const Details = ({ path, id }) => {
               <div className="dark:text-white">Under Construction</div>
             )} */}
           </div>
-        )}
+        
       </div>
 
       <div className="col-span-2">
