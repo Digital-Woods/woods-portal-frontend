@@ -15,6 +15,10 @@ body {
     border-radius: 20px;
   }
   
+  .text-blue-important {
+    color: #1D4ED8 !important;
+  }
+
   .loader-line:before {
     content: "";
     position: absolute;

@@ -28,9 +28,9 @@ const SideLayout = () => {
       className={`min-h-screen px-6 pt-6 pb-8 transition-width bg-sidelayoutColor duration-300  dark:bg-dark-200 hidden lg:block`}
     >
       <div>
-        <div className="flex justify-between items-center mb-10 h-[50px]">
+        <div className="flex justify-between items-center mb-8 h-[50px]">
           <div className="flex items-center">
-            <div className="mr-2 w-10">
+            <div className="mr-2 w-8">
               <Logo />
             </div>
 
@@ -75,11 +75,11 @@ const SideLayout = () => {
               <NavLink
                 key={path}
                 to={path}
-                className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline"
+                className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
                 activeClassName="dark:bg-dark-300 dark:text-white bg-activeState"
               >
                 <div
-                  className={`flex items-center gap-x-2 ${
+                  className={`flex items-center gap-x-3 gap-y-1${
                     sidebarCollapsed ? "justify-center" : "justify-start"
                   }`}
                 >
@@ -92,16 +92,45 @@ const SideLayout = () => {
                     } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
                   >
                     {title}
-                  </p>
+                  </p> 
                 </div>
               </NavLink>
             ))}
           <div>
-            <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-dark-400" />
+          <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md" >
+<p>  Get the best Maintenance Service  </p> 
+<Button className="bg-white hover:bg-white text-blue-important mt-8" size="sm">
+  Go Now
+</Button>
+
+
+</div>
+
           </div>
 
           <div
-            className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white  px-3 py-2.5 rounded-md no-underline cursor-pointer"
+            className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
+          >
+            <div
+              className={`flex items-center gap-x-2  ${
+                sidebarCollapsed ? "justify-center" : "justify-start"
+              }`}
+            >
+              <div>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-white"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+              </div>
+              <p
+                className={`${
+                  sidebarCollapsed ? "hidden" : ""
+                } text-black dark:text-white text-sm font-medium text-white`}
+              >
+                Notification Settings
+              </p>
+            </div>
+          </div>
+
+          <div
+            className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
             onClick={() => setLogoutDialog(true)}
           >
             <div
@@ -131,57 +160,36 @@ const SideLayout = () => {
           </div>
 
           <Dialog open={logoutDialog} onClose={setLogoutDialog} >
-            <div>
-              <div className="pb-4 sm:pb-4" >
-                <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <svg
-                      className="h-6 w-6 text-red-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3
-                      className="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-                      id="modal-title"
-                    >
-                      Logout
-                    </h3>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Are you sure you want to log out?
-                      </p>
-                    </div>
-                  </div>
-                </div>
+          
+            <div className=" bg-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+
+              <div className="w-8">
+              <Logo />
               </div>
-              <div className="pt-3  sm:flex sm:flex-row-reverse">
+
+    <div className="flex-col justify-start items-start gap-1 flex">
+        <div className="text-[#2F2E33] text-base font-semibold font-['Inter'] leading-snug">Log out of your account?</div>
+    </div>
+    <div className="pt-3  sm:flex sm:flex-row-reverse gap-x-3">
+              <Button
+                 
+                 className="dark:text-white "
+                   onClick={() => setLogoutDialog(false)}
+                 >
+                 Keep Me Logged In
+                 </Button>
                 <Button
-              variant="destructive"
+                variant="outline"
               className="dark:text-white"
                   onClick={() => setLogoutDialog(false)}
                 >
                   Logout
                 </Button>
-                <Button
-                 variant="outline"
-                className="dark:text-white mr-3"
-                  onClick={() => setLogoutDialog(false)}
-                >
-                  Cancel
-                </Button>
+            
               </div>
-            </div>
+</div>
+          
+            
           </Dialog>
         </nav>
       </div>

@@ -31,7 +31,7 @@ const MainLayout = ({ children }) => {
     <div className="flex dark:bg-dark-200 bg-white">
       <div
         className={`lg:w-${
-          sidebarCollapsed ? "[100px]" : "[250px]"
+          sidebarCollapsed ? "[100px]" : "[300px]"
         } transition-[width] duration-300`}
       >
         <SideLayout />
@@ -39,7 +39,7 @@ const MainLayout = ({ children }) => {
 
       <div
         className={`lg:w-${
-          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_250px)]"
+          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
         } w-[100%] dark:bg-dark-200 lg:p-4 p-1  bg-flatGray transition-[width] duration-300`}
       >
         {routes.length > 0 &&

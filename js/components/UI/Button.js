@@ -1,5 +1,5 @@
 const variantClasses = {
-  default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+  default: "bg-primary text-white shadow hover:bg-primary/90",
   destructive: "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
   secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",

@@ -22,7 +22,11 @@ const SelectSection = ({ setIsOpen, isOpen }) => {
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >
-      Client
+      Client 
+
+      <span className="bg-blue-600 rounded-md p-1 text-xs text-white">
+        3
+      </span>
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="currentcolor">
         <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>

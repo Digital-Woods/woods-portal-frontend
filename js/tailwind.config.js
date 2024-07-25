@@ -32,9 +32,13 @@ tailwind.config = {
       xl: "1280px",
       "2xl": "1440px",
       "3xl": "1780px",
-      "4xl": "2160px", // only need to control product grid mode in ultra 4k device
+      "4xl": "2160px", 
     },
     extend: {
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)',
+      },
+      
       colors: {
         white: "#FFFFFF",
         primary: getUrlParams().primaryColor,
@@ -48,6 +52,7 @@ tailwind.config = {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
         },
+        
         light: {
           base: "#646464",
           100: "#f9f9f9",
