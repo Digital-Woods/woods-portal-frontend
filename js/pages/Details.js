@@ -209,6 +209,8 @@ const Details = ({ path, id }) => {
         {associations &&
           Object.entries(associations).map(([key, association]) => (
             <Accordion key={key}>
+              
+              <div>
               <AccordionSummary>
                 <div className="flex items-center gap-x-2 text-sm font-medium ">
                   <span>
@@ -291,6 +293,9 @@ const Details = ({ path, id }) => {
                   )}
                 </div>
               </AccordionDetails>
+              </div>
+              
+              
             </Accordion>
           ))}
       </div>
