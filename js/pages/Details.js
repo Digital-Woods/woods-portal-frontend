@@ -293,6 +293,7 @@ const Details = ({ path, id }) => {
                   )}
                 </div>
               </AccordionDetails>
+
             </Accordion>
           ))}
       </div>
