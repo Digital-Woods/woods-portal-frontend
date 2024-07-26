@@ -77,7 +77,7 @@ const DynamicComponent = ({ title, path }) => {
 
             <div className="w-[25%]">
               <Input
-                className="bg-transparent dark:bg-dark-400"
+                className="dark:bg-dark-400"
                 value={inputValue}
                 onChange={handleInputChange}
               />
