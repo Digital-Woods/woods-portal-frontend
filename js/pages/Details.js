@@ -1,10 +1,3 @@
-const { useState } = React;
-const { useQuery } = ReactQuery;
-
-const formatKey = (key) => {
-  return key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-};
-
 const Details = ({ path, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [active, setActive] = useState(null);
@@ -87,11 +80,13 @@ const Details = ({ path, id }) => {
   };
 
   const renderCellContent = (key, value) => {
+    
     if (isDate(value)) {
       return formatDate(value);
     }
     return String(value);
   };
+  
 
   const getHeaderCardProps = (path) => {
     if (path === "/jobs") {
@@ -117,36 +112,55 @@ const Details = ({ path, id }) => {
 
   const headerCardProps = getHeaderCardProps(path);
 
+  const tableHeaders =
+    path === "/jobs"
+      ? ["stage_name", "status", "start_date", "end_date"]
+      : Object.keys(item || {}).filter(
+          (key) =>
+            ![
+              "id",
+              "createdAt",
+              "archived",
+              "updatedAt",
+              "hs_lastmodifieddate",
+              "hs_createdate",
+              "hs_object_id",
+            ].includes(key)
+        );
+
+        const tableRows =
+        item && tableHeaders.length > 0 ? (
+          <TableBody>
+            <TableRow>
+              {tableHeaders.map((header) => (
+                <TableCell
+                  key={header}
+                  className="px-4 py-2 text-gray-900 dark:text-gray-100"
+                >
+                  {renderCellContent(header, item[header])}
+                </TableCell>
+              ))}
+              <TableCell>
+                <div className="bg-black w-fit p-1 rounded-md">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 -960 960 960"
+                    width="20px"
+                    fill="#EFEFEF"
+                  >
+                    <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+                  </svg>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        ) : null;
+      
+
   return (
     <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
       <div className="col-span-4">
-        {/* <div className="border bg-gray-100 dark:bg-dark-300 rounded-lg w-fit p-1 border-flatGray">
-          <Tabs
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            className="rounded-md bg-white"
-          >
-            <TabsList className="">
-              <TabsTrigger
-                value="overview"
-                isActive={activeTab === "overview"}
-                onClick={() => handleTabClick("overview")}
-              >
-                Overview
-              </TabsTrigger>
-              <TabsTrigger
-                value="history"
-                isActive={activeTab === "history"}
-                onClick={() => handleTabClick("history")}
-              >
-                History
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview"></TabsContent>
-            <TabsContent value="history"></TabsContent>
-          </Tabs>
-        </div> */}
-
         {isLoading && !item && <div className="loader-line"></div>}
 
         <HeaderCard
@@ -161,33 +175,52 @@ const Details = ({ path, id }) => {
 
         {(path === "/sites" || path === "/assets") && <MapsCard />}
 
-        <div>
-          <div>
-            <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-              {item &&
-                filteredAndSortedEntries(item).map(
-                  ([key, value], index, array) => (
-                    <div
-                      key={key}
-                      className={`py-2 px-3 flex gap-x-5 ${
-                        index === array.length - 1 ? "" : ""
-                      }`}
-                    >
-                      <div className="text-sm font-semibold w-52">
-                        {formatKey(key)}:
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {renderCellContent(key, value)}
-                      </div>
-                    </div>
-                  )
+        {path === "/jobs" ? (
+          <div  className="col-span-4">
+            <Table className="w-full  my-8 bg-white rounded-md">
+              <TableHeader>
+                {tableHeaders.length > 0 && (
+                  <TableRow>
+                    {tableHeaders.map((header) => (
+                      <TableHead
+                        key={header}
+                        className="px-4 py-2 font-semibold text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                      >
+                        {formatKey(header)}
+                      </TableHead>
+                    ))}
+
+                    <TableHead className="text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap font-semibold">
+                      <span>Report</span>
+                    </TableHead>
+                  </TableRow>
                 )}
-            </div>
+              </TableHeader>
+              {tableRows}
+            </Table>
           </div>
-          {/* ) : (
-              <div className="dark:text-white">Under Construction</div>
-            )} */}
-        </div>
+        ) : (
+          <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+            {item &&
+              filteredAndSortedEntries(item).map(
+                ([key, value], index, array) => (
+                  <div
+                    key={key}
+                    className={`py-2 px-3 flex gap-x-5 ${
+                      index === array.length - 1 ? "" : ""
+                    }`}
+                  >
+                    <div className="text-sm font-semibold w-52">
+                      {formatKey(key)}:
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {renderCellContent(key, value)}
+                    </div>
+                  </div>
+                )
+              )}
+          </div>
+        )}
       </div>
 
       <div className="col-span-2">
@@ -250,7 +283,7 @@ const Details = ({ path, id }) => {
                           {association.list.map((item) => (
                             <TableRow
                               key={item.id}
-                              className="border-b last:border-none"
+                              className="border-b whitespace-nowrap last:border-none"
                             >
                               {Object.entries(item)
                                 .filter(
