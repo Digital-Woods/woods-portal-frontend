@@ -80,13 +80,11 @@ const Details = ({ path, id }) => {
   };
 
   const renderCellContent = (key, value) => {
-    
     if (isDate(value)) {
       return formatDate(value);
     }
     return String(value);
   };
-  
 
   const getHeaderCardProps = (path) => {
     if (path === "/jobs") {
@@ -128,35 +126,34 @@ const Details = ({ path, id }) => {
             ].includes(key)
         );
 
-        const tableRows =
-        item && tableHeaders.length > 0 ? (
-          <TableBody>
-            <TableRow>
-              {tableHeaders.map((header) => (
-                <TableCell
-                  key={header}
-                  className="px-4 py-2 text-gray-900 dark:text-gray-100"
-                >
-                  {renderCellContent(header, item[header])}
-                </TableCell>
-              ))}
-              <TableCell>
-                <div className="bg-black w-fit p-1 rounded-md">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    fill="#EFEFEF"
-                  >
-                    <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
-                  </svg>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        ) : null;
-      
+  const tableRows =
+    item && tableHeaders.length > 0 ? (
+      <TableBody>
+        <TableRow>
+          {tableHeaders.map((header) => (
+            <TableCell
+              key={header}
+              className="px-4 py-2 text-gray-900 dark:text-gray-100"
+            >
+              {renderCellContent(header, item[header])}
+            </TableCell>
+          ))}
+          <TableCell>
+            <div className="bg-black w-fit p-1 rounded-md">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                fill="#EFEFEF"
+              >
+                <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+              </svg>
+            </div>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    ) : null;
 
   return (
     <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
@@ -176,7 +173,7 @@ const Details = ({ path, id }) => {
         {(path === "/sites" || path === "/assets") && <MapsCard />}
 
         {path === "/jobs" ? (
-          <div  className="col-span-4">
+          <div className="col-span-4">
             <Table className="w-full  my-8 bg-white rounded-md">
               <TableHeader>
                 {tableHeaders.length > 0 && (
@@ -198,6 +195,27 @@ const Details = ({ path, id }) => {
               </TableHeader>
               {tableRows}
             </Table>
+
+            <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+            {item &&
+              filteredAndSortedEntries(item).map(
+                ([key, value], index, array) => (
+                  <div
+                    key={key}
+                    className={`py-2 px-3 flex gap-x-5 ${
+                      index === array.length - 1 ? "" : ""
+                    }`}
+                  >
+                    <div className="text-sm font-semibold w-52">
+                      {formatKey(key)}:
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {renderCellContent(key, value)}
+                    </div>
+                  </div>
+                )
+              )}
+          </div>
           </div>
         ) : (
           <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
@@ -250,70 +268,39 @@ const Details = ({ path, id }) => {
               </AccordionSummary>
 
               <AccordionDetails>
-                <div className="flex flex-col">
-                  {association.list && association.list.length > 0 && (
-                    <div className="overflow-x-auto">
-                      <Table className="w-full text-left border-collapse">
-                        <TableHeader>
-                          <TableRow>
-                            {Object.keys(association.list[0])
-                              .filter(
-                                (itemKey) =>
-                                  ![
-                                    "id",
-                                    "createdAt",
-                                    "archived",
-                                    "updatedAt",
-                                    "hs_lastmodifieddate",
-                                    "hs_createdate",
-                                    "hs_object_id",
-                                  ].includes(itemKey)
-                              )
-                              .map((itemKey) => (
-                                <TableHead
-                                  key={itemKey}
-                                  className="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                                >
-                                  {formatKey(itemKey)}
-                                </TableHead>
-                              ))}
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {association.list.map((item) => (
-                            <TableRow
-                              key={item.id}
-                              className="border-b whitespace-nowrap last:border-none"
-                            >
-                              {Object.entries(item)
-                                .filter(
-                                  ([itemKey]) =>
-                                    ![
-                                      "id",
-                                      "createdAt",
-                                      "archived",
-                                      "updatedAt",
-                                      "hs_lastmodifieddate",
-                                      "hs_createdate",
-                                      "hs_object_id",
-                                    ].includes(itemKey)
-                                )
-                                .map(([itemKey, itemValue]) => (
-                                  <TableCell
-                                    key={itemKey}
-                                    className="px-4 py-2 text-gray-900 dark:text-gray-100 "
-                                  >
-                                    {renderCellContent(itemKey, itemValue)}
-                                  </TableCell>
-                                ))}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  )}
+  <div className="flex flex-col">
+    {association.list && association.list.length > 0 && (
+      <div className="overflow-x-auto">
+        <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+          {Object.entries(association.list[0])
+            .filter(
+              ([itemKey, itemValue]) =>
+                ![
+                  "id",
+                  "createdAt",
+                  "archived",
+                  "updatedAt",
+                  "hs_lastmodifieddate",
+                  "hs_createdate",
+                  "hs_object_id",
+                ].includes(itemKey) && itemValue !== null
+            )
+            .map(([itemKey, itemValue]) => (
+              <div key={itemKey} className="py-2 px-3 flex gap-x-5">
+                <div className="text-xs font-semibold w-32">
+                  {formatKey(itemKey)}:
                 </div>
-              </AccordionDetails>
+                <div className="text-xs text-gray-500">
+                  {renderCellContent(itemKey, itemValue)}
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    )}
+  </div>
+</AccordionDetails>
+
             </Accordion>
           ))}
       </div>

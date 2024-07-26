@@ -121,11 +121,12 @@ const DashboardTable = ({ path, inputValue }) => {
     if (isObject(value) && value.type === "link") {
       return (
         <Link
-          className="text-xs px-2 py-1 border border-input rounded-md"
-          to={`/${value.featureName}`}
-        >
-          View
-        </Link>
+        className="text-xs underline border-input rounded-md"
+        to={`/${value.featureName}`}
+      >
+        {value.featureName.charAt(0).toUpperCase() + value.featureName.slice(1)}
+      </Link>
+      
       );
     }
     if (isDate(value)) {
@@ -234,10 +235,10 @@ const DashboardTable = ({ path, inputValue }) => {
                   <TableCell>
                     <div className="flex items-center space-x-2 gap-x-5">
                       <Link
-                        className="text-xs px-2 py-1 border border-input rounded-md  "
+                        className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
                         to={`${path}/${item.id}`}
                       >
-                        View
+                        View Details
                       </Link>
                     </div>
                   </TableCell>
