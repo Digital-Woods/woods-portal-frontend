@@ -10,7 +10,7 @@ const Accordion = ({ children }) => {
     }
   };
   return (
-    <div className="rounded mb-2 overflow-hidden dark:bg-dark-300 bg-white dark:text-white">
+    <div className="rounded overflow-hidden dark:bg-dark-300 dark:text-white">
       {React.Children.map(children, (child, index) =>
         React.cloneElement(child, {
           active,
@@ -31,13 +31,27 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
     >
       <h5 className="font-medium text-sm">{children}</h5>
 
-    {active  === id ?       <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" className="dark:fill-white"><path d="M200-440v-80h560v80H200Z"/></svg>:  <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" className="dark:fill-white"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-    }  
-
-
-
-
-      
+      {active === id ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18px"
+          viewBox="0 -960 960 960"
+          width="18px"
+          className="dark:fill-white"
+        >
+          <path d="M200-440v-80h560v80H200Z" />
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18px"
+          viewBox="0 -960 960 960"
+          width="18px"
+          className="dark:fill-white"
+        >
+          <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+        </svg>
+      )}
     </div>
   );
 };
@@ -50,9 +64,9 @@ const AccordionDetails = ({ children, active, id }) => {
     }
   }, [active, id]);
   return (
-    <div 
+    <div
       ref={contentEl}
-      className={`transition-height duration-300 px-4 border mt-2 overflow-hidden ${
+      className={`transition-height duration-300 overflow-hidden ${
         active != null ? "max-h-screens" : "max-h-0"
       }`}
       style={
@@ -61,7 +75,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      {children}
+      <div className="border p-4 bg-white mt-4">{children}</div>
     </div>
   );
 };

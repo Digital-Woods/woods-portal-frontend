@@ -229,7 +229,7 @@ const Details = ({ path, id }) => {
               </AccordionSummary>
 
               <AccordionDetails>
-                <div className="flex flex-col gap-y-4 py-3 ">
+                <div className="flex flex-col">
                   {association.list && association.list.length > 0 && (
                     <div className="overflow-x-auto">
                       <Table className="w-full text-left border-collapse">
