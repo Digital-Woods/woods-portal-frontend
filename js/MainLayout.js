@@ -29,7 +29,7 @@ const MainLayout = ({ children }) => {
   const { Switch, Route } = ReactRouterDOM;
 
   return (
-    <div className="relative">
+    <div className="relative dark:bg-dark-200 bg-flatGray h-[100vh]">
       <div
         className={`transition-[width] duration-300 relative md:fixed min-h-screen w-full inset-0 md:w-${
           sidebarCollapsed ? "[100px]" : "[300px]"
@@ -38,7 +38,7 @@ const MainLayout = ({ children }) => {
         <SideLayout />
       </div>
       <div
-        className={`dark:bg-dark-200 bg-flatGray transition-[width] duration-300 ml-auto w-full md:w-${
+        className={`transition-[width] duration-300 ml-auto w-full md:w-${
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
         }`}
       >
