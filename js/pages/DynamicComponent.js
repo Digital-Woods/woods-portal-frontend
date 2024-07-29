@@ -23,7 +23,7 @@ const DynamicComponent = ({ title, path }) => {
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
           <p className="text-secondary leading-5 text-sm">{viewText}</p>
         </div>
-        <div className="border rounded-lg p-1 bg-white border-flatGray dark:border-gray-700">
+        <div className="border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}

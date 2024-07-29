@@ -100,27 +100,27 @@ const SideLayout = () => {
                 ))}
             </div>
 
-            {!sidebarCollapsed && (
-              <div>
-                <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-                  <p> Get the best Maintenance Service </p>
-                  <Button
-                    className="bg-white hover:bg-white text-blue-important mt-8"
-                    size="sm"
-                  >
-                    Go Now
-                  </Button>
-                </div>
+            <div className={` ${
+                    sidebarCollapsed ? "hidden" : ""
+                  }`} >
+              <div className="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                <p> Get the best Maintenance Service </p>
+                <Button
+                  className="bg-white hover:bg-white text-blue-important mt-8"
+                  size="sm"
+                >
+                  Go Now
+                </Button>
               </div>
-            )}
+            </div>
 
             <div className="">
-              <div
-                className={`flex items-center block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline  ${
-                  sidebarCollapsed ? "justify-center" : "justify-start"
-                }`}
-              >
-                <div>
+              <div className="flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline">
+                <div
+                  className={` ${
+                    sidebarCollapsed ? "justify-center" : "justify-start"
+                  }`}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="16px"
@@ -139,12 +139,14 @@ const SideLayout = () => {
                   Notification Settings
                 </p>
               </div>
+
+
               <div
-                className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
+                className="flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
                 onClick={() => setLogoutDialog(true)}
               >
                 <div
-                  className={`flex items-center  ${
+                  className={`flex items-center gap-x-2  ${
                     sidebarCollapsed ? "justify-center" : "justify-start"
                   }`}
                 >
@@ -172,13 +174,13 @@ const SideLayout = () => {
           </div>
 
           <Dialog open={logoutDialog} onClose={setLogoutDialog}>
-            <div className=" bg-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+            <div className=" bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
               <div className="w-8">
                 <Logo />
               </div>
 
               <div className="flex-col justify-start items-start gap-1 flex">
-                <div className="text-[#2F2E33] text-base font-semibold font-['Inter'] leading-snug">
+                <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
                   Log out of your account?
                 </div>
               </div>

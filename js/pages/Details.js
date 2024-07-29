@@ -162,7 +162,7 @@ const Details = ({ path, id }) => {
     ) : null;
 
   return (
-    <div className="grid grid-cols-6 gap-4 py-4 h-full dark:bg-dark-200">
+    <div className="grid grid-cols-6 gap-4 py-6 h-full dark:bg-dark-200">
       <div className="col-span-4">
         {isLoading && !item && <div className="loader-line"></div>}
 
@@ -180,7 +180,7 @@ const Details = ({ path, id }) => {
 
         {path === "/jobs" ? (
           <div className="col-span-4">
-            <Table className="w-full  my-8 bg-white rounded-md">
+            <Table className="w-full dark:bg-dark-300 my-8 bg-white rounded-md">
               <TableHeader>
                 {tableHeaders.length > 0 && (
                   <TableRow>

@@ -18,7 +18,7 @@ const Select = ({ children, buttonText, spanText, showSpan }) => {
 const SelectSection = ({ setIsOpen, isOpen, buttonText, spanText, showSpan }) => {
   return (
     <SelectButton
-      className="border border-2 text-sm font-medium dark:text-white bg-white rounded-md text-black px-4 py-3 flex items-center gap-x-3"
+      className="border border-2 dark:border-gray-600 text-sm font-medium dark:bg-dark-300 dark:text-white bg-white rounded-md text-black px-4 py-3 flex items-center gap-x-3"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >
@@ -35,7 +35,7 @@ const SelectSection = ({ setIsOpen, isOpen, buttonText, spanText, showSpan }) =>
 const Options = React.forwardRef(({ children, className, right }, ref) => (
   <div
     className={classNames(
-      "absolute text-sm w-64 px-3 py-2 bg-white border dark:bg-dark-300 dark:text-white shadow-lg mt-1 z-50 rounded-md",
+      "absolute text-sm w-64 px-3 py-2 bg-white border dark:bg-dark-300 dark:text-white  shadow-lg mt-1 z-50 rounded-md",
       { "right-8": right },
       className
     )}
