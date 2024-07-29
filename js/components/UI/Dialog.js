@@ -6,7 +6,7 @@ const Dialog = ({ open, onClose = null, ...props }, ref) => {
 
     return (
       <div
-        className="relative z-50"
+        className="relative z-[9999]"
         aria-labelledby="modal-title"
         role="dialog"
         aria-modal="true"

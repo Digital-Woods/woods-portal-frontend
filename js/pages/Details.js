@@ -39,7 +39,7 @@ const Details = ({ path, id }) => {
   const filteredAndSortedEntries = (obj) => {
     const entries = Object.entries(obj).filter(
       ([key, value]) =>
-        key !== "id" && key !== "archived" && typeof value !== "object"
+        key !== "id" && key !== "archived" 
     );
 
     entries.sort(([keyA], [keyB]) => {
@@ -80,6 +80,9 @@ const Details = ({ path, id }) => {
   };
 
   const renderCellContent = (key, value) => {
+    if (typeof value === "object" ) {
+      return (value.value)
+    }
     if (isDate(value)) {
       return formatDate(value);
     }
@@ -92,21 +95,21 @@ const Details = ({ path, id }) => {
         showDate: true,
         showFollowing: true,
         showServiceName: true,
-        clarifierName:    !item ? "loading..." : item.stage_name
+        clarifierName:    !item ? "loading..." : item.job_name.value
       };
     } else if (path === "/sites") {
       return {
         showDate: false,
         showFollowing: false,
         showServiceName: false,
-        clarifierName:    !item ? "loading..." : item.site_name
+        clarifierName:    !item ? "loading..." : item.site_name.value
       };
     } else {
       return {
         showDate: false,
         showFollowing: false,
         showServiceName: true,
-        clarifierName:    !item ? "loading..." : item.asset_name
+        clarifierName:    !item ? "loading..." : item.asset_name.value
       };
     }
   };

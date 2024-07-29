@@ -76,6 +76,7 @@ const FormMessage = ({ children, className }) => (
 
 const Input = React.forwardRef(({ className, type = 'text', placeholder = "Search", ...props }, ref) => {
   return (
+    <div>
     <div className="relative dark:bg-dark-200 flex items-center ">
       <svg
         className="absolute left-3 h-4 w-4  text-gray-500"
@@ -102,6 +103,8 @@ const Input = React.forwardRef(({ className, type = 'text', placeholder = "Searc
         {...props}
       />
     </div>
+    </div>
+
   );
 });
 
