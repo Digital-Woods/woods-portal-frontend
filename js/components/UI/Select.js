@@ -8,7 +8,7 @@ const Select = ({ children, buttonText, spanText, showSpan }) => {
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div className=" inline-block" ref={dropdownRef}>
       <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} buttonText={buttonText} spanText={spanText} showSpan={showSpan} />
       {isOpen && children}
     </div>
@@ -23,7 +23,7 @@ const SelectSection = ({ setIsOpen, isOpen, buttonText, spanText, showSpan }) =>
       isOpen={isOpen}
     >
       {buttonText}
-      {showSpan && <span className="bg-blue-600 rounded-md p-1 text-xs text-white">{spanText}</span>}
+      {showSpan && <span className="bg-lightblue rounded-md p-1 text-xs text-white">{spanText}</span>}
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="currentcolor">
         <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>

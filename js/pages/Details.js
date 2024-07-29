@@ -4,7 +4,7 @@ const Details = ({ path, id }) => {
   const [item, setItems] = useState(null);
   const [associations, setAssociations] = useState({});
 
-  const { error, data, isLoading } = useQuery({
+  const { error,  isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
     queryFn: async () =>
       await Client.objects.byObjectId({
@@ -92,18 +92,21 @@ const Details = ({ path, id }) => {
         showDate: true,
         showFollowing: true,
         showServiceName: true,
+        clarifierName:    !item ? "loading..." : item.stage_name
       };
     } else if (path === "/sites") {
       return {
         showDate: false,
         showFollowing: false,
         showServiceName: false,
+        clarifierName:    !item ? "loading..." : item.site_name
       };
     } else {
       return {
         showDate: false,
         showFollowing: false,
         showServiceName: true,
+        clarifierName:    !item ? "loading..." : item.asset_name
       };
     }
   };
@@ -156,14 +159,14 @@ const Details = ({ path, id }) => {
     ) : null;
 
   return (
-    <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
+    <div className="grid grid-cols-6 gap-4 py-4 h-full dark:bg-dark-200">
       <div className="col-span-4">
         {isLoading && !item && <div className="loader-line"></div>}
 
         <HeaderCard
           bgImageClass="bg-custom-bg"
           plantName="South Plant"
-          clarifierName="Primary Clarifier CL100"
+
           date="17/01/2024"
           serviceName="AquaFlow Service"
           following="Following"
@@ -197,25 +200,25 @@ const Details = ({ path, id }) => {
             </Table>
 
             <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-            {item &&
-              filteredAndSortedEntries(item).map(
-                ([key, value], index, array) => (
-                  <div
-                    key={key}
-                    className={`py-2 px-3 flex gap-x-5 ${
-                      index === array.length - 1 ? "" : ""
-                    }`}
-                  >
-                    <div className="text-sm font-semibold w-52">
-                      {formatKey(key)}:
+              {item &&
+                filteredAndSortedEntries(item).map(
+                  ([key, value], index, array) => (
+                    <div
+                      key={key}
+                      className={`py-2 px-3 flex gap-x-5 ${
+                        index === array.length - 1 ? "" : ""
+                      }`}
+                    >
+                      <div className="text-sm font-semibold w-52">
+                        {formatKey(key)}:
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {renderCellContent(key, value)}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-500">
-                      {renderCellContent(key, value)}
-                    </div>
-                  </div>
-                )
-              )}
-          </div>
+                  )
+                )}
+            </div>
           </div>
         ) : (
           <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
@@ -268,39 +271,41 @@ const Details = ({ path, id }) => {
               </AccordionSummary>
 
               <AccordionDetails>
-  <div className="flex flex-col">
-    {association.list && association.list.length > 0 && (
-      <div className="overflow-x-auto">
-        <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-          {Object.entries(association.list[0])
-            .filter(
-              ([itemKey, itemValue]) =>
-                ![
-                  "id",
-                  "createdAt",
-                  "archived",
-                  "updatedAt",
-                  "hs_lastmodifieddate",
-                  "hs_createdate",
-                  "hs_object_id",
-                ].includes(itemKey) && itemValue !== null
-            )
-            .map(([itemKey, itemValue]) => (
-              <div key={itemKey} className="py-2 px-3 flex gap-x-5">
-                <div className="text-xs font-semibold w-32">
-                  {formatKey(itemKey)}:
+                <div className="flex flex-col">
+                  {association.list && association.list.length > 0 && (
+                    <div className="overflow-x-auto">
+                      <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+                        {Object.entries(association.list[0])
+                          .filter(
+                            ([itemKey, itemValue]) =>
+                              ![
+                                "id",
+                                "createdAt",
+                                "archived",
+                                "updatedAt",
+                                "hs_lastmodifieddate",
+                                "hs_createdate",
+                                "hs_object_id",
+                              ].includes(itemKey) && itemValue !== null
+                          )
+                          .map(([itemKey, itemValue]) => (
+                            <div
+                              key={itemKey}
+                              className="py-2 px-3 flex gap-x-5"
+                            >
+                              <div className="text-xs font-semibold w-32">
+                                {formatKey(itemKey)}:
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {renderCellContent(itemKey, itemValue)}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="text-xs text-gray-500">
-                  {renderCellContent(itemKey, itemValue)}
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-    )}
-  </div>
-</AccordionDetails>
-
+              </AccordionDetails>
             </Accordion>
           ))}
       </div>

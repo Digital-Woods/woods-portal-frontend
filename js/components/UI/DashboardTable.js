@@ -3,17 +3,20 @@ const formatKey = (key) => {
 };
 
 const priorityOrder = {
-  email: 2,
-  description: 3,
-  city: 4,
-  role: 5,
+  email: 3,
+  description: 4,
+  city: 5,
+  role: 6,
 };
 
 const getPriority = (key) => {
   const keyLower = key.toLowerCase();
-  if (keyLower.includes("name")) {
+  if (keyLower.includes("job_name")) {
     return 1;
+  } else if (keyLower.includes("name")) {
+    return 2;
   }
+
   const extractedKey = key.split(".").pop().toLowerCase();
   return priorityOrder[extractedKey] || Number.MAX_VALUE;
 };
@@ -121,7 +124,7 @@ const DashboardTable = ({ path, inputValue }) => {
     if (isObject(value) && value.type === "link") {
       return (
         <Link
-        className="text-xs underline border-input rounded-md"
+        className="text-lightblue font-bold border-input rounded-md"
         to={`/${value.featureName}`}
       >
         {value.featureName.charAt(0).toUpperCase() + value.featureName.slice(1)}
@@ -129,6 +132,18 @@ const DashboardTable = ({ path, inputValue }) => {
       
       );
     }
+
+    if (isObject(value) && value.type === "primaryDisplayProperty" ) {
+      return (
+        <Link
+        className="text-lightblue font-bold border-input rounded-md"
+        to={`${path}/${itemId}`}
+      >
+      {value.value}
+      </Link>
+      )
+    }
+
     if (isDate(value)) {
       return formatDate(value);
     }

@@ -44,6 +44,7 @@ tailwind.config = {
       
       colors: {
         white: "#FFFFFF",
+        lightblue: "#005fad",
         primary: getUrlParams().primaryColor,
         secondary: getUrlParams().secondaryColor,
         flatGray: "#F6F6F6", // Flat grey
