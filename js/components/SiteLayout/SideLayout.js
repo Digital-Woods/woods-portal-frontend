@@ -77,7 +77,7 @@ const SideLayout = () => {
                   <NavLink
                     key={path}
                     to={path}
-                    className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
+                    className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white p-3 rounded-md no-underline"
                     activeClassName="dark:bg-dark-300 dark:text-white bg-activeState"
                   >
                     <div
@@ -100,62 +100,68 @@ const SideLayout = () => {
                 ))}
             </div>
 
-            <div className={` ${
-                    sidebarCollapsed ? "hidden" : ""
-                  }`} >
-              <div className="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-                <p> Get the best Maintenance Service </p>
-                <Button
-                  className="bg-white hover:bg-white text-blue-important mt-8"
-                  size="sm"
-                >
-                  Go Now
-                </Button>
-              </div>
-            </div>
-
-            <div className="">
-              <div className="flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline">
-                <div
-                  className={` ${
-                    sidebarCollapsed ? "justify-center" : "justify-start"
-                  }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="16px"
-                    viewBox="0 -960 960 960"
-                    width="16px"
-                    className="fill-white"
+            {!sidebarCollapsed && (
+              <div>
+                <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                  <p> Get the best Maintenance Service </p>
+                  <Button
+                    className="bg-white hover:bg-white text-blue-important mt-8"
+                    size="sm"
                   >
-                    <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
-                  </svg>
+                    Go Now
+                  </Button>
                 </div>
-                <p
-                  className={`${
-                    sidebarCollapsed ? "hidden" : ""
-                  } text-black dark:text-white text-sm font-medium text-white`}
-                >
-                  Notification Settings
-                </p>
               </div>
+            )}
 
-
-              <div
-                className="flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
-                onClick={() => setLogoutDialog(true)}
+            <div>
+              <NavLink
+                key={"/notification"}
+                to={"/notification"}
+                className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white p-3 rounded-md no-underline"
+                activeClassName="dark:bg-dark-300 dark:text-white bg-activeState"
               >
                 <div
-                  className={`flex items-center gap-x-2  ${
+                  className={`flex items-center gap-x-3 gap-y-1 ${
                     sidebarCollapsed ? "justify-center" : "justify-start"
                   }`}
                 >
                   <div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      height="16px"
+                      height="20px"
                       viewBox="0 -960 960 960"
-                      width="16px"
+                      width="20px"
+                      className="fill-white"
+                    >
+                      <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
+                    </svg>
+                  </div>
+                  <p
+                    className={`${
+                      sidebarCollapsed ? "hidden opacity-0" : "opacity-100"
+                    } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
+                  >
+                    Notification Settings
+                  </p>
+                </div>
+              </NavLink>
+
+              <div
+                className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline cursor-pointer"
+                onClick={() => setLogoutDialog(true)}
+              >
+                <div
+                  className={`flex items-center gap-x-3 gap-y-1 ${
+                    sidebarCollapsed ? "justify-center" : "justify-start"
+                  }`}
+                >
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
                       className="fill-white"
                     >
                       <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
@@ -174,13 +180,13 @@ const SideLayout = () => {
           </div>
 
           <Dialog open={logoutDialog} onClose={setLogoutDialog}>
-            <div className=" bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+            <div className=" bg-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
               <div className="w-8">
                 <Logo />
               </div>
 
               <div className="flex-col justify-start items-start gap-1 flex">
-                <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
+                <div className="text-[#2F2E33] text-base font-semibold font-['Inter'] leading-snug">
                   Log out of your account?
                 </div>
               </div>
