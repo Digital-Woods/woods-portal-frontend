@@ -10,14 +10,21 @@ const DynamicComponent = ({ title, path }) => {
   };
 
   const viewText =
-  (activeTab === "account" ? `Table view of ${title}` : `List view of ${title}`)
-    .charAt(0).toUpperCase() + 
-  (activeTab === "account" ? `Table view of ${title}` : `List view of ${title}`)
-    .slice(1).toLowerCase();
-
+    (activeTab === "account"
+      ? `Table view of ${title}`
+      : `List view of ${title}`
+    )
+      .charAt(0)
+      .toUpperCase() +
+    (activeTab === "account"
+      ? `Table view of ${title}`
+      : `List view of ${title}`
+    )
+      .slice(1)
+      .toLowerCase();
 
   return (
-    <div className="dark:bg-dark-200 dark:text-white h-[100vh] ">
+    <div className="dark:bg-dark-200 dark:text-white">
       <div className="flex justify-between items-center pt-3 pb-8">
         <div>
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
@@ -31,7 +38,6 @@ const DynamicComponent = ({ title, path }) => {
           >
             <TabsList>
               <TabsTrigger value="account">
-
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="18px"
@@ -44,7 +50,7 @@ const DynamicComponent = ({ title, path }) => {
                 </svg>
               </TabsTrigger>
               <TabsTrigger value="password">
-              <svg
+                <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="18px"
                   viewBox="0 -960 960 960"
@@ -61,19 +67,29 @@ const DynamicComponent = ({ title, path }) => {
           </Tabs>
         </div>
         <div>
-          <Button className="text-white">New Site <span className="ml-2"> + </span> </Button>
+          <Button className="text-white">
+            New Site <span className="ml-2"> + </span>{" "}
+          </Button>
         </div>
       </div>
 
       {activeTab === "account" ? (
         <div>
           <div className="flex justify-between items-center py-6">
-          <div className="flex gap-x-4">
-    <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true}/>
-    <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
-    <CustomCheckbox buttonText="Status" spanText="3" showSpan={true}/>
-    <CustomCheckbox buttonText="Job Type" spanText="3" showSpan={true} />
-  </div>
+            <div className="flex gap-x-4">
+              <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
+              <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
+              <CustomCheckbox
+                buttonText="Status"
+                spanText="3"
+                showSpan={true}
+              />
+              <CustomCheckbox
+                buttonText="Job Type"
+                spanText="3"
+                showSpan={true}
+              />
+            </div>
 
             <div className="w-[25%]">
               <Input
