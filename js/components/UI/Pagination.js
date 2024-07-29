@@ -67,7 +67,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
             key={index}
             className={`cursor-pointer px-4 py-2 rounded-md text-sm ${
               currentPage === data
-                ? "dark:bg-dark-500 bg-primary text-white"
+                ? " bg-primary text-white"
                 : ""
             } ${
               data === "..." ? "cursor-default" : ""
