@@ -100,17 +100,19 @@ const SideLayout = () => {
                 ))}
             </div>
 
-            <div>
-              <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-                <p> Get the best Maintenance Service </p>
-                <Button
-                  className="bg-white hover:bg-white text-blue-important mt-8"
-                  size="sm"
-                >
-                  Go Now
-                </Button>
+            {!sidebarCollapsed && (
+              <div>
+                <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                  <p> Get the best Maintenance Service </p>
+                  <Button
+                    className="bg-white hover:bg-white text-blue-important mt-8"
+                    size="sm"
+                  >
+                    Go Now
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="">
               <div
