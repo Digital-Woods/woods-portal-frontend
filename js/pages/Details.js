@@ -258,7 +258,7 @@ const Details = ({ path, id }) => {
                   </span>
                   <span>
                     {association.label || formatKey(key)}{" "}
-                    <span className="ml-2 px-2 py-1 rounded-md bg-blue-600 text-white text-xs">
+                    <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
                       {association.count}
                     </span>
                   </span>
