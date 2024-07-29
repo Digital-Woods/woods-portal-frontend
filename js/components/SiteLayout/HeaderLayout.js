@@ -196,7 +196,7 @@ const HeaderLayout = ({ title }) => {
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-white rounded-md pl-2 cursor-pointer dark:bg-dark-400"
+            className="flex flex-col justify-center items-center bg-white rounded-md pl-2 cursor-pointer dark:bg-dark-400 profile-section"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >
