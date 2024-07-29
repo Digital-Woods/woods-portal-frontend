@@ -70,115 +70,105 @@ const SideLayout = () => {
           </div>
         </div>
         <nav className="space-y-1  flex-1">
+          <div className=" flex flex-col h-full justify-between ">
+            <div>
+              {routes.length > 0 &&
+                routes.map(({ path, title, icon }) => (
+                  <NavLink
+                    key={path}
+                    to={path}
+                    className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
+                    activeClassName="dark:bg-dark-300 dark:text-white bg-activeState"
+                  >
+                    <div
+                      className={`flex items-center gap-x-3 gap-y-1 ${
+                        sidebarCollapsed ? "justify-center" : "justify-start"
+                      }`}
+                    >
+                      <div>
+                        <SvgRenderer svgContent={icon} />
+                      </div>
+                      <p
+                        className={`${
+                          sidebarCollapsed ? "hidden opacity-0" : "opacity-100"
+                        } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
+                      >
+                        {title}
+                      </p>
+                    </div>
+                  </NavLink>
+                ))}
+            </div>
 
+            <div>
+              <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                <p> Get the best Maintenance Service </p>
+                <Button
+                  className="bg-white hover:bg-white text-blue-important mt-8"
+                  size="sm"
+                >
+                  Go Now
+                </Button>
+              </div>
+            </div>
 
-          <div className=" flex flex-col h-full justify-between " > 
-
-          <div>
-          {routes.length > 0 &&
-            routes.map(({ path, title, icon }) => (
-              <NavLink
-                key={path}
-                to={path}
+            <div className="">
+              <div className="flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline">
+                <div
+                  className={` ${
+                    sidebarCollapsed ? "justify-center" : "justify-start"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    className="fill-white"
+                  >
+                    <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
+                  </svg>
+                </div>
+                <p
+                  className={`${
+                    sidebarCollapsed ? "hidden" : ""
+                  } text-black dark:text-white text-sm font-medium text-white`}
+                >
+                  Notification Settings
+                </p>
+              </div>
+              <div
                 className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
-                activeClassName="dark:bg-dark-300 dark:text-white bg-activeState"
+                onClick={() => setLogoutDialog(true)}
               >
                 <div
-                  className={`flex items-center gap-x-3 gap-y-1${
+                  className={`flex items-center gap-x-2  ${
                     sidebarCollapsed ? "justify-center" : "justify-start"
                   }`}
                 >
                   <div>
-                    <SvgRenderer svgContent={icon} />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="16px"
+                      viewBox="0 -960 960 960"
+                      width="16px"
+                      className="fill-white"
+                    >
+                      <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+                    </svg>
                   </div>
                   <p
                     className={`${
-                      sidebarCollapsed ? "hidden opacity-0" : "opacity-100"
-                    } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
+                      sidebarCollapsed ? "hidden" : ""
+                    } text-black dark:text-white text-sm font-medium text-white`}
                   >
-                    {title}
+                    Logout
                   </p>
                 </div>
-              </NavLink>
-            ))}
-          </div>
-        
-
-
-          <div>
-            <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-              <p> Get the best Maintenance Service </p>
-              <Button
-                className="bg-white hover:bg-white text-blue-important mt-8"
-                size="sm"
-              >
-                Go Now
-              </Button>
-            </div>
-          </div>
-
-          <div className="">
-            <div
-              className={`flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline ${
-                sidebarCollapsed ? "justify-center" : "justify-start"
-              }`}
-            >
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="16px"
-                  viewBox="0 -960 960 960"
-                  width="16px"
-                  className="fill-white"
-                >
-                  <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
-                </svg>
               </div>
-              <p
-                className={`${
-                  sidebarCollapsed ? "hidden" : ""
-                } text-black dark:text-white text-sm font-medium text-white`}
-              >
-                Notification Settings
-              </p>
-            </div>
-            <div
-            className="block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline"
-            onClick={() => setLogoutDialog(true)}
-          >
-            <div
-              className={`flex items-center gap-x-2  ${
-                sidebarCollapsed ? "justify-center" : "justify-start"
-              }`}
-            >
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="16px"
-                  viewBox="0 -960 960 960"
-                  width="16px"
-                  className="fill-white"
-                >
-                  <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-                </svg>
-              </div>
-              <p
-                className={`${
-                  sidebarCollapsed ? "hidden" : ""
-                } text-black dark:text-white text-sm font-medium text-white`}
-              >
-                Logout
-              </p>
             </div>
           </div>
-          </div>
 
-
-
-          </div>
-
-          
-        
           <Dialog open={logoutDialog} onClose={setLogoutDialog}>
             <div className=" bg-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
               <div className="w-8">
