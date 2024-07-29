@@ -113,12 +113,12 @@ const SideLayout = () => {
             </div>
 
             <div className="">
-              <div className="flex items-center gap-x-2 block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline">
-                <div
-                  className={` ${
-                    sidebarCollapsed ? "justify-center" : "justify-start"
-                  }`}
-                >
+              <div
+                className={`flex items-center block hover:bg-activeState dark:hover:bg-dark-300 dark:hover:text-white  p-3 rounded-md no-underline  ${
+                  sidebarCollapsed ? "justify-center" : "justify-start"
+                }`}
+              >
+                <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="16px"
@@ -142,7 +142,7 @@ const SideLayout = () => {
                 onClick={() => setLogoutDialog(true)}
               >
                 <div
-                  className={`flex items-center gap-x-2  ${
+                  className={`flex items-center  ${
                     sidebarCollapsed ? "justify-center" : "justify-start"
                   }`}
                 >
