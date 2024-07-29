@@ -162,7 +162,7 @@ const Details = ({ path, id }) => {
     ) : null;
 
   return (
-    <div className="grid grid-cols-6 gap-4 py-6 h-full dark:bg-dark-200">
+    <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
       <div className="col-span-4">
         {isLoading && !item && <div className="loader-line"></div>}
 
@@ -254,15 +254,7 @@ const Details = ({ path, id }) => {
               <AccordionSummary>
                 <div className="flex items-center gap-x-2 text-sm font-medium ">
                   <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="20px"
-                      viewBox="0 -960 960 960"
-                      width="20px"
-                      fill="#000000"
-                    >
-                      <path d="M180.31-164q-27.01 0-45.66-18.65Q116-201.3 116-228.31v-407.38q0-27.01 18.65-45.66Q153.3-700 180.31-700H356v-59.9q0-27.1 18.68-45.6Q393.35-824 420.4-824h119.56q27.04 0 45.54 18.65t18.5 45.66V-700h175.69q27.01 0 45.66 18.65Q844-662.7 844-635.69v407.38q0 27.01-18.65 45.66Q806.7-164 779.69-164H180.31Zm0-52h599.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-407.38q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H180.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v407.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85ZM408-700h144v-59.69q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H420.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46V-700ZM168-216v-432 432Z" />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="dark:fill-white fill-black"><path d="M140-100v-240h120v-160h200v-120H340v-240h280v240H500v120h200v160h120v240H540v-240h120v-120H300v120h120v240H140Zm240-560h200v-160H380v160ZM180-140h200v-160H180v160Zm400 0h200v-160H580v160ZM480-660ZM380-300Zm200 0Z"/></svg>
                   </span>
                   <span>
                     {association.label || formatKey(key)}{" "}

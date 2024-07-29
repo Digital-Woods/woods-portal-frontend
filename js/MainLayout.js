@@ -57,7 +57,7 @@ const MainLayout = ({ children }) => {
               )}
             />
           ))}
-        <div className="px-4">
+        <div className="px-4 py-6">
           {routes.length > 0 && (
             <Switch>
               <Route

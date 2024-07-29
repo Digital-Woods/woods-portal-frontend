@@ -24,7 +24,7 @@ const Accordion = ({ children }) => {
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
   return (
     <div
-      className={`flex justify-between border dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
+      className={`flex justify-between dark:border-gray-600 border dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
         active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}
@@ -75,7 +75,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      <div className="border p-4 bg-white mt-4 dark:bg-dark-300">{children}</div>
+      <div className="border dark:border-gray-600 p-4 bg-white mt-4 dark:bg-dark-300">{children}</div>
     </div>
   );
 };
