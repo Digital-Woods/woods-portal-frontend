@@ -38,7 +38,7 @@ const MainLayout = ({ children }) => {
         <SideLayout />
       </div>
       <div
-        className={`transition-[width] duration-300 ml-auto w-full md:w-${
+        className={`dark:bg-dark-200 bg-flatGray transition-[width] duration-300 ml-auto w-full md:w-${
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
         }`}
       >
