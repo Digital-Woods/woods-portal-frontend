@@ -25,6 +25,8 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
+const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
+
 const DashboardTable = ({ path, inputValue }) => {
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -35,8 +37,33 @@ const DashboardTable = ({ path, inputValue }) => {
   const [sortConfig, setSortConfig] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  const [filterPropertyName, setFilterPropertyName] = useState(null);
+  const [filterOperator, setFilterOperator] = useState(null);
+  const [filterValue, setFilterValue] = useState(null);
+
+  useEffect(() => {
+    // const queryParams = new URLSearchParams(location.search);
+    const hash = location.hash; // Get the hash fragment
+    const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
+    const queryParams = new URLSearchParams(hash.substring(queryIndex)); // Parse the query string
+
+    setFilterPropertyName(queryParams.get("filterPropertyName"));
+    setFilterOperator(queryParams.get("filterOperator"));
+    setFilterValue(queryParams.get("filterValue"));
+  }, [location.search]);
+
   const { error, data, refetch } = useQuery({
-    queryKey: ["TableData", path, itemsPerPage, after, sortConfig, inputValue],
+    queryKey: [
+      "TableData",
+      path,
+      itemsPerPage,
+      after,
+      sortConfig,
+      inputValue,
+      filterPropertyName,
+      filterOperator,
+      filterValue,
+    ],
     queryFn: async () =>
       await Client.objects.all({
         path,
@@ -44,6 +71,9 @@ const DashboardTable = ({ path, inputValue }) => {
         after,
         sort: sortConfig,
         inputValue,
+        filterPropertyName,
+        filterOperator,
+        filterValue,
       }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
@@ -54,7 +84,13 @@ const DashboardTable = ({ path, inputValue }) => {
 
         if (results.length > 0) {
           const headersArray = Object.keys(results[0]).reduce((acc, key) => {
-            if (key === "id" || key === "archived" || key === "associations" || key === "createdAt" || key === "updatedAt") {
+            if (
+              key === "id" ||
+              key === "archived" ||
+              key === "associations" ||
+              key === "createdAt" ||
+              key === "updatedAt"
+            ) {
               return acc;
             }
             if (
@@ -64,7 +100,9 @@ const DashboardTable = ({ path, inputValue }) => {
             ) {
               acc.push({
                 name: key,
-                label: results[0][key].label,
+                label: results[0][key].headerLabel
+                  ? results[0][key].headerLabel
+                  : results[0][key].label,
               });
             } else {
               acc.push({
@@ -115,6 +153,7 @@ const DashboardTable = ({ path, inputValue }) => {
   }, [inputValue]);
 
   const renderCellContent = (value, name, itemId) => {
+    console.log("name", name);
     if (isNull(value)) {
       return "-";
     }
@@ -122,44 +161,42 @@ const DashboardTable = ({ path, inputValue }) => {
       return "-";
     }
     if (isObject(value) && value.type === "link") {
+      const label = value.label ? value.label : value.featureName;
+
       return (
         <Link
-        className="text-lightblue font-bold border-input rounded-md"
-        to={`/${value.featureName}`}
-      >
-        {value.featureName.charAt(0).toUpperCase() + value.featureName.slice(1)}
-      </Link>
-      
+          className="text-lightblue font-bold border-input rounded-md"
+          to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+        >
+          {label.charAt(0).toUpperCase() + label.slice(1)}
+        </Link>
       );
     }
 
-    if (isObject(value) && value.type === "primaryDisplayProperty" ) {
+    if (isObject(value) && value.type === "primaryDisplayProperty") {
       return (
         <Link
-        className="text-lightblue font-bold border-input rounded-md"
-        to={`${path}/${itemId}`}
-      >
-      {value.value}
-      </Link>
-      )
+          className="text-lightblue font-bold border-input rounded-md"
+          to={`${path}/${itemId}`}
+        >
+          {value.value}
+        </Link>
+      );
     }
 
     if (isDate(value)) {
       return formatDate(value);
     }
-  
+
     const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
     const { truncated, isTruncated } = truncateString(cellContent);
-  
+
     return isTruncated ? (
-      <Tooltip content={cellContent}>
-        {truncated}
-      </Tooltip>
+      <Tooltip content={cellContent}>{truncated}</Tooltip>
     ) : (
       truncated
     );
   };
-  
 
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-white dark:bg-dark-300">
@@ -200,7 +237,10 @@ const DashboardTable = ({ path, inputValue }) => {
                     onClick={() => handleSort(item.name)}
                   >
                     <div className="flex">
-                   <span className="font-semibold text-xs" >   {item.label} </span>  
+                      <span className="font-semibold text-xs">
+                        {" "}
+                        {item.label}{" "}
+                      </span>
                       {sortConfig === item.name && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +255,7 @@ const DashboardTable = ({ path, inputValue }) => {
                       {sortConfig === `-${item.name}` && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                      height="24px"
+                          height="24px"
                           viewBox="0 -960 960 960"
                           width="24px"
                           className="dark:fill-white cursor-pointer"
@@ -226,16 +266,19 @@ const DashboardTable = ({ path, inputValue }) => {
                     </div>
                   </TableHead>
                 ))}
-                <TableHead className="font-semibold text-xs">
+                {/* <TableHead className="font-semibold text-xs">
                   Actions
-                </TableHead>
+                </TableHead> */}
               </TableRow>
             </TableHeader>
             <TableBody>
               {tableData.map((item) => (
                 <TableRow key={item.id}>
                   {tableHeader.map((row) => (
-                    <TableCell key={row.name} className="whitespace-nowrap border-b">
+                    <TableCell
+                      key={row.name}
+                      className="whitespace-nowrap border-b"
+                    >
                       <div className="dark:text-white">
                         {renderCellContent(
                           row.name
@@ -247,7 +290,7 @@ const DashboardTable = ({ path, inputValue }) => {
                       </div>
                     </TableCell>
                   ))}
-                  <TableCell>
+                  {/* <TableCell>
                     <div className="flex items-center space-x-2 gap-x-5">
                       <Link
                         className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
@@ -256,7 +299,7 @@ const DashboardTable = ({ path, inputValue }) => {
                         View Details
                       </Link>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
