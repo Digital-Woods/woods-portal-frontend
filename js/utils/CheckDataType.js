@@ -66,6 +66,16 @@ const truncateString = (str, MAX_LENGTH = 50) => {
   return { truncated: str, isTruncated: false };
 };
 
+const skipKey = (keysToSkip) => {
+  const fields = Object.keys(item);
+  fields.forEach((key) => {
+    if (keysToSkip.has(key)) {
+      return;
+    }
+  })
+  return fields;
+}
+
 const sortData = (item, header = true) => {
   if (!item || typeof item !== "object") return [];
 
