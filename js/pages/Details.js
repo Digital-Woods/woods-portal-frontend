@@ -11,10 +11,13 @@ const Details = ({ path, id }) => {
         objectId: id,
       }),
     onSuccess: (data) => {
-      setAssociations(data.data.associations || {});
       if (data.data) {
         const finalData = JSON.parse(JSON.stringify(sortData(data.data)));
         setSortItems(finalData);
+      }
+      if (data.data.associations) {
+        const finalData = filterKeys(data.data.associations);
+        setAssociations(finalData);
       }
       setItems(data.data);
     },

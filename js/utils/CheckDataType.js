@@ -66,15 +66,28 @@ const truncateString = (str, MAX_LENGTH = 50) => {
   return { truncated: str, isTruncated: false };
 };
 
-const skipKey = (keysToSkip) => {
-  const fields = Object.keys(item);
-  fields.forEach((key) => {
-    if (keysToSkip.has(key)) {
-      return;
+const filterKeys = (object) => {
+  for (const key in object) {
+    if (Array.isArray(object[key].list)) {
+      object[key].list = object[key].list.map((item) => {
+        console.log("item", item);
+        const newObj = {};
+        for (const itemKey in item) {
+          if (
+            !itemKey.includes("id") &&
+            !itemKey.includes("hs") &&
+            !itemKey.includes("date") &&
+            !itemKey.includes("at")
+          ) {
+            newObj[itemKey] = item[itemKey];
+          }
+        }
+        return newObj;
+      });
     }
-  })
-  return fields;
-}
+  }
+  return object;
+};
 
 const sortData = (item, header = true) => {
   if (!item || typeof item !== "object") return [];
@@ -119,9 +132,13 @@ const sortData = (item, header = true) => {
     } else if (typeof value === "object") {
       // Check if it's a field with a 'name' property and push accordingly
       if (value.key) {
-        nameFields.push({ name: key, label: value.key
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()), value: value.value });
+        nameFields.push({
+          name: key,
+          label: value.key
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (char) => char.toUpperCase()),
+          value: value.value,
+        });
       } else {
         // Skip objects that don't have a 'name' or similar property
       }
