@@ -128,6 +128,14 @@ const sortData = (item, detailPage = false, header = true) => {
     if (keysToSkip.has(key)) {
       return;
     }
+    if (
+      key.includes("id") ||
+      key.includes("hs") ||
+      key.includes("date") ||
+      (key.includes("files") && detailPage === true)
+    ) {
+      return;
+    }
 
     const value = item[key];
 
