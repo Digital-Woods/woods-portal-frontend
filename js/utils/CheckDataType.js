@@ -72,16 +72,37 @@ const filterKeys = (object) => {
       object[key].list = object[key].list.map((item) => {
         console.log("item", item);
         const newObj = {};
-        for (const itemKey in item) {
-          if (
+
+        // Extract keys containing "name"
+        const nameKeys = Object.keys(item).filter(
+          (itemKey) =>
+            itemKey.includes("name") &&
             !itemKey.includes("id") &&
             !itemKey.includes("hs") &&
             !itemKey.includes("date") &&
             !itemKey.includes("files")
-          ) {
-            newObj[itemKey] = item[itemKey];
-          }
-        }
+        );
+
+        // Extract remaining keys
+        const remainingKeys = Object.keys(item).filter(
+          (itemKey) =>
+            !itemKey.includes("id") &&
+            !itemKey.includes("hs") &&
+            !itemKey.includes("date") &&
+            !itemKey.includes("files") &&
+            !itemKey.includes("name")
+        );
+
+        // Add keys containing "name" to the new object first
+        nameKeys.forEach((nameKey) => {
+          newObj[nameKey] = item[nameKey];
+        });
+
+        // Add the remaining keys to the new object
+        remainingKeys.forEach((remainingKey) => {
+          newObj[remainingKey] = item[remainingKey];
+        });
+
         return newObj;
       });
     }
@@ -119,7 +140,7 @@ const sortData = (item, detailPage = false, header = true) => {
       value.associateWith &&
       value.detailPageHidden == detailPage
     ) {
-      console.log("value", value)
+      console.log("value", value);
       return;
     }
 
