@@ -158,7 +158,7 @@ const Details = ({ path, id }) => {
                     <div className="text-sm font-semibold w-52">
                       {value.label}:
                     </div>
-                    <div className="text-sm text-gray-500">{value.value}</div>
+                    <div className="text-sm text-gray-500">{renderCellContent(index, value.value)}</div>
                   </div>
                 ))}
             </div>
@@ -176,7 +176,7 @@ const Details = ({ path, id }) => {
                   <div className="text-sm font-semibold w-52">
                     {value.label}:
                   </div>
-                  <div className="text-sm text-gray-500">{value.value}</div>
+                  <div className="text-sm text-gray-500">{renderCellContent(index, value.value)}</div>
                 </div>
               ))}
           </div>
