@@ -184,11 +184,11 @@ const Details = ({ path, id }) => {
                 sortItems.map((value, index) => (
                   <div
                     key={value.name}
-                    className={`py-2 flex ${
+                    className={`py-2 flex${
                       index === sortItems.length - 1 ? "" : ""
                     }`}
                   >
-                    <div className="text-sm font-semibold">
+                    <div className="text-sm w-[200px] font-semibold">
                       {value.label}:
                     </div>
                     <div className="text-sm text-gray-500">
@@ -204,14 +204,14 @@ const Details = ({ path, id }) => {
               sortItems.map((value, index) => (
                 <div
                   key={value.name}
-                  className={`py-2 px-3 flex gap-x-5 ${
+                  className={`py-2 flex ${
                     index === sortItems.length - 1 ? "" : ""
                   }`}
                 >
-                  <div className="text-sm font-semibold w-52">
+                  <div className="text-sm font-semibold w-[200px]">
                     {value.label}:
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 ">
                     {renderCellContent(index, value.value)}
                   </div>
                 </div>
