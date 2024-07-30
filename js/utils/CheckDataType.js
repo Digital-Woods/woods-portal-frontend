@@ -70,18 +70,13 @@ const filterKeys = (object) => {
   for (const key in object) {
     if (Array.isArray(object[key].list)) {
       object[key].list = object[key].list.map((item) => {
-        console.log("item", item);
         const newObj = {};
-
         // Extract keys containing "name"
-        const nameKeys = Object.keys(item).filter(
-          (itemKey) =>
-            itemKey.includes("name") &&
-            !itemKey.includes("id") &&
-            !itemKey.includes("hs") &&
-            !itemKey.includes("date") &&
-            !itemKey.includes("files")
-        );
+        const nameKeys = Object.keys(item).filter((itemKey) => {
+          if (typeof item[itemKey] === "object" && itemKey.includes("name")) {
+            return itemKey.includes("name");
+          }
+        });
 
         // Extract remaining keys
         const remainingKeys = Object.keys(item).filter(
@@ -89,8 +84,7 @@ const filterKeys = (object) => {
             !itemKey.includes("id") &&
             !itemKey.includes("hs") &&
             !itemKey.includes("date") &&
-            !itemKey.includes("files") &&
-            !itemKey.includes("name")
+            !itemKey.includes("files")
         );
 
         // Add keys containing "name" to the new object first
@@ -102,6 +96,8 @@ const filterKeys = (object) => {
         remainingKeys.forEach((remainingKey) => {
           newObj[remainingKey] = item[remainingKey];
         });
+
+        console.log("newObj", newObj);
 
         return newObj;
       });
