@@ -12,7 +12,7 @@ const Details = ({ path, id }) => {
       }),
     onSuccess: (data) => {
       if (data.data) {
-        const finalData = JSON.parse(JSON.stringify(sortData(data.data)));
+        const finalData = JSON.parse(JSON.stringify(sortData(data.data, true)));
         setSortItems(finalData);
       }
       if (data.data.associations) {

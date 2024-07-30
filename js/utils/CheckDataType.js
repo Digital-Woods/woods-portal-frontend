@@ -89,7 +89,7 @@ const filterKeys = (object) => {
   return object;
 };
 
-const sortData = (item, header = true) => {
+const sortData = (item, detailPage = false, header = true) => {
   if (!item || typeof item !== "object") return [];
 
   const fields = Object.keys(item);
@@ -113,6 +113,15 @@ const sortData = (item, header = true) => {
     }
 
     const value = item[key];
+
+    if (
+      typeof value === "object" &&
+      value.associateWith &&
+      value.detailPageHidden == detailPage
+    ) {
+      console.log("value", value)
+      return;
+    }
 
     if (key.startsWith("hs_")) {
       hsFields.push({
