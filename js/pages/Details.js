@@ -24,7 +24,7 @@ const Details = ({ path, id }) => {
   });
 
   if (error) {
-    return <div>Error fetching data</div>;
+    return <div className="w-full h-full flex flex-col items-center justify-center text-white bg-lightblue text-2xl font-semibold" >Error fetching data</div>;
   }
 
   const renderCellContent = (key, value) => {
@@ -234,18 +234,18 @@ const Details = ({ path, id }) => {
               <AccordionDetails>
                 <div className="flex flex-col">
                   {association.count === 0 ? (
-                    <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+                    <div className="p-2 dark:bg-dark-300 bg-white rounded-md mt-2 dark:text-white">
                       See the Equipment associated with this record.
                     </div>
                   ) : (
                     association.list &&
                     association.list.length > 0 && (
                       <div className="overflow-x-auto">
-                        <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+                        <div className="p-2 dark:bg-dark-300 bg-white rounded-md mt-2 dark:text-white">
                           {association.list.map((item, index) => (
                             <div
                               key={index}
-                              className="mb-3 border dark:border-gray-600 p-4 rounded-md shadow-sm bg-gray-100 dark:bg-dark-500"
+                              className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-gray-100 dark:bg-dark-500"
                             >
                               {Object.entries(item)
                                 .filter(

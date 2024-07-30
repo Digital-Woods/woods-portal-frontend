@@ -75,7 +75,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      <div className="border dark:border-gray-600 p-4 bg-white mt-4 dark:bg-dark-300">{children}</div>
+      <div className="border dark:border-gray-600 px-2 bg-white mt-4 dark:bg-dark-300">{children}</div>
     </div>
   );
 };
