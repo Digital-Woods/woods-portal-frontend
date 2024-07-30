@@ -128,11 +128,13 @@ const sortData = (item, detailPage = false, header = true) => {
     if (keysToSkip.has(key)) {
       return;
     }
+    // console.log("key", key)
     if (
-      key.includes("id") ||
+      (key.includes("id") ||
       key.includes("hs") ||
       key.includes("date") ||
-      (key.includes("files") && detailPage === true)
+      key.includes("files")) &&
+      detailPage === true
     ) {
       return;
     }
