@@ -38,7 +38,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   return (
     <div className="flex justify-end items-center py-6 px-4">
       <ul className="flex items-center space-x-2">
-        <div className="dark:bg-flatGray bg-gray-200 p-3 rounded-md">
+        <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
           <li
             className={` ${
               currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
@@ -67,7 +67,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
             key={index}
             className={`cursor-pointer px-4 py-2 rounded-md text-sm ${
               currentPage === data
-                ? " bg-primary text-white"
+                ? " bg-primary dark:bg-dark-400 text-white"
                 : ""
             } ${
               data === "..." ? "cursor-default" : ""
@@ -77,7 +77,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
             {data}
           </li>
         ))}
-        <div className="dark:bg-flatGray bg-gray-200 p-3 rounded-md">
+        <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
           <li
             className={` ${
               currentPage === numOfPages
