@@ -93,6 +93,17 @@ const MainLayout = ({ children }) => {
                   )}
                 />
               ))}
+              <Route
+                path={"/notification"}
+                render={(props) => (
+                  <Notification
+                    {...props}
+                    path={"/notification"}
+                    title={"Notification"}
+                    icon={""}
+                  />
+                )}
+              />
             </Switch>
           )}
         </div>
