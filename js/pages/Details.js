@@ -1,6 +1,4 @@
 const Details = ({ path, id }) => {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [active, setActive] = useState(null);
   const [item, setItems] = useState(null);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
@@ -14,75 +12,17 @@ const Details = ({ path, id }) => {
       }),
     onSuccess: (data) => {
       setAssociations(data.data.associations || {});
-      if(data.data) {
+      if (data.data) {
         const finalData = JSON.parse(JSON.stringify(sortData(data.data)));
-        console.log('Sorted Data:', finalData);
         setSortItems(finalData);
       }
-      setItems(data.data)
+      setItems(data.data);
     },
   });
 
   if (error) {
     return <div>Error fetching data</div>;
   }
-
-  // const handleToggle = (index) => {
-  //   if (active === index) {
-  //     setActive(null);
-  //   } else {
-  //     setActive(index);
-  //   }
-  // };
-
-  // const handleTabClick = (value) => {
-  //   setActiveTab(value);
-  // };
-
-  // const priorityKeys = ["name", "description", "email", "city"];
-
-  // const filteredAndSortedEntries = (obj) => {
-  //   const entries = Object.entries(obj).filter(
-  //     ([key, value]) =>
-  //       key !== "id" && key !== "archived"
-  //   );
-
-  //   entries.sort(([keyA], [keyB]) => {
-  //     const isNameA = keyA.toLowerCase().includes("name");
-  //     const isNameB = keyB.toLowerCase().includes("name");
-
-  //     if (isNameA && !isNameB) return -1;
-  //     if (!isNameA && isNameB) return 1;
-
-  //     const indexA = priorityKeys.indexOf(keyA);
-  //     const indexB = priorityKeys.indexOf(keyB);
-  //     if (indexA !== -1 && indexB === -1) return -1;
-  //     if (indexA === -1 && indexB !== -1) return 1;
-
-  //     if (indexA === -1 && indexB === -1) {
-  //       if (
-  //         ["createdAt", "updatedAt"].includes(keyA) &&
-  //         !["createdAt", "updatedAt"].includes(keyB)
-  //       )
-  //         return 1;
-  //       if (
-  //         ["createdAt", "updatedAt"].includes(keyB) &&
-  //         !["createdAt", "updatedAt"].includes(keyA)
-  //       )
-  //         return -1;
-  //       return 0;
-  //     }
-  //     return indexA - indexB;
-  //   });
-
-  //   const additionalEntries = entries.filter(([key]) =>
-  //     ["createdAt", "updatedAt"].includes(key)
-  //   );
-  //   const sortedEntries = entries.filter(
-  //     ([key]) => !["createdAt", "updatedAt"].includes(key)
-  //   );
-  //   return [...sortedEntries, ...additionalEntries];
-  // };
 
   const renderCellContent = (key, value) => {
     if (typeof value === "object") {

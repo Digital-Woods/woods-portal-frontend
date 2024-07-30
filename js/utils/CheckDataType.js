@@ -98,10 +98,14 @@ const sortData = (item, header = true) => {
           .replace(/^hs_/, "Hs ")
           .replace(/_/g, " ")
           .replace(/\b\w/g, (char) => char.toUpperCase()),
-        value: value
+        value: value,
       });
     } else if (typeof value === "object" && value.associateWith) {
-      objectFields.push({ name: key, label: value.headerLabel, value: value.headerLabel });
+      objectFields.push({
+        name: key,
+        label: value.headerLabel,
+        value: value.headerLabel,
+      });
     } else if (typeof value === "object") {
       // Check if it's a field with a 'name' property and push accordingly
       if (value.key) {
@@ -115,7 +119,7 @@ const sortData = (item, header = true) => {
         label: key
           .replace(/_/g, " ")
           .replace(/\b\w/g, (char) => char.toUpperCase()),
-        value: value
+        value: value,
       });
     }
   });
