@@ -109,7 +109,9 @@ const sortData = (item, header = true) => {
     } else if (typeof value === "object") {
       // Check if it's a field with a 'name' property and push accordingly
       if (value.key) {
-        nameFields.push({ name: key, label: value.value, value: value.value });
+        nameFields.push({ name: key, label: value.key
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase()), value: value.value });
       } else {
         // Skip objects that don't have a 'name' or similar property
       }
