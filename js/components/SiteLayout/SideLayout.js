@@ -99,7 +99,7 @@ const SideLayout = ({ className }) => {
                                 : "opacity-100"
                             } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
                           >
-                            {title}
+                            {`${title}s`}
                           </p>
                         </div>
                       </NavLink>

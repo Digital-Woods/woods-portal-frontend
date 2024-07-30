@@ -49,12 +49,24 @@ const MainLayout = ({ children }) => {
                 <HeaderLayout
                   {...props}
                   path={path}
-                  title={title}
+                  title={`${title}s`}
                   icon={icon}
                 />
               )}
             />
           ))}
+          <Route
+              key={"/notification"}
+              path={"/notification"}
+              render={(props) => (
+                <HeaderLayout
+                  {...props}
+                  path={"/notification"}
+                  title={`Notifications`}
+                  icon={""}
+                />
+              )}
+            />
         <div className="px-4 py-6">
           {routes.length > 0 && (
             <Switch>
@@ -87,7 +99,7 @@ const MainLayout = ({ children }) => {
                     <DynamicComponent
                       {...props}
                       path={path}
-                      title={title}
+                      title={`${title}s`}
                       icon={icon}
                     />
                   )}
@@ -99,7 +111,7 @@ const MainLayout = ({ children }) => {
                   <Notification
                     {...props}
                     path={"/notification"}
-                    title={"Notification"}
+                    title={"Notifications"}
                     icon={""}
                   />
                 )}
