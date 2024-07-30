@@ -210,41 +210,44 @@ const Details = ({ path, id }) => {
               </AccordionSummary>
 
               <AccordionDetails>
-                <div className="flex flex-col">
-                  {association.list && association.list.length > 0 && (
-                    <div className="overflow-x-auto">
-                      <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-                        {Object.entries(association.list[0])
-                          .filter(
-                            ([itemKey, itemValue]) =>
-                              ![
-                                "id",
-                                "createdAt",
-                                "archived",
-                                "updatedAt",
-                                "hs_lastmodifieddate",
-                                "hs_createdate",
-                                "hs_object_id",
-                              ].includes(itemKey) && itemValue !== null
-                          )
-                          .map(([itemKey, itemValue]) => (
-                            <div
-                              key={itemKey}
-                              className="py-2 px-3 flex gap-x-5"
-                            >
-                              <div className="text-xs font-semibold w-32">
-                                {formatKey(itemKey)}:
-                              </div>
-                              <div className="text-xs text-gray-500">
-                                {renderCellContent(itemKey, itemValue)}
-                              </div>
-                            </div>
-                          ))}
-                      </div>
+  <div className="flex flex-col">
+    {association.list && association.list.length > 0 && (
+      <div className="overflow-x-auto">
+        <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+          {association.list.map((item, index) => (
+            <div key={index} className="mb-3 border dark:border-gray-600 p-4 rounded-md shadow-sm bg-gray-100 dark:bg-dark-500">
+              {Object.entries(item)
+                .filter(
+                  ([itemKey, itemValue]) =>
+                    ![
+                      "id",
+                      "createdAt",
+                      "archived",
+                      "updatedAt",
+                      "hs_lastmodifieddate",
+                      "hs_createdate",
+                      "hs_object_id",
+                    ].includes(itemKey) && itemValue !== null
+                )
+                .map(([itemKey, itemValue]) => (
+                  <div key={itemKey} className="py-2 px-3 flex gap-x-5">
+                    <div className="text-xs font-semibold w-32">
+                      {formatKey(itemKey)}:
                     </div>
-                  )}
-                </div>
-              </AccordionDetails>
+                    <div className="text-xs text-gray-500">
+                      {renderCellContent(itemKey, itemValue)}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</AccordionDetails>
+
+
             </Accordion>
           ))}
       </div>
