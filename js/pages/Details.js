@@ -2,9 +2,10 @@ const Details = ({ path, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [active, setActive] = useState(null);
   const [item, setItems] = useState(null);
+  const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
 
-  const { error,  isLoading } = useQuery({
+  const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
     queryFn: async () =>
       await Client.objects.byObjectId({
@@ -13,8 +14,12 @@ const Details = ({ path, id }) => {
       }),
     onSuccess: (data) => {
       setAssociations(data.data.associations || {});
-      delete data.data["associations"];
-      setItems(data.data);
+      if(data.data) {
+        const finalData = JSON.parse(JSON.stringify(sortData(data.data)));
+        console.log('Sorted Data:', finalData);
+        setSortItems(finalData);
+      }
+      setItems(data.data)
     },
   });
 
@@ -22,66 +27,66 @@ const Details = ({ path, id }) => {
     return <div>Error fetching data</div>;
   }
 
-  const handleToggle = (index) => {
-    if (active === index) {
-      setActive(null);
-    } else {
-      setActive(index);
-    }
-  };
+  // const handleToggle = (index) => {
+  //   if (active === index) {
+  //     setActive(null);
+  //   } else {
+  //     setActive(index);
+  //   }
+  // };
 
-  const handleTabClick = (value) => {
-    setActiveTab(value);
-  };
+  // const handleTabClick = (value) => {
+  //   setActiveTab(value);
+  // };
 
-  const priorityKeys = ["name", "description", "email", "city"];
+  // const priorityKeys = ["name", "description", "email", "city"];
 
-  const filteredAndSortedEntries = (obj) => {
-    const entries = Object.entries(obj).filter(
-      ([key, value]) =>
-        key !== "id" && key !== "archived" 
-    );
+  // const filteredAndSortedEntries = (obj) => {
+  //   const entries = Object.entries(obj).filter(
+  //     ([key, value]) =>
+  //       key !== "id" && key !== "archived"
+  //   );
 
-    entries.sort(([keyA], [keyB]) => {
-      const isNameA = keyA.toLowerCase().includes("name");
-      const isNameB = keyB.toLowerCase().includes("name");
+  //   entries.sort(([keyA], [keyB]) => {
+  //     const isNameA = keyA.toLowerCase().includes("name");
+  //     const isNameB = keyB.toLowerCase().includes("name");
 
-      if (isNameA && !isNameB) return -1;
-      if (!isNameA && isNameB) return 1;
+  //     if (isNameA && !isNameB) return -1;
+  //     if (!isNameA && isNameB) return 1;
 
-      const indexA = priorityKeys.indexOf(keyA);
-      const indexB = priorityKeys.indexOf(keyB);
-      if (indexA !== -1 && indexB === -1) return -1;
-      if (indexA === -1 && indexB !== -1) return 1;
+  //     const indexA = priorityKeys.indexOf(keyA);
+  //     const indexB = priorityKeys.indexOf(keyB);
+  //     if (indexA !== -1 && indexB === -1) return -1;
+  //     if (indexA === -1 && indexB !== -1) return 1;
 
-      if (indexA === -1 && indexB === -1) {
-        if (
-          ["createdAt", "updatedAt"].includes(keyA) &&
-          !["createdAt", "updatedAt"].includes(keyB)
-        )
-          return 1;
-        if (
-          ["createdAt", "updatedAt"].includes(keyB) &&
-          !["createdAt", "updatedAt"].includes(keyA)
-        )
-          return -1;
-        return 0;
-      }
-      return indexA - indexB;
-    });
+  //     if (indexA === -1 && indexB === -1) {
+  //       if (
+  //         ["createdAt", "updatedAt"].includes(keyA) &&
+  //         !["createdAt", "updatedAt"].includes(keyB)
+  //       )
+  //         return 1;
+  //       if (
+  //         ["createdAt", "updatedAt"].includes(keyB) &&
+  //         !["createdAt", "updatedAt"].includes(keyA)
+  //       )
+  //         return -1;
+  //       return 0;
+  //     }
+  //     return indexA - indexB;
+  //   });
 
-    const additionalEntries = entries.filter(([key]) =>
-      ["createdAt", "updatedAt"].includes(key)
-    );
-    const sortedEntries = entries.filter(
-      ([key]) => !["createdAt", "updatedAt"].includes(key)
-    );
-    return [...sortedEntries, ...additionalEntries];
-  };
+  //   const additionalEntries = entries.filter(([key]) =>
+  //     ["createdAt", "updatedAt"].includes(key)
+  //   );
+  //   const sortedEntries = entries.filter(
+  //     ([key]) => !["createdAt", "updatedAt"].includes(key)
+  //   );
+  //   return [...sortedEntries, ...additionalEntries];
+  // };
 
   const renderCellContent = (key, value) => {
-    if (typeof value === "object" ) {
-      return (value.value)
+    if (typeof value === "object") {
+      return value.value;
     }
     if (isDate(value)) {
       return formatDate(value);
@@ -95,21 +100,21 @@ const Details = ({ path, id }) => {
         showDate: true,
         showFollowing: true,
         showServiceName: true,
-        clarifierName:    !item ? "loading..." : item.job_name.value
+        clarifierName: !item ? "loading..." : item.job_name.value,
       };
     } else if (path === "/sites") {
       return {
         showDate: false,
         showFollowing: false,
         showServiceName: false,
-        clarifierName:    !item ? "loading..." : item.site_name.value
+        clarifierName: !item ? "loading..." : item.site_name.value,
       };
     } else {
       return {
         showDate: false,
         showFollowing: false,
         showServiceName: true,
-        clarifierName:    !item ? "loading..." : item.asset_name.value
+        clarifierName: !item ? "loading..." : item.asset_name.value,
       };
     }
   };
@@ -169,7 +174,6 @@ const Details = ({ path, id }) => {
         <HeaderCard
           bgImageClass="bg-custom-bg"
           plantName="South Plant"
-
           date="17/01/2024"
           serviceName="AquaFlow Service"
           following="Following"
@@ -203,46 +207,38 @@ const Details = ({ path, id }) => {
             </Table>
 
             <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-              {item &&
-                filteredAndSortedEntries(item).map(
-                  ([key, value], index, array) => (
-                    <div
-                      key={key}
-                      className={`py-2 px-3 flex gap-x-5 ${
-                        index === array.length - 1 ? "" : ""
-                      }`}
-                    >
-                      <div className="text-sm font-semibold w-52">
-                        {formatKey(key)}:
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {renderCellContent(key, value)}
-                      </div>
+              {sortItems.length > 0 &&
+                sortItems.map((value, index) => (
+                  <div
+                    key={value.name}
+                    className={`py-2 px-3 flex gap-x-5 ${
+                      index === sortItems.length - 1 ? "" : ""
+                    }`}
+                  >
+                    <div className="text-sm font-semibold w-52">
+                      {value.label}:
                     </div>
-                  )
-                )}
+                    <div className="text-sm text-gray-500">{value.value}</div>
+                  </div>
+                ))}
             </div>
           </div>
         ) : (
           <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-            {item &&
-              filteredAndSortedEntries(item).map(
-                ([key, value], index, array) => (
-                  <div
-                    key={key}
-                    className={`py-2 px-3 flex gap-x-5 ${
-                      index === array.length - 1 ? "" : ""
-                    }`}
-                  >
-                    <div className="text-sm font-semibold w-52">
-                      {formatKey(key)}:
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {renderCellContent(key, value)}
-                    </div>
+            {sortItems.length > 0 &&
+              sortItems.map((value, index) => (
+                <div
+                  key={value.name}
+                  className={`py-2 px-3 flex gap-x-5 ${
+                    index === sortItems.length - 1 ? "" : ""
+                  }`}
+                >
+                  <div className="text-sm font-semibold w-52">
+                    {value.label}:
                   </div>
-                )
-              )}
+                  <div className="text-sm text-gray-500">{value.value}</div>
+                </div>
+              ))}
           </div>
         )}
       </div>
@@ -254,7 +250,15 @@ const Details = ({ path, id }) => {
               <AccordionSummary>
                 <div className="flex items-center gap-x-2 text-sm font-medium ">
                   <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="dark:fill-white fill-black"><path d="M140-100v-240h120v-160h200v-120H340v-240h280v240H500v120h200v160h120v240H540v-240h120v-120H300v120h120v240H140Zm240-560h200v-160H380v160ZM180-140h200v-160H180v160Zm400 0h200v-160H580v160ZM480-660ZM380-300Zm200 0Z"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      className="dark:fill-white fill-black"
+                    >
+                      <path d="M140-100v-240h120v-160h200v-120H340v-240h280v240H500v120h200v160h120v240H540v-240h120v-120H300v120h120v240H140Zm240-560h200v-160H380v160ZM180-140h200v-160H180v160Zm400 0h200v-160H580v160ZM480-660ZM380-300Zm200 0Z" />
+                    </svg>
                   </span>
                   <span>
                     {association.label || formatKey(key)}{" "}

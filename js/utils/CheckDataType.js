@@ -11,7 +11,6 @@ function isDate(dateString) {
   return isValid;
 }
 
-
 const formatDateString = (date) => {
   const options = {
     day: "2-digit",
@@ -59,8 +58,75 @@ function isEmptyObject(data) {
 
 const truncateString = (str, MAX_LENGTH = 50) => {
   if (str.length > MAX_LENGTH) {
-    return { truncated: str.substring(0, MAX_LENGTH) + '...', isTruncated: true };
+    return {
+      truncated: str.substring(0, MAX_LENGTH) + "...",
+      isTruncated: true,
+    };
   }
   return { truncated: str, isTruncated: false };
 };
 
+const sortData = (item, header = true) => {
+  if (!item || typeof item !== "object") return [];
+
+  const fields = Object.keys(item);
+
+  const keysToSkip = new Set([
+    "id",
+    "archived",
+    "associations",
+    "createdAt",
+    "updatedAt",
+  ]);
+
+  const simpleFields = [];
+  const objectFields = [];
+  const hsFields = [];
+  const nameFields = [];
+
+  fields.forEach((key) => {
+    if (keysToSkip.has(key)) {
+      return;
+    }
+
+    const value = item[key];
+
+    if (key.startsWith("hs_")) {
+      hsFields.push({
+        name: key,
+        label: key
+          .replace(/^hs_/, "Hs ")
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase()),
+        value: value
+      });
+    } else if (typeof value === "object" && value.associateWith) {
+      objectFields.push({ name: key, label: value.headerLabel, value: value.headerLabel });
+    } else if (typeof value === "object") {
+      // Check if it's a field with a 'name' property and push accordingly
+      if (value.key) {
+        nameFields.push({ name: key, label: value.value, value: value.value });
+      } else {
+        // Skip objects that don't have a 'name' or similar property
+      }
+    } else {
+      simpleFields.push({
+        name: key,
+        label: key
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase()),
+        value: value
+      });
+    }
+  });
+
+  // Sort and concatenate
+  const sortedFields = [
+    ...nameFields,
+    ...simpleFields,
+    ...objectFields,
+    ...hsFields,
+  ];
+
+  return sortedFields;
+};

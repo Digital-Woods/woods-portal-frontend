@@ -83,37 +83,41 @@ const DashboardTable = ({ path, inputValue }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         if (results.length > 0) {
-          const headersArray = Object.keys(results[0]).reduce((acc, key) => {
-            if (
-              key === "id" ||
-              key === "archived" ||
-              key === "associations" ||
-              key === "createdAt" ||
-              key === "updatedAt"
-            ) {
-              return acc;
-            }
-            if (
-              typeof results[0][key] === "object" &&
-              results[0][key] !== null &&
-              results[0][key].type === "link"
-            ) {
-              acc.push({
-                name: key,
-                label: results[0][key].headerLabel
-                  ? results[0][key].headerLabel
-                  : results[0][key].label,
-              });
-            } else {
-              acc.push({
-                name: key,
-                label: formatKey(key),
-              });
-            }
-            return acc;
-          }, []);
-          const sortedHeadersArray = sortedHeaders(headersArray);
-          setTableHeader(sortedHeadersArray);
+          console.log("results", results)
+
+          // const headersArray = Object.keys(results[0]).reduce((acc, key) => {
+          //   console.log("acc", acc)
+          //   if (
+          //     key === "id" ||
+          //     key === "archived" ||
+          //     key === "associations" ||
+          //     key === "createdAt" ||
+          //     key === "updatedAt"
+          //   ) {
+          //     return acc;
+          //   }
+          //   if (
+          //     typeof results[0][key] === "object" &&
+          //     results[0][key] !== null &&
+          //     results[0][key].type === "link"
+          //   ) {
+          //     acc.push({
+          //       name: key,
+          //       label: results[0][key].headerLabel
+          //         ? results[0][key].headerLabel
+          //         : results[0][key].label,
+          //     });
+          //   } else {
+          //     acc.push({
+          //       name: key,
+          //       label: formatKey(key),
+          //     });
+          //   }
+          //   return acc;
+          // }, []);
+          // const sortedHeadersArray = sortedHeaders(headersArray);
+          // console.log("sortedHeadersArray", sortedHeadersArray)
+          setTableHeader(sortData(results[0]));
         } else {
           setTableHeader([]);
         }
@@ -153,7 +157,6 @@ const DashboardTable = ({ path, inputValue }) => {
   }, [inputValue]);
 
   const renderCellContent = (value, name, itemId) => {
-    console.log("name", name);
     if (isNull(value)) {
       return "-";
     }
