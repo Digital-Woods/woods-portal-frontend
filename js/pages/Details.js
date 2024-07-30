@@ -249,13 +249,13 @@ const Details = ({ path, id }) => {
               <AccordionDetails>
                 <div className="flex flex-col">
                   {association.count === 0 ? (
-                    <div className="p-2 dark:bg-dark-300 bg-white rounded-md mt-2 dark:text-white">
+                    <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
                       See the Equipment associated with this record.
                     </div>
                   ) : (
                     association.list &&
                     association.list.length > 0 && (
-                      <div className="overflow-x-auto">
+                      <div className="overflow-x-auto overflow-x-auto max-h-96 overflow-y-auto">
                         <div className="p-2 dark:bg-dark-300 bg-white rounded-md mt-2 dark:text-white">
                           {association.list.map((item, index) => (
                             <div
