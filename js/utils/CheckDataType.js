@@ -77,7 +77,7 @@ const filterKeys = (object) => {
             !itemKey.includes("id") &&
             !itemKey.includes("hs") &&
             !itemKey.includes("date") &&
-            !itemKey.includes("at")
+            !itemKey.includes("files")
           ) {
             newObj[itemKey] = item[itemKey];
           }
