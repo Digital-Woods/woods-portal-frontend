@@ -34,9 +34,6 @@ const Details = ({ path, id }) => {
 
   const renderCellContent = (id, value, item = null, association = null) => {
     if (item && isObject(item) && item.type === "primaryDisplayProperty") {
-      console.log("id", id);
-      console.log("item", item);
-
       return (
         <Link
           className="text-lightblue font-bold border-input rounded-md"

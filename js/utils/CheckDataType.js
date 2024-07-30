@@ -96,9 +96,6 @@ const filterKeys = (object) => {
         remainingKeys.forEach((remainingKey) => {
           newObj[remainingKey] = item[remainingKey];
         });
-
-        console.log("newObj", newObj);
-
         return newObj;
       });
     }
@@ -128,7 +125,6 @@ const sortData = (item, detailPage = false, header = true) => {
     if (keysToSkip.has(key)) {
       return;
     }
-    // console.log("key", key)
     if (
       (key.includes("id") ||
       key.includes("hs") ||
@@ -146,7 +142,6 @@ const sortData = (item, detailPage = false, header = true) => {
       value.associateWith &&
       value.detailPageHidden == detailPage
     ) {
-      console.log("value", value);
       return;
     }
 

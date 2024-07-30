@@ -45,7 +45,6 @@ const Login = () => {
       >
         {({ register, formState: { errors } }) => (
           <div>
-            { console.log("errors", errors) }
             <div className="text-dark dark:text-light">
               <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-light">
                 Login
