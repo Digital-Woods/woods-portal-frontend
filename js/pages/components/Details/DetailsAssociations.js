@@ -32,7 +32,7 @@ const DetailsAssociations = ({ association }) => {
           ) : (
             association.list &&
             association.list.length > 0 && (
-              <div className="overflow-x-auto overflow-x-auto max-h-96 overflow-y-auto">
+              <div className="max-h-96 scrollbox">
                 <div className="p-2 dark:bg-dark-300 bg-white rounded-md mt-2 dark:text-white">
                   {association.list.map((item, index) => (
                     <div
