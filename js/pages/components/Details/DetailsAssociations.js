@@ -24,7 +24,7 @@ const DetailsAssociations = ({ association }) => {
       </AccordionSummary>
 
       <AccordionDetails>
-        <div className="flex flex-col">
+        <div className="flex flex-col py-2">
           {association.count === 0 ? (
             <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
               See the Equipment associated with this record.
@@ -33,7 +33,7 @@ const DetailsAssociations = ({ association }) => {
             association.list &&
             association.list.length > 0 && (
               <div className="max-h-96 scrollbox">
-                <div className="p-2 dark:bg-dark-300 bg-white rounded-md mt-2 dark:text-white">
+                <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
                   {association.list.map((item, index) => (
                     <div
                       key={index}
