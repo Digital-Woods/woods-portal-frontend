@@ -35,7 +35,7 @@ const HeaderLayout = ({ title }) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => {
+  const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
 
@@ -69,7 +69,7 @@ const HeaderLayout = ({ title }) => {
       </div>
 
       <div className="lg:hidden">
-        <div className="cursor-pointer" onClick={toggleSidebar}>
+        <div className="cursor-pointer" onClick={toggleDrawer}>
           <p className="text-primary font-semibold dark:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -82,13 +82,7 @@ const HeaderLayout = ({ title }) => {
             </svg>
           </p>
         </div>
-        <div
-          className={`fixed top-0 left-0 h-full z-50 w-64   bg-dark-100 dark:bg-dark-200 shadow-lg transform transition-transform ease-in-out duration-300 ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <Drawer isMobile={true} />
-        </div>
+        <Drawer isMobile={true} isOpen={isOpen} toggleDrawer={toggleDrawer} />
       </div>
 
       <div>

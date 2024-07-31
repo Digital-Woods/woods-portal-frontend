@@ -11,15 +11,31 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const Drawer = ({ className, isMobile = false }) => {
+const Drawer = ({
+  className,
+  isMobile = false,
+  isOpen = false,
+  toggleDrawer = null,
+}) => {
   const [logoutDialog, setLogoutDialog] = useState(false);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
   const [isSecondIcon, setIsSecondIcon] = useState(false);
+
+  const [mobileDrawerClass, setMobileDrawerClass] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
   };
+
+  useEffect(() => {
+    console.log("isOpen", isOpen);
+    setMobileDrawerClass(
+      `fixed top-0 left-0 h-full z-50 w-64 bg-dark-100 dark:bg-dark-200 shadow-lg transform transition-transform ease-in-out duration-300 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`
+    );
+  }, [isOpen]);
 
   const { routes, setRoutes } = useRoute();
 
@@ -30,7 +46,7 @@ const Drawer = ({ className, isMobile = false }) => {
           className={`h-[100vh] top-0 px-6 pt-6 pb-8 bg-sidelayoutColor dark:bg-dark-300 ${
             !isMobile
               ? "overflow-hidden sticky transition-width duration-300 hidden lg:block"
-              : ""
+              : mobileDrawerClass
           }`}
         >
           <div className="h-full flex flex-col">
@@ -48,32 +64,41 @@ const Drawer = ({ className, isMobile = false }) => {
                   STONBURY
                 </h1>
               </div>
-              <div
-                className="cursor-pointer flex items-center"
-                onClick={toggleSidebar}
-              >
-                {isSecondIcon ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    className="fill-white"
-                  >
-                    <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    className="fill-white"
-                  >
-                    <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
-                  </svg>
-                )}
-              </div>
+              {!isMobile ? (
+                <div
+                  className="cursor-pointer flex items-center"
+                  onClick={toggleSidebar}
+                >
+                  {isSecondIcon ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      className="fill-white"
+                    >
+                      <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      className="fill-white"
+                    >
+                      <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
+                    </svg>
+                  )}
+                </div>
+              ) : (
+                <div
+                  className="text-white text-xs rounded-lg cursor-pointer  bg-gray-600 px-3 py-1 "
+                  onClick={toggleDrawer}
+                >
+                  X
+                </div>
+              )}
             </div>
             <nav className="space-y-1  flex-1">
               <div className=" flex flex-col h-full justify-between ">
