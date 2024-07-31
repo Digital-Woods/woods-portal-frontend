@@ -167,3 +167,51 @@ const sortData = (item, viewType = "list") => {
 
   return sortedFields;
 };
+
+const renderCellContent = (value, name, itemId, path) => {
+  console.log("value", value)
+
+  switch (true) {
+
+    
+    case (isObject(value) && isEmptyObject(value)) || isNull(value):
+      return "-";
+
+    case isObject(value) && value.type === "link": {
+
+      const label = value.label ? value.label : value.featureName;
+      return (
+        <Link
+          className="text-lightblue font-bold border-input rounded-md"
+          to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+        >
+          {label.charAt(0).toUpperCase() + label.slice(1)}
+        </Link>
+      );
+      
+    }
+
+    case isObject(value) && value.type === "primaryDisplayProperty":
+      return (
+        <Link
+          className="text-lightblue font-bold border-input rounded-md"
+          to={`${path}/${itemId}`}
+        >
+          {value.value}
+        </Link>
+      );
+
+    case isDate(value):
+      return formatDate(value);
+
+    default: {
+      const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
+      const { truncated, isTruncated } = truncateString(cellContent);
+      return isTruncated ? (
+        <Tooltip content={cellContent}>{truncated}</Tooltip>
+      ) : (
+        truncated
+      );
+    }
+  }
+};
