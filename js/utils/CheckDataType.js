@@ -127,10 +127,15 @@ const sortData = (item, detailPage = false, header = true) => {
     }
     if (
       (key.includes("id") ||
-      key.includes("hs") ||
-      key.includes("date") ||
       key.includes("files")) &&
       detailPage === true
+    ) {
+      return;
+    }
+
+    if (
+      key.includes("hs") &&
+      detailPage === false
     ) {
       return;
     }
