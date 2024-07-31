@@ -29,7 +29,7 @@ const MainLayout = ({ children }) => {
   const { Switch, Route } = ReactRouterDOM;
 
   return (
-    <div className="dark:bg-dark-200 flex bg-flatGray h-[100vh]">
+    <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
       <SideLayout
         className={` duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
           sidebarCollapsed ? "[100px]" : "[300px]"
