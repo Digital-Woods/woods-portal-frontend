@@ -93,10 +93,10 @@ const Drawer = ({
                 </div>
               ) : (
                 <div
-                  className="text-white text-xs rounded-lg cursor-pointer  bg-gray-600 px-3 py-1 "
+                  className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 "
                   onClick={toggleDrawer}
                 >
-                  X
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="fill-white"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
                 </div>
               )}
             </div>
