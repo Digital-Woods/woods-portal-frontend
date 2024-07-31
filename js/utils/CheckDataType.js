@@ -66,55 +66,39 @@ const truncateString = (str, MAX_LENGTH = 50) => {
   return { truncated: str, isTruncated: false };
 };
 
-const filterKeys = (object) => {
-  for (const key in object) {
-    if (Array.isArray(object[key].list)) {
-      object[key].list = object[key].list.map((item) => {
-        const newObj = {};
-        // Extract keys containing "name"
-        const nameKeys = Object.keys(item).filter((itemKey) => {
-          if (typeof item[itemKey] === "object" && itemKey.includes("name")) {
-            return itemKey.includes("name");
-          }
-        });
-
-        // Extract remaining keys
-        const remainingKeys = Object.keys(item).filter(
-          (itemKey) =>
-            !itemKey.includes("id") &&
-            !itemKey.includes("hs") &&
-            !itemKey.includes("date") &&
-            !itemKey.includes("files")
-        );
-
-        // Add keys containing "name" to the new object first
-        nameKeys.forEach((nameKey) => {
-          newObj[nameKey] = item[nameKey];
-        });
-
-        // Add the remaining keys to the new object
-        remainingKeys.forEach((remainingKey) => {
-          newObj[remainingKey] = item[remainingKey];
-        });
-        return newObj;
-      });
-    }
-  }
-  return object;
+const keysToSkipList = (key) => {
+  return !!(key.includes("id") ||
+    key.includes("archived") ||
+    key.includes("associations") ||
+    key.includes("createdAt") ||
+    key.includes("updatedAt") ||
+    key.includes("hs") ||
+    key.includes("files"));
 };
 
-const sortData = (item, detailPage = false, header = true) => {
-  if (!item || typeof item !== "object") return [];
+const keysToSkipDetails = (key) => {
+  return !!(key.includes("id") ||
+    key.includes("archived") ||
+    key.includes("associations") ||
+    key.includes("createdAt") ||
+    key.includes("updatedAt") ||
+    key.includes("files"));
+};
+
+const keysToSkipAssociations = (key) => {
+  return !!(key.includes("id") ||
+    key.includes("archived") ||
+    key.includes("associations") ||
+    key.includes("createdAt") ||
+    key.includes("updatedAt") ||
+    key.includes("hs") ||
+    key.includes("files"));
+};
+
+const sortData = (item, viewType = "list") => {
+  if (!item || !isObject(item)) return [];
 
   const fields = Object.keys(item);
-
-  const keysToSkip = new Set([
-    "id",
-    "archived",
-    "associations",
-    "createdAt",
-    "updatedAt",
-  ]);
 
   const simpleFields = [];
   const objectFields = [];
@@ -122,30 +106,23 @@ const sortData = (item, detailPage = false, header = true) => {
   const nameFields = [];
 
   fields.forEach((key) => {
-    if (keysToSkip.has(key)) {
-      return;
-    }
-    if (
-      (key.includes("id") ||
-      key.includes("files")) &&
-      detailPage === true
-    ) {
-      return;
-    }
-
-    if (
-      key.includes("hs") &&
-      detailPage === false
-    ) {
-      return;
+    switch (viewType) {
+      case "details":
+        if (keysToSkipDetails(key)) return;
+        break;
+      case "associations":
+        if (keysToSkipAssociations(key)) return;
+        break;
+      default:
+        if (keysToSkipList(key)) return;
     }
 
     const value = item[key];
 
     if (
-      typeof value === "object" &&
+      isObject(value) &&
       value.associateWith &&
-      value.detailPageHidden == detailPage
+      value.detailPageHidden == (viewType == "details")
     ) {
       return;
     }
@@ -159,13 +136,13 @@ const sortData = (item, detailPage = false, header = true) => {
           .replace(/\b\w/g, (char) => char.toUpperCase()),
         value: value,
       });
-    } else if (typeof value === "object" && value.associateWith) {
+    } else if (isObject(value) && value.associateWith) {
       objectFields.push({
         name: key,
         label: value.headerLabel,
         value: value.headerLabel,
       });
-    } else if (typeof value === "object") {
+    } else if (isObject(value)) {
       // Check if it's a field with a 'name' property and push accordingly
       if (value.key) {
         nameFields.push({

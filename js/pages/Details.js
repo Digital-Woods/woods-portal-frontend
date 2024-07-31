@@ -12,11 +12,10 @@ const Details = ({ path, id }) => {
       }),
     onSuccess: (data) => {
       if (data.data) {
-        const finalData = JSON.parse(JSON.stringify(sortData(data.data, true)));
+        const finalData = JSON.parse(JSON.stringify(sortData(data.data, 'details')));
         setSortItems(finalData);
       }
       if (data.data.associations) {
-        // const finalData = filterKeys(data.data.associations);
         const finalData = data.data.associations;
         setAssociations(finalData);
       }
@@ -259,7 +258,7 @@ const Details = ({ path, id }) => {
                               key={index}
                               className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-gray-100 dark:bg-dark-500"
                             >
-                              {sortData(item, true).map((row) => (
+                              {sortData(item, 'associations').map((row) => (
                                 <div
                                   key={row.name}
                                   className="py-2 flex"

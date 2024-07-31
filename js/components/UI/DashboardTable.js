@@ -83,7 +83,7 @@ const DashboardTable = ({ path, inputValue }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         if (results.length > 0) {
-          setTableHeader(sortData(results[0]));
+          setTableHeader(sortData(results[0]), 'list');
         } else {
           setTableHeader([]);
         }
