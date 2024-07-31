@@ -48,6 +48,33 @@ body {
   }
 }
 
-.profile-section {
-  border-radius: 10px 30px 30px 10px;
+
+/* Webkit scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px; /* For horizontal scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px; /* Make track rounded */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px; /* Make handle rounded */
+  transition: opacity 2s; /* Transition for hiding scrollbar */
+  opacity: 0; /* Initially hide scrollbar */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Show scrollbar when hovered */
+.show-scrollbar ::-webkit-scrollbar-thumb {
+  opacity: 1;
 }
