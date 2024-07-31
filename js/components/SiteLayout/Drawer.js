@@ -11,7 +11,7 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const SideLayout = ({ className }) => {
+const Drawer = ({ className, isMobile = false }) => {
   const [logoutDialog, setLogoutDialog] = useState(false);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
   const [isSecondIcon, setIsSecondIcon] = useState(false);
@@ -27,7 +27,11 @@ const SideLayout = ({ className }) => {
     <div>
       <div className={className}>
         <div
-          className={`h-[100vh] overflow-hidden sticky top-0 px-6 pt-6 pb-8 transition-width bg-sidelayoutColor duration-300  dark:bg-dark-300 hidden lg:block`}
+          className={`h-[100vh] top-0 px-6 pt-6 pb-8 bg-sidelayoutColor dark:bg-dark-300 ${
+            !isMobile
+              ? "overflow-hidden sticky transition-width duration-300 hidden lg:block"
+              : ""
+          }`}
         >
           <div className="h-full flex flex-col">
             <div className="flex justify-between items-center mb-8 h-[50px]">

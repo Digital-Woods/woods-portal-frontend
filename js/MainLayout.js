@@ -30,7 +30,7 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
-      <SideLayout
+      <Drawer
         className={` duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
           sidebarCollapsed ? "[100px]" : "[300px]"
         }`}
