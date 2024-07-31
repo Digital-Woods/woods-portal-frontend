@@ -146,7 +146,7 @@ const SideLayout = ({ className }) => {
                       <p
                         className={`${
                           sidebarCollapsed ? "hidden opacity-0" : "opacity-100"
-                        } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
+                        } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0`}
                       >
                         Notification Settings
                       </p>

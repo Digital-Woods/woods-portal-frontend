@@ -60,7 +60,7 @@ const HeaderLayout = ({ title }) => {
 
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
+            height="18px"
             viewBox="0 -960 960 960"
             width="18px"
             className="dark:fill-white"
@@ -92,97 +92,121 @@ const HeaderLayout = ({ title }) => {
           </p>
         </div>
         <div
-          className={`fixed top-0 left-0 h-full z-50 w-64 bg-dark-100 dark:bg-dark-200 shadow-lg transform transition-transform ease-in-out duration-300 ${
+          className={`fixed top-0 left-0 h-full z-50 w-64   bg-dark-100 dark:bg-dark-200 shadow-lg transform transition-transform ease-in-out duration-300 ${
             isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div className="min-h-screen px-6 pt-6 pb-8 transition-width duration-300 bg-white dark:bg-dark-200">
+          <div className="min-h-screen bg-sidelayoutColor px-6 pt-6 pb-8 transition-width duration-300  dark:bg-dark-200">
             <div>
               <div className="flex justify-between items-center mb-10">
-                <div className="w-[60%] flex items-center">
-                  <Logo />
+            
+
+            <div className="w-10">
+            <Logo />
+            </div>
+                
 
                   <div
-                    className="text-white cursor-pointer ml-6 bg-gray-900 p-3 rounded-md"
+                    className="text-white text-xs rounded-lg cursor-pointer  bg-gray-600 px-3 py-1 "
                     onClick={toggleSidebar}
                   >
                     X
                   </div>
-                </div>
+              
               </div>
               <nav className="space-y-1">
-                {routes.length > 0 &&
-                  routes.map(({ path, title, icon }) => (
-                    <NavLink
-                      key={path}
-                      to={path}
-                      className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
-                      activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
-                    >
-                      <div className="flex items-center gap-x-2">
-                        <SvgRenderer svgContent={icon} />
-                        <p
-                          className={`${
-                            sidebarCollapsed ? "hidden" : ""
-                          } text-black dark:text-white`}
+              {routes.length > 0 &&
+                    routes.map(({ path, title, icon }) => (
+                      <NavLink
+                        key={path}
+                        to={path}
+                        className="block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline"
+                        activeClassName="dark:bg-dark-600 dark:text-white bg-activeState"
+                      >
+                        <div
+                          className={`flex items-center gap-x-3 gap-y-1 ${
+                            sidebarCollapsed
+                              ? "justify-center"
+                              : "justify-start"
+                          }`}
                         >
-                          {title}
-                        </p>
-                      </div>
-                    </NavLink>
-                  ))}
+                          <div>
+                            <SvgRenderer svgContent={icon} />
+                          </div>
+                          <p
+                            className={`
+                            text-white dark:text-white text-sm font-medium  duration-500  ml-2`}
+                          >
+                            {`${title}s`}
+                          </p>
+                        </div>
+                      </NavLink>
+                    ))}
                 <div>
                   <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-dark-400" />
                 </div>
-                <NavLink
-                  to="/logout"
-                  className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
-                  activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
-                >
-                  <div className="flex items-center gap-x-4">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        className="dark:fill-white"
-                      >
-                        <path
-                          d="M6.66667 2H2V6.66667H6.66667V2Z"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M14.0002 2H9.3335V6.66667H14.0002V2Z"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M14.0002 9.33337H9.3335V14H14.0002V9.33337Z"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M6.66667 9.33337H2V14H6.66667V9.33337Z"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                    <p
-                      className={`${
-                        sidebarCollapsed ? "hidden" : ""
-                      } text-black dark:text-white`}
+                <div>
+                  <NavLink
+                    key={"/notification"}
+                    to={"/notification"}
+                    className="block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline"
+                    activeClassName="dark:bg-dark-600 dark:text-white bg-activeState"
+                  >
+                    <div
+                      className={`flex items-center gap-x-3 gap-y-1 ${
+                        sidebarCollapsed ? "justify-center" : "justify-start"
+                      }`}
                     >
-                      Log Out
-                    </p>
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="20px"
+                          viewBox="0 -960 960 960"
+                          width="20px"
+                          className="fill-white"
+                        >
+                          <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
+                        </svg>
+                      </div>
+                      <p
+                        className={`
+                        } text-white dark:text-white text-sm font-medium  duration-500`}
+                      >
+                        Notification Settings
+                      </p>
+                    </div>
+                  </NavLink>
+
+                  <div
+                    className="block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white  p-3 rounded-md no-underline cursor-pointer"
+                    onClick={() => setLogoutDialog(true)}
+                  >
+                    <div
+                      className={`flex items-center gap-x-3 gap-y-1 ${
+                        sidebarCollapsed ? "justify-center" : "justify-start"
+                      }`}
+                    >
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="20px"
+                          viewBox="0 -960 960 960"
+                          width="20px"
+                          className="fill-white"
+                        >
+                          <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+                        </svg>
+                      </div>
+                      <p
+                        className={`${
+                          sidebarCollapsed ? "hidden" : ""
+                        } text-black dark:text-white text-sm font-medium text-white`}
+                      >
+                        Logout
+                      </p>
+                    </div>
                   </div>
-                </NavLink>
+                </div>
               </nav>
             </div>
           </div>
