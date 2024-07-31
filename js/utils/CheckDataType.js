@@ -36,24 +36,15 @@ const formatDate = (data) => {
 };
 
 function isNull(data) {
-  if (data === undefined || data === null || data === "") {
-    return true;
-  }
-  return false;
+  return !!(data === undefined || data === null || data === "");
 }
 
 function isObject(data) {
-  if (typeof data === "object") {
-    return true;
-  }
-  return false;
+  return typeof data === "object";
 }
 
 function isEmptyObject(data) {
-  if (Object.keys(data).length === 0) {
-    return true;
-  }
-  return false;
+  return Object.keys(data).length === 0;
 }
 
 const truncateString = (str, MAX_LENGTH = 50) => {
