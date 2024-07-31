@@ -90,17 +90,11 @@ body {
   &::-webkit-scrollbar {
     width: 8px;
   }
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,.2)
-  }
 }
 @media (hover: none) {
   .scrollbox {
     &::-webkit-scrollbar {
       width: 8px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0,0,0,.2)
     }
   }
 }
