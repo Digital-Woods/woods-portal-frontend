@@ -10,7 +10,7 @@ const Accordion = ({ children }) => {
     }
   };
   return (
-    <div className="rounded overflow-hidden dark:bg-dark-300 dark:text-white mb-4">
+    <div className="rounded overflow-hidden border dark:bg-dark-300 dark:text-white mb-4">
       {React.Children.map(children, (child, index) =>
         React.cloneElement(child, {
           active,
@@ -24,7 +24,7 @@ const Accordion = ({ children }) => {
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
   return (
     <div
-      className={`flex justify-between dark:border-gray-600 border dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
+      className={`flex justify-between dark:border-gray-600 dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
         active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}
@@ -75,7 +75,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      <div className="border dark:border-gray-600 px-2 bg-white mt-4 dark:bg-dark-300">{children}</div>
+      <div className="px-2 bg-white dark:bg-dark-300">{children}</div>
     </div>
   );
 };
