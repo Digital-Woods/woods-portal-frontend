@@ -58,32 +58,38 @@ const truncateString = (str, MAX_LENGTH = 50) => {
 };
 
 const keysToSkipList = (key) => {
-  return !!(key.includes("id") ||
+  return !!(
+    key.includes("id") ||
     key.includes("archived") ||
     key.includes("associations") ||
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("hs") ||
-    key.includes("files"));
+    key.includes("files")
+  );
 };
 
 const keysToSkipDetails = (key) => {
-  return !!(key.includes("id") ||
+  return !!(
+    key.includes("id") ||
     key.includes("archived") ||
     key.includes("associations") ||
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
-    key.includes("files"));
+    key.includes("files")
+  );
 };
 
 const keysToSkipAssociations = (key) => {
-  return !!(key.includes("id") ||
+  return !!(
+    key.includes("id") ||
     key.includes("archived") ||
     key.includes("associations") ||
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("hs") ||
-    key.includes("files"));
+    key.includes("files")
+  );
 };
 
 const sortData = (item, viewType = "list") => {
@@ -168,17 +174,12 @@ const sortData = (item, viewType = "list") => {
   return sortedFields;
 };
 
-const renderCellContent = (value, name, itemId, path) => {
-  console.log("value", value)
-
+const renderCellContent = (value, itemId = null, path = null) => {
   switch (true) {
-
-    
     case (isObject(value) && isEmptyObject(value)) || isNull(value):
       return "-";
 
     case isObject(value) && value.type === "link": {
-
       const label = value.label ? value.label : value.featureName;
       return (
         <Link
@@ -188,7 +189,6 @@ const renderCellContent = (value, name, itemId, path) => {
           {label.charAt(0).toUpperCase() + label.slice(1)}
         </Link>
       );
-      
     }
 
     case isObject(value) && value.type === "primaryDisplayProperty":
@@ -205,7 +205,9 @@ const renderCellContent = (value, name, itemId, path) => {
       return formatDate(value);
 
     default: {
-      const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
+      const cellContent = isObject(value)
+        ? JSON.stringify(value)
+        : String(value);
       const { truncated, isTruncated } = truncateString(cellContent);
       return isTruncated ? (
         <Tooltip content={cellContent}>{truncated}</Tooltip>

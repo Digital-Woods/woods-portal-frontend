@@ -122,51 +122,6 @@ const DashboardTable = ({ path, inputValue }) => {
     refetch();
   }, [inputValue]);
 
-  // const renderCellContent = (value, name, itemId) => {
-  //   if (isNull(value)) {
-  //     return "-";
-  //   }
-  //   if (isObject(value) && isEmptyObject(value)) {
-  //     return "-";
-  //   }
-  //   if (isObject(value) && value.type === "link") {
-  //     const label = value.label ? value.label : value.featureName;
-
-  //     return (
-  //       <Link
-  //         className="text-lightblue font-bold border-input rounded-md"
-  //         to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-  //       >
-  //         {label.charAt(0).toUpperCase() + label.slice(1)}
-  //       </Link>
-  //     );
-  //   }
-
-  //   if (isObject(value) && value.type === "primaryDisplayProperty") {
-  //     return (
-  //       <Link
-  //         className="text-lightblue font-bold border-input rounded-md"
-  //         to={`${path}/${itemId}`}
-  //       >
-  //         {value.value}
-  //       </Link>
-  //     );
-  //   }
-
-  //   if (isDate(value)) {
-  //     return formatDate(value);
-  //   }
-
-  //   const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
-  //   const { truncated, isTruncated } = truncateString(cellContent);
-
-  //   return isTruncated ? (
-  //     <Tooltip content={cellContent}>{truncated}</Tooltip>
-  //   ) : (
-  //     truncated
-  //   );
-  // };
-
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-white dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
@@ -253,7 +208,6 @@ const DashboardTable = ({ path, inputValue }) => {
                           row.name
                             .split(".")
                             .reduce((o, k) => (o || {})[k], item),
-                          row.name,
                           item.id,
                           path
                         )}
