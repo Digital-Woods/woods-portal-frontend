@@ -47,9 +47,9 @@ const HeaderLayout = ({ title }) => {
   }, []);
 
   return (
-    <div className="flex justify-between px-2 py-3 lg:px-6 lg:pt-4 lg:pb-3 dark:bg-dark-200">
+    <div className="flex justify-between px-2 py-3 lg:px-6 lg:pt-8 lg:pb-3 dark:bg-dark-200">
       <div className="hidden  lg:block">
-        <div className="text-primary flex items-center gap-x-1  font-medium text-sm flex dark:text-white">
+        <div className="text-primary flex items-center gap-x-1 my-auto  font-medium text-sm flex dark:text-white">
           <p>Home </p>
 
           <div>
