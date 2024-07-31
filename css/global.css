@@ -80,7 +80,7 @@ body {
 }
 
 .scrollbox {
-  overflow-y: scroll;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     background-color: transparent;
     width: 0px;
