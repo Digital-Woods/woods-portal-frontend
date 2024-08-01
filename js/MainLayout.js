@@ -55,18 +55,18 @@ const MainLayout = ({ children }) => {
               )}
             />
           ))}
-          <Route
-              key={"/notification"}
+        <Route
+          key={"/notification"}
+          path={"/notification"}
+          render={(props) => (
+            <HeaderLayout
+              {...props}
               path={"/notification"}
-              render={(props) => (
-                <HeaderLayout
-                  {...props}
-                  path={"/notification"}
-                  title={`Notifications`}
-                  icon={""}
-                />
-              )}
+              title={`Notifications`}
+              icon={""}
             />
+          )}
+        />
         <div className="px-4 py-6">
           {routes.length > 0 && (
             <Switch>

@@ -11,42 +11,34 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const Drawer = ({
-  className,
-  isMobile = false,
-  isOpen = false,
-  toggleDrawer = null,
-}) => {
+const Drawer = ({ className }) => {
   const [logoutDialog, setLogoutDialog] = useState(false);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
   const [isSecondIcon, setIsSecondIcon] = useState(false);
-
-  const [mobileDrawerClass, setMobileDrawerClass] = useState(false);
+  const { sidebarOpen, setSidebarOpen } = useCollapsible();
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
   };
 
-  useEffect(() => {
-    console.log("isOpen", isOpen);
-    setMobileDrawerClass(
-      `fixed top-0 left-0 h-full z-50 w-64 bg-dark-100 dark:bg-dark-200 shadow-lg transform transition-transform ease-in-out duration-300 ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      }`
-    );
-  }, [isOpen]);
-
   const { routes, setRoutes } = useRoute();
 
   return (
     <div>
+      {sidebarOpen && (
+        <div className="relative z-[10]">
+          <div
+            className=" fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity lg:hidden"
+            aria-hidden="true"
+            onClick={() => setSidebarOpen(false)}
+          ></div>
+        </div>
+      )}
       <div className={className}>
         <div
-          className={`h-[100vh] top-0 px-6 pt-6 pb-8 bg-sidelayoutColor dark:bg-dark-300 ${
-            !isMobile
-              ? "overflow-hidden sticky transition-width duration-300 hidden lg:block"
-              : mobileDrawerClass
+          className={`h-[100vh] p-6 z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="h-full flex flex-col">
@@ -64,43 +56,48 @@ const Drawer = ({
                   STONBURY
                 </h1>
               </div>
-              {!isMobile ? (
-                <div
-                  className="cursor-pointer flex items-center"
-                  onClick={toggleSidebar}
+              <div
+                className="cursor-pointer flex items-center md:hidden lg:block"
+                onClick={toggleSidebar}
+              >
+                {isSecondIcon ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 -960 960 960"
+                    width="20px"
+                    className="fill-white"
+                  >
+                    <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 -960 960 960"
+                    width="20px"
+                    className="fill-white"
+                  >
+                    <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
+                  </svg>
+                )}
+              </div>
+              <div
+                className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 lg:hidden"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20px"
+                  viewBox="0 -960 960 960"
+                  width="20px"
+                  className="fill-white"
                 >
-                  {isSecondIcon ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="20px"
-                      viewBox="0 -960 960 960"
-                      width="20px"
-                      className="fill-white"
-                    >
-                      <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="20px"
-                      viewBox="0 -960 960 960"
-                      width="20px"
-                      className="fill-white"
-                    >
-                      <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
-                    </svg>
-                  )}
-                </div>
-              ) : (
-                <div
-                  className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 "
-                  onClick={toggleDrawer}
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="fill-white"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
-                </div>
-              )}
+                  <path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z" />
+                </svg>
+              </div>
             </div>
-            <nav className="space-y-1  flex-1">
+            <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
                 <div>
                   {routes.length > 0 &&

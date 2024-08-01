@@ -15,8 +15,7 @@ const HeaderLayout = ({ title }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
-  const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
-  const { routes, setRoutes } = useRoute();
+  const { sidebarOpen, setSidebarOpen } = useCollapsible();
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -33,10 +32,8 @@ const HeaderLayout = ({ title }) => {
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const toggleDrawer = () => {
-    setIsOpen(!isOpen);
+    setSidebarOpen(!sidebarOpen);
   };
 
   useEffect(() => {
@@ -82,7 +79,6 @@ const HeaderLayout = ({ title }) => {
             </svg>
           </p>
         </div>
-        <Drawer isMobile={true} isOpen={isOpen} toggleDrawer={toggleDrawer} />
       </div>
 
       <div>

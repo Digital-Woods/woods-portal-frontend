@@ -6,11 +6,19 @@ const isCollapsibleState = atom({
   default: false,
 });
 
+const isOpenState = atom({
+  key: "isOpenState",
+  default: false,
+});
+
 function useCollapsible() {
   const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(isCollapsibleState);
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(isOpenState);
 
   return {
     sidebarCollapsed,
     setSidebarCollapsed,
+    sidebarOpen,
+    setSidebarOpen,
   };
 }
