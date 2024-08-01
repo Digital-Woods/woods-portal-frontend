@@ -76,9 +76,10 @@ const FormMessage = ({ children, className }) => (
 
 const Input = React.forwardRef(({ className, type = 'text', placeholder = "Search", ...props }, ref) => {
   return (
+    <div>
     <div className="relative dark:bg-dark-200 flex items-center ">
       <svg
-        className="absolute left-3 h-5 w-5  text-gray-500"
+        className="absolute left-3 h-4 w-4  text-gray-500"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -95,13 +96,15 @@ const Input = React.forwardRef(({ className, type = 'text', placeholder = "Searc
         type={type}
         placeholder={placeholder}
         className={classNames(
-          "h-10 w-full rounded-md bg-flatGray pl-10 pr-3  py-4 text-sm shadow-sm transition-colors border border-flatgray dark:border-gray-600 focus:bg-flatGray focus:ring-0 border border-flatGray focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          "w-full rounded-md bg-white pl-10 px-5 py-3 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 border border-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
         ref={ref}
         {...props}
       />
     </div>
+    </div>
+
   );
 });
 

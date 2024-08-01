@@ -6,41 +6,39 @@ const MainLayout = ({ children }) => {
     queryKey: ["features"],
     queryFn: async () => await Client.fetchFeatures.all,
     onSuccess: (response) => {
-      const apiRoutes = response.data.map((label) => ({
-        path: `/${label.name}`,
-        title: label.label,
-        icon: label.icon,
-      }));
+      const allowedRoutes = ["Asset", "Job", "Site", "Equipment"];
+      const apiRoutes = response.data
+        .filter((label) => allowedRoutes.includes(label.label))
+        .map((label) => ({
+          path: `/${label.name}`,
+          title: label.label,
+          icon: label.icon,
+        }));
       setRoutes(apiRoutes);
     },
   });
 
-
-
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loader-line"></div>;
   }
 
   if (error) {
     return <div>Error fetching data</div>;
   }
 
-  const { Switch } = ReactRouterDOM;
+  const { Switch, Route } = ReactRouterDOM;
 
   return (
-    <div className="flex dark:bg-dark-200 bg-white">
+    <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
+      <Drawer
+        className={` duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
+          sidebarCollapsed ? "[100px]" : "[300px]"
+        }`}
+      />
       <div
-        className={`lg:w-${
-          sidebarCollapsed ? "[100px]" : "[250px]"
-        } transition-[width] duration-300`}
-      >
-        <SideLayout />
-      </div>
-
-      <div
-        className={`lg:w-${
-          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_250px)]"
-        } w-[100%] dark:bg-dark-200 lg:p-4 p-1 lg:h-full h-screen  transition-[width] duration-300`}
+        className={`dark:bg-dark-200 bg-flatGray  duration-300 ml-auto w-full lg:w-${
+          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
+        }`}
       >
         {routes.length > 0 &&
           routes.map(({ path, title, icon }) => (
@@ -51,12 +49,24 @@ const MainLayout = ({ children }) => {
                 <HeaderLayout
                   {...props}
                   path={path}
-                  title={title}
+                  title={`${title}s`}
                   icon={icon}
                 />
               )}
             />
           ))}
+          <Route
+              key={"/notification"}
+              path={"/notification"}
+              render={(props) => (
+                <HeaderLayout
+                  {...props}
+                  path={"/notification"}
+                  title={`Notifications`}
+                  icon={""}
+                />
+              )}
+            />
         <div className="px-4 py-6">
           {routes.length > 0 && (
             <Switch>
@@ -89,12 +99,23 @@ const MainLayout = ({ children }) => {
                     <DynamicComponent
                       {...props}
                       path={path}
-                      title={title}
+                      title={`${title}s`}
                       icon={icon}
                     />
                   )}
                 />
               ))}
+              <Route
+                path={"/notification"}
+                render={(props) => (
+                  <Notification
+                    {...props}
+                    path={"/notification"}
+                    title={"Notifications"}
+                    icon={""}
+                  />
+                )}
+              />
             </Switch>
           )}
         </div>

@@ -3,9 +3,9 @@ const Checkbox = ({
     checked,
     onChange,
     number='0',
-    labelClassName = '',
-    checkboxClassName = '',
-    containerClassName = ''
+    labelClassName = 'font-medium text-sm',
+    checkboxClassName = 'font-medium text-sm',
+    containerClassName = 'font-medium text-sm'
   }) => {
     return (
       <div className={`flex justify-between items-center ${containerClassName}`}>
@@ -16,10 +16,10 @@ const Checkbox = ({
           onChange={onChange}
           className={`form-checkbox h-4 w-4 ${checkboxClassName}`}
         />
-        {label && <label className={`ml-2 ${labelClassName}`}>{label}</label>}
+        {label && <label className={`ml-2  ${labelClassName}`}>{label}</label>}
         </div>
     
-        {label && <label className={`ml-2`}>{number}</label>}
+        {label && <label className={`ml-2 `}>{number}</label>}
       </div>
     );
   };

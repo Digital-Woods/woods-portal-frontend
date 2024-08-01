@@ -1,28 +1,29 @@
 const { useState, useRef, useEffect } = React;
 const classNames = window.classNames;
 
-const Select = ({ children }) => {
+const Select = ({ children, buttonText, spanText, showSpan }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
-      <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} />
+    <div className=" inline-block" ref={dropdownRef}>
+      <SelectSection setIsOpen={setIsOpen} isOpen={isOpen} buttonText={buttonText} spanText={spanText} showSpan={showSpan} />
       {isOpen && children}
     </div>
   );
 };
 
-const SelectSection = ({ setIsOpen, isOpen }) => {
+const SelectSection = ({ setIsOpen, isOpen, buttonText, spanText, showSpan }) => {
   return (
     <SelectButton
-      className="border border-2 dark:text-white rounded-md text-black px-5 py-2 flex items-center gap-x-2"
+      className="border border-2 dark:border-gray-600 text-sm font-medium dark:bg-dark-300 dark:text-white bg-white rounded-md text-black px-4 py-3 flex items-center gap-x-3"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >
-      Client
+      {buttonText}
+      {showSpan && <span className="bg-lightblue rounded-md p-1 text-xs text-white">{spanText}</span>}
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="currentcolor">
         <path d="M9 4.5L6 1.5L3 4.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M3 8.5L6 11.5L9 8.5" stroke="#2F2F33" strokeLinecap="round" strokeLinejoin="round"/>
@@ -34,7 +35,7 @@ const SelectSection = ({ setIsOpen, isOpen }) => {
 const Options = React.forwardRef(({ children, className, right }, ref) => (
   <div
     className={classNames(
-      "absolute text-sm w-64 px-3 py-2 bg-white border dark:bg-dark-300 dark:text-white shadow-lg mt-1 z-50 rounded-md",
+      "absolute text-sm w-64 px-3 py-2 bg-white border dark:bg-dark-300 dark:text-white  shadow-lg mt-1 z-50 rounded-md",
       { "right-8": right },
       className
     )}
@@ -97,5 +98,3 @@ const Item = ({ as: Component, children, ...props }) => {
     </Component>
   );
 };
-
-

@@ -41,7 +41,7 @@ const ThemeSwitcher = () => {
   
   return (
     <div
-      className="text-light-900  hover:text-dark  p-2 text-center dark:text-light-900  cursor-pointer"
+      className="text-light-900  hover:text-dark  p-3 text-center dark:text-light-900  cursor-pointer"
       onClick={toggleTheme}
     >
       <span className={theme === 'dark' ? 'hidden' : 'block'}>
@@ -49,7 +49,7 @@ const ThemeSwitcher = () => {
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="h-4 w-4"
         >
           <path
             d="M13.545 6.45505C12.6455 5.55558 11.3757 4.97357 10 4.97357C8.62437 4.97357 7.35452 5.52913 6.45505 6.45505C5.55558 7.35452 4.97357 8.62437 4.97357 10C4.97357 11.3757 5.55558 12.6455 6.45505 13.545C7.35452 14.4445 8.62437 15.0265 10 15.0265C11.3757 15.0265 12.6455 14.4709 13.545 13.545C14.4445 12.6455 15.0265 11.3757 15.0265 10C15.0265 8.62437 14.4709 7.35452 13.545 6.45505Z"

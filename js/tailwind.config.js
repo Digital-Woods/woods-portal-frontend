@@ -32,20 +32,31 @@ tailwind.config = {
       xl: "1280px",
       "2xl": "1440px",
       "3xl": "1780px",
-      "4xl": "2160px", // only need to control product grid mode in ultra 4k device
+      "4xl": "2160px", 
     },
     extend: {
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)',
+        
+        'custom-bg': "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    
+      },
+      
       colors: {
         white: "#FFFFFF",
+        lightblue: "#005fad",
         primary: getUrlParams().primaryColor,
         secondary: getUrlParams().secondaryColor,
-        flatGray: "#F7F7F7", // Flat grey
+        flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
-        darkerGray: "#1C1C1F", // Darker grey
+        darkerGray: "#1C1C1F",
+        sidelayoutColor: "#343A40",
+        activeState: "#495159", // Darker grey
         brand: {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
         },
+        
         light: {
           base: "#646464",
           100: "#f9f9f9",

@@ -10,7 +10,7 @@ class Client {
 
   static objects = {
     all: ({ path, limit = 10, after = "", sort = "updatedAt", inputValue, ...query }) =>
-      HttpClient.get(`/api/feature-data/333/school_management_test${path}`, {
+      HttpClient.get(`/api/feature-data/7869/stonbury${path}`, {
           limit,
           sort,
           after,
@@ -19,7 +19,7 @@ class Client {
       }),
   
     byObjectId: ({ path, objectId }) =>
-      HttpClient.get(`/api/feature-data/333/school_management_test${path}/${objectId}`),
+      HttpClient.get(`/api/feature-data/7869/stonbury${path}/${objectId}`),
   };
 
   static products = {

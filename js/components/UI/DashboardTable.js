@@ -3,17 +3,20 @@ const formatKey = (key) => {
 };
 
 const priorityOrder = {
-  email: 2,
-  description: 3,
-  city: 4,
-  role: 5,
+  email: 3,
+  description: 4,
+  city: 5,
+  role: 6,
 };
 
 const getPriority = (key) => {
   const keyLower = key.toLowerCase();
-  if (keyLower.includes("name")) {
+  if (keyLower.includes("job_name")) {
     return 1;
+  } else if (keyLower.includes("name")) {
+    return 2;
   }
+
   const extractedKey = key.split(".").pop().toLowerCase();
   return priorityOrder[extractedKey] || Number.MAX_VALUE;
 };
@@ -21,6 +24,8 @@ const getPriority = (key) => {
 const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
+
+const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
 const DashboardTable = ({ path, inputValue }) => {
   const [tableData, setTableData] = useState([]);
@@ -32,8 +37,33 @@ const DashboardTable = ({ path, inputValue }) => {
   const [sortConfig, setSortConfig] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  const [filterPropertyName, setFilterPropertyName] = useState(null);
+  const [filterOperator, setFilterOperator] = useState(null);
+  const [filterValue, setFilterValue] = useState(null);
+
+  useEffect(() => {
+    // const queryParams = new URLSearchParams(location.search);
+    const hash = location.hash; // Get the hash fragment
+    const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
+    const queryParams = new URLSearchParams(hash.substring(queryIndex)); // Parse the query string
+
+    setFilterPropertyName(queryParams.get("filterPropertyName"));
+    setFilterOperator(queryParams.get("filterOperator"));
+    setFilterValue(queryParams.get("filterValue"));
+  }, [location.search]);
+
   const { error, data, refetch } = useQuery({
-    queryKey: ["TableData", path, itemsPerPage, after, sortConfig, inputValue],
+    queryKey: [
+      "TableData",
+      path,
+      itemsPerPage,
+      after,
+      sortConfig,
+      inputValue,
+      filterPropertyName,
+      filterOperator,
+      filterValue,
+    ],
     queryFn: async () =>
       await Client.objects.all({
         path,
@@ -41,6 +71,9 @@ const DashboardTable = ({ path, inputValue }) => {
         after,
         sort: sortConfig,
         inputValue,
+        filterPropertyName,
+        filterOperator,
+        filterValue,
       }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
@@ -50,29 +83,7 @@ const DashboardTable = ({ path, inputValue }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         if (results.length > 0) {
-          const headersArray = Object.keys(results[0]).reduce((acc, key) => {
-            if (key === "id" || key === "archived" || key === "associations") {
-              return acc;
-            }
-            if (
-              typeof results[0][key] === "object" &&
-              results[0][key] !== null &&
-              results[0][key].type === "link"
-            ) {
-              acc.push({
-                name: key,
-                label: results[0][key].label,
-              });
-            } else {
-              acc.push({
-                name: key,
-                label: formatKey(key),
-              });
-            }
-            return acc;
-          }, []);
-          const sortedHeadersArray = sortedHeaders(headersArray);
-          setTableHeader(sortedHeadersArray);
+          setTableHeader(sortData(results[0]), 'list');
         } else {
           setTableHeader([]);
         }
@@ -111,42 +122,8 @@ const DashboardTable = ({ path, inputValue }) => {
     refetch();
   }, [inputValue]);
 
-  const renderCellContent = (value, name, itemId) => {
-    if (isNull(value)) {
-      return "-";
-    }
-    if (isObject(value) && isEmptyObject(value)) {
-      return "-";
-    }
-    if (isObject(value) && value.type === "link") {
-      return (
-        <Link
-          className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-dark-400 dark:hover:text-white"
-          to={`/${value.featureName}`}
-        >
-          View
-        </Link>
-      );
-    }
-    if (isDate(value)) {
-      return formatDate(value);
-    }
-  
-    const cellContent = isObject(value) ? JSON.stringify(value) : String(value);
-    const { truncated, isTruncated } = truncateString(cellContent);
-  
-    return isTruncated ? (
-      <Tooltip content={cellContent}>
-        {truncated}
-      </Tooltip>
-    ) : (
-      truncated
-    );
-  };
-  
-
   return (
-    <div className="border border-2 rounded-md dark:border-gray-700 dark:bg-dark-300">
+    <div className="shadow-md rounded-md dark:border-gray-700 bg-white dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -156,19 +133,21 @@ const DashboardTable = ({ path, inputValue }) => {
         </div>
       )}
       <div className="flex justify-between items-center px-6 py-5">
-        <div className="flex items-center gap-x-2 font-semibold text-sm">
-          <p className="text-secondary font-normal dark:text-gray-300">
+        <div className="flex items-center gap-x-2 pt-3 text-sm">
+          <p className="text-secondary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
-          <span className="border border-black w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+          <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {tableData.length}
           </span>
           <span>/</span>
-          <span className="rounded-md">{totalItems}</span>
+          <span className="rounded-md font-medium">{totalItems}</span>
           <p className="text-secondary font-normal text-sm dark:text-gray-300">
             Results
           </p>
         </div>
+
+        <Select buttonText="Order: Ascending" />
       </div>
       <div className="overflow-x-auto">
         {!isLoading && tableData.length > 0 && (
@@ -182,7 +161,10 @@ const DashboardTable = ({ path, inputValue }) => {
                     onClick={() => handleSort(item.name)}
                   >
                     <div className="flex">
-                      {item.label}
+                      <span className="font-semibold text-xs">
+                        {" "}
+                        {item.label}{" "}
+                      </span>
                       {sortConfig === item.name && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -208,37 +190,40 @@ const DashboardTable = ({ path, inputValue }) => {
                     </div>
                   </TableHead>
                 ))}
-                <TableHead className="whitespace-nowrap dark:text-white">
+                {/* <TableHead className="font-semibold text-xs">
                   Actions
-                </TableHead>
+                </TableHead> */}
               </TableRow>
             </TableHeader>
             <TableBody>
               {tableData.map((item) => (
                 <TableRow key={item.id}>
                   {tableHeader.map((row) => (
-                    <TableCell key={row.name} className="whitespace-nowrap">
+                    <TableCell
+                      key={row.name}
+                      className="whitespace-nowrap border-b"
+                    >
                       <div className="dark:text-white">
                         {renderCellContent(
                           row.name
                             .split(".")
                             .reduce((o, k) => (o || {})[k], item),
-                          row.name,
-                          item.id
+                          item.id,
+                          path
                         )}
                       </div>
                     </TableCell>
                   ))}
-                  <TableCell>
+                  {/* <TableCell>
                     <div className="flex items-center space-x-2 gap-x-5">
                       <Link
-                        className="border border-1 hover:bg-black hover:text-white px-2 py-1 rounded-md dark:border-gray-700 dark:hover:bg-dark-400 dark:hover:text-white"
+                        className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
                         to={`${path}/${item.id}`}
                       >
-                        View
+                        View Details
                       </Link>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
@@ -247,7 +232,7 @@ const DashboardTable = ({ path, inputValue }) => {
       </div>
 
       {!isLoading && tableData.length > 0 && (
-        <div className="flex justify-end p-4">
+        <div className="flex justify-end px-4">
           <Pagination
             numOfPages={numOfPages}
             currentPage={currentPage}
