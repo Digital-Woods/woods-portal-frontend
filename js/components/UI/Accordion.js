@@ -1,6 +1,6 @@
 const { useState, useRef, useEffect } = React;
 
-const Accordion = ({ children }) => {
+const Accordion = ({ children, className }) => {
   const [active, setActive] = useState(null);
   const handleToggle = (index) => {
     if (active === index) {
@@ -10,7 +10,12 @@ const Accordion = ({ children }) => {
     }
   };
   return (
-    <div className="rounded overflow-hidden border dark:border-gray-600 dark:bg-dark-300 dark:text-white mb-4">
+    <div
+      className={twMerge(
+        "rounded overflow-hidden border dark:border-gray-600 dark:bg-dark-300 dark:text-white mb-4",
+        className
+      )}
+    >
       {React.Children.map(children, (child, index) =>
         React.cloneElement(child, {
           active,

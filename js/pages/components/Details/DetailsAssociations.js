@@ -1,8 +1,8 @@
 const DetailsAssociations = ({ association }) => {
   return (
-    <Accordion>
+    <Accordion className="mb-4">
       <AccordionSummary>
-        <div className="flex items-center gap-x-2 text-sm font-medium ">
+        <div className="flex items-center gap-x-2 text-sm font-medium">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
