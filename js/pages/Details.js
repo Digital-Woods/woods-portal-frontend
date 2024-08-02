@@ -34,8 +34,8 @@ const Details = ({ path, id }) => {
   }
 
   return (
-    <div className="grid grid-cols-6 gap-4 h-full dark:bg-dark-200">
-      <div className="col-span-4">
+    <div className="h-full dark:bg-dark-200 w-[100%] flex">
+      <div className="w-[calc(100%_-350px)] pr-4">
         {isLoading && !item && <div className="loader-line"></div>}
 
         <DetailsHeaderCard
@@ -60,11 +60,13 @@ const Details = ({ path, id }) => {
         )}
       </div>
 
-      <div className="col-span-2">
-        {associations &&
-          Object.entries(associations).map(([key, association]) => (
-            <DetailsAssociations key={key} association={association} />
-          ))}
+      <div className="w-[350px]">
+        <div className="max-h-[calc(100vh_-120px)] scrollbox pr-2 fixed w-[350px]">
+          {associations &&
+            Object.entries(associations).map(([key, association]) => (
+              <DetailsAssociations key={key} association={association} />
+            ))}
+        </div>
       </div>
     </div>
   );

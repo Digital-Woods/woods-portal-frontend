@@ -29,7 +29,7 @@ const Drawer = ({ className }) => {
       {sidebarOpen && (
         <div className="relative z-[10]">
           <div
-            className=" fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity lg:hidden"
+            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity lg:hidden"
             aria-hidden="true"
             onClick={() => setSidebarOpen(false)}
           ></div>

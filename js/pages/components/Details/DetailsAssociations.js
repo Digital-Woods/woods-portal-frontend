@@ -1,6 +1,6 @@
 const DetailsAssociations = ({ association }) => {
   return (
-    <Accordion className="mb-4">
+    <Accordion className="mb-0 rounded-none">
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
           <span>
@@ -32,30 +32,28 @@ const DetailsAssociations = ({ association }) => {
           ) : (
             association.list &&
             association.list.length > 0 && (
-              <div className="max-h-96 scrollbox">
-                <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
-                  {association.list.map((item, index) => (
-                    <div
-                      key={index}
-                      className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-gray-100 dark:bg-dark-500"
-                    >
-                      {sortData(item, "associations").map((row) => (
-                        <div key={row.name} className="py-2 flex">
-                          <div className="text-xs font-semibold w-[100px]">
-                            {row.label}:
-                          </div>
-                          <div className="text-xs text-gray-500 flex-1">
-                            {renderCellContent(
-                              item[row.name],
-                              item.id,
-                              `/${association.featureName}`,
-                            )}
-                          </div>
+              <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
+                {association.list.map((item, index) => (
+                  <div
+                    key={index}
+                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
+                  >
+                    {sortData(item, "associations").map((row) => (
+                      <div key={row.name} className="py-2 flex">
+                        <div className="text-xs font-semibold w-[100px]">
+                          {row.label}:
                         </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+                        <div className="text-xs text-gray-500 flex-1">
+                          {renderCellContent(
+                            item[row.name],
+                            item.id,
+                            `/${association.featureName}`
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             )
           )}
