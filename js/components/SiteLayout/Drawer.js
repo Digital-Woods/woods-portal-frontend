@@ -37,9 +37,11 @@ const Drawer = ({ className }) => {
       )}
       <div className={className}>
         <div
-          className={`h-[100vh] p-6 z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
+          className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          }
+          ${sidebarCollapsed ? 'p-3' : 'p-4'}
+          `}
         >
           <div className="h-full flex flex-col">
             <div className="flex justify-between items-center mb-8 h-[50px]">

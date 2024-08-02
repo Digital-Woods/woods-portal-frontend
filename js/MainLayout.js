@@ -32,12 +32,12 @@ const MainLayout = ({ children }) => {
     <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
       <Drawer
         className={` duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
-          sidebarCollapsed ? "[100px]" : "[300px]"
+          sidebarCollapsed ? "[80px]" : "[280px]"
         }`}
       />
       <div
         className={`dark:bg-dark-200 bg-flatGray  duration-300 ml-auto w-full lg:w-${
-          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
+          sidebarCollapsed ? "[calc(100%_-_80px)]" : "[calc(100%_-_280px)]"
         }`}
       >
         {routes.length > 0 &&
