@@ -25,7 +25,7 @@ const DynamicComponent = ({ title, path }) => {
 
   return (
     <div className="dark:bg-dark-200 dark:text-white">
-      <div className="flex justify-between items-center pt-3 pb-8">
+      <div className="flex justify-between items-center">
         <div>
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
           <p className="text-secondary leading-5 text-sm">{viewText}</p>
