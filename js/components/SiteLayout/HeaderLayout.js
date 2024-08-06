@@ -11,11 +11,13 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const HeaderLayout = ({ title }) => {
+const HeaderLayout = ({ title , path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
+
+  console.log(path)
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -44,7 +46,7 @@ const HeaderLayout = ({ title }) => {
   }, []);
 
   return (
-    <div className="flex justify-between items-center p-4 dark:bg-dark-200">
+    <div className="flex justify-between items-center p-6 dark:bg-dark-200">
       <div className="hidden lg:block">
         <div className="text-primary font-medium text-sm flex items-center dark:text-white">
           <p>Home </p>
@@ -61,7 +63,7 @@ const HeaderLayout = ({ title }) => {
             </svg>
           </div>
 
-          <p>{title}</p>
+          <p> {title} </p>
         </div>
       </div>
 
@@ -160,7 +162,7 @@ const HeaderLayout = ({ title }) => {
             <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col gap-y-1  p-2">
               <NavLink
-                to="/logout"
+                to="/profile"
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                 activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
               >
@@ -180,7 +182,7 @@ const HeaderLayout = ({ title }) => {
                     className={`
                        text-black text-sm font-medium dark:text-white`}
                   >
-                    My Activity
+                    My Profile
                   </p>
                 </div>
               </NavLink>

@@ -8,6 +8,10 @@ class Client {
     all: HttpClient.get(API_ENDPOINTS.FEATURES),
   };
 
+  static profile = {
+    update: (data) => HttpClient.put(API_ENDPOINTS.PROFILE_UPDATE, data),
+  };
+
   static objects = {
     all: ({ path, limit = 10, after = "", sort = "updatedAt", inputValue, ...query }) =>
       HttpClient.get(`/api/feature-data/7869/stonbury${path}`, {

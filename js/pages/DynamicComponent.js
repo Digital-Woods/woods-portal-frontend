@@ -24,7 +24,7 @@ const DynamicComponent = ({ title, path }) => {
       .toLowerCase();
 
   return (
-    <div className="dark:bg-dark-200 dark:text-white">
+    <div className="dark:bg-dark-200 dark:text-white p-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-xl font-semibold mb-2">{title}</h1>

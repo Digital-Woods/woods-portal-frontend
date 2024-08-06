@@ -4,4 +4,5 @@ const API_ENDPOINTS = {
   PRODUCTS: "/products",
   FEATURES: 'api/templates/stonbury/features?featureType=BASE',
   OBJECTS: '/api/feature-data',
+  PROFILE_UPDATE: '/api/update'
 };
