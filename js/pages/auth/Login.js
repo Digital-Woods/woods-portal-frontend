@@ -136,12 +136,12 @@ const Login = () => {
                   </div>
 
                   <div>
-                    <NavLink to="/notification" className="" activeClassName="">
+                    <NavLink to="/forget-password" className="" activeClassName="">
                       <p
                         className={`
                        text-black text-xs dark:text-white`}
                       >
-                        forget password
+                        forget password?
                       </p>
                     </NavLink>
                   </div>

@@ -86,6 +86,14 @@ const MainLayout = ({ children }) => {
             <Login {...props} path={"/login"} title={`Login`} icon={""} />
           )}
         />
+
+<Route
+          key={"/forget-password"}
+          path={"/forget-password"}
+          render={(props) => (
+            <ForgetPassword {...props} path={"/forget-password"} title={`Forget Password`} icon={""} />
+          )}
+        />
         <div>
           {routes.length > 0 && (
             <Switch>
