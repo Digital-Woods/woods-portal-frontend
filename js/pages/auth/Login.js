@@ -46,23 +46,23 @@ const passwordIcon = () => (
 
 const Login = () => {
   let [serverError, setServerError] = useState(null);
+  const [alert, setAlert] = useState(null); 
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
     mutationFn: async (input) => await Client.authentication.login(input),
     onSuccess: (data) => {
       if (!data.token) {
-        new Notify({
-          title: "Authorization",
-          text: "Wrong username or password",
-          status: "error",
-          effect: "slide",
-        });
+        setAlert({ message: "Wrong username or password", type: "error" });
         return;
       }
+      setAlert({ message: "Login successful", type: "success" });
     },
     onError: (error) => {
-      if (error.response.data) setServerError(error.response.data);
+      if (error.response.data) {
+        setServerError(error.response.data);
+        setAlert({ message: error.response.data, type: "error" });
+      }
     },
   });
 
@@ -72,11 +72,11 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
+      {alert && <Alert message="new meesssgae" type="jsjs" onClose={() => setAlert(null)} />}
       <div className="dark:bg-dark-100 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <Logo />
         </div>
-
         <div className="w-full">
           <Form
             onSubmit={onSubmit}

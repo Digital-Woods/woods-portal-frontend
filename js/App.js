@@ -6,8 +6,7 @@ ReactDOM.render(
   <RecoilRoot>
     <QueryClientProvider client={new QueryClient()}>
       <HashRouter>
-        <MainLayout />
-      
+        <MainLayout />      
       </HashRouter>
     </QueryClientProvider>
   </RecoilRoot>,
