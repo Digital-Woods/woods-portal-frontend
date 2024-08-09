@@ -1,10 +1,11 @@
 const Details = ({ path, id }) => {
   const [item, setItems] = useState(null);
+  const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
-  console.log(personalInfo);
+  const [galleryDialog, setGalleryDialog] = useState(false);
 
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
@@ -27,8 +28,17 @@ const Details = ({ path, id }) => {
         setAssociations(finalData);
       }
       setItems(data.data);
+      getImages(data.data);
     },
   });
+
+  const getImages = (data) => {
+    if (data && data.image) {
+      let urlArray = data.image.split(",");
+      setImages(urlArray);
+    }
+    // setImages([]);
+  };
 
   if (error) {
     return (
@@ -55,6 +65,30 @@ const Details = ({ path, id }) => {
 
         {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
 
+        <div class="grid grid-cols-3 gap-4 pt-5">
+          {images.slice(0, 3).map((url, index) =>
+            index === 2 ? (
+              <div
+                key={index}
+                className={`relative items-center overflow-hidden bg-[url('${url}')] bg-no-repeat bg-center bg-cover cursor-pointer`}
+                onClick={() => setGalleryDialog(true)}
+              >
+                <div className="absolute inset-0 bg-black opacity-40"></div>
+                <div className="relative flex flex-col justify-center items-center px-4 text-white z-10 h-full">
+                  View More
+                </div>
+              </div>
+            ) : (
+              <img
+                key={index}
+                src={url}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto"
+              />
+            )
+          )}
+        </div>
+
         {path === "/jobs" ? (
           <div className="col-span-4">
             <DetailsTable item={item} path={path} />
@@ -73,6 +107,25 @@ const Details = ({ path, id }) => {
             ))}
         </div>
       </div>
+
+      <Dialog
+        open={galleryDialog}
+        onClose={setGalleryDialog}
+        className="w-[50%]"
+      >
+        <div className=" bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+          <div className="grid grid-cols-2 gap-4">
+            {images.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto"
+              />
+            ))}
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };

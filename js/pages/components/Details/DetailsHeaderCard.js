@@ -33,7 +33,11 @@ const DetailsHeaderCard = ({
   };
 
   const getHeaderCardImage = () => {
-    return item && item.image ? item.image : "loading...";
+    if(item && item.image) {
+      let urlArray = item.image.split(',');
+      return urlArray[0];
+    }
+    return "loading...";
   }
 
   const { showDate, showFollowing, showServiceName, clarifierName } =

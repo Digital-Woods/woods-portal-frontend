@@ -224,7 +224,9 @@ const renderCellContent = (value, itemId = null, path = null) => {
       );
 
     case isImage(value):
-      return <img src={value} alt={value} class="w-10 h-10 rounded" />;
+      console.log("value", value)
+      let urlArray = value.split(',');
+      return <img src={urlArray[0]} alt={urlArray[0]} class="w-10 h-10 rounded" />;
 
     case isDate(value):
       return formatDate(value);
