@@ -92,7 +92,12 @@ const keysToSkipAssociations = (key) => {
   );
 };
 
-const sortData = (item, viewType = "list") => {
+const checkEquipments = (value, title) => {
+  if(title == "Equipments" || title == "Equipment" || title == '/assets') return value.replace("Asset", "Equipment")
+  return value
+}
+
+const sortData = (item, viewType = "list", title = "") => {
   if (!item || !isObject(item)) return [];
 
   const fields = Object.keys(item);
@@ -136,7 +141,7 @@ const sortData = (item, viewType = "list") => {
     } else if (isObject(value) && value.associateWith) {
       objectFields.push({
         name: key,
-        label: value.headerLabel,
+        label: checkEquipments(value.headerLabel, title),
         value: value.headerLabel,
       });
     } else if (isObject(value)) {
@@ -144,9 +149,9 @@ const sortData = (item, viewType = "list") => {
       if (value.key) {
         nameFields.push({
           name: key,
-          label: value.key
+          label: checkEquipments(value.key
             .replace(/_/g, " ")
-            .replace(/\b\w/g, (char) => char.toUpperCase()),
+            .replace(/\b\w/g, (char) => char.toUpperCase()), title),
           value: value.value,
         });
       } else {
@@ -155,9 +160,9 @@ const sortData = (item, viewType = "list") => {
     } else {
       simpleFields.push({
         name: key,
-        label: key
+        label: checkEquipments(key
           .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()),
+          .replace(/\b\w/g, (char) => char.toUpperCase()), title),
         value: value,
       });
     }

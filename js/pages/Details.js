@@ -18,7 +18,7 @@ const Details = ({ path, id }) => {
     onSuccess: (data) => {
       if (data.data) {
         const finalData = JSON.parse(
-          JSON.stringify(sortData(data.data, "details"))
+          JSON.stringify(sortData(data.data, "details", path))
         );
         setSortItems(finalData);
       }

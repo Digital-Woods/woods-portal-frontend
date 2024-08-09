@@ -86,7 +86,7 @@ const DashboardTable = ({ path, inputValue, hubId, templatename }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         if (results.length > 0) {
-          setTableHeader(sortData(results[0]), "list");
+          setTableHeader(sortData(results[0], 'list', title));
         } else {
           setTableHeader([]);
         }
