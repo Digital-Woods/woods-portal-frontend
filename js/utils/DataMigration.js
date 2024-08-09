@@ -57,6 +57,11 @@ const truncateString = (str, MAX_LENGTH = 50) => {
   return { truncated: str, isTruncated: false };
 };
 
+function isImage(value, key = "") {
+  const imageExtensions = /\.(png|jpeg|jpg|gif|bmp|svg|webp|tiff|ico)$/i;
+  return imageExtensions.test(value) || key.includes("image");
+}
+
 const keysToSkipList = (key) => {
   return !!(
     key.includes("id") ||
@@ -76,7 +81,8 @@ const keysToSkipDetails = (key) => {
     key.includes("associations") ||
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
-    key.includes("files")
+    key.includes("files") ||
+    key.includes("image")
   );
 };
 
@@ -88,7 +94,8 @@ const keysToSkipAssociations = (key) => {
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("hs") ||
-    key.includes("files")
+    key.includes("files") ||
+    key.includes("image")
   );
 };
 
@@ -102,6 +109,7 @@ const sortData = (item, viewType = "list", title = "") => {
 
   const fields = Object.keys(item);
 
+  const imageFields = [];
   const simpleFields = [];
   const objectFields = [];
   const hsFields = [];
@@ -129,7 +137,15 @@ const sortData = (item, viewType = "list", title = "") => {
       return;
     }
 
-    if (key.startsWith("hs_")) {
+    if (typeof value === "string" && isImage(value, key)) {
+      imageFields.push({
+        name: key,
+        label: checkEquipments(key
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase()), title),
+        value: value,
+      });
+    } else if (key.startsWith("hs_")) {
       hsFields.push({
         name: key,
         label: key
@@ -170,6 +186,7 @@ const sortData = (item, viewType = "list", title = "") => {
 
   // Sort and concatenate
   const sortedFields = [
+    ...imageFields,
     ...nameFields,
     ...simpleFields,
     ...objectFields,
@@ -205,6 +222,9 @@ const renderCellContent = (value, itemId = null, path = null) => {
           {value.value}
         </Link>
       );
+
+    case isImage(value):
+      return <img src={value} alt={value} class="w-10 h-10 rounded" />;
 
     case isDate(value):
       return formatDate(value);
