@@ -32,20 +32,12 @@ const DetailsHeaderCard = ({
     }
   };
 
-  const getHeaderCardImage = () => {
-    if(item && item.image) {
-      let urlArray = item.image.split(',');
-      return urlArray[0];
-    }
-    return "loading...";
-  }
-
   const { showDate, showFollowing, showServiceName, clarifierName } =
     getHeaderCardProps(path);
 
   return (
     <div
-      className={`relative h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-[url('${getHeaderCardImage()}')] bg-no-repeat bg-center bg-cover`}
+      className={`relative h-36 rounded-lg w-full flex items-center justify-between overflow-hidden ${bgImageClass}`}
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>
 
