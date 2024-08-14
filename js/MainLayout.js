@@ -26,7 +26,7 @@ const MainLayout = ({ children }) => {
     return <div>Error fetching data</div>;
   }
 
-  const { Switch, Route } = ReactRouterDOM;
+  const { Switch, Route, Redirect } = ReactRouterDOM;
 
   return (
     <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
@@ -80,82 +80,96 @@ const MainLayout = ({ children }) => {
           )}
         />
         <Route
-          key={"/login"}
           path={"/login"}
           render={(props) => (
             <Login {...props} path={"/login"} title={`Login`} icon={""} />
           )}
         />
-
-<Route
-          key={"/forget-password"}
+        <Route
           path={"/forget-password"}
           render={(props) => (
-            <ForgetPassword {...props} path={"/forget-password"} title={`Forget Password`} icon={""} />
+            <ForgetPassword
+              {...props}
+              path={"/forget-password"}
+              title={`Forget Password`}
+              icon={""}
+            />
           )}
         />
         <div>
-          {routes.length > 0 && (
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={(props) => (
+          <Switch>
+            <Route
+              exact
+              path="/login"
+              render={(props) => (
+                <Login {...props} path="/login" title="Login" icon="" />
+              )}
+            />
+            <Route
+              path="/forget-password"
+              render={(props) => (
+                <ForgetPassword
+                  {...props}
+                  path="/forget-password"
+                  title="Forget Password"
+                  icon=""
+                />
+              )}
+            />
+
+            <PrivateRoute
+              exact
+              path="/"
+              component={() => (
+                <DynamicComponent
+                  path={routes[0].path}
+                  title={routes[0].title}
+                  icon={routes[0].icon}
+                />
+              )}
+            />
+            {routes.map(({ path }) => (
+              <PrivateRoute
+                key={`${path}/:id`}
+                path={`${path}/:id`}
+                component={(props) => (
+                  <Details path={path} id={props.match.params.id} />
+                )}
+              />
+            ))}
+            {routes.map(({ path, title, icon }) => (
+              <PrivateRoute
+                key={path}
+                path={path}
+                component={(props) => (
                   <DynamicComponent
                     {...props}
-                    path={routes[0].path}
-                    title={routes[0].title}
-                    icon={routes[0].icon}
+                    path={path}
+                    title={`${title}s`}
+                    icon={icon}
                   />
                 )}
               />
-              {routes.map(({ path }) => (
-                <Route
-                  key={`${path}/:id`}
-                  path={`${path}/:id`}
-                  render={(props) => (
-                    <Details path={path} id={props.match.params.id} />
-                  )}
+            ))}
+            <PrivateRoute
+              path="/notification"
+              component={(props) => (
+                <Notification
+                  {...props}
+                  path="/notification"
+                  title="Notifications"
+                  icon=""
                 />
-              ))}
-              {routes.map(({ path, title, icon }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  render={(props) => (
-                    <DynamicComponent
-                      {...props}
-                      path={path}
-                      title={`${title}s`}
-                      icon={icon}
-                    />
-                  )}
-                />
-              ))}
-              <Route
-                path={"/notification"}
-                render={(props) => (
-                  <Notification
-                    {...props}
-                    path={"/notification"}
-                    title={"Notifications"}
-                    icon={""}
-                  />
-                )}
-              />
-              <Route
-                path={"/profile"}
-                render={(props) => (
-                  <Profile
-                    {...props}
-                    path={"/profile"}
-                    title={"Profile"}
-                    icon={""}
-                  />
-                )}
-              />
-            </Switch>
-          )}
+              )}
+            />
+            <PrivateRoute
+              path="/profile"
+              component={(props) => (
+                <Profile {...props} path="/profile" title="Profile" icon="" />
+              )}
+            />
+            <Redirect to="/login" />
+          </Switch>
         </div>
       </div>
     </div>

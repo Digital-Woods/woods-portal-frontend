@@ -28,20 +28,20 @@ const Drawer = ({ className }) => {
     mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
     onSuccess: () => {
       setLogoutDialog(false);
-      window.location.href = '/login';
+      window.location.href = "/login";
     },
     onError: (error) => {
-      console.error('Logout failed', error);
-  
+      console.error("Logout failed", error);
     },
   });
 
   const handleLogout = () => {
-    mutation.mutate(); 
+    localStorage.removeItem("token");
+    // mutation.mutate();
+    window.location.href =
+      "https://40123182.hubspotpreview-na1.com/_hcms/preview/template/multi?businessUnitId=0&domain=undefined&hs_preview_key=RaEtwtEoZVNXOTtUvBPiWQ&portalId=40123182&tc_deviceCategory=undefined&template_file_path=Membership+Setup%2Ftemplates%2Flayouts%2Fbase.html&updated=1719810875343&#/login";
+    setLogoutDialog(false);
   };
-
-
-
 
   return (
     <div>
@@ -59,7 +59,7 @@ const Drawer = ({ className }) => {
           className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }
-          ${sidebarCollapsed ? 'p-3' : 'p-4'}
+          ${sidebarCollapsed ? "p-3" : "p-4"}
           `}
         >
           <div className="h-full flex flex-col">
@@ -236,34 +236,34 @@ const Drawer = ({ className }) => {
         </div>
       </div>
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-      <div className="bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-        <div className="w-8">
-          <Logo />
-        </div>
+        <div className="bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+          <div className="w-8">
+            <Logo />
+          </div>
 
-        <div className="flex-col justify-start items-start gap-1 flex">
-          <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
-            Log out of your account?
+          <div className="flex-col justify-start items-start gap-1 flex">
+            <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
+              Log out of your account?
+            </div>
+          </div>
+          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
+            <Button
+              className="dark:text-white"
+              onClick={() => setLogoutDialog(false)}
+            >
+              Keep Me Logged In
+            </Button>
+            <Button
+              variant="outline"
+              className="dark:text-white"
+              onClick={handleLogout}
+              disabled={mutation.isLoading}
+            >
+              {mutation.isLoading ? "Logging out..." : "Logout"}
+            </Button>
           </div>
         </div>
-        <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
-          <Button
-            className="dark:text-white"
-            onClick={() => setLogoutDialog(false)}
-          >
-            Keep Me Logged In
-          </Button>
-          <Button
-            variant="outline"
-            className="dark:text-white"
-            onClick={handleLogout}
-            disabled={mutation.isLoading} 
-          >
-            {mutation.isLoading ? 'Logging out...' : 'Logout'}
-          </Button>
-        </div>
-      </div>
-    </Dialog>
+      </Dialog>
     </div>
   );
 };

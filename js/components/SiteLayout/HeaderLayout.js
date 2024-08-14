@@ -11,13 +11,13 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const HeaderLayout = ({ title , path }) => {
+const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
 
-  console.log(path)
+  console.log(path);
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
