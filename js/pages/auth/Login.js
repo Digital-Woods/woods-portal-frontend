@@ -1,6 +1,9 @@
+const { useHistory } = ReactRouterDOM;
+
 const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
+  const history = useHistory;
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
@@ -21,10 +24,12 @@ const Login = () => {
         setAlert({ message: errorMessage, type: "error" });
         const randomToken = Math.random().toString(36).substring(2);
         localStorage.setItem("token", randomToken);
+        window.location.hash = "/";
       } else {
         setAlert({ message: "An unexpected error occurred.", type: "error" });
         const randomToken = Math.random().toString(36).substring(2);
         localStorage.setItem("token", randomToken);
+        window.location.hash = "/";
       }
     },
   });
@@ -34,7 +39,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center bg-flatGray justify-center h-screen">
       {alert && (
         <Alert
           message={alert.message}

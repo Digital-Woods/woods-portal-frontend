@@ -38,8 +38,7 @@ const Drawer = ({ className }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     // mutation.mutate();
-    window.location.href =
-      "https://40123182.hubspotpreview-na1.com/_hcms/preview/template/multi?businessUnitId=0&domain=undefined&hs_preview_key=RaEtwtEoZVNXOTtUvBPiWQ&portalId=40123182&tc_deviceCategory=undefined&template_file_path=Membership+Setup%2Ftemplates%2Flayouts%2Fbase.html&updated=1719810875343&#/login";
+    window.location.hash = "/logout";
     setLogoutDialog(false);
   };
 
