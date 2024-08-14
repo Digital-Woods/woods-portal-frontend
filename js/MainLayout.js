@@ -31,13 +31,13 @@ const MainLayout = ({ children }) => {
   return (
     <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
       <Drawer
-        className={` duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
-          sidebarCollapsed ? "[80px]" : "[280px]"
+        className={`duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
+          sidebarCollapsed ? "[100px]" : "[300px]"
         }`}
       />
       <div
-        className={`dark:bg-dark-200 bg-flatGray  duration-300 ml-auto w-full lg:w-${
-          sidebarCollapsed ? "[calc(100%_-_80px)]" : "[calc(100%_-_280px)]"
+        className={`dark:bg-dark-200 bg-flatGray duration-300 ml-auto w-full lg:w-${
+          sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
         }`}
       >
         {routes.length > 0 &&
@@ -67,7 +67,34 @@ const MainLayout = ({ children }) => {
             />
           )}
         />
-        <div className="px-4 py-6">
+        <Route
+          key={"/profile"}
+          path={"/profile"}
+          render={(props) => (
+            <HeaderLayout
+              {...props}
+              path={"/profile"}
+              title={`Profile`}
+              icon={""}
+            />
+          )}
+        />
+        <Route
+          key={"/login"}
+          path={"/login"}
+          render={(props) => (
+            <Login {...props} path={"/login"} title={`Login`} icon={""} />
+          )}
+        />
+
+<Route
+          key={"/forget-password"}
+          path={"/forget-password"}
+          render={(props) => (
+            <ForgetPassword {...props} path={"/forget-password"} title={`Forget Password`} icon={""} />
+          )}
+        />
+        <div>
           {routes.length > 0 && (
             <Switch>
               <Route
@@ -112,6 +139,17 @@ const MainLayout = ({ children }) => {
                     {...props}
                     path={"/notification"}
                     title={"Notifications"}
+                    icon={""}
+                  />
+                )}
+              />
+              <Route
+                path={"/profile"}
+                render={(props) => (
+                  <Profile
+                    {...props}
+                    path={"/profile"}
+                    title={"Profile"}
                     icon={""}
                   />
                 )}

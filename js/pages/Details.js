@@ -34,7 +34,7 @@ const Details = ({ path, id }) => {
   }
 
   return (
-    <div className="h-full dark:bg-dark-200 w-[100%] flex">
+    <div className="h-full dark:bg-dark-200 w-[100%] flex p-6">
       <div className="w-[calc(100%_-350px)] pr-4">
         {isLoading && !item && <div className="loader-line"></div>}
 
