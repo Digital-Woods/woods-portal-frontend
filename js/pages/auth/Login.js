@@ -1,35 +1,37 @@
-const { useHistory } = ReactRouterDOM;
-
 const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
-  const history = useHistory;
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
-    mutationFn: async (input) => await Client.authentication.login(input),
+    mutationFn: async (input) =>
+      await Client.authentication.login({
+        username: input.email,
+        password: input.password,
+      }),
     onSuccess: (data) => {
-      if (!data.token) {
-        setAlert({ message: "Wrong username or password", type: "error" });
+      if (!data.data.token) {
+        setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
+
+      localStorage.setItem("token", data.data.token);
+
       setAlert({ message: "Login successful", type: "success" });
+
+      window.location.hash = "/";
     },
+
     onError: (error) => {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
         setServerError(errorData);
+
         const errorMessage =
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
         setAlert({ message: errorMessage, type: "error" });
-        const randomToken = Math.random().toString(36).substring(2);
-        localStorage.setItem("token", randomToken);
-        window.location.hash = "/";
       } else {
         setAlert({ message: "An unexpected error occurred.", type: "error" });
-        const randomToken = Math.random().toString(36).substring(2);
-        localStorage.setItem("token", randomToken);
-        window.location.hash = "/";
       }
     },
   });
