@@ -7,4 +7,5 @@ const API_ENDPOINTS = {
   FEATURES: "api/templates/stonbury/features?featureType=BASE",
   OBJECTS: "/api/feature-data",
   PROFILE_UPDATE: "/update",
+  GET_PROFILE_DETAILS: "/api/auth/me",
 };

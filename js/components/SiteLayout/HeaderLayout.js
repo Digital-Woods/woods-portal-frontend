@@ -23,6 +23,12 @@ const HeaderLayout = ({ title, path }) => {
     setDropdownOpen((prevState) => !prevState);
   };
 
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => await Client.getProfileDetails.all,
+    onSuccess: (response) => {},
+  });
+
   const handleClickOutside = (event) => {
     if (
       dropdownRef.current &&
@@ -152,9 +158,11 @@ const HeaderLayout = ({ title, path }) => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-4 flex flex-col">
-                  <p className="font-semibold dark:text-white">John Doe</p>
+                  <p className="font-semibold dark:text-white">
+                    {data.data.firstName}
+                  </p>
                   <p className="text-xs text-secondary dark:text-gray-400">
-                    johndoe@example.com
+                    {data.data.email}
                   </p>
                 </div>
               </div>
