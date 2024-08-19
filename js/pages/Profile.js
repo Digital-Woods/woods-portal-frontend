@@ -24,6 +24,8 @@ const Profile = ({ title, path }) => {
     },
   });
 
+  console.log(data);
+
   const handlePersonalInfoChange = (e) => {
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
   };

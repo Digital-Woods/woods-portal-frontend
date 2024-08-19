@@ -4,11 +4,17 @@ const Login = () => {
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
-    mutationFn: async (input) =>
-      await Client.authentication.login({
-        username: input.email,
-        password: input.password,
-      }),
+    mutationFn: async (input) => {
+      try {
+        const response = await Client.authentication.login({
+          username: input.email,
+          password: input.password,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
     onSuccess: (data) => {
       if (!data.data.token) {
         setAlert({ message: "Wrong email or password", type: "error" });
@@ -16,23 +22,21 @@ const Login = () => {
       }
 
       localStorage.setItem("token", data.data.token);
-
       setAlert({ message: "Login successful", type: "success" });
-
       window.location.hash = "/";
     },
-
     onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+
       if (error.response && error.response.data) {
         const errorData = error.response.data;
         setServerError(errorData);
 
-        const errorMessage =
+        errorMessage =
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
-        setAlert({ message: errorMessage, type: "error" });
-      } else {
-        setAlert({ message: "An unexpected error occurred.", type: "error" });
       }
+
+      setAlert({ message: errorMessage, type: "error" });
     },
   });
 
