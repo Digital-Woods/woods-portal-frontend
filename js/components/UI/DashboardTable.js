@@ -150,7 +150,7 @@ const DashboardTable = ({ path, inputValue, hubId, templatename }) => {
           </p>
         </div>
 
-        <Select buttonText="Order: Ascending" />
+        {tableData.length > 0 && <Select buttonText="Order: Ascending" />}
       </div>
       <div className="overflow-x-auto">
         {!isLoading && tableData.length > 0 && (

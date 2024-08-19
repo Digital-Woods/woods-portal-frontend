@@ -67,6 +67,7 @@ const MainLayout = ({ children }) => {
             />
           )}
         />
+
         <Route
           key={"/profile"}
           path={"/profile"}
