@@ -27,7 +27,7 @@ const sortedHeaders = (headers) => {
 
 const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
-const DashboardTable = ({ path, inputValue }) => {
+const DashboardTable = ({ path, inputValue, hubId, templatename }) => {
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -36,7 +36,6 @@ const DashboardTable = ({ path, inputValue }) => {
   const [after, setAfter] = useState("");
   const [sortConfig, setSortConfig] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
@@ -60,6 +59,8 @@ const DashboardTable = ({ path, inputValue }) => {
       after,
       sortConfig,
       inputValue,
+      hubId,
+      templatename,
       filterPropertyName,
       filterOperator,
       filterValue,
@@ -69,6 +70,8 @@ const DashboardTable = ({ path, inputValue }) => {
         path,
         limit: itemsPerPage,
         after,
+        hubId: hubId,
+        templatename: templatename,
         sort: sortConfig,
         inputValue,
         filterPropertyName,
@@ -83,7 +86,7 @@ const DashboardTable = ({ path, inputValue }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         if (results.length > 0) {
-          setTableHeader(sortData(results[0]), 'list');
+          setTableHeader(sortData(results[0]), "list");
         } else {
           setTableHeader([]);
         }

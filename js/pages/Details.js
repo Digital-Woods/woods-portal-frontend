@@ -12,6 +12,8 @@ const Details = ({ path, id }) => {
       await Client.objects.byObjectId({
         path,
         objectId: id,
+        hubId: personalInfo.hubId,
+        templatename: personalInfo.templatename,
       }),
     onSuccess: (data) => {
       if (data.data) {

@@ -4,6 +4,7 @@ const { useQuery } = ReactQuery;
 const DynamicComponent = ({ title, path }) => {
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
+  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -100,7 +101,12 @@ const DynamicComponent = ({ title, path }) => {
             </div>
           </div>
 
-          <DashboardTable path={path} inputValue={inputValue} />
+          <DashboardTable
+            path={path}
+            inputValue={inputValue}
+            hubId={personalInfo.hubId}
+            templatename={personalInfo.templatename}
+          />
         </div>
       ) : (
         <div className="dark:text-white">Under Construction</div>

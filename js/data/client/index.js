@@ -30,7 +30,7 @@ class Client {
       templatename,
       ...query
     }) =>
-      HttpClient.get(`/api/feature-data/7869/stonbury${path}`, {
+      HttpClient.get(`/api/feature-data/${hubId}/${templatename}${path}`, {
         limit,
         sort,
         after,
@@ -38,8 +38,10 @@ class Client {
         ...query,
       }),
 
-    byObjectId: ({ path, objectId }) =>
-      HttpClient.get(`/api/feature-data/7869/stonbury${path}/${objectId}`),
+    byObjectId: ({ path, objectId, hubId, templatename }) =>
+      HttpClient.get(
+        `/api/feature-data/${hubId}/${templatename}${path}/${objectId}`
+      ),
   };
 
   static products = {
