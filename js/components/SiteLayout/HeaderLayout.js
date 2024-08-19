@@ -16,18 +16,13 @@ const HeaderLayout = ({ title, path }) => {
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
+  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
   console.log(path);
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
   };
-
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["profile"],
-    queryFn: async () => await Client.getProfileDetails.all,
-    onSuccess: (response) => {},
-  });
 
   const handleClickOutside = (event) => {
     if (
@@ -159,10 +154,10 @@ const HeaderLayout = ({ title, path }) => {
                 />
                 <div className="ml-4 flex flex-col">
                   <p className="font-semibold dark:text-white">
-                    {data.data.firstName}
+                    {personalInfo.firstName}
                   </p>
                   <p className="text-xs text-secondary dark:text-gray-400">
-                    {data.data.email}
+                    {personalInfo.email}
                   </p>
                 </div>
               </div>

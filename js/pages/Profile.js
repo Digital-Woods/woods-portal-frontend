@@ -4,11 +4,7 @@ const { z } = Zod;
 
 const Profile = ({ title, path }) => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
-  const [personalInfo, setPersonalInfo] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-  });
+  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["profile"],
