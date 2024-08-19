@@ -13,7 +13,10 @@ ReactDOM.render(
         <Route
           render={() =>
             isAuthenticated() ? (
-              <MainLayout />
+              <div>
+                <MainLayout />
+                <DataInitializer />
+              </div>
             ) : (
               <Switch>
                 <Route exact path="/login" component={Login} />

@@ -2,6 +2,9 @@ const Details = ({ path, id }) => {
   const [item, setItems] = useState(null);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
+  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+
+  console.log(personalInfo);
 
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],

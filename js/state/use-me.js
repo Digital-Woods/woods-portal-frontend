@@ -6,7 +6,7 @@ const profileState = atom({
     firstName: "",
     lastName: "",
     email: "",
-    hubId: "7869",
-    templatename: "stonbury",
+    hubId: "",
+    templatename: "",
   },
 });

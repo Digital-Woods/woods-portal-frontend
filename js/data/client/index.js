@@ -26,6 +26,8 @@ class Client {
       after = "",
       sort = "updatedAt",
       inputValue,
+      hubId,
+      templatename,
       ...query
     }) =>
       HttpClient.get(`/api/feature-data/7869/stonbury${path}`, {
