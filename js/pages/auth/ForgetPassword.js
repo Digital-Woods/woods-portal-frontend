@@ -63,7 +63,6 @@ const ForgetPassword = () => {
       setStep(2);
     } else {
       password(data);
-      console.log(data, "data");
     }
   };
 

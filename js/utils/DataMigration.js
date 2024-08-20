@@ -224,7 +224,6 @@ const renderCellContent = (value, itemId = null, path = null) => {
       );
 
     case isImage(value):
-      console.log("value", value)
       let urlArray = value.split(',');
       return <img src={urlArray[0]} alt={urlArray[0]} class="w-10 h-10 rounded" />;
 

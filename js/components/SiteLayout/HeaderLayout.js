@@ -19,8 +19,6 @@ const HeaderLayout = ({ title, path }) => {
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
-  console.log(path);
-
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
   };
