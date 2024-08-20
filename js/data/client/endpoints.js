@@ -9,4 +9,5 @@ const API_ENDPOINTS = {
   OBJECTS_BY_ID: "/api/feature-data",
   PROFILE_UPDATE: "/update",
   GET_PROFILE_DETAILS: "/api/auth/me",
+  USERS_ME: "/api/auth/me",
 };

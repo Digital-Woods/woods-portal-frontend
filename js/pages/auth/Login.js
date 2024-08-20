@@ -2,6 +2,13 @@ const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
 
+  const setItemAsync = async (key, value) => {
+    return new Promise((resolve) => {
+      localStorage.setItem(key, value);
+      resolve();
+    });
+  };
+
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
     mutationFn: async (input) => {
@@ -15,13 +22,13 @@ const Login = () => {
         throw error;
       }
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!data.data.token) {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
 
-      localStorage.setItem("token", data.data.token);
+      await setItemAsync("token", data.data.token);
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

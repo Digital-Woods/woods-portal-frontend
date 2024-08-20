@@ -24,7 +24,6 @@ ReactDOM.render(
             isAuthenticated() ? (
               <div>
                 <MainLayout />
-                <DataInitializer />
               </div>
             ) : (
               <Switch>

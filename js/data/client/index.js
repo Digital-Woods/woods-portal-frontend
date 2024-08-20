@@ -26,12 +26,11 @@ class Client {
       after = "",
       sort = "updatedAt",
       inputValue,
-      hubId,
-      templatename,
+      me,
       ...query
     }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS}/${hubId}/${templatename}${path}`,
+        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.hubId}/${me.templates[0].name}${path}`,
         {
           limit,
           sort,
@@ -41,9 +40,9 @@ class Client {
         }
       ),
 
-    byObjectId: ({ path, objectId, hubId, templatename }) =>
+    byObjectId: ({ path, objectId, me }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS_BY_ID}/${hubId}/${templatename}${path}/${objectId}`
+        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.hubId}/${me.templates[0].name}${path}/${objectId}`
       ),
   };
 

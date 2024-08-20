@@ -3,7 +3,7 @@ const Details = ({ path, id }) => {
   const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const { me } = useMe();
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
@@ -13,8 +13,7 @@ const Details = ({ path, id }) => {
       await Client.objects.byObjectId({
         path,
         objectId: id,
-        hubId: personalInfo.hubId,
-        templatename: personalInfo.templatename,
+        me: me,
       }),
     onSuccess: (data) => {
       if (data.data) {

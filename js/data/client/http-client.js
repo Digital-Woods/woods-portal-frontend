@@ -2,10 +2,7 @@ const Axios = axios.create({
   baseURL: env.API_BASE_URL,
   timeout: 150000000,
   headers: {
-    "Content-Type": "application/json",
-    // "X-User-Email": "john.doe@example.com",
-    // "X-User-Roles": "ROLE_USER, ROLE_ADMIN",
-    "ngrok-skip-browser-warning": 1,
+    "Content-Type": "application/json"
   },
 });
 
