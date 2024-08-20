@@ -55,6 +55,20 @@ const MainLayout = ({ children }) => {
               )}
             />
           ))}
+
+        <Route
+          key={"/"}
+          path={"/"}
+          render={(props) => (
+            <HeaderLayout
+              {...props}
+              path={routes[0].path}
+              title={routes[0].title}
+              icon={routes[0].icon}
+            />
+          )}
+        />
+
         <Route
           key={"/notification"}
           path={"/notification"}
