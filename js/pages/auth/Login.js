@@ -34,7 +34,7 @@ const Login = () => {
         return;
       }
 
-      await setItemAsync("token", data.data.token);
+      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

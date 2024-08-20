@@ -1,19 +1,18 @@
-import { atom, useAtom } from 'jotai';
-import {
-  checkHasAuthToken,
-  getAuthToken,
-  removeAuthToken,
-  setAuthToken,
-} from '@/data/client/token.utils';
+const { atom, useRecoilState } = Recoil;
 
-const authorizationAtom = atom(checkHasAuthToken());
-export default function useAuth() {
-  const [isAuthorized, setAuthorized] = useAtom(authorizationAtom);
+const authorizationAtom = atom({
+  key: "authorizationAtom",
+  default: checkHasAuthToken(),
+});
+
+function useAuth() {
+  const [isAuthorized, setAuthorized] = useRecoilState(authorizationAtom);
+
   return {
     setToken: setAuthToken,
     getToken: getAuthToken,
     isAuthorized,
-    authorize(token: string) {
+    authorize(token) {
       setAuthToken(token);
       setAuthorized(true);
     },

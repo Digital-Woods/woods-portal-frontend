@@ -65,9 +65,9 @@ const MainLayout = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log("mutate", localStorage.getItem("token"));
+    console.log("mutate", localStorage.getItem(env.AUTH_TOKEN_KEY));
     fetchFeatures();
-  }, [localStorage.getItem("token")]);
+  }, [localStorage.getItem(env.AUTH_TOKEN_KEY)]);
 
   return (
     <React.Fragment>

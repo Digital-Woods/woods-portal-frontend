@@ -1,13 +1,5 @@
 function useMe() {
-  // const { isAuthorized } = useAuth();
-  const isAuthorized = true;
-  // const { data, isLoading, error, refetch } = useQuery(
-  //   [API_ENDPOINTS.USERS_ME],
-  //   Client.getProfileDetails.all,
-  //   {
-  //     enabled: isAuthorized,
-  //   },
-  // );
+  const { isAuthorized } = useAuth();
   let response = null;
 
   const { data, isLoading, error, refetch } = useQuery({
@@ -19,8 +11,7 @@ function useMe() {
     refetch();
   };
 
-  if(data) response = data.data
-
+  if (data) response = data.data;
 
   return {
     me: response,
