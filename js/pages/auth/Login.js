@@ -29,7 +29,7 @@ const Login = () => {
       let errorMessage = "An unexpected error occurred.";
 
       if (error.response && error.response.data) {
-        const errorData = error.response.data;
+        const errorData = error.response.data.detailedMessage;
         setServerError(errorData);
 
         errorMessage =
@@ -97,6 +97,7 @@ const Login = () => {
                       <Input
                         placeholder="Password"
                         icon={passwordIcon}
+                        type="password"
                         className="focus:border-brand focus:ring-brand"
                         {...register("password")}
                       />
