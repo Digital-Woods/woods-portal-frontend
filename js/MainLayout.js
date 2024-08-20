@@ -41,7 +41,7 @@ const MainLayout = ({ children }) => {
     queryKey: ["features"],
     queryFn: async () => await Client.fetchFeatures.all,
     onSuccess: (response) => {
-      const allowedRoutes = ["Asset", "Job", "Site", "Equipment"];
+      const allowedRoutes = env.ALLOWED_ROUTES;
       const apiRoutes = response.data
         .filter((label) => allowedRoutes.includes(label.label))
         .map((label) => ({

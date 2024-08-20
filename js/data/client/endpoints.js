@@ -1,5 +1,5 @@
 const API_ENDPOINTS = {
-  USERS_LOGIN: "api/auth/login",
+  USERS_LOGIN: "/api/auth/login",
   USERS_REGISTER: "/register",
   USERS_FORGET_PASSWORD: "api/Authentication/SecureForgotPassword",
   USER_LOGOUT: "/logout",
