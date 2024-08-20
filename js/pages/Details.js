@@ -65,27 +65,15 @@ const Details = ({ path, id }) => {
 
         {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
 
-        {path === "/jobs" ? (
+        {path === "/jobs" && (
           <div className="col-span-4">
             <DetailsTable item={item} path={path} />
-            {images.length > 0 && (
-              <DetailsGallery
-                images={images}
-                setGalleryDialog={setGalleryDialog}
-              />
-            )}
-            <DetailsView sortItems={sortItems} />
           </div>
-        ) : (
-          <div>
-            {images.length > 0 && (
-              <DetailsGallery
-                images={images}
-                setGalleryDialog={setGalleryDialog}
-              />
-            )}
-            <DetailsView sortItems={sortItems} />
-          </div>
+        )}
+        {sortItems && <DetailsView sortItems={sortItems} />}
+
+        {images.length > 0 && (
+          <DetailsGallery images={images} setGalleryDialog={setGalleryDialog} />
         )}
       </div>
 

@@ -37,9 +37,9 @@ const DetailsHeaderCard = ({
 
   return (
     <div
-      className={`relative h-36 rounded-lg w-full flex items-center justify-between overflow-hidden ${bgImageClass}`}
+      className={`relative h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient`}
     >
-      <div className="absolute inset-0 bg-black opacity-40"></div>
+      {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
 
       <div className="relative flex flex-col justify-center px-4 text-white z-10">
         <p className="text-xs font-normal text-flatGray">{plantName}</p>
