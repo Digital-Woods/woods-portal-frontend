@@ -68,7 +68,7 @@ const DashboardTable = ({ path, inputValue, title, hubId, templatename }) => {
     queryFn: async () =>
       await Client.objects.all({
         path,
-        limit: itemsPerPage,
+        limit: itemsPerPage || 10,
         after,
         hubId: hubId,
         templatename: templatename,
@@ -86,7 +86,7 @@ const DashboardTable = ({ path, inputValue, title, hubId, templatename }) => {
         setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
         if (results.length > 0) {
-          setTableHeader(sortData(results[0], 'list', title));
+          setTableHeader(sortData(results[0], "list", title));
         } else {
           setTableHeader([]);
         }
@@ -152,72 +152,74 @@ const DashboardTable = ({ path, inputValue, title, hubId, templatename }) => {
 
         {tableData.length > 0 && <Select buttonText="Order: Ascending" />}
       </div>
-      <div className="overflow-x-auto">
-        {!isLoading && tableData.length > 0 && (
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow>
-                {tableHeader.map((item) => (
-                  <TableHead
-                    key={item.name}
-                    className="whitespace-nowrap dark:text-white cursor-pointer"
-                    onClick={() => handleSort(item.name)}
-                  >
-                    <div className="flex">
-                      <span className="font-semibold text-xs">
-                        {" "}
-                        {item.label}{" "}
-                      </span>
-                      {sortConfig === item.name && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="24px"
-                          viewBox="0 -960 960 960"
-                          width="24px"
-                          className="dark:fill-white cursor-pointer"
-                        >
-                          <path d="m280-400 200-200 200 200H280Z" />
-                        </svg>
-                      )}
-                      {sortConfig === `-${item.name}` && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="24px"
-                          viewBox="0 -960 960 960"
-                          width="24px"
-                          className="dark:fill-white cursor-pointer"
-                        >
-                          <path d="M480-360 280-560h400L480-360Z" />
-                        </svg>
-                      )}
-                    </div>
-                  </TableHead>
-                ))}
-                {/* <TableHead className="font-semibold text-xs">
-                  Actions
-                </TableHead> */}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {tableData.map((item) => (
-                <TableRow key={item.id}>
-                  {tableHeader.map((row) => (
-                    <TableCell
-                      key={row.name}
-                      className="whitespace-nowrap border-b"
+
+      {tableData.length > 0 && (
+        <React.Fragment>
+          <div className="overflow-x-auto">
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow>
+                  {tableHeader.map((item) => (
+                    <TableHead
+                      key={item.name}
+                      className="whitespace-nowrap dark:text-white cursor-pointer"
+                      onClick={() => handleSort(item.name)}
                     >
-                      <div className="dark:text-white">
-                        {renderCellContent(
-                          row.name
-                            .split(".")
-                            .reduce((o, k) => (o || {})[k], item),
-                          item.id,
-                          path
+                      <div className="flex">
+                        <span className="font-semibold text-xs">
+                          {" "}
+                          {item.label}{" "}
+                        </span>
+                        {sortConfig === item.name && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="24px"
+                            viewBox="0 -960 960 960"
+                            width="24px"
+                            className="dark:fill-white cursor-pointer"
+                          >
+                            <path d="m280-400 200-200 200 200H280Z" />
+                          </svg>
+                        )}
+                        {sortConfig === `-${item.name}` && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="24px"
+                            viewBox="0 -960 960 960"
+                            width="24px"
+                            className="dark:fill-white cursor-pointer"
+                          >
+                            <path d="M480-360 280-560h400L480-360Z" />
+                          </svg>
                         )}
                       </div>
-                    </TableCell>
+                    </TableHead>
                   ))}
-                  {/* <TableCell>
+                  {/* <TableHead className="font-semibold text-xs">
+                  Actions
+                </TableHead> */}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {tableData.map((item) => (
+                  <TableRow key={item.id}>
+                    {tableHeader.map((row) => (
+                      <TableCell
+                        key={row.name}
+                        className="whitespace-nowrap border-b"
+                      >
+                        <div className="dark:text-white">
+                          {renderCellContent(
+                            row.name
+                              .split(".")
+                              .reduce((o, k) => (o || {})[k], item),
+                            item.id,
+                            path
+                          )}
+                        </div>
+                      </TableCell>
+                    ))}
+                    {/* <TableCell>
                     <div className="flex items-center space-x-2 gap-x-5">
                       <Link
                         className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
@@ -227,21 +229,20 @@ const DashboardTable = ({ path, inputValue, title, hubId, templatename }) => {
                       </Link>
                     </div>
                   </TableCell> */}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </div>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
-      {!isLoading && tableData.length > 0 && (
-        <div className="flex justify-end px-4">
-          <Pagination
-            numOfPages={numOfPages}
-            currentPage={currentPage}
-            setCurrentPage={handlePageChange}
-          />
-        </div>
+          <div className="flex justify-end px-4">
+            <Pagination
+              numOfPages={numOfPages}
+              currentPage={currentPage}
+              setCurrentPage={handlePageChange}
+            />
+          </div>
+        </React.Fragment>
       )}
     </div>
   );
