@@ -2,6 +2,41 @@ const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
 
+  const defaultRoutes = [
+    {
+      path: `/login`,
+      title: "Login",
+      icon: "",
+      isRequiredAuth: false,
+      isHeader: false,
+      component: <Login />,
+    },
+    {
+      path: `/forget-password`,
+      title: "Forget Password",
+      icon: "",
+      isRequiredAuth: false,
+      isHeader: false,
+      component: <ForgetPassword />,
+    },
+    {
+      path: `/notifications`,
+      title: "Notifications",
+      icon: "",
+      isRequiredAuth: true,
+      isHeader: true,
+      component: <Notification />,
+    },
+    {
+      path: `/profile`,
+      title: "Profile",
+      icon: "",
+      isRequiredAuth: true,
+      isHeader: true,
+      component: <Profile />,
+    },
+  ];
+
   const { data, error, isLoading } = useQuery({
     queryKey: ["features"],
     queryFn: async () => await Client.fetchFeatures.all,
@@ -40,136 +75,111 @@ const MainLayout = ({ children }) => {
           sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
         }`}
       >
-        {routes.length > 0 &&
-          routes.map(({ path, title, icon }) => (
-            <Route
-              key={path}
-              path={path}
-              render={(props) => (
-                <HeaderLayout
-                  {...props}
-                  path={path}
-                  title={`${title}s`}
-                  icon={icon}
-                />
-              )}
-            />
-          ))}
-
-        <Route
-          key={"/"}
-          path={"/"}
-          render={(props) => (
-            <HeaderLayout
-              {...props}
-              path={routes[0].path}
-              title={routes[0].title}
-              icon={routes[0].icon}
-            />
-          )}
-        />
-
-        <Route
-          key={"/notification"}
-          path={"/notification"}
-          render={(props) => (
-            <HeaderLayout
-              {...props}
-              path={"/notification"}
-              title={`Notifications`}
-              icon={""}
-            />
-          )}
-        />
-
-        <Route
-          key={"/profile"}
-          path={"/profile"}
-          render={(props) => (
-            <HeaderLayout
-              {...props}
-              path={"/profile"}
-              title={`Profile`}
-              icon={""}
-            />
-          )}
-        />
-
         <Switch>
-          <PublicRoute
-            exact
-            path="/login"
-            restricted={true}
-            component={(props) => (
-              <Login {...props} path="/login" title="Login" icon="" />
-            )}
-          />
-          <PublicRoute
-            exact
-            path="/forget-password"
-            restricted={true}
-            component={(props) => (
-              <ForgetPassword
-                {...props}
-                path="/forget-password"
-                title="Forget Password"
-                icon=""
-              />
-            )}
-          />
+          {/* Default Route */}
+          {defaultRoutes.map(
+            ({ path, title, icon, isRequiredAuth, isHeader, component }) =>
+              isRequiredAuth ? (
+                <PrivateRoute
+                  key={path}
+                  path={path}
+                  component={(props) => (
+                    <React.Fragment>
+                      {isHeader && (
+                        <HeaderLayout
+                          {...props}
+                          path={path}
+                          title={`${title}s`}
+                          icon={icon}
+                        />
+                      )}
+                      {component}
+                    </React.Fragment>
+                  )}
+                />
+              ) : (
+                <PublicRoute
+                  key={path}
+                  path={path}
+                  component={(props) => (
+                    <React.Fragment>
+                      {isHeader && (
+                        <HeaderLayout
+                          {...props}
+                          path={path}
+                          title={`${title}s`}
+                          icon={icon}
+                        />
+                      )}
+                      {component}
+                    </React.Fragment>
+                  )}
+                />
+              )
+          )}
 
-          {/* Private Routes */}
+          {/* Root Route */}
           <PrivateRoute
             exact
             path="/"
             component={() => (
-              <DynamicComponent
-                path={routes[0].path}
-                title={routes[0].title}
-                icon={routes[0].icon}
-              />
+              <React.Fragment>
+                <HeaderLayout
+                  path={routes[0].path}
+                  title={routes[0].title}
+                  icon={routes[0].icon}
+                />
+                <DynamicComponent
+                  path={routes[0].path}
+                  title={routes[0].title}
+                  icon={routes[0].icon}
+                />
+              </React.Fragment>
             )}
           />
-          {routes.map(({ path }) => (
-            <PrivateRoute
-              key={`${path}/:id`}
-              path={`${path}/:id`}
-              component={(props) => (
-                <Details path={path} id={props.match.params.id} />
-              )}
-            />
-          ))}
+
+          {/* List Routs */}
           {routes.map(({ path, title, icon }) => (
             <PrivateRoute
               key={path}
               path={path}
               component={(props) => (
-                <DynamicComponent
-                  {...props}
-                  path={path}
-                  title={`${title}s`}
-                  icon={icon}
-                />
+                <React.Fragment>
+                  <HeaderLayout
+                    {...props}
+                    path={path}
+                    title={`${title}s`}
+                    icon={icon}
+                  />
+                  <DynamicComponent
+                    {...props}
+                    path={path}
+                    title={`${title}s`}
+                    icon={icon}
+                  />
+                </React.Fragment>
               )}
             />
           ))}
-          <PrivateRoute
-            path="/notification"
-            component={(props) => (
-              <Notification
-                {...props}
-                path="/notification"
-                title="Notifications"
-                icon=""
-              />
-            )}
-          />
-          <PrivateRoute
-            path="/profile"
-            component={(props) => (
-              <Profile {...props} path="/profile" title="Profile" icon="" />
-            )}
-          />
+
+          {/* Details Routs */}
+          {routes.map(({ path, title, icon }) => (
+            <PrivateRoute
+              key={`${path}/:id`}
+              path={`${path}/:id`}
+              component={(props) => (
+                <React.Fragment>
+                  <HeaderLayout
+                    {...props}
+                    path={path}
+                    title={`${title}s`}
+                    icon={icon}
+                  />
+                  <Details path={path} id={props.match.params.id} />
+                </React.Fragment>
+              )}
+            />
+          ))}
 
           <Redirect to="/login" />
         </Switch>
