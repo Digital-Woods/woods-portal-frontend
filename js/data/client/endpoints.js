@@ -6,6 +6,7 @@ const API_ENDPOINTS = {
   PRODUCTS: "/products",
   FEATURES: "api/templates/stonbury/features?featureType=BASE",
   OBJECTS: "/api/feature-data",
+  OBJECTS_BY_ID: "/api/feature-data",
   PROFILE_UPDATE: "/update",
   GET_PROFILE_DETAILS: "/api/auth/me",
 };

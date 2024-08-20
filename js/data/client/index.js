@@ -30,17 +30,20 @@ class Client {
       templatename,
       ...query
     }) =>
-      HttpClient.get(`/api/feature-data/${hubId}/${templatename}${path}`, {
-        limit,
-        sort,
-        after,
-        search: inputValue,
-        ...query,
-      }),
+      HttpClient.get(
+        `${API_ENDPOINTS.OBJECTS}/${hubId}/${templatename}${path}`,
+        {
+          limit,
+          sort,
+          after,
+          search: inputValue,
+          ...query,
+        }
+      ),
 
     byObjectId: ({ path, objectId, hubId, templatename }) =>
       HttpClient.get(
-        `/api/feature-data/${hubId}/${templatename}${path}/${objectId}`
+        `${API_ENDPOINTS.OBJECTS_BY_ID}/${hubId}/${templatename}${path}/${objectId}`
       ),
   };
 
