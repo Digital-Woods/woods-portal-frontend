@@ -138,6 +138,25 @@ const MainLayout = ({ children }) => {
             )}
           />
 
+          {/* Details Routs */}
+          {routes.map(({ path, title, icon }) => (
+            <PrivateRoute
+              key={`${path}/:id`}
+              path={`${path}/:id`}
+              component={(props) => (
+                <React.Fragment>
+                  <HeaderLayout
+                    {...props}
+                    path={path}
+                    title={`${title}s`}
+                    icon={icon}
+                  />
+                  <Details path={path} id={props.match.params.id} />
+                </React.Fragment>
+              )}
+            />
+          ))}
+
           {/* List Routs */}
           {routes.map(({ path, title, icon }) => (
             <PrivateRoute
@@ -157,25 +176,6 @@ const MainLayout = ({ children }) => {
                     title={`${title}s`}
                     icon={icon}
                   />
-                </React.Fragment>
-              )}
-            />
-          ))}
-
-          {/* Details Routs */}
-          {routes.map(({ path, title, icon }) => (
-            <PrivateRoute
-              key={`${path}/:id`}
-              path={`${path}/:id`}
-              component={(props) => (
-                <React.Fragment>
-                  <HeaderLayout
-                    {...props}
-                    path={path}
-                    title={`${title}s`}
-                    icon={icon}
-                  />
-                  <Details path={path} id={props.match.params.id} />
                 </React.Fragment>
               )}
             />
