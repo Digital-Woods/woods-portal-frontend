@@ -113,19 +113,12 @@ const Login = () => {
                 <div className="flex justify-between items-center">
                   <div className="flex">
                     <Input type="checkbox" icon="none" className="mr-1 ml-2" />
-                    <p className="text-xs ">Keep me signed in</p>
+                    <p className="text-xs">Keep me signed in</p>
                   </div>
 
                   <div>
-                    <NavLink
-                      to="/forget-password"
-                      className=""
-                      activeClassName=""
-                    >
-                      <p
-                        className={`
-                       text-black text-xs dark:text-white`}
-                      >
+                    <NavLink to="/forget-password" className="">
+                      <p className="text-black text-xs dark:text-white">
                         forget password?
                       </p>
                     </NavLink>
@@ -133,7 +126,9 @@ const Login = () => {
                 </div>
 
                 <div className="mt-4 flex flex-col justiful-center items-center">
-                  <Button className="w-full">Continue</Button>
+                  <Button className="w-full" isLoading={isLoading}>
+                    Continue
+                  </Button>
                 </div>
               </div>
             )}
