@@ -1,6 +1,12 @@
 const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
+  const loginUserValidationSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(4, {
+      message: "Password must be at least 4 characters.",
+    }),
+  });
 
   const setItemAsync = async (key, value) => {
     return new Promise((resolve) => {

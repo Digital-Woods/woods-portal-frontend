@@ -4,7 +4,6 @@ const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
-  const setProfile = useSetRecoilState(profileState);
 
   const [isLoading, setIsLoading] = useState(true);
 

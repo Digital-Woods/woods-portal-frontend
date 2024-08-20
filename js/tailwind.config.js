@@ -32,16 +32,17 @@ tailwind.config = {
       xl: "1280px",
       "2xl": "1440px",
       "3xl": "1780px",
-      "4xl": "2160px", 
+      "4xl": "2160px",
     },
     extend: {
       backgroundImage: {
-        'custom-gradient': 'linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)',
-        
-        'custom-bg': "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-    
+        "custom-gradient":
+          "linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)",
+
+        "custom-bg":
+          "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
       },
-      
+
       colors: {
         white: "#FFFFFF",
         lightblue: "#005fad",
@@ -56,7 +57,7 @@ tailwind.config = {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
         },
-        
+
         light: {
           base: "#646464",
           100: "#f9f9f9",

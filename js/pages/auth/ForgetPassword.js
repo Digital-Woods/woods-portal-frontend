@@ -2,13 +2,6 @@ const { useMutation } = ReactQuery;
 const { useForm } = ReactHookForm;
 const { z } = Zod;
 
-const loginUserValidationSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(4, {
-    message: "Password must be at least 4 characters.",
-  }),
-});
-
 const NavLink = ({ to, className, activeClassName, children }) => (
   <a
     href={to}
@@ -45,6 +38,12 @@ const passwordIcon = () => (
 const ForgetPassword = () => {
   const [serverError, setServerError] = useState(null);
   const [step, setStep] = useState(1);
+  const loginUserValidationSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(4, {
+      message: "Password must be at least 4 characters.",
+    }),
+  });
 
   const { mutate: password, isLoading } = useMutation({
     mutationKey: ["loginUser"],

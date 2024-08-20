@@ -17,6 +17,7 @@ const Drawer = ({ className }) => {
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
   const [isSecondIcon, setIsSecondIcon] = useState(false);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
+  const { me } = useMe();
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -74,7 +75,7 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  STONBURY
+                  {/* {me.templateLabel} */}
                 </h1>
               </div>
               <div
