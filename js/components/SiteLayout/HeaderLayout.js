@@ -19,6 +19,7 @@ const HeaderLayout = ({ title, path }) => {
   const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const { me } = useMe();
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -158,10 +159,10 @@ const HeaderLayout = ({ title, path }) => {
                 />
                 <div className="ml-4 flex flex-col">
                   <p className="font-semibold dark:text-white">
-                    {personalInfo.firstName}
+                    {me.firstName}
                   </p>
                   <p className="text-xs text-secondary dark:text-gray-400">
-                    {personalInfo.email}
+                    {me.email}
                   </p>
                 </div>
               </div>

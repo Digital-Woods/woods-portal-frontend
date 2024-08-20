@@ -1,5 +1,5 @@
 const ProfileCard = () => {
-  const [personalInfo] = useRecoilState(profileState);
+  const { me } = useMe();
 
   return (
     <div className="flex justify-between dark:bg-dark-300 p-5 bg-white rounded-md mt-8">
@@ -13,13 +13,11 @@ const ProfileCard = () => {
         </div>
 
         <div className="flex flex-col justify-center space-y-1">
-          <h1 className="text-2xl font-semibold dark:text-white">{`${personalInfo.firstName} ${personalInfo.lastName}`}</h1>
+          <h1 className="text-2xl font-semibold dark:text-white">{`${me.firstName} ${me.lastName}`}</h1>
           <p className="text-secondary font-medium text-sm">
             Sales Manager, Stonbury
           </p>
-          <p className="text-xs font-normal text-secondary">
-            {personalInfo.email}
-          </p>
+          <p className="text-xs font-normal text-secondary">{me.email}</p>
         </div>
       </div>
     </div>

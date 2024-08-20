@@ -19,6 +19,8 @@ const Drawer = ({ className }) => {
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const { me } = useMe();
 
+  console.log(me, "seueeb");
+
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
@@ -38,7 +40,7 @@ const Drawer = ({ className }) => {
   });
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem(env.AUTH_TOKEN_KEY);
     // mutation.mutate();
     window.location.hash = "/login";
     setLogoutDialog(false);
@@ -75,7 +77,7 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {/* {me.templateLabel} */}
+                  {me.templates[0].label}
                 </h1>
               </div>
               <div

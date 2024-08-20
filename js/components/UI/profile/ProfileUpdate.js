@@ -36,10 +36,10 @@ const EmailIcon = () => (
 
 const ProfileUpdate = () => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const { me } = useMe();
 
   const handlePersonalInfoChange = (e) => {
-    setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
   };
 
   return (
@@ -63,14 +63,14 @@ const ProfileUpdate = () => {
             <Input
               type="text"
               name="firstName"
-              value={personalInfo.firstName}
+              value={me.firstName}
               onChange={handlePersonalInfoChange}
               className="text-xs text-gray-500 ml-2"
               icon={FirstNameIcon}
             />
           </div>
         ) : (
-          <div className="text-xs text-gray-500">{personalInfo.firstName}</div>
+          <div className="text-xs text-gray-500">{me.firstName}</div>
         )}
       </div>
 
@@ -81,14 +81,14 @@ const ProfileUpdate = () => {
             <Input
               type="text"
               name="lastName"
-              value={personalInfo.lastName}
+              value={me.lastName}
               onChange={handlePersonalInfoChange}
               className="text-xs text-gray-500 ml-2"
               icon={SecondNameIcon}
             />
           </div>
         ) : (
-          <div className="text-xs text-gray-500">{personalInfo.lastName}</div>
+          <div className="text-xs text-gray-500">{me.lastName}</div>
         )}
       </div>
 
@@ -99,14 +99,14 @@ const ProfileUpdate = () => {
             <Input
               type="email"
               name="email"
-              value={personalInfo.email}
+              value={me.email}
               onChange={handlePersonalInfoChange}
               className="text-xs text-gray-500 ml-2"
-              icon={emailIcon}
+              icon={EmailIcon}
             />
           </div>
         ) : (
-          <div className="text-xs text-gray-500">{personalInfo.email}</div>
+          <div className="text-xs text-gray-500">{me.email}</div>
         )}
       </div>
     </div>
