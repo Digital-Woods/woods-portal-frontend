@@ -22,6 +22,7 @@ function DataInitializer() {
           primaryColor: hubspotPortals.portalSettings.primaryColor || "",
           secondaryColor: hubspotPortals.portalSettings.secondaryColor || "",
           hubspotDomain: hubspotPortals.hubspotDomain || "",
+          templateLabel: templates[0].label || "",
         });
       } catch (error) {
         console.error("Failed to fetch profile data:", error);

@@ -12,5 +12,6 @@ const profileState = atom({
     primaryColor: "",
     secondaryColor: "",
     hubspotDomain: "",
+    label: "",
   },
 });

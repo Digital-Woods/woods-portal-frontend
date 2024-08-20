@@ -1,21 +1,25 @@
 const Logo = ({ className }) => {
-  const defaultLogoSrc = "https://s3-media0.fl.yelpcdn.com/bphoto/dQaSKYTZdGzL7FNP3HcRCQ/348s.jpg";
-  const [logoSrc, setLogoSrc] = useState(defaultLogoSrc);
+  const [personalInfo] = useRecoilState(profileState);
+  const [logoSrc, setLogoSrc] = useState("");
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const logoParam = urlParams.get('logo');
-  
-    if (logoParam === "null" || !logoParam || logoParam === "") {
-      setLogoSrc(defaultLogoSrc); 
-    } else {
+    const logoParam = urlParams.get("logo");
+
+    if (logoParam && logoParam !== "null") {
       setLogoSrc(logoParam);
+    } else if (personalInfo.logo) {
+      setLogoSrc(personalInfo.logo);
     }
-  }, []);
+  }, [personalInfo.logo]);
 
   return (
     <div>
-      <img src={logoSrc} alt="Logo" className={`h-auto ${className} rounded-md`} />
+      <img
+        src={logoSrc || ""}
+        alt="Logo"
+        className={`h-auto ${className} rounded-md`}
+      />
     </div>
   );
 };
