@@ -97,6 +97,7 @@ const Login = () => {
                       <Input
                         placeholder="Password"
                         icon={passwordIcon}
+                        type="password"
                         className="focus:border-brand focus:ring-brand"
                         {...register("password")}
                       />
