@@ -1,4 +1,4 @@
-const Dialog = ({ open, onClose = null, ...props }, ref) => {
+const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
   const showOverlay = () => {
     if (!open) {
       return null;
@@ -22,7 +22,7 @@ const Dialog = ({ open, onClose = null, ...props }, ref) => {
         >
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div
-              className="relative transform overflow-hidden rounded-lg"
+              className={`relative transform overflow-hidden rounded-lg ${className}`}
               onClick={(e) => e.stopPropagation()}
             >
               <div

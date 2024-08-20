@@ -1,10 +1,11 @@
 const Details = ({ path, id }) => {
   const [item, setItems] = useState(null);
+  const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
-  console.log(personalInfo);
+  const [galleryDialog, setGalleryDialog] = useState(false);
 
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
@@ -18,7 +19,7 @@ const Details = ({ path, id }) => {
     onSuccess: (data) => {
       if (data.data) {
         const finalData = JSON.parse(
-          JSON.stringify(sortData(data.data, "details"))
+          JSON.stringify(sortData(data.data, "details", path))
         );
         setSortItems(finalData);
       }
@@ -27,8 +28,17 @@ const Details = ({ path, id }) => {
         setAssociations(finalData);
       }
       setItems(data.data);
+      getImages(data.data);
     },
   });
+
+  const getImages = (data) => {
+    if (data && data.image) {
+      let urlArray = data.image.split(",");
+      setImages(urlArray);
+    }
+    // setImages([]);
+  };
 
   if (error) {
     return (
@@ -55,13 +65,15 @@ const Details = ({ path, id }) => {
 
         {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
 
-        {path === "/jobs" ? (
+        {path === "/jobs" && (
           <div className="col-span-4">
             <DetailsTable item={item} path={path} />
-            <DetailsView sortItems={sortItems} />
           </div>
-        ) : (
-          <DetailsView sortItems={sortItems} />
+        )}
+        {sortItems && <DetailsView sortItems={sortItems} />}
+
+        {images.length > 0 && (
+          <DetailsGallery images={images} setGalleryDialog={setGalleryDialog} />
         )}
       </div>
 
@@ -73,6 +85,25 @@ const Details = ({ path, id }) => {
             ))}
         </div>
       </div>
+
+      <Dialog
+        open={galleryDialog}
+        onClose={setGalleryDialog}
+        className="w-[50%]"
+      >
+        <div className=" bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+          <div className="grid grid-cols-2 gap-4">
+            {images.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto"
+              />
+            ))}
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };

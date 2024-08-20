@@ -38,7 +38,7 @@ const DetailsAssociations = ({ association }) => {
                     key={index}
                     className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
                   >
-                    {sortData(item, "associations").map((row) => (
+                    {sortData(item, "associations", association.label).map((row) => (
                       <div key={row.name} className="py-2 flex">
                         <div className="text-xs font-semibold w-[100px]">
                           {row.label}:

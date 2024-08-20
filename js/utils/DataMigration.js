@@ -57,6 +57,11 @@ const truncateString = (str, MAX_LENGTH = 50) => {
   return { truncated: str, isTruncated: false };
 };
 
+function isImage(value, key = "") {
+  const imageExtensions = /\.(png|jpeg|jpg|gif|bmp|svg|webp|tiff|ico)$/i;
+  return imageExtensions.test(value) || key.includes("image");
+}
+
 const keysToSkipList = (key) => {
   return !!(
     key.includes("id") ||
@@ -76,7 +81,8 @@ const keysToSkipDetails = (key) => {
     key.includes("associations") ||
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
-    key.includes("files")
+    key.includes("files") ||
+    key.includes("image")
   );
 };
 
@@ -88,15 +94,22 @@ const keysToSkipAssociations = (key) => {
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("hs") ||
-    key.includes("files")
+    key.includes("files") ||
+    key.includes("image")
   );
 };
 
-const sortData = (item, viewType = "list") => {
+const checkEquipments = (value, title) => {
+  if(title == "Equipments" || title == "Equipment" || title == '/assets') return value.replace("Asset", "Equipment")
+  return value
+}
+
+const sortData = (item, viewType = "list", title = "") => {
   if (!item || !isObject(item)) return [];
 
   const fields = Object.keys(item);
 
+  const imageFields = [];
   const simpleFields = [];
   const objectFields = [];
   const hsFields = [];
@@ -124,7 +137,15 @@ const sortData = (item, viewType = "list") => {
       return;
     }
 
-    if (key.startsWith("hs_")) {
+    if (typeof value === "string" && isImage(value, key)) {
+      imageFields.push({
+        name: key,
+        label: checkEquipments(key
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase()), title),
+        value: value,
+      });
+    } else if (key.startsWith("hs_")) {
       hsFields.push({
         name: key,
         label: key
@@ -136,7 +157,7 @@ const sortData = (item, viewType = "list") => {
     } else if (isObject(value) && value.associateWith) {
       objectFields.push({
         name: key,
-        label: value.headerLabel,
+        label: checkEquipments(value.headerLabel, title),
         value: value.headerLabel,
       });
     } else if (isObject(value)) {
@@ -144,9 +165,9 @@ const sortData = (item, viewType = "list") => {
       if (value.key) {
         nameFields.push({
           name: key,
-          label: value.key
+          label: checkEquipments(value.key
             .replace(/_/g, " ")
-            .replace(/\b\w/g, (char) => char.toUpperCase()),
+            .replace(/\b\w/g, (char) => char.toUpperCase()), title),
           value: value.value,
         });
       } else {
@@ -155,9 +176,9 @@ const sortData = (item, viewType = "list") => {
     } else {
       simpleFields.push({
         name: key,
-        label: key
+        label: checkEquipments(key
           .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()),
+          .replace(/\b\w/g, (char) => char.toUpperCase()), title),
         value: value,
       });
     }
@@ -165,6 +186,7 @@ const sortData = (item, viewType = "list") => {
 
   // Sort and concatenate
   const sortedFields = [
+    ...imageFields,
     ...nameFields,
     ...simpleFields,
     ...objectFields,
@@ -200,6 +222,11 @@ const renderCellContent = (value, itemId = null, path = null) => {
           {value.value}
         </Link>
       );
+
+    case isImage(value):
+      console.log("value", value)
+      let urlArray = value.split(',');
+      return <img src={urlArray[0]} alt={urlArray[0]} class="w-10 h-10 rounded" />;
 
     case isDate(value):
       return formatDate(value);
