@@ -13,9 +13,10 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 
 const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [logoutDialog, setLogoutDialog] = useState(false);
+  // const [logoutDialog, setLogoutDialog] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
+  const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
@@ -38,12 +39,8 @@ const HeaderLayout = ({ title, path }) => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    // mutation.mutate();
-    // window.location.hash = "/logout";
-    window.location.hash = "/login";
-    setLogoutDialog(false);
+  const handleLogoutClick = () => {
+    setLogoutDialog(true);
   };
 
   useEffect(() => {
@@ -277,34 +274,6 @@ const HeaderLayout = ({ title, path }) => {
             </div>
           </div>
         )}
-        <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-          <div className="bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-            <div className="w-8">
-              <Logo />
-            </div>
-
-            <div className="flex-col justify-start items-start gap-1 flex">
-              <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
-                Log out of your account?
-              </div>
-            </div>
-            <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
-              <Button
-                className="dark:text-white"
-                onClick={() => setLogoutDialog(false)}
-              >
-                Keep Me Logged In
-              </Button>
-              <Button
-                variant="outline"
-                className="dark:text-white"
-                onClick={handleLogout}
-              >
-                {/* {mutation.isLoading ? "Logging out..." : "Logout"} */}Logout
-              </Button>
-            </div>
-          </div>
-        </Dialog>
       </div>
     </div>
   );
