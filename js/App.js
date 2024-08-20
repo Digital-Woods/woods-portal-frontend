@@ -10,7 +10,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      refetchInterval: false
+      refetchInterval: false,
     },
   },
 });
@@ -22,9 +22,7 @@ ReactDOM.render(
         <Route
           render={() =>
             isAuthenticated() ? (
-              <div>
-                <MainLayout />
-              </div>
+              <MainLayout />
             ) : (
               <Switch>
                 <Route exact path="/login" component={Login} />
