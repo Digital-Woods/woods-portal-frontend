@@ -58,7 +58,7 @@ const ForgetPassword = () => {
     },
   });
 
-  const onSubmit = (data) => { 
+  const onSubmit = (data) => {
     if (step === 1) {
       setStep(2);
     } else {
@@ -68,7 +68,7 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center bg-flatGray justify-center h-screen">
       <div className="dark:bg-dark-100 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <Logo />

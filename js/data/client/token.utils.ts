@@ -1,6 +1,6 @@
-import { ConfigValue } from '@/config';
-import Cookies from 'js-cookie';
-import SSRCookie from 'cookie';
+import { ConfigValue } from "@/config";
+import Cookies from "js-cookie";
+import SSRCookie from "cookie";
 import {
   STAFF,
   STORE_OWNER,
@@ -9,7 +9,7 @@ import {
   PERMISSIONS,
   TOKEN,
   IS_EMAIL_VERIFY,
-} from '@/lib/constants';
+} from "@/lib/constants";
 
 export const AUTH_TOKEN_KEY = ConfigValue.AUTH_TOKEN_KEY;
 export const adminOwnerAndStaffOnly = [SUPER_ADMIN, STORE_OWNER, STAFF];
@@ -64,16 +64,16 @@ export function getAuthCredentials(context?: any): {
 }
 
 export function parseSSRCookie(context: any) {
-  return SSRCookie.parse(context.req.headers.cookie ?? '');
+  return SSRCookie.parse(context.req.headers.cookie ?? "");
 }
 
 export function hasAccess(
   _allowedRoles: string[],
-  _userPermissions: string[] | undefined | null,
+  _userPermissions: string[] | undefined | null
 ) {
   if (_userPermissions) {
     return Boolean(
-      _allowedRoles?.find((aRole) => _userPermissions.includes(aRole)),
+      _allowedRoles?.find((aRole) => _userPermissions.includes(aRole))
     );
   }
   return false;

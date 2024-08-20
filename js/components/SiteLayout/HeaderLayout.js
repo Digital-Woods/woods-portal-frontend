@@ -11,13 +11,15 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
-const HeaderLayout = ({ title , path }) => {
+const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [logoutDialog, setLogoutDialog] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
+  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
-  console.log(path)
+  console.log(path);
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -36,6 +38,12 @@ const HeaderLayout = ({ title , path }) => {
 
   const toggleDrawer = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.hash = "/logout";
+    setLogoutDialog(false);
   };
 
   useEffect(() => {
@@ -152,9 +160,11 @@ const HeaderLayout = ({ title , path }) => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-4 flex flex-col">
-                  <p className="font-semibold dark:text-white">John Doe</p>
+                  <p className="font-semibold dark:text-white">
+                    {personalInfo.firstName}
+                  </p>
                   <p className="text-xs text-secondary dark:text-gray-400">
-                    johndoe@example.com
+                    {personalInfo.email}
                   </p>
                 </div>
               </div>
@@ -240,9 +250,9 @@ const HeaderLayout = ({ title , path }) => {
               </NavLink>
 
               <NavLink
-                to="/logout"
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
-                activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
+                // activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
+                onClick={() => setLogoutDialog(true)}
               >
                 <div className="flex items-center gap-x-4">
                   <div>
@@ -267,6 +277,34 @@ const HeaderLayout = ({ title , path }) => {
             </div>
           </div>
         )}
+        <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
+          <div className="bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+            <div className="w-8">
+              <Logo />
+            </div>
+
+            <div className="flex-col justify-start items-start gap-1 flex">
+              <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
+                Log out of your account?
+              </div>
+            </div>
+            <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
+              <Button
+                className="dark:text-white"
+                onClick={() => setLogoutDialog(false)}
+              >
+                Keep Me Logged In
+              </Button>
+              <Button
+                variant="outline"
+                className="dark:text-white"
+                onClick={handleLogout}
+              >
+                {/* {mutation.isLoading ? "Logging out..." : "Logout"} */}Logout
+              </Button>
+            </div>
+          </div>
+        </Dialog>
       </div>
     </div>
   );

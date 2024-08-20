@@ -2,6 +2,9 @@ const Details = ({ path, id }) => {
   const [item, setItems] = useState(null);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
+  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+
+  console.log(personalInfo);
 
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
@@ -9,6 +12,8 @@ const Details = ({ path, id }) => {
       await Client.objects.byObjectId({
         path,
         objectId: id,
+        hubId: personalInfo.hubId,
+        templatename: personalInfo.templatename,
       }),
     onSuccess: (data) => {
       if (data.data) {
@@ -34,7 +39,7 @@ const Details = ({ path, id }) => {
   }
 
   return (
-    <div className="h-full dark:bg-dark-200 w-[100%] flex p-6">
+    <div className="h-[100vh] dark:bg-dark-200 w-[100%] flex p-6">
       <div className="w-[calc(100%_-350px)] pr-4">
         {isLoading && !item && <div className="loader-line"></div>}
 

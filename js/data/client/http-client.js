@@ -3,19 +3,22 @@ const Axios = axios.create({
   timeout: 150000000,
   headers: {
     "Content-Type": "application/json",
-    "X-User-Email" : "john.doe@example.com",
-    "X-User-Roles" : "ROLE_USER, ROLE_ADMIN",
-    "ngrok-skip-browser-warning" : 1
+    // "X-User-Email": "john.doe@example.com",
+    // "X-User-Roles": "ROLE_USER, ROLE_ADMIN",
+    "ngrok-skip-browser-warning": 1,
   },
 });
 
 Axios.interceptors.request.use(
   (config) => {
-    const token = "test token";
-    config.headers = {
-      ...config.headers,
-      Authorization: `Bearer ${token}`,
-    };
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+
     return config;
   },
   (error) => {
@@ -31,7 +34,7 @@ Axios.interceptors.response.use(
 );
 
 class HttpClient {
-  static async get(url, params) { 
+  static async get(url, params) {
     const response = await Axios.get(url, { params });
     return response.data;
   }
