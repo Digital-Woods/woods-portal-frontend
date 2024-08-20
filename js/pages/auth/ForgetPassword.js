@@ -38,6 +38,12 @@ const passwordIcon = () => (
 const ForgetPassword = () => {
   const [serverError, setServerError] = useState(null);
   const [step, setStep] = useState(1);
+  const loginUserValidationSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(4, {
+      message: "Password must be at least 4 characters.",
+    }),
+  });
 
   const { mutate: password, isLoading } = useMutation({
     mutationKey: ["loginUser"],
