@@ -6,9 +6,18 @@ const isAuthenticated = () => {
   return !!localStorage.getItem("token");
 };
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchInterval: false
+    },
+  },
+});
+
 ReactDOM.render(
   <RecoilRoot>
-    <QueryClientProvider client={new QueryClient()}>
+    <QueryClientProvider client={queryClient}>
       <HashRouter>
         <Route
           render={() =>
