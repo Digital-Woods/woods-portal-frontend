@@ -12,7 +12,7 @@ const ChangePassword = () => {
   return (
     <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
       <div className="flex justify-between">
-        <h1 className="text-xl font-semibold pb-4">Personal Information</h1>
+        <h1 className="text-xl font-semibold pb-4">Password Settings</h1>
         <Button variant="outline" size="sm" className="text-secondary">
           save
         </Button>
