@@ -38,7 +38,7 @@ const Drawer = ({ className }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     // mutation.mutate();
-    window.location.hash = "/logout";
+    window.location.hash = "/login";
     setLogoutDialog(false);
   };
 

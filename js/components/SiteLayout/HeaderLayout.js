@@ -40,7 +40,9 @@ const HeaderLayout = ({ title, path }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.hash = "/logout";
+    // mutation.mutate();
+    // window.location.hash = "/logout";
+    window.location.hash = "/login";
     setLogoutDialog(false);
   };
 
@@ -247,8 +249,8 @@ const HeaderLayout = ({ title, path }) => {
                 </div>
               </NavLink>
 
-              <NavLink
-                className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
+              <div
+                className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline cursor-pointer"
                 // activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
                 onClick={() => setLogoutDialog(true)}
               >
@@ -271,7 +273,7 @@ const HeaderLayout = ({ title, path }) => {
                     Logout
                   </p>
                 </div>
-              </NavLink>
+              </div>
             </div>
           </div>
         )}
