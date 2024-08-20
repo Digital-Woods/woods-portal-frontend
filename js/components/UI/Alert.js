@@ -43,41 +43,38 @@ const Alert = ({ message, type, onClose }) => {
     );
 
   return (
-    <div
-      className="absolute right-10 top-2 w-full max-w-sm py-5 px-6 text-gray-600 bg-white rounded-xl border border-gray-200 shadow-sm mb-4"
-      role="alert"
-    >
-      <div className="flex items-center justify-between space-x-3">
-        <div className="flex items-center gap-x-2">
-          {icon}
-          <p className="text-base font-medium">{message}</p>
-        </div>
-        <button
-          type="button"
-          className="ml-auto text-gray-400 hover:text-gray-600 transition-all duration-150"
-          onClick={onClose}
+    <div className="fixed right-10 top-2 w-full max-w-md py-5 px-6 bg-white text-gray-600 rounded-xl border border-gray-200 shadow-sm">
+      <button
+        type="button"
+        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-all duration-150"
+        onClick={onClose}
+      >
+        <span className="sr-only">Close</span>
+        <svg
+          className="w-6 h-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <span className="sr-only">Close</span>
-          <svg
-            className="w-6 h-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7 17L17 7M17 17L7 7"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+          <path
+            d="M7 17L17 7M17 17L7 7"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      <div className="flex items-start space-x-3">
+        {icon}
+        <p className="text-base font-medium leading-relaxed">{message}</p>
       </div>
-      <div className="w-full h-1 bg-gray-200 rounded-full mt-2 overflow-hidden">
-        <div
-          className={`h-full bg-blue-500 transition-all duration-100 w-[${progress}%]`}
-        ></div>
+      <div className="w-full h-1 bg-gray-200 rounded-full mt-4 overflow-hidden">
+        <div className="w-full h-1 bg-gray-200 rounded-full mt-2 overflow-hidden">
+          <div
+            className={`h-full bg-blue-500 transition-all duration-100 w-[${progress}%]`}
+          ></div>
+        </div>
       </div>
     </div>
   );
