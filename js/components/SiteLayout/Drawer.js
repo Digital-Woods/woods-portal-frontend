@@ -1,4 +1,5 @@
 const { useState, useEffect } = React;
+const { useRecoilState } = Recoil;
 
 const NavLink = ({ to, className, activeClassName, children }) => {
   return (
@@ -12,7 +13,7 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 };
 
 const Drawer = ({ className }) => {
-  const [logoutDialog, setLogoutDialog] = useState(false);
+  const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
   const [isSecondIcon, setIsSecondIcon] = useState(false);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
