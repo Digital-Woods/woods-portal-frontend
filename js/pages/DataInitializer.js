@@ -7,15 +7,21 @@ function DataInitializer() {
     const fetchProfileData = async () => {
       try {
         const response = await Client.getProfileDetails.all;
-        const { firstName, lastName, email, hubId, templatename } =
+        const { firstName, lastName, email, hubspotPortals, templates } =
           response.data;
+
+        console.log(response.data);
 
         setProfile({
           firstName: firstName || "",
           lastName: lastName || "",
           email: email || "",
-          hubId: "7869",
-          templatename: "stonbury",
+          hubId: hubspotPortals.hubId || "",
+          templatename: templates[0].name || "",
+          logo: hubspotPortals.portalSettings.logo || "",
+          primaryColor: hubspotPortals.portalSettings.primaryColor || "",
+          secondaryColor: hubspotPortals.portalSettings.secondaryColor || "",
+          hubspotDomain: hubspotPortals.hubspotDomain || "",
         });
       } catch (error) {
         console.error("Failed to fetch profile data:", error);
