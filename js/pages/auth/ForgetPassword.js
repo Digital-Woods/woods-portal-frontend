@@ -66,8 +66,8 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="flex items-center bg-flatGray justify-center h-screen">
-      <div className="dark:bg-dark-100 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+    <div className="flex items-center bg-flatGray dark:bg-gray-900 justify-center h-screen">
+      <div className="dark:bg-gray-800 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <Logo />
         </div>
@@ -77,13 +77,13 @@ const ForgetPassword = () => {
             onSubmit={onSubmit}
             validationSchema={loginUserValidationSchema}
             serverError={serverError}
-            className="dark:bg-dark-100"
+            className="dark:bg-gray-800"
           >
             {({ register, formState: { errors } }) => (
-              <div className="text-dark dark:text-light">
+              <div className="text-gray-800 dark:text-gray-200">
                 {step === 1 && (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold focus:text-blue-600">
+                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                       Enter your email
                     </FormLabel>
                     <FormControl>
@@ -92,13 +92,13 @@ const ForgetPassword = () => {
                           height="medium"
                           icon={emailIcon}
                           placeholder="Email"
-                          className="focus:border-brand focus:ring-brand"
+                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
                           {...register("email")}
                         />
                       </div>
                     </FormControl>
                     {errors.email && (
-                      <FormMessage className="text-red-600">
+                      <FormMessage className="text-red-600 dark:text-red-400">
                         {errors.email.message}
                       </FormMessage>
                     )}
@@ -116,7 +116,7 @@ const ForgetPassword = () => {
 
                 {step === 2 && (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold focus:text-blue-600">
+                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                       Set new password
                     </FormLabel>
                     <FormControl>
@@ -125,13 +125,13 @@ const ForgetPassword = () => {
                           type="password"
                           placeholder="Password"
                           icon={passwordIcon}
-                          className="focus:border-brand focus:ring-brand"
+                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
                           {...register("password")}
                         />
                       </div>
                     </FormControl>
                     {errors.password && (
-                      <FormMessage className="text-red-600">
+                      <FormMessage className="text-red-600 dark:text-red-400">
                         {errors.password.message}
                       </FormMessage>
                     )}
