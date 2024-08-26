@@ -14,7 +14,6 @@ const Login = () => {
     return new Promise((resolve) => {
       localStorage.setItem(key, value);
       getMe();
-      console.log('localStorage', me)
       resolve();
     });
   };
@@ -37,9 +36,7 @@ const Login = () => {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
-
       await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
-      // getMe();
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

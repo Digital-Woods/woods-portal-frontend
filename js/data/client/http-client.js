@@ -2,7 +2,7 @@ const Axios = axios.create({
   baseURL: env.API_BASE_URL,
   timeout: 150000000,
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   },
 });
 
@@ -26,6 +26,14 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (
+      (error.response && error.response.status === 401) ||
+      (error.response && error.response.status === 403) ||
+      (error.response &&
+        error.response.data.message === "DIGITALWOODS_ERROR.NOT_AUTHORIZED")
+    ) {
+      useLogout();
+    }
     return Promise.reject(error);
   }
 );

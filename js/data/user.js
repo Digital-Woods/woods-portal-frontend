@@ -25,4 +25,5 @@ function useMe() {
 
 function useLogout() {
   localStorage.clear();
+  window.location.hash = "/login";
 }
