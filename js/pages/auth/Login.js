@@ -36,7 +36,13 @@ const Login = () => {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
+
       await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
+
+      console.log(me);
+      const portalSettings = me.hubspotPortals.portalSettings;
+      localStorage.setItem("portalSettings", JSON.stringify(portalSettings));
+
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },
@@ -70,7 +76,10 @@ const Login = () => {
       )}
       <div className="dark:bg-gray-900 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
-          <Logo />
+          <img
+            src="https://www.shutterstock.com/shutterstock/photos/2459622791/display_1500/stock-vector-user-circle-isolated-icon-user-round-outline-vector-icon-with-editable-stroke-2459622791.jpg"
+            alt="user photo"
+          />
         </div>
         <div className="w-full">
           <Form

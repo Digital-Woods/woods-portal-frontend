@@ -15,29 +15,37 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.render(
-  <RecoilRoot>
-    <QueryClientProvider client={queryClient}>
-      <HashRouter>
-        <Route
-          render={() =>
-            isAuthenticated() ? (
-              <MainLayout />
-            ) : (
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route
-                  exact
-                  path="/forget-password"
-                  component={ForgetPassword}
-                />
-                <Redirect to="/login" />
-              </Switch>
-            )
-          }
-        />
-      </HashRouter>
-    </QueryClientProvider>
-  </RecoilRoot>,
-  document.getElementById("app")
-);
+function App() {
+  useEffect(() => {
+    setColorsFromLocalStorage();
+  }, []);
+
+  return (
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
+          <Route
+            render={() =>
+              isAuthenticated() ? (
+                <MainLayout />
+              ) : (
+                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route
+                    exact
+                    path="/forget-password"
+                    component={ForgetPassword}
+                  />
+                  <Redirect to="/login" />
+                </Switch>
+              )
+            }
+          />
+        </HashRouter>
+      </QueryClientProvider>
+    </RecoilRoot>
+  );
+}
+
+// Render the App component
+ReactDOM.render(<App />, document.getElementById("app"));

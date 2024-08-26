@@ -8,13 +8,31 @@ function withOpacity(variableName) {
   };
 }
 
-function getUrlParams() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return {
-    primaryColor: urlParams.get("primaryColor") || "#000000",
-    secondaryColor: urlParams.get("secondaryColor") || "#8D8D99",
-  };
-}
+// function getColorsFromLocalStorage() {
+//   const portalSettings = localStorage.getItem("portalSettings");
+//   let primaryColor = "#000000";
+//   let secondaryColor = "#8D8D99";
+
+//   if (portalSettings) {
+//     try {
+//       const parsedSettings = JSON.parse(portalSettings);
+//       if (parsedSettings.primaryColor) {
+//         primaryColor = parsedSettings.primaryColor;
+//       }
+//       if (parsedSettings.secondaryColor) {
+//         secondaryColor = parsedSettings.secondaryColor;
+//       }
+//     } catch (error) {
+//       console.error("Error parsing portalSettings from localStorage:", error);
+//     }
+//   }
+
+//   const urlParams = new URLSearchParams(window.location.search);
+//   return {
+//     primaryColor: urlParams.get("primaryColor") || primaryColor,
+//     secondaryColor: urlParams.get("secondaryColor") || secondaryColor,
+//   };
+// }
 
 tailwind.config = {
   content: [
@@ -46,8 +64,8 @@ tailwind.config = {
       colors: {
         white: "#FFFFFF",
         lightblue: "#005fad",
-        primary: getUrlParams().primaryColor,
-        secondary: getUrlParams().secondaryColor,
+        primary: "var(--primary-color)",
+        secondary: "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",

@@ -6,7 +6,7 @@ const ProfileCard = () => {
       <div className="flex gap-x-10">
         <div className="w-[80px]">
           <img
-            src="https://i.pinimg.com/280x280_RS/79/dd/11/79dd11a9452a92a1accceec38a45e16a.jpg"
+            src="https://www.shutterstock.com/shutterstock/photos/2459622791/display_1500/stock-vector-user-circle-isolated-icon-user-round-outline-vector-icon-with-editable-stroke-2459622791.jpg"
             alt="Profile"
             className="rounded-full"
           />
