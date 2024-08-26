@@ -8,7 +8,7 @@ const Logo = ({ className }) => {
     if (me) {
       if (logoParam && logoParam !== "null") {
         setLogoSrc(logoParam);
-      } else if (me.hubspotPortals.portalSettings.logo) {
+      } else if (me && me.hubspotPortals && me.hubspotPortals.portalSettings.logo) {
         setLogoSrc(me.hubspotPortals.portalSettings.logo);
       }
     }

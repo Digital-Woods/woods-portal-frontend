@@ -44,10 +44,9 @@ const MainLayout = ({ children }) => {
   ];
 
   const { mutate: fetchFeatures, isPending: isSuccess2 } = useMutation({
-    mutationKey: ["me"],
-    mutationFn: async () => await Client.fetchFeatures.all,
+    mutationKey: ["features"],
+    mutationFn: Client.fetchAllFeatures.all,
     onSuccess: async (response) => {
-      console.log("response", response);
       const allowedRoutes = env.ALLOWED_ROUTES;
       const apiRoutes = response.data
         .filter((label) => allowedRoutes.includes(label.label))
@@ -66,7 +65,6 @@ const MainLayout = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log("mutate", localStorage.getItem(env.AUTH_TOKEN_KEY));
     fetchFeatures();
     getMe();
   }, [localStorage.getItem(env.AUTH_TOKEN_KEY)]);

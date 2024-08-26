@@ -19,8 +19,6 @@ const Drawer = ({ className }) => {
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const { me } = useMe();
 
-  console.log(me, "seueeb");
-
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
@@ -77,7 +75,7 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {me.templates[0].label}
+                  {(me && me.templates && me.templates.length > 0) ? me.templates[0].label : ''}
                 </h1>
               </div>
               <div

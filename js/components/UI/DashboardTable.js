@@ -27,7 +27,7 @@ const sortedHeaders = (headers) => {
 
 const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
-const DashboardTable = ({ path, inputValue, title, me }) => {
+const DashboardTable = ({ path, inputValue, title }) => {
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -39,6 +39,7 @@ const DashboardTable = ({ path, inputValue, title, me }) => {
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
+  const { me } = useMe();
 
   useEffect(() => {
     // const queryParams = new URLSearchParams(location.search);

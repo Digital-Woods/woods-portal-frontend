@@ -7,8 +7,8 @@ class Client {
       HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
   };
 
-  static fetchFeatures = {
-    all: HttpClient.get(API_ENDPOINTS.FEATURES),
+  static fetchAllFeatures = {
+    all: () => HttpClient.get(API_ENDPOINTS.FEATURES),
   };
 
   static profile = {
@@ -16,7 +16,11 @@ class Client {
   };
 
   static getProfileDetails = {
-    all: HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
+    all: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
+  };
+
+  static users = {
+    me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS)
   };
 
   static objects = {

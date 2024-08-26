@@ -18,7 +18,7 @@ function setAuthToken(token) {
   localStorage.setItem(env.AUTH_TOKEN_KEY, token);
 }
 
-function isAuthenticated(_cookies) {
+function isAuthenticated() {
   if (localStorage.getItem(env.AUTH_TOKEN_KEY)) return true;
   return false;
 }

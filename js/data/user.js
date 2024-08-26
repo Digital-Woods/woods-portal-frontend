@@ -4,7 +4,8 @@ function useMe() {
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["me"],
-    queryFn: async () => await Client.getProfileDetails.all,
+    queryFn: Client.users.me,
+    // enabled: isAuthorized
   });
 
   const getMe = () => {

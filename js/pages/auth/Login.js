@@ -8,9 +8,13 @@ const Login = () => {
     }),
   });
 
+  const { getMe, me } = useMe();
+  
   const setItemAsync = async (key, value) => {
     return new Promise((resolve) => {
       localStorage.setItem(key, value);
+      getMe();
+      console.log('localStorage', me)
       resolve();
     });
   };
@@ -35,6 +39,7 @@ const Login = () => {
       }
 
       await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
+      // getMe();
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

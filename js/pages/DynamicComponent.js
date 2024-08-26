@@ -4,7 +4,6 @@ const { useQuery } = ReactQuery;
 const DynamicComponent = ({ title, path }) => {
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
-  const { me } = useMe();
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -104,7 +103,6 @@ const DynamicComponent = ({ title, path }) => {
           <DashboardTable
             path={path}
             inputValue={inputValue}
-            me={me}
           />
         </div>
       ) : (
