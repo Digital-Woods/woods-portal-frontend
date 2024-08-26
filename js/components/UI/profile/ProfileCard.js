@@ -1,5 +1,5 @@
 const ProfileCard = () => {
-  // const { me } = useMe();
+  const { me } = useMe();
 
   return (
     <div className="flex justify-between dark:bg-dark-300 p-5 bg-white rounded-md mt-8">

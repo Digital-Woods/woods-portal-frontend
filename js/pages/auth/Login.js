@@ -9,7 +9,7 @@ const Login = () => {
   });
 
   const { getMe, me } = useMe();
-  
+
   const setItemAsync = async (key, value) => {
     return new Promise((resolve) => {
       localStorage.setItem(key, value);
@@ -60,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center bg-flatGray justify-center h-screen">
+    <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
       {alert && (
         <Alert
           message={alert.message}
@@ -68,7 +68,7 @@ const Login = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className="dark:bg-dark-100 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+      <div className="dark:bg-gray-900 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <Logo />
         </div>
@@ -77,12 +77,12 @@ const Login = () => {
             onSubmit={onSubmit}
             validationSchema={loginUserValidationSchema}
             serverError={serverError}
-            className="dark:bg-dark-100"
+            className="dark:bg-gray-900"
           >
             {({ register, formState: { errors } }) => (
-              <div className="text-dark dark:text-light">
+              <div className="text-gray-800 dark:text-gray-200">
                 <FormItem>
-                  <FormLabel className="text-xs font-semibold focus:text-blue-600">
+                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Email
                   </FormLabel>
                   <FormControl>
@@ -91,20 +91,20 @@ const Login = () => {
                         height="medium"
                         icon={emailIcon}
                         placeholder="Email"
-                        className="focus:border-brand focus:ring-brand"
+                        className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
                         {...register("email")}
                       />
                     </div>
                   </FormControl>
                   {errors.email && (
-                    <FormMessage className="text-red-600">
+                    <FormMessage className="text-red-600 dark:text-red-400">
                       {errors.email.message}
                     </FormMessage>
                   )}
                 </FormItem>
 
                 <FormItem>
-                  <FormLabel className="text-xs font-semibold focus:text-blue-600">
+                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Password
                   </FormLabel>
                   <FormControl>
@@ -113,34 +113,36 @@ const Login = () => {
                         placeholder="Password"
                         icon={passwordIcon}
                         type="password"
-                        className="focus:border-brand focus:ring-brand"
+                        className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
                         {...register("password")}
                       />
                     </div>
                   </FormControl>
                   {errors.password && (
-                    <FormMessage className="text-red-600">
+                    <FormMessage className="text-red-600 dark:text-red-400">
                       {errors.password.message}
                     </FormMessage>
                   )}
                 </FormItem>
 
                 <div className="flex justify-between items-center">
-                  <div className="flex">
+                  <div className="flex items-center">
                     <Input type="checkbox" icon="none" className="mr-1 ml-2" />
-                    <p className="text-xs">Keep me signed in</p>
+                    <p className="text-xs text-gray-800 dark:text-gray-300">
+                      Keep me signed in
+                    </p>
                   </div>
 
                   <div>
-                    <NavLink to="/forget-password" className="">
-                      <p className="text-black text-xs dark:text-white">
-                        forget password?
+                    <NavLink to="/forget-password">
+                      <p className="text-black text-xs dark:text-gray-300">
+                        Forget password?
                       </p>
                     </NavLink>
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-col justiful-center items-center">
+                <div className="mt-4 flex flex-col justify-center items-center">
                   <Button className="w-full" isLoading={isLoading}>
                     Continue
                   </Button>
