@@ -36,13 +36,7 @@ const Login = () => {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
-
       await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
-
-      console.log(me);
-      const portalSettings = me.hubspotPortals.portalSettings;
-      localStorage.setItem("portalSettings", JSON.stringify(portalSettings));
-
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

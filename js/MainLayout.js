@@ -4,7 +4,7 @@ const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
-  const { me, getMe } = useMe();
+  const { me } = useMe();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -67,13 +67,9 @@ const MainLayout = ({ children }) => {
     },
   });
 
-  // useEffect(() => {
-  //   getMe();
-  // }, [localStorage.getItem(env.AUTH_TOKEN_KEY)]);
-
   useEffect(() => {
     if(me) fetchFeatures();
-  }, [localStorage.getItem(env.AUTH_TOKEN_KEY), me]);
+  }, [me]);
 
   return (
     <React.Fragment>

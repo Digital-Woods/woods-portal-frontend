@@ -3,8 +3,10 @@ function useMe() {
   let response = null;
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["me"],
+    queryKey: ["me_data"],
     queryFn: Client.users.me,
+    staleTime: 10000,
+    // queryFn: async () => Client.users.me,
     // enabled: isAuthorized
   });
 
@@ -12,7 +14,12 @@ function useMe() {
     refetch();
   };
 
-  if (data) response = data.data;
+  if (data) {
+    response = data.data;
+    const portalSettings = response.portalSettings;
+    localStorage.setItem(env.AUTH_PORTAL_KEY, JSON.stringify(portalSettings));
+    localStorage.setItem(env.AUTH_USER_KEY, JSON.stringify(response));
+  }
 
   return {
     me: response,
