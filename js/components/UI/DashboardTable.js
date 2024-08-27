@@ -34,7 +34,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("");
+  const [sortConfig, setSortConfig] = useState("updatedAt");
   const [isLoading, setIsLoading] = useState(true);
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
