@@ -15,6 +15,13 @@ const DetailsHeaderCard = ({
         showServiceName: true,
         clarifierName: !item ? "loading..." : item.job_name.value,
       };
+    } else if (path === "/deals") {
+      return {
+        showDate: false,
+        showFollowing: false,
+        showServiceName: false,
+        clarifierName: !item ? "loading..." : item.deals.value,
+      };
     } else if (path === "/sites") {
       return {
         showDate: false,

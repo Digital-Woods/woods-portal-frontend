@@ -48,13 +48,16 @@ const MainLayout = ({ children }) => {
     mutationFn: Client.fetchAllFeatures.all,
     onSuccess: async (response) => {
       const allowedRoutes = env.ALLOWED_ROUTES;
+    console.log('apiRoutes', response.data)
+
       const apiRoutes = response.data
-        .filter((label) => allowedRoutes.includes(label.label))
+        .filter((label) => allowedRoutes.includes(label.name))
         .map((label) => ({
           path: `/${label.name}`,
           title: label.label,
           icon: label.icon,
         }));
+    console.log('apiRoutes', apiRoutes)
       setRoutes(apiRoutes);
       setIsLoading(false);
     },
@@ -64,13 +67,13 @@ const MainLayout = ({ children }) => {
     },
   });
 
-  useEffect(() => {
-    getMe();
-  }, [localStorage.getItem(env.AUTH_TOKEN_KEY)]);
+  // useEffect(() => {
+  //   getMe();
+  // }, [localStorage.getItem(env.AUTH_TOKEN_KEY)]);
 
   useEffect(() => {
     if(me) fetchFeatures();
-  }, [me]);
+  }, [localStorage.getItem(env.AUTH_TOKEN_KEY), me]);
 
   return (
     <React.Fragment>

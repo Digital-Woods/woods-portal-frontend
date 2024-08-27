@@ -4,7 +4,7 @@ const API_ENDPOINTS = {
   USERS_FORGET_PASSWORD: "api/Authentication/SecureForgotPassword",
   USER_LOGOUT: "/logout",
   PRODUCTS: "/products",
-  FEATURES: "api/templates/stonbury/features?featureType=BASE",
+  FEATURES: "api/templates/demo/features?featureType=BASE",
   OBJECTS: "/api/feature-data",
   OBJECTS_BY_ID: "/api/feature-data",
   PROFILE_UPDATE: "/update",
