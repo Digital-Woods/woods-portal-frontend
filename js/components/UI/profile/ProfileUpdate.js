@@ -94,20 +94,9 @@ const ProfileUpdate = () => {
 
       <div className="py-2 flex items-center">
         <div className="text-xs font-semibold w-[200px]">Email:</div>
-        {isEditPersonalInfo ? (
-          <div className="flex items-center">
-            <Input
-              type="email"
-              name="email"
-              value={me.email}
-              onChange={handlePersonalInfoChange}
-              className="text-xs text-gray-500 ml-2"
-              icon={EmailIcon}
-            />
-          </div>
-        ) : (
-          <div className="text-xs text-gray-500">{me.email}</div>
-        )}
+        <div className="text-xs text-gray-500">
+          {isEditPersonalInfo ? <span>{me.email}</span> : me.email}
+        </div>
       </div>
     </div>
   );
