@@ -82,7 +82,7 @@ const ProfileUpdate = () => {
                 <FormControl className="flex flex-col items-center">
                   <Input
                     type="text"
-                    placeholder="Lastname"
+                    placeholder="FirstName"
                     {...register("firstName")}
                     className="text-xs text-gray-500 ml-2"
                     icon={FirstNameIcon}
