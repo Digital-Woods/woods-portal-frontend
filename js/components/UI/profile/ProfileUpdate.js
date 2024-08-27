@@ -49,7 +49,7 @@ const ProfileUpdate = () => {
 
   const handleSubmit = (data) => {
     console.log("Submitted data:", data);
-    // setIsEditPersonalInfo(false);
+    setIsEditPersonalInfo(false);
   };
 
   return (
