@@ -38,66 +38,98 @@ const ProfileUpdate = () => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
   const { me } = useMe();
 
-  const handlePersonalInfoChange = (e) => {
-    const { name, value } = e.target;
+  const validationSchema = z.object({
+    firstName: z.string().min(2, {
+      message: "FirstName should be more than 2 letters",
+    }),
+    lastName: z.string().min(1, {
+      message: "LastName should be more than 2 letters",
+    }),
+  });
+
+  const handleSubmit = (data) => {
+    console.log("Submitted data:", data);
+    // setIsEditPersonalInfo(false);
   };
 
   return (
-    <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-      <div className="flex justify-between">
-        <h1 className="text-xl font-semibold pb-4">Personal Information</h1>
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-secondary"
-          onClick={() => setIsEditPersonalInfo(!isEditPersonalInfo)}
-        >
-          {!isEditPersonalInfo ? "Edit" : "Save"}
-        </Button>
-      </div>
+    <Form
+      onSubmit={handleSubmit}
+      // useFormProps={formProps}
+      validationSchema={validationSchema}
+    >
+      {({ register, formState: { errors } }) => (
+        <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+          <div className="flex justify-between">
+            <h1 className="text-xl font-semibold pb-4">Personal Information</h1>
 
-      <div className="py-2 flex items-center">
-        <div className="text-xs font-semibold w-[200px]">First Name:</div>
-        {isEditPersonalInfo ? (
-          <div className="flex items-center">
-            <Input
-              type="text"
-              name="firstName"
-              value={me.firstName}
-              onChange={handlePersonalInfoChange}
-              className="text-xs text-gray-500 ml-2"
-              icon={FirstNameIcon}
-            />
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-secondary"
+              onClick={() => setIsEditPersonalInfo(!isEditPersonalInfo)}
+            >
+              {!isEditPersonalInfo ? "Edit" : "Save"}
+            </Button>
           </div>
-        ) : (
-          <div className="text-xs text-gray-500">{me.firstName}</div>
-        )}
-      </div>
 
-      <div className="py-2 flex items-center">
-        <div className="text-xs font-semibold w-[200px]">Last Name:</div>
-        {isEditPersonalInfo ? (
-          <div className="flex items-center">
-            <Input
-              type="text"
-              name="lastName"
-              value={me.lastName}
-              onChange={handlePersonalInfoChange}
-              className="text-xs text-gray-500 ml-2"
-              icon={SecondNameIcon}
-            />
+          <div>
+            <FormItem className="!mb-0 py-2 flex items-center">
+              <FormLabel className="text-xs font-semibold w-[200px]">
+                First Name:
+              </FormLabel>
+              {isEditPersonalInfo ? (
+                <FormControl className="flex flex-col items-center">
+                  <Input
+                    type="text"
+                    placeholder="Lastname"
+                    {...register("firstName")}
+                    className="text-xs text-gray-500 ml-2"
+                    icon={FirstNameIcon}
+                  />
+                  {errors.firstName && (
+                    <div className="text-red-600 text-[12px] px-2 mt-1">
+                      {errors.firstName.message}
+                    </div>
+                  )}
+                </FormControl>
+              ) : (
+                <div className="text-xs text-gray-500">{me.firstName}</div>
+              )}
+            </FormItem>
+
+            <FormItem className="!mb-0 py-2 flex items-center">
+              <FormLabel className="text-xs font-semibold w-[200px]">
+                Last Name:
+              </FormLabel>
+              {isEditPersonalInfo ? (
+                <FormControl className="flex flex-col items-center">
+                  <Input
+                    type="text"
+                    placeholder="LastName"
+                    {...register("lastName")}
+                    className="text-xs text-gray-500 ml-2"
+                    icon={FirstNameIcon}
+                  />
+                  {errors.lastName && (
+                    <div className="text-red-600 text-[12px] px-2 mt-1">
+                      {errors.lastName.message}
+                    </div>
+                  )}
+                </FormControl>
+              ) : (
+                <div className="text-xs text-gray-500">{me.lastName}</div>
+              )}
+            </FormItem>
+
+            <div className="py-2 flex items-center">
+              <div className="text-xs font-semibold w-[200px]">Email:</div>
+
+              <div className="text-xs text-gray-500">{me.email}</div>
+            </div>
           </div>
-        ) : (
-          <div className="text-xs text-gray-500">{me.lastName}</div>
-        )}
-      </div>
-
-      <div className="py-2 flex items-center">
-        <div className="text-xs font-semibold w-[200px]">Email:</div>
-        <div className="text-xs text-gray-500">
-          {isEditPersonalInfo ? <span>{me.email}</span> : me.email}
         </div>
-      </div>
-    </div>
+      )}
+    </Form>
   );
 };
