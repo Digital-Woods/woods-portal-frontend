@@ -253,7 +253,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
 };
 
 function setColorsFromLocalStorage() {
-  const portalSettings = localStorage.getItem("portalSettings");
+  const portalSettings = localStorage.getItem(env.AUTH_PORTAL_KEY);
   let primaryColor = "#000000";
   let secondaryColor = "#000000";
 
@@ -266,8 +266,6 @@ function setColorsFromLocalStorage() {
       if (parsedSettings.secondaryColor) {
         secondaryColor = parsedSettings.secondaryColor;
       }
-    } catch (error) {
-      console.error("Error parsing portalSettings from localStorage:", error);
     }
   }
 
