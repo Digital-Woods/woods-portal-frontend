@@ -23,64 +23,106 @@ const ConfirmandCurrentPassIcon = () => (
 );
 
 const ChangePassword = () => {
-  const [passwords, setPasswords] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
+  const passwordValidationSchema = z.object({
+    currentPassword: z
+      .string()
+      .min(1, { message: "Current password is required" }),
+    newPassword: z
+      .string()
+      .min(6, { message: "It should be 6 characters long" }),
+    confirmNewPassword: z
+      .string()
+      .min(6, { message: "Please confirm your new password" }),
   });
 
-  const handlePasswordChange = (e) => {
-    setPasswords({ ...passwords, [e.target.name]: e.target.value });
+  const handleSubmit = (data) => {
+    console.log("Submitted data:", data);
   };
 
   return (
-    <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
-      <div className="flex justify-between">
-        <h1 className="text-xl font-semibold pb-4">Password Settings</h1>
-        <Button variant="outline" size="sm" className="text-secondary">
-          save
-        </Button>
-      </div>
-      <div className="py-2 flex">
-        <div className="text-xs font-semibold w-[200px]">Current Password:</div>
-        <Input
-          type="password"
-          placeholder="Current Password"
-          name="currentPassword"
-          value={passwords.currentPassword}
-          onChange={handlePasswordChange}
-          className="text-xs text-gray-500"
-          icon={CurrentpassIcon}
-        />
-      </div>
+    <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
+      {({ register, formState: { errors } }) => (
+        <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+          <div className="flex justify-between">
+            <h1 className="text-xl font-semibold pb-4">Password Information</h1>
 
-      <div className="py-2 flex">
-        <div className="text-xs font-semibold w-[200px]">New Password:</div>
-        <Input
-          type="password"
-          placeholder="New password"
-          name="newPassword"
-          value={passwords.newPassword}
-          onChange={handlePasswordChange}
-          className="text-xs text-gray-500"
-          icon={ConfirmandCurrentPassIcon}
-        />
-      </div>
+            <Button variant="outline" size="sm" className="text-secondary">
+              Save
+            </Button>
+          </div>
 
-      <div className="py-2 flex">
-        <div className="text-xs font-semibold w-[200px]">
-          Confirm New Password:
+          <div>
+            <FormItem className="!mb-0 py-2 flex items-center">
+              <FormLabel className="text-xs font-semibold w-[200px]">
+                Current Password
+              </FormLabel>
+
+              <FormControl className="flex flex-col items-center">
+                <div>
+                  <Input
+                    type="password"
+                    placeholder="Current Password"
+                    {...register("currentPassword")}
+                    className="text-xs text-gray-500 ml-2"
+                    icon={CurrentpassIcon}
+                  />
+                  {errors.currentPassword && (
+                    <div className="text-red-600 text-[12px] px-2 mt-1">
+                      {errors.currentPassword.message}
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+            </FormItem>
+
+            <FormItem className="!mb-0 py-2 flex items-center">
+              <FormLabel className="text-xs font-semibold w-[200px]">
+                New Password
+              </FormLabel>
+
+              <FormControl className="flex flex-col items-center">
+                <div>
+                  <Input
+                    type="password"
+                    placeholder="New password"
+                    {...register("newPassword")}
+                    className="text-xs text-gray-500 ml-2"
+                    icon={ConfirmandCurrentPassIcon}
+                  />
+                  {errors.newPassword && (
+                    <div className="text-red-600 text-[12px] px-2 mt-1">
+                      {errors.newPassword.message}
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+            </FormItem>
+
+            <FormItem className="!mb-0 py-2 flex items-center">
+              <FormLabel className="text-xs font-semibold w-[200px]">
+                Confirm New Password
+              </FormLabel>
+
+              <FormControl className="flex flex-col items-center">
+                <div>
+                  <Input
+                    type="password"
+                    placeholder="Confirm new password"
+                    {...register("confirmNewPassword")}
+                    className="text-xs text-gray-500 ml-2"
+                    icon={ConfirmandCurrentPassIcon}
+                  />
+                  {errors.confirmNewPassword && (
+                    <div className="text-red-600 text-[12px] px-2 mt-1">
+                      {errors.confirmNewPassword.message}
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+            </FormItem>
+          </div>
         </div>
-        <Input
-          type="password"
-          placeholder="Confirm password"
-          name="confirmNewPassword"
-          value={passwords.confirmNewPassword}
-          onChange={handlePasswordChange}
-          className="text-xs text-gray-500"
-          icon={ConfirmandCurrentPassIcon}
-        />
-      </div>
-    </div>
+      )}
+    </Form>
   );
 };
