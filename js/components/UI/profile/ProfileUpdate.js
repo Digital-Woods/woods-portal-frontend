@@ -34,43 +34,70 @@ const EmailIcon = () => (
   </svg>
 );
 
+const EditButton = ({ onClick }) => (
+  <Button
+    variant="outline"
+    size="sm"
+    className="text-secondary"
+    onClick={onClick}
+  >
+    Edit
+  </Button>
+);
+
+const SaveButton = ({ onClick }) => (
+  <Button
+    variant="outline"
+    size="sm"
+    className="text-secondary"
+    onClick={onClick}
+  >
+    Save
+  </Button>
+);
+
 const ProfileUpdate = () => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
   const { me } = useMe();
 
   const validationSchema = z.object({
     firstName: z.string().min(2, {
-      message: "FirstName should be more than 2 letters",
+      message: "First Name should be more than 2 letters",
     }),
     lastName: z.string().min(1, {
-      message: "LastName should be more than 2 letters",
+      message: "Last Name should be more than 2 letters",
     }),
   });
 
-  const handleSubmit = (data) => {
+  const startEditing = () => {
+    setIsEditPersonalInfo(true);
+  };
+
+  const saveChanges = (data) => {
     console.log("Submitted data:", data);
     setIsEditPersonalInfo(false);
   };
 
+  const onButtonClick = () => {
+    if (isEditPersonalInfo) {
+      saveChanges;
+    } else {
+      startEditing();
+    }
+  };
+
   return (
-    <Form
-      onSubmit={handleSubmit}
-      // useFormProps={formProps}
-      validationSchema={validationSchema}
-    >
+    <Form onSubmit={saveChanges} validationSchema={validationSchema}>
       {({ register, formState: { errors } }) => (
         <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
           <div className="flex justify-between">
             <h1 className="text-xl font-semibold pb-4">Personal Information</h1>
 
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-secondary"
-              onClick={() => setIsEditPersonalInfo(!isEditPersonalInfo)}
-            >
-              {!isEditPersonalInfo ? "Edit" : "Save"}
-            </Button>
+            {!isEditPersonalInfo ? (
+              <EditButton onClick={onButtonClick} />
+            ) : (
+              <SaveButton onClick={onButtonClick} />
+            )}
           </div>
 
           <div>
@@ -80,18 +107,21 @@ const ProfileUpdate = () => {
               </FormLabel>
               {isEditPersonalInfo ? (
                 <FormControl className="flex flex-col items-center">
-                  <Input
-                    type="text"
-                    placeholder="FirstName"
-                    {...register("firstName")}
-                    className="text-xs text-gray-500 ml-2"
-                    icon={FirstNameIcon}
-                  />
-                  {errors.firstName && (
-                    <div className="text-red-600 text-[12px] px-2 mt-1">
-                      {errors.firstName.message}
-                    </div>
-                  )}
+                  <div>
+                    <Input
+                      type="text"
+                      // value={me.firstName}
+                      placeholder="First Name"
+                      {...register("firstName")}
+                      className="text-xs text-gray-500 ml-2"
+                      icon={FirstNameIcon}
+                    />
+                    {errors.firstName && (
+                      <div className="text-red-600 text-[12px] px-2 mt-1">
+                        {errors.firstName.message}
+                      </div>
+                    )}
+                  </div>
                 </FormControl>
               ) : (
                 <div className="text-xs text-gray-500">{me.firstName}</div>
@@ -104,18 +134,21 @@ const ProfileUpdate = () => {
               </FormLabel>
               {isEditPersonalInfo ? (
                 <FormControl className="flex flex-col items-center">
-                  <Input
-                    type="text"
-                    placeholder="LastName"
-                    {...register("lastName")}
-                    className="text-xs text-gray-500 ml-2"
-                    icon={FirstNameIcon}
-                  />
-                  {errors.lastName && (
-                    <div className="text-red-600 text-[12px] px-2 mt-1">
-                      {errors.lastName.message}
-                    </div>
-                  )}
+                  <div>
+                    <Input
+                      type="text"
+                      // value={me.lastName}
+                      placeholder="Last Name"
+                      {...register("lastName")}
+                      className="text-xs text-gray-500 ml-2"
+                      icon={FirstNameIcon}
+                    />
+                    {errors.lastName && (
+                      <div className="text-red-600 text-[12px] px-2 mt-1">
+                        {errors.lastName.message}
+                      </div>
+                    )}
+                  </div>
                 </FormControl>
               ) : (
                 <div className="text-xs text-gray-500">{me.lastName}</div>
