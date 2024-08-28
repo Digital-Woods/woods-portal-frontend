@@ -71,7 +71,7 @@ const Details = ({ path, id }) => {
                 <DetailsTable item={item} path={path} />
               </div>
             )}
-            {sortItems && <DetailsView sortItems={sortItems} />}
+            {sortItems && <DetailsView item={item} sortItems={sortItems} />}
 
             {images.length > 0 && (
               <DetailsGallery

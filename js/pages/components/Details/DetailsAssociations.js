@@ -38,20 +38,22 @@ const DetailsAssociations = ({ association }) => {
                     key={index}
                     className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
                   >
-                    {sortData(item, "associations", association.label).map((row) => (
-                      <div key={row.name} className="py-2 flex">
-                        <div className="text-xs font-semibold w-[100px]">
-                          {row.label}:
+                    {sortData(item, "associations", association.label).map(
+                      (row) => (
+                        <div key={row.name} className="py-2 flex">
+                          <div className="text-xs font-semibold w-[100px]">
+                            {row.label}:
+                          </div>
+                          <div className="text-xs text-gray-500 flex-1">
+                            {renderCellContent(
+                              item[row.name],
+                              item.id,
+                              `/${association.featureName}`
+                            )}
+                          </div>
                         </div>
-                        <div className="text-xs text-gray-500 flex-1">
-                          {renderCellContent(
-                            item[row.name],
-                            item.id,
-                            `/${association.featureName}`
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    )}
                   </div>
                 ))}
               </div>

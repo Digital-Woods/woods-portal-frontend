@@ -17,10 +17,10 @@ const DetailsHeaderCard = ({
       };
     } else if (path === "/deals") {
       return {
-        showDate: false,
-        showFollowing: false,
-        showServiceName: false,
-        clarifierName: !item ? "loading..." : item.deals.value,
+        showDate: true,
+        showFollowing: true,
+        showServiceName: true,
+        clarifierName: !item ? "loading..." : item.dealname.value,
       };
     } else if (path === "/sites") {
       return {
