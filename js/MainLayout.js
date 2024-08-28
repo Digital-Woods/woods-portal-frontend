@@ -48,7 +48,7 @@ const MainLayout = ({ children }) => {
     mutationFn: Client.fetchAllFeatures.all,
     onSuccess: async (response) => {
       const allowedRoutes = env.ALLOWED_ROUTES;
-    console.log('apiRoutes', response.data)
+      console.log("apiRoutes", response.data);
 
       const apiRoutes = response.data
         .filter((label) => allowedRoutes.includes(label.name))
@@ -57,7 +57,7 @@ const MainLayout = ({ children }) => {
           title: label.label,
           icon: label.icon,
         }));
-    console.log('apiRoutes', apiRoutes)
+      console.log("apiRoutes", apiRoutes);
       setRoutes(apiRoutes);
       setIsLoading(false);
     },
@@ -68,7 +68,7 @@ const MainLayout = ({ children }) => {
   });
 
   useEffect(() => {
-    if(me) fetchFeatures();
+    if (me) fetchFeatures();
   }, [me]);
 
   return (

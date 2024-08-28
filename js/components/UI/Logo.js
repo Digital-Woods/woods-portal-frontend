@@ -5,12 +5,16 @@ const Logo = ({ className }) => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const logoParam = urlParams.get("logo");
-    if (me) {
-      if (logoParam && logoParam !== "null") {
-        setLogoSrc(logoParam);
-      } else if (me && me.hubspotPortals && me.hubspotPortals.portalSettings.logo) {
-        setLogoSrc(me.hubspotPortals.portalSettings.logo);
-      }
+
+    if (logoParam && logoParam !== "null") {
+      setLogoSrc(logoParam);
+    } else if (
+      me &&
+      me.hubspotPortals &&
+      me.hubspotPortals.portalSettings &&
+      me.hubspotPortals.portalSettings.logo
+    ) {
+      setLogoSrc(me.hubspotPortals.portalSettings.logo);
     }
   }, [me]);
 
