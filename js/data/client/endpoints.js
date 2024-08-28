@@ -1,8 +1,8 @@
 const API_ENDPOINTS = {
   USERS_LOGIN: "/api/auth/login",
+  USER_LOGOUT: "/api/auth/logout",
   USERS_REGISTER: "/register",
   USERS_FORGET_PASSWORD: "api/Authentication/SecureForgotPassword",
-  USER_LOGOUT: "/logout",
   PRODUCTS: "/products",
   FEATURES: "api/templates/demo/features?featureType=BASE",
   OBJECTS: "/api/feature-data",

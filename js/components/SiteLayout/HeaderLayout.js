@@ -13,13 +13,13 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 
 const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const [logoutDialog, setLogoutDialog] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
   const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
   const { me } = useMe();
+  const { logout, isLoading, error } = useLogout();
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -38,10 +38,6 @@ const HeaderLayout = ({ title, path }) => {
 
   const toggleDrawer = () => {
     setSidebarOpen(!sidebarOpen);
-  };
-
-  const handleLogoutClick = () => {
-    setLogoutDialog(true);
   };
 
   useEffect(() => {
@@ -222,6 +218,7 @@ const HeaderLayout = ({ title, path }) => {
 
               <NavLink
                 to="/logout"
+                onClick={logout}
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                 activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
               >

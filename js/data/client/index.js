@@ -2,7 +2,7 @@ class Client {
   static authentication = {
     login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
-    Logout: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
+    Logout: () => HttpClient.get(API_ENDPOINTS.USER_LOGOUT),
     forgetPassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
   };
@@ -20,7 +20,7 @@ class Client {
   };
 
   static users = {
-    me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS)
+    me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
   };
 
   static objects = {

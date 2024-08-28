@@ -18,6 +18,7 @@ const Drawer = ({ className }) => {
   const [isSecondIcon, setIsSecondIcon] = useState(false);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const { me } = useMe();
+  const { logout, isLoading, error } = useLogout();
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -36,13 +37,6 @@ const Drawer = ({ className }) => {
       console.error("Logout failed", error);
     },
   });
-
-  const handleLogout = () => {
-    localStorage.removeItem(env.AUTH_TOKEN_KEY);
-    // mutation.mutate();
-    window.location.hash = "/login";
-    setLogoutDialog(false);
-  };
 
   return (
     <div>
@@ -75,7 +69,9 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {(me && me.templates && me.templates.length > 0) ? me.templates[0].label : ''}
+                  {me && me.templates && me.templates.length > 0
+                    ? me.templates[0].label
+                    : ""}
                 </h1>
               </div>
               <div
@@ -257,10 +253,14 @@ const Drawer = ({ className }) => {
             <Button
               variant="outline"
               className="dark:text-white"
-              onClick={handleLogout}
-              disabled={mutation.isLoading}
+              onClick={() => {
+                if (!isLoading) {
+                  logout();
+                }
+              }}
+              disabled={isLoading}
             >
-              {mutation.isLoading ? "Logging out..." : "Logout"}
+              {isLoading ? "Logging out..." : "Logout"}
             </Button>
           </div>
         </div>
