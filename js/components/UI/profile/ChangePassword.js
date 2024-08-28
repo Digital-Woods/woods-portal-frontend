@@ -23,17 +23,22 @@ const ConfirmandCurrentPassIcon = () => (
 );
 
 const ChangePassword = () => {
-  const passwordValidationSchema = z.object({
-    currentPassword: z
-      .string()
-      .min(1, { message: "Current password is required" }),
-    newPassword: z
-      .string()
-      .min(6, { message: "It should be 6 characters long" }),
-    confirmNewPassword: z
-      .string()
-      .min(6, { message: "Please confirm your new password" }),
-  });
+  const passwordValidationSchema = z
+    .object({
+      currentPassword: z
+        .string()
+        .min(1, { message: "Current password is required" }),
+      newPassword: z
+        .string()
+        .min(6, { message: "It should be 6 characters long" }),
+      confirmNewPassword: z
+        .string()
+        .min(6, { message: "Please confirm your new password" }),
+    })
+    .refine((data) => data.newPassword === data.confirmNewPassword, {
+      message: "New passwords don't match",
+      path: ["confirmNewPassword"],
+    });
 
   const handleSubmit = (data) => {
     console.log("Submitted data:", data);
