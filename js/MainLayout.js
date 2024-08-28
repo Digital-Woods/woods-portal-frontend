@@ -43,33 +43,30 @@ const MainLayout = ({ children }) => {
     },
   ];
 
-  const { mutate: fetchFeatures, isPending: isSuccess2 } = useMutation({
-    mutationKey: ["features"],
-    mutationFn: Client.fetchAllFeatures.all,
-    onSuccess: async (response) => {
-      const allowedRoutes = env.ALLOWED_ROUTES;
-      console.log("apiRoutes", response.data);
+  useEffect(() => {
+    console.log("Effect running", me);
+    if (me) {
+      const apiRoutes = me.navigations.map((label) => ({
+        path: `/${label.name}`,
+        title: label.label,
+        icon: label.icon,
+        isRequiredAuth: true,
+        isHeader: true,
+        component: (
+          <DynamicComponent
+            path={`/${label.name}`}
+            title={label.label}
+            icon={label.icon}
+          />
+        ),
+      }));
 
-      const apiRoutes = response.data
-        .filter((label) => allowedRoutes.includes(label.name))
-        .map((label) => ({
-          path: `/${label.name}`,
-          title: label.label,
-          icon: label.icon,
-        }));
-      console.log("apiRoutes", apiRoutes);
       setRoutes(apiRoutes);
       setIsLoading(false);
-    },
-    onError: (error) => {
-      let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
-    },
-  });
+    }
+  }, [me, setRoutes]);
 
-  useEffect(() => {
-    if (me) fetchFeatures();
-  }, [me]);
+  console.log(routes);
 
   return (
     <React.Fragment>

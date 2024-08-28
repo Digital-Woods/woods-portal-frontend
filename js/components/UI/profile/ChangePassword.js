@@ -31,13 +31,13 @@ const ChangePassword = () => {
       newPassword: z
         .string()
         .min(6, { message: "It should be 6 characters long" }),
-      confirmNewPassword: z
+      confirmPassword: z
         .string()
         .min(6, { message: "Please confirm your new password" }),
     })
-    .refine((data) => data.newPassword === data.confirmNewPassword, {
+    .refine((data) => data.newPassword === data.confirmPassword, {
       message: "New passwords don't match",
-      path: ["confirmNewPassword"],
+      path: ["confirmPassword"],
     });
 
   const handleSubmit = (data) => {
@@ -113,13 +113,13 @@ const ChangePassword = () => {
                   <Input
                     type="password"
                     placeholder="Confirm new password"
-                    {...register("confirmNewPassword")}
+                    {...register("confirmPassword")}
                     className="text-xs text-gray-500 ml-2"
                     icon={ConfirmandCurrentPassIcon}
                   />
-                  {errors.confirmNewPassword && (
+                  {errors.confirmPassword && (
                     <div className="text-red-600 text-[12px] px-2 mt-1">
-                      {errors.confirmNewPassword.message}
+                      {errors.confirmPassword.message}
                     </div>
                   )}
                 </div>
