@@ -129,8 +129,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-secondary dark:text-gray-300">
-            Sorry, unfortunately, there is no data available.
+          <p className="text-secondary text-2xl dark:text-gray-300">
+            No records found
           </p>
         </div>
       )}

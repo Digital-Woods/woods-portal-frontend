@@ -30,7 +30,8 @@ const DynamicComponent = ({ title, path }) => {
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
           <p className="text-secondary leading-5 text-sm">{viewText}</p>
         </div>
-        <div className="border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700">
+
+        <div className="border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -66,8 +67,9 @@ const DynamicComponent = ({ title, path }) => {
             <TabsContent value="password"></TabsContent>
           </Tabs>
         </div>
+
         <div>
-          <Button className="text-white">
+          <Button className="text-white ">
             New Site <span className="ml-2"> + </span>{" "}
           </Button>
         </div>
@@ -75,8 +77,8 @@ const DynamicComponent = ({ title, path }) => {
 
       {activeTab === "account" ? (
         <div>
-          <div className="flex justify-between items-center py-6">
-            <div className="flex gap-x-4">
+          <div className="flex flex-col justify-end items-end py-6">
+            {/* <div className="flex gap-x-4">
               <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
               <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
               <CustomCheckbox
@@ -89,7 +91,7 @@ const DynamicComponent = ({ title, path }) => {
                 spanText="3"
                 showSpan={true}
               />
-            </div>
+            </div> */}
 
             <div className="w-[25%]">
               <Input
@@ -100,10 +102,7 @@ const DynamicComponent = ({ title, path }) => {
             </div>
           </div>
 
-          <DashboardTable
-            path={path}
-            inputValue={inputValue}
-          />
+          <DashboardTable path={path} inputValue={inputValue} />
         </div>
       ) : (
         <div className="dark:text-white">Under Construction</div>
