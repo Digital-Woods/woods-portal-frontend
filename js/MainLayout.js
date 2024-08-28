@@ -45,23 +45,42 @@ const MainLayout = ({ children }) => {
 
   useEffect(() => {
     console.log("Effect running", me);
-    if (me) {
-      const apiRoutes = me.navigations.map((label) => ({
-        path: `/${label.name}`,
-        title: label.label,
-        icon: label.icon,
-        isRequiredAuth: true,
-        isHeader: true,
-        component: (
-          <DynamicComponent
-            path={`/${label.name}`}
-            title={label.label}
-            icon={label.icon}
-          />
-        ),
-      }));
 
-      setRoutes(apiRoutes);
+    if (me) {
+      if (me.navigations && me.navigations.length > 0) {
+        const apiRoutes = me.navigations.map((label) => ({
+          path: `/${label.name}`,
+          title: label.label,
+          icon: label.icon,
+          isRequiredAuth: true,
+          isHeader: true,
+          component: (
+            <DynamicComponent
+              path={`/${label.name}`}
+              title={label.label}
+              icon={label.icon}
+            />
+          ),
+        }));
+
+        setRoutes(apiRoutes);
+      } else {
+        setRoutes([
+          {
+            path: "/no-routes",
+            title: "No Routes Found",
+            icon: "🚫",
+            isRequiredAuth: false,
+            isHeader: false,
+            component: (
+              <div className="text-center p-10">
+                <h2>No Navigation Available</h2>
+                <p>Please check back later.</p>
+              </div>
+            ),
+          },
+        ]);
+      }
       setIsLoading(false);
     }
   }, [me, setRoutes]);
