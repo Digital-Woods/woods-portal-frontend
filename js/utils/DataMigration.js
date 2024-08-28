@@ -70,7 +70,8 @@ const keysToSkipList = (key) => {
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("hs") ||
-    key.includes("files")
+    key.includes("files") ||
+    key.includes("iframe")
   );
 };
 
@@ -82,7 +83,8 @@ const keysToSkipDetails = (key) => {
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("files") ||
-    key.includes("image")
+    key.includes("image") ||
+    key.includes("iframe")
   );
 };
 
