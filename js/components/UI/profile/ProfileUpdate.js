@@ -38,7 +38,7 @@ const EditButton = ({ onClick }) => (
   <Button
     variant="outline"
     size="sm"
-    className="text-secondary dark:text-white"
+    className="text-secondary"
     onClick={onClick}
   >
     Edit
@@ -49,7 +49,7 @@ const SaveButton = ({ onClick }) => (
   <Button
     variant="outline"
     size="sm"
-    className="text-secondary dark:text-white"
+    className="text-secondary"
     onClick={onClick}
   >
     Save
@@ -110,7 +110,7 @@ const ProfileUpdate = () => {
                   <div>
                     <Input
                       type="text"
-                      // value={me.firstName}
+                      defaultValue={me.firstName}
                       placeholder="First Name"
                       {...register("firstName")}
                       className="text-xs text-gray-500 ml-2"
@@ -137,7 +137,7 @@ const ProfileUpdate = () => {
                   <div>
                     <Input
                       type="text"
-                      // value={me.lastName}
+                      defaultValue={me.lastName}
                       placeholder="Last Name"
                       {...register("lastName")}
                       className="text-xs text-gray-500 ml-2"
