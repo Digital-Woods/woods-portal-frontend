@@ -32,7 +32,7 @@ const DetailsHeaderCard = ({
     return {
       showDate: false,
       showFollowing: false,
-      showServiceName: true,
+      showServiceName: false,
       clarifierName: displayValue,
     };
   };
@@ -66,7 +66,7 @@ const DetailsHeaderCard = ({
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="23px"
-                viewBox="http://www.w3.org/2000/svg"
+                viewBox="0 -960 960 960"
                 width="20px"
                 className="dark:fill-white fill-black"
               >
@@ -80,7 +80,7 @@ const DetailsHeaderCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
-            viewBox="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
             width="20px"
             className="dark:fill-white fill-black"
           >
@@ -92,7 +92,7 @@ const DetailsHeaderCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
-            viewBox="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
             width="20px"
             className="fill-red-600"
           >

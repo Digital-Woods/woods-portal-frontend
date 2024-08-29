@@ -132,7 +132,7 @@ const HeaderLayout = ({ title, path }) => {
               <div className="w-8 pr-2">
                 <Avatar
                   src={
-                    "https://www.shutterstock.com/shutterstock/photos/2459622791/display_1500/stock-vector-user-circle-isolated-icon-user-round-outline-vector-icon-with-editable-stroke-2459622791.jpg"
+                    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
                   }
                 />
               </div>
@@ -148,7 +148,7 @@ const HeaderLayout = ({ title, path }) => {
             <div className="flex flex-col p-4">
               <div className="flex">
                 <Avatar
-                  src="https://www.shutterstock.com/shutterstock/photos/2459622791/display_1500/stock-vector-user-circle-isolated-icon-user-round-outline-vector-icon-with-editable-stroke-2459622791.jpg"
+                  src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
                   alt="user photo"
                   className="w-10 h-10 rounded-full"
                 />

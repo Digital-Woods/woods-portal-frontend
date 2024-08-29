@@ -38,7 +38,7 @@ const EditButton = ({ onClick }) => (
   <Button
     variant="outline"
     size="sm"
-    className="text-secondary"
+    className="text-secondary dark:text-white"
     onClick={onClick}
   >
     Edit
@@ -49,7 +49,7 @@ const SaveButton = ({ onClick }) => (
   <Button
     variant="outline"
     size="sm"
-    className="text-secondary"
+    className="text-secondary dark:text-white"
     onClick={onClick}
   >
     Save

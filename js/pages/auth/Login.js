@@ -71,7 +71,7 @@ const Login = () => {
       <div className="dark:bg-gray-900 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <img
-            src="https://www.shutterstock.com/shutterstock/photos/2459622791/display_1500/stock-vector-user-circle-isolated-icon-user-round-outline-vector-icon-with-editable-stroke-2459622791.jpg"
+            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
             alt="user photo"
           />
         </div>

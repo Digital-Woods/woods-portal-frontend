@@ -6,7 +6,7 @@ const ProfileCard = () => {
       <div className="flex gap-x-10">
         <div className="w-[80px]">
           <img
-            src="https://www.shutterstock.com/shutterstock/photos/2459622791/display_1500/stock-vector-user-circle-isolated-icon-user-round-outline-vector-icon-with-editable-stroke-2459622791.jpg"
+            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
             alt="Profile"
             className="rounded-full"
           />
@@ -14,10 +14,12 @@ const ProfileCard = () => {
 
         <div className="flex flex-col justify-center space-y-1">
           <h1 className="text-2xl font-semibold dark:text-white">{`${me.firstName} ${me.lastName}`}</h1>
-          <p className="text-secondary font-medium text-sm">
+          <p className="text-secondary dark:text-white font-medium text-sm">
             Sales Manager, Stonbury
           </p>
-          <p className="text-xs font-normal text-secondary">{me.email}</p>
+          <p className="text-xs font-normal dark:text-white text-secondary">
+            {me.email}
+          </p>
         </div>
       </div>
     </div>

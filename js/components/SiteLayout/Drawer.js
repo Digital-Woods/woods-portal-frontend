@@ -86,7 +86,7 @@ const Drawer = ({ className }) => {
                 >
                   {me && me.templates && me.templates.length > 0
                     ? me.templates[0].label
-                    : ""}
+                    : "Digitalwoods"}
                 </h1>
               </div>
               <div
