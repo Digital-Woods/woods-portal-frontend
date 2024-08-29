@@ -182,7 +182,7 @@ const Drawer = ({ className }) => {
                 )}
 
                 <div>
-                  <NavLink
+                  {/* <NavLink
                     key={"/notifications"}
                     to={"/notifications"}
                     className="block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline"
@@ -212,7 +212,7 @@ const Drawer = ({ className }) => {
                         Notification Settings
                       </p>
                     </div>
-                  </NavLink>
+                  </NavLink> */}
 
                   <div
                     className="block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white  p-3 rounded-md no-underline cursor-pointer"

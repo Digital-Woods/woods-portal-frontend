@@ -189,7 +189,7 @@ const HeaderLayout = ({ title, path }) => {
                   </p>
                 </div>
               </NavLink>
-
+              {/* 
               <NavLink
                 to="/logout"
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline "
@@ -241,7 +241,7 @@ const HeaderLayout = ({ title, path }) => {
                     Security
                   </p>
                 </div>
-              </NavLink>
+              </NavLink> */}
 
               <div
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline cursor-pointer"

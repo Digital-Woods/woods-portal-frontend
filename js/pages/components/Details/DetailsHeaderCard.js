@@ -58,7 +58,7 @@ const DetailsHeaderCard = ({
         )}
       </div>
 
-      <div className="relative flex gap-3 mb-10 px-4 z-10">
+      {/* <div className="relative flex gap-3 mb-10 px-4 z-10">
         {showFollowing && (
           <span className="flex gap-x-4 dark:bg-dark-300 dark:text-white bg-white text-gray-400 rounded-md px-4 py-2 font-medium text-sm">
             {following}
@@ -99,7 +99,7 @@ const DetailsHeaderCard = ({
             <path d="M324.31-164q-26.62 0-45.47-18.84Q260-201.69 260-228.31V-696h-48v-52h172v-43.38h192V-748h172v52h-48v467.26q0 27.74-18.65 46.24Q662.7-164 635.69-164H324.31ZM648-696H312v467.69q0 5.39 3.46 8.85t8.85 3.46h311.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-696ZM400.16-288h51.99v-336h-51.99v336Zm107.69 0h51.99v-336h-51.99v336ZM312-696v480-480Z" />
           </svg>
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };

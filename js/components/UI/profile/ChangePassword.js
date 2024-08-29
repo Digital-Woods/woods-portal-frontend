@@ -49,24 +49,20 @@ const ChangePassword = () => {
   } = useMutation({
     mutationFn: (data) => Client.authentication.changePassword(data),
     onSuccess: () => {
-      // Handle successful password change
       console.log("Password changed successfully");
     },
     onError: (error) => {
-      // Handle error during password change
       console.error("Error changing password:", error);
     },
   });
 
   const handleSubmit = (data) => {
-    // Convert the data to strings if necessary
     const payload = {
       currentPassword: String(data.currentPassword),
       newPassword: String(data.newPassword),
       confirmPassword: String(data.confirmPassword),
     };
 
-    // Send the payload through the mutation
     changePassword(payload);
   };
 

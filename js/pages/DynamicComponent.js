@@ -33,7 +33,7 @@ const DynamicComponent = ({ title, path }) => {
           </p>
         </div>
 
-        <div className="centered-tab border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
+        {/* <div className="centered-tab border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -68,7 +68,7 @@ const DynamicComponent = ({ title, path }) => {
             <TabsContent value="account"></TabsContent>
             <TabsContent value="password"></TabsContent>
           </Tabs>
-        </div>
+        </div> */}
 
         {/* <div>
           <Button className="text-white">
@@ -95,16 +95,17 @@ const DynamicComponent = ({ title, path }) => {
               />
             </div> */}
 
-            <div className="w-[25%]">
+            {/* <div className="w-[25%]">
               <Input
                 className="dark:bg-dark-400"
                 value={inputValue}
                 onChange={handleInputChange}
               />
-            </div>
+            </div> */}
           </div>
 
-          <DashboardTable path={path} inputValue={inputValue} />
+          {/* <DashboardTable path={path} inputValue={inputValue} /> */}
+          <DashboardTable path={path} />
         </div>
       ) : (
         <div className="dark:text-white">Under Construction</div>
