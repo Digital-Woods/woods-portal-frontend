@@ -25,13 +25,15 @@ const DynamicComponent = ({ title, path }) => {
 
   return (
     <div className="dark:bg-dark-200 dark:text-white p-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center relative">
         <div>
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
-          <p className="text-secondary leading-5 text-sm">{viewText}</p>
+          <p className="text-secondary dark:text-white leading-5 text-sm">
+            {viewText}
+          </p>
         </div>
 
-        <div className="border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
+        <div className="centered-tab border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -68,11 +70,11 @@ const DynamicComponent = ({ title, path }) => {
           </Tabs>
         </div>
 
-        <div>
-          <Button className="text-white ">
+        {/* <div>
+          <Button className="text-white">
             New Site <span className="ml-2"> + </span>{" "}
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {activeTab === "account" ? (

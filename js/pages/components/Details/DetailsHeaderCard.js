@@ -7,40 +7,38 @@ const DetailsHeaderCard = ({
   path,
   item,
 }) => {
-  const getHeaderCardProps = (path) => {
-    if (path === "/jobs") {
-      return {
-        showDate: true,
-        showFollowing: true,
-        showServiceName: true,
-        clarifierName: !item ? "loading..." : item.job_name.value,
-      };
-    } else if (path === "/deals") {
-      return {
-        showDate: true,
-        showFollowing: true,
-        showServiceName: true,
-        clarifierName: !item ? "loading..." : item.dealname.value,
-      };
-    } else if (path === "/sites") {
-      return {
-        showDate: false,
-        showFollowing: false,
-        showServiceName: false,
-        clarifierName: !item ? "loading..." : item.site_name.value,
-      };
-    } else {
-      return {
-        showDate: false,
-        showFollowing: false,
-        showServiceName: true,
-        clarifierName: !item ? "loading..." : item.asset_name.value,
-      };
+  const getHeaderCardProps = (item) => {
+    let displayValue = "No PrimaryDisplayProperty";
+
+    if (item) {
+      for (const key of Object.keys(item)) {
+        const normalizedKey = key.replace(/_/g, "").toLowerCase();
+
+        if (normalizedKey.includes("name")) {
+          const valueObject = item[key];
+
+          if (
+            valueObject &&
+            valueObject.type === "primaryDisplayProperty" &&
+            valueObject.value
+          ) {
+            displayValue = valueObject.value;
+            break;
+          }
+        }
+      }
     }
+
+    return {
+      showDate: false,
+      showFollowing: false,
+      showServiceName: true,
+      clarifierName: displayValue,
+    };
   };
 
   const { showDate, showFollowing, showServiceName, clarifierName } =
-    getHeaderCardProps(path);
+    getHeaderCardProps(item);
 
   return (
     <div
@@ -68,7 +66,7 @@ const DetailsHeaderCard = ({
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="23px"
-                viewBox="0 -960 960 960"
+                viewBox="http://www.w3.org/2000/svg"
                 width="20px"
                 className="dark:fill-white fill-black"
               >
@@ -82,7 +80,7 @@ const DetailsHeaderCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
-            viewBox="0 -960 960 960"
+            viewBox="http://www.w3.org/2000/svg"
             width="20px"
             className="dark:fill-white fill-black"
           >
@@ -94,7 +92,7 @@ const DetailsHeaderCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
-            viewBox="0 -960 960 960"
+            viewBox="http://www.w3.org/2000/svg"
             width="20px"
             className="fill-red-600"
           >
