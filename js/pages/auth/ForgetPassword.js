@@ -38,28 +38,22 @@ const passwordIcon = () => (
 const ForgetPassword = () => {
   const [serverError, setServerError] = useState(null);
   const [step, setStep] = useState(1);
+
   const loginUserValidationSchema = z.object({
     email: z.string().email(),
     password: z.string().min(4, {
       message: "Password must be at least 4 characters.",
     }),
-  });
-
-  const { mutate: password, isLoading } = useMutation({
-    mutationKey: ["loginUser"],
-    mutationFn: async (input) =>
-      await Client.authentication.forgetPassword(input),
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      if (error.response.data) setServerError(error.response.data);
-    },
+    confirmPassword: z.string().min(4, {
+      message: "Password confirmation is required.",
+    }),
   });
 
   const onSubmit = (data) => {
     if (step === 1) {
       setStep(2);
+    } else if (step === 2) {
+      setStep(3);
     } else {
       password(data);
     }
@@ -79,7 +73,7 @@ const ForgetPassword = () => {
           <Form
             onSubmit={onSubmit}
             validationSchema={loginUserValidationSchema}
-            serverError={serverError}
+            // serverError={serverError}
             className="dark:bg-gray-800"
           >
             {({ register, formState: { errors } }) => (
@@ -120,27 +114,63 @@ const ForgetPassword = () => {
                 {step === 2 && (
                   <FormItem>
                     <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                      Verify Token
+                    </FormLabel>
+                    <div className="mt-4 flex flex-col justify-center items-center">
+                      <Button
+                        className="w-full"
+                        type="button"
+                        onClick={onSubmit}
+                      >
+                        Verify Token
+                      </Button>
+                    </div>
+                  </FormItem>
+                )}
+
+                {step === 3 && (
+                  <FormItem>
+                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                       Set new password
                     </FormLabel>
                     <FormControl>
                       <div>
                         <Input
                           type="password"
-                          placeholder="Password"
+                          placeholder="New Password"
                           icon={passwordIcon}
-                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
+                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 mb-1"
                           {...register("password")}
                         />
                       </div>
+                      {errors.password && (
+                        <FormMessage className="text-red-600 dark:text-red-400">
+                          {errors.password.message}
+                        </FormMessage>
+                      )}
+
+                      <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                        Confirm new password
+                      </FormLabel>
+                      <div>
+                        <Input
+                          type="password"
+                          placeholder="Confirm New Password"
+                          icon={passwordIcon}
+                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
+                          {...register("confirmPassword")}
+                        />
+                      </div>
                     </FormControl>
-                    {errors.password && (
+
+                    {errors.confirmPassword && (
                       <FormMessage className="text-red-600 dark:text-red-400">
-                        {errors.password.message}
+                        {errors.confirmPassword.message}
                       </FormMessage>
                     )}
                     <div className="mt-4 flex flex-col justify-center items-center">
                       <Button className="w-full" type="submit">
-                        Login
+                        Reset Password
                       </Button>
                     </div>
                   </FormItem>
