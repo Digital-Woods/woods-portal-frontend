@@ -27,7 +27,7 @@ const DetailsAssociations = ({ association }) => {
         <div className="flex flex-col py-2">
           {association.count === 0 ? (
             <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
-              See the Equipment associated with this record.
+              See the {association.label} associated with this record.
             </div>
           ) : (
             association.list &&
