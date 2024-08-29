@@ -27,7 +27,7 @@ const ChangePassword = () => {
     .object({
       currentPassword: z
         .string()
-        .min(1, { message: "Current password is required" }),
+        .min(6, { message: "Current password is required" }),
       newPassword: z
         .string()
         .min(6, { message: "It should be 6 characters long" }),
@@ -40,8 +40,34 @@ const ChangePassword = () => {
       path: ["confirmPassword"],
     });
 
+  const {
+    mutate: changePassword,
+    isLoading,
+    isError,
+    isSuccess,
+    error,
+  } = useMutation({
+    mutationFn: (data) => Client.authentication.changePassword(data),
+    onSuccess: () => {
+      // Handle successful password change
+      console.log("Password changed successfully");
+    },
+    onError: (error) => {
+      // Handle error during password change
+      console.error("Error changing password:", error);
+    },
+  });
+
   const handleSubmit = (data) => {
-    console.log("Submitted data:", data);
+    // Convert the data to strings if necessary
+    const payload = {
+      currentPassword: String(data.currentPassword),
+      newPassword: String(data.newPassword),
+      confirmPassword: String(data.confirmPassword),
+    };
+
+    // Send the payload through the mutation
+    changePassword(payload);
   };
 
   return (
@@ -55,8 +81,9 @@ const ChangePassword = () => {
               variant="outline"
               size="sm"
               className="text-secondary dark:text-white"
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? "Saving..." : "Save"}
             </Button>
           </div>
 
@@ -130,6 +157,17 @@ const ChangePassword = () => {
               </FormControl>
             </FormItem>
           </div>
+
+          {isError && (
+            <div className="text-red-600 text-sm mt-2">
+              An error occurred: {error.message}
+            </div>
+          )}
+          {isSuccess && (
+            <div className="text-green-600 text-sm mt-2">
+              Password changed successfully!
+            </div>
+          )}
         </div>
       )}
     </Form>

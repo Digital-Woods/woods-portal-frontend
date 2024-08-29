@@ -4,7 +4,7 @@ class Client {
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
     Logout: () => HttpClient.get(API_ENDPOINTS.USER_LOGOUT),
     changePassword: (data) =>
-      HttpClient.post(API_ENDPOINTS.USER_CHANGE_PASSWORD, data),
+      HttpClient.post(API_ENDPOINTS.USERS_CHANGE_PASSWORD, data),
   };
 
   static fetchAllFeatures = {
