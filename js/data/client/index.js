@@ -3,8 +3,8 @@ class Client {
     login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
     Logout: () => HttpClient.get(API_ENDPOINTS.USER_LOGOUT),
-    forgetPassword: (data) =>
-      HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
+    changePassword: (data) =>
+      HttpClient.post(API_ENDPOINTS.USER_CHANGE_PASSWORD, data),
   };
 
   static fetchAllFeatures = {
@@ -30,6 +30,7 @@ class Client {
       after = "",
       sort = "updatedAt",
       inputValue,
+      page,
       me,
       ...query
     }) =>
@@ -39,6 +40,7 @@ class Client {
           limit,
           sort,
           after,
+          page: page,
           search: inputValue,
           ...query,
         }
