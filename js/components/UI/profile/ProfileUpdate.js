@@ -93,7 +93,7 @@ const ProfileUpdate = () => {
           <div className="flex justify-between">
             <h1 className="text-xl font-semibold pb-4">Personal Information</h1>
 
-            {!isEditPersonalInfo ? (
+            {isEditPersonalInfo === false ? (
               <EditButton onClick={onButtonClick} />
             ) : (
               <SaveButton onClick={onButtonClick} />
@@ -105,18 +105,18 @@ const ProfileUpdate = () => {
               <FormLabel className="text-xs font-semibold w-[200px]">
                 First Name:
               </FormLabel>
-              {isEditPersonalInfo ? (
+              {isEditPersonalInfo === true ? (
                 <FormControl className="flex flex-col items-center">
                   <div>
                     <Input
                       type="text"
-                      defaultValue={me.firstName}
+                      defaultValue={me && me.firstName ? me.firstName : ""}
                       placeholder="First Name"
                       {...register("firstName")}
                       className="text-xs text-gray-500 ml-2"
                       icon={FirstNameIcon}
                     />
-                    {errors.firstName && (
+                    {errors && errors.firstName && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.firstName.message}
                       </div>
@@ -124,7 +124,9 @@ const ProfileUpdate = () => {
                   </div>
                 </FormControl>
               ) : (
-                <div className="text-xs text-gray-500">{me.firstName}</div>
+                <div className="text-xs text-gray-500">
+                  {me && me.firstName ? me.firstName : "N/A"}
+                </div>
               )}
             </FormItem>
 
@@ -132,18 +134,18 @@ const ProfileUpdate = () => {
               <FormLabel className="text-xs font-semibold w-[200px]">
                 Last Name:
               </FormLabel>
-              {isEditPersonalInfo ? (
+              {isEditPersonalInfo === true ? (
                 <FormControl className="flex flex-col items-center">
                   <div>
                     <Input
                       type="text"
-                      defaultValue={me.lastName}
+                      defaultValue={me && me.lastName ? me.lastName : ""}
                       placeholder="Last Name"
                       {...register("lastName")}
                       className="text-xs text-gray-500 ml-2"
                       icon={FirstNameIcon}
                     />
-                    {errors.lastName && (
+                    {errors && errors.lastName && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.lastName.message}
                       </div>
@@ -151,14 +153,17 @@ const ProfileUpdate = () => {
                   </div>
                 </FormControl>
               ) : (
-                <div className="text-xs text-gray-500">{me.lastName}</div>
+                <div className="text-xs text-gray-500">
+                  {me && me.lastName ? me.lastName : "N/A"}
+                </div>
               )}
             </FormItem>
 
             <div className="py-2 flex items-center">
               <div className="text-xs font-semibold w-[200px]">Email:</div>
-
-              <div className="text-xs text-gray-500">{me.email}</div>
+              <div className="text-xs text-gray-500">
+                {me && me.email ? me.email : "N/A"}
+              </div>
             </div>
           </div>
         </div>
