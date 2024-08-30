@@ -56,7 +56,7 @@ const DetailsTable = ({ item, path }) => {
     ) : null;
 
   return (
-    <Table className="w-full dark:bg-dark-300 my-8 bg-white rounded-md">
+    <Table className="w-full dark:bg-dark-300 my-8 bg-cleanWhite rounded-md">
       <TableHeader>
         {tableHeaders.length > 0 && (
           <TableRow>

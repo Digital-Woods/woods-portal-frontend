@@ -175,7 +175,7 @@ const Drawer = ({ className }) => {
                     <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
                       <p> Get the best Maintenance Service </p>
                       <Button
-                        className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
+                        className="!bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite text-blue-important mt-8"
                         size="sm"
                       >
                         Go Now
@@ -253,7 +253,7 @@ const Drawer = ({ className }) => {
         </div>
       </div>
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-        <div className="bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+        <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
           <div className="w-8">
             <Logo />
           </div>

@@ -33,7 +33,7 @@ const DynamicComponent = ({ title, path }) => {
           </p>
         </div>
 
-        {/* <div className="centered-tab border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
+        {/* <div className="centered-tab border rounded-lg p-1 bg-cleanWhite dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}

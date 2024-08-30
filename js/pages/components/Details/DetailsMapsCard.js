@@ -1,7 +1,7 @@
 const DetailsMapsCard = () => {
   return (
     <div className="relative bg-[url('https://lh3.googleusercontent.com/KIy0SU9X2AU03o4zutzTZqDb9nvxhKfY6MBpCX-te4wgyjOmc3yGxzVl_bmGg54jEJoWKzhpL6Sh4sKm2Li5x5dfi0Qb5xu753OiwAn9=rw-e365-w1375')] bg-cover bg-center h-64 rounded-lg w-full mt-5 flex items-center justify-between overflow-hidden">
-      <span className="absolute bottom-4 flex gap-x-4 right-4 bg-white text-gray-400 rounded-md px-4 py-2 font-medium text-sm">
+      <span className="absolute bottom-4 flex gap-x-4 right-4 bg-cleanWhite text-gray-400 rounded-md px-4 py-2 font-medium text-sm">
         Get Directions
         <span>
           <svg

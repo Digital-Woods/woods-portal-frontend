@@ -101,7 +101,7 @@ const Input = React.forwardRef(
           type={type}
           placeholder={placeholder}
           className={classNames(
-            "w-full rounded-md bg-white pl-10 px-5 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+            "w-full rounded-md bg-cleanWhite pl-10 px-5 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
             heightClasses[height],
             className
           )}

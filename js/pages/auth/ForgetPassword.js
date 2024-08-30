@@ -61,7 +61,7 @@ const ForgetPassword = () => {
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-900 justify-center h-screen">
-      <div className="dark:bg-gray-800 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+      <div className="dark:bg-gray-800 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <img
             src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"

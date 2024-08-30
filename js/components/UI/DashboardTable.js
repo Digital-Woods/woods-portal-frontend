@@ -126,7 +126,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   }, [inputValue]);
 
   return (
-    <div className="shadow-md rounded-md dark:border-gray-700 bg-white dark:bg-dark-300">
+    <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">

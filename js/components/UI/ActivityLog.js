@@ -11,7 +11,7 @@ const ActivityLog = ({}) => {
             className="w-5 h-5"
           />
         </span>
-        <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
+        <div className="items-center justify-between p-4 bg-cleanWhite border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
           <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
             just now
           </time>
@@ -38,7 +38,7 @@ const ActivityLog = ({}) => {
             className="w-5 h-5"
           />
         </span>
-        <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
+        <div className="p-4 bg-cleanWhite border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
           <div className="items-center justify-between mb-3 sm:flex">
             <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
               2 hours ago
@@ -69,7 +69,7 @@ const ActivityLog = ({}) => {
             className="w-5 h-5"
           />
         </span>
-        <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
+        <div className="items-center justify-between p-4 bg-cleanWhite border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
           <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
             1 day ago
           </time>

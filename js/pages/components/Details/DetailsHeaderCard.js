@@ -60,7 +60,7 @@ const DetailsHeaderCard = ({
 
       {/* <div className="relative flex gap-3 mb-10 px-4 z-10">
         {showFollowing && (
-          <span className="flex gap-x-4 dark:bg-dark-300 dark:text-white bg-white text-gray-400 rounded-md px-4 py-2 font-medium text-sm">
+          <span className="flex gap-x-4 dark:bg-dark-300 dark:text-white bg-cleanWhite text-gray-400 rounded-md px-4 py-2 font-medium text-sm">
             {following}
             <span>
               <svg
@@ -76,7 +76,7 @@ const DetailsHeaderCard = ({
           </span>
         )}
 
-        <span className="bg-white dark:bg-dark-300 rounded-md p-2">
+        <span className="bg-cleanWhite dark:bg-dark-300 rounded-md p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
@@ -88,7 +88,7 @@ const DetailsHeaderCard = ({
           </svg>
         </span>
 
-        <span className="bg-white dark:bg-dark-300 rounded-md p-2">
+        <span className="bg-cleanWhite dark:bg-dark-300 rounded-md p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"

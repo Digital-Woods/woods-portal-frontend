@@ -69,7 +69,7 @@ const ChangePassword = () => {
   return (
     <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
       {({ register, formState: { errors } }) => (
-        <div className="p-5 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+        <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
           <div className="flex justify-between">
             <h1 className="text-xl font-semibold pb-4">Password Information</h1>
 

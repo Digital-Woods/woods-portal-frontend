@@ -26,17 +26,17 @@ const DetailsAssociations = ({ association }) => {
       <AccordionDetails>
         <div className="flex flex-col py-2">
           {association.count === 0 ? (
-            <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
+            <div className="p-2 dark:bg-dark-300 bg-cleanWhite rounded-md text-xs font-semibold dark:text-white">
               See the {association.label} associated with this record.
             </div>
           ) : (
             association.list &&
             association.list.length > 0 && (
-              <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
+              <div className="px-2 dark:bg-dark-300 bg-cleanWhite rounded-md dark:text-white">
                 {association.list.map((item, index) => (
                   <div
                     key={index}
-                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
+                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-cleanWhite dark:bg-dark-500"
                   >
                     {sortData(item, "associations", association.label).map(
                       (row) => (
