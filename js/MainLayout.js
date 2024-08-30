@@ -44,7 +44,7 @@ const MainLayout = ({ children }) => {
   ];
 
   useEffect(() => {
-    console.log("Effect running", me);
+    // console.log("Effect running", me);
 
     if (me) {
       if (me.navigations && me.navigations.length > 0) {
@@ -85,7 +85,7 @@ const MainLayout = ({ children }) => {
     }
   }, [me, setRoutes]);
 
-  console.log(routes);
+  // console.log(routes);
 
   return (
     <React.Fragment>

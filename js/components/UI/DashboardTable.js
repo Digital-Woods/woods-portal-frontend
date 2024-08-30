@@ -30,7 +30,7 @@ const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 const DashboardTable = ({ path, inputValue, title }) => {
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");

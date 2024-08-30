@@ -34,13 +34,26 @@ const Drawer = ({ className }) => {
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const { me } = useMe();
   const { logout, isLoading, error } = useLogout();
+  const { routes, setRoutes } = useRoute();
+
+  const [activeRoute, setActiveRoute] = useState("");
+
+  useEffect(() => {
+    if (routes.length > 0) {
+      setActiveRoute(routes[0].path);
+    }
+  }, [routes]);
+
+  useEffect(() => {
+    console.log(`Active Route: ${activeRoute}`);
+  }, [activeRoute]);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
   };
 
-  const { routes, setRoutes } = useRoute();
+  console.log(routes);
 
   const mutation = useMutation({
     mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
@@ -84,11 +97,8 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {me &&
-                  me.hubspotPortals &&
-                  me.hubspotPortals.portalSettings &&
-                  me.hubspotPortals.portalSettings.brandName
-                    ? me.hubspotPortals.portalSettings.brandName
+                  {me && me.templates && me.templates.length > 0
+                    ? me.templates[0].label
                     : "Digitalwoods"}
                 </h1>
               </div>
@@ -141,8 +151,10 @@ const Drawer = ({ className }) => {
                       <NavLink
                         key={path}
                         to={path}
-                        className="block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline"
-                        activeClassName="dark:bg-dark-600 dark:text-white bg-activeState"
+                        className={`block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline ${
+                          activeRoute === path ? "bg-activeState" : ""
+                        }`}
+                        onClick={() => setActiveRoute(path)}
                       >
                         <div
                           className={`flex items-center gap-x-3 gap-y-1 ${
@@ -175,7 +187,7 @@ const Drawer = ({ className }) => {
                     <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
                       <p> Get the best Maintenance Service </p>
                       <Button
-                        className="!bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite text-blue-important mt-8"
+                        className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
                         size="sm"
                       >
                         Go Now
