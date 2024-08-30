@@ -15,7 +15,13 @@ const ProfileCard = () => {
         <div className="flex flex-col justify-center space-y-1">
           <h1 className="text-2xl font-semibold dark:text-white">{`${me.firstName} ${me.lastName}`}</h1>
           <p className="text-secondary dark:text-white font-medium text-sm">
-            User : Digitalwoods
+            User ,{" "}
+            {me &&
+            me.hubspotPortals &&
+            me.hubspotPortals.portalSettings &&
+            me.hubspotPortals.portalSettings.brandName
+              ? me.hubspotPortals.portalSettings.brandName
+              : "Digitalwoods"}
           </p>
           <p className="text-xs font-normal dark:text-white text-secondary">
             {me.email}

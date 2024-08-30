@@ -4,7 +4,7 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   return (
     <a
       href={to}
-      className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
+      className={`block hover:bg-primary p-3 hover:text-cleanWhite rounded-md no-underline ${className}`}
     >
       {children}
     </a>
@@ -71,7 +71,7 @@ const HeaderLayout = ({ title, path }) => {
 
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
-          <p className="text-primary font-semibold dark:text-white">
+          <p className="text-primary font-semibold  dark:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -87,12 +87,12 @@ const HeaderLayout = ({ title, path }) => {
 
       <div>
         <div className="flex gap-x-4">
-          <div className="bg-white rounded-md dark:bg-dark-400">
+          <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-white rounded-md pl-2 cursor-pointer dark:bg-dark-400 profile-section"
+            className="flex flex-col justify-center items-center bg-cleanWhite rounded-md pl-2 cursor-pointer dark:bg-dark-400 profile-section"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >
@@ -143,7 +143,7 @@ const HeaderLayout = ({ title, path }) => {
         {dropdownOpen && (
           <div
             ref={dropdownRef}
-            className="absolute right-8 mt-2 w-[280px] bg-white rounded-md shadow-lg z-50 dark:bg-dark-400"
+            className="absolute right-8 mt-2 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400"
           >
             <div className="flex flex-col p-4">
               <div className="flex">
@@ -153,9 +153,9 @@ const HeaderLayout = ({ title, path }) => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-4 flex flex-col">
-                  <p className="font-semibold dark:text-white">
+                  <div className="font-semibold dark:text-white">
                     {me.firstName}
-                  </p>
+                  </div>
                   <p className="text-xs text-secondary dark:text-gray-400">
                     {me.email}
                   </p>
@@ -262,7 +262,7 @@ const HeaderLayout = ({ title, path }) => {
                   </div>
                   <p
                     className={`
-                       text-black text-sm font-medium dark:text-white`}
+                       text-black text-sm font-medium  dark:text-white`}
                   >
                     Logout
                   </p>

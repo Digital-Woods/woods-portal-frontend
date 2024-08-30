@@ -38,7 +38,7 @@ const EditButton = ({ onClick }) => (
   <Button
     variant="outline"
     size="sm"
-    className="text-secondary"
+    className="text-secondary dark:text-white"
     onClick={onClick}
   >
     Edit
@@ -49,7 +49,7 @@ const SaveButton = ({ onClick }) => (
   <Button
     variant="outline"
     size="sm"
-    className="text-secondary"
+    className="text-secondary dark:text-white"
     onClick={onClick}
   >
     Save
@@ -158,13 +158,6 @@ const ProfileUpdate = () => {
                 </div>
               )}
             </FormItem>
-
-            <div className="py-2 flex items-center">
-              <div className="text-xs font-semibold w-[200px]">Email:</div>
-              <div className="text-xs text-gray-500">
-                {me && me.email ? me.email : "N/A"}
-              </div>
-            </div>
           </div>
         </div>
       )}

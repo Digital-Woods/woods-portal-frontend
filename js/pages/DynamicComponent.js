@@ -24,11 +24,11 @@ const DynamicComponent = ({ title, path }) => {
       .toLowerCase();
 
   return (
-    <div className="dark:bg-dark-200 dark:text-white p-6">
+    <div className="dark:bg-dark-200  dark:text-white p-6">
       <div className="flex justify-between items-center relative">
         <div>
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
-          <p className="text-secondary dark:text-white leading-5 text-sm">
+          <p className="text-secondary  dark:text-white leading-5 text-sm">
             {viewText}
           </p>
         </div>
@@ -108,7 +108,9 @@ const DynamicComponent = ({ title, path }) => {
           <DashboardTable path={path} />
         </div>
       ) : (
-        <div className="dark:text-white">Under Construction</div>
+        <div className="dark:text-white text-cleanWhite">
+          Under Construction
+        </div>
       )}
     </div>
   );

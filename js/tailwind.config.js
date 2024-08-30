@@ -62,7 +62,8 @@ tailwind.config = {
       },
 
       colors: {
-        white: "#FFFFFF",
+        cleanWhite: "#FFFFFF",
+        white: "#FAF9F6",
         lightblue: "#005fad",
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
