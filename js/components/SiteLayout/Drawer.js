@@ -97,8 +97,11 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {me && me.templates && me.templates.length > 0
-                    ? me.templates[0].label
+                  {me &&
+                  me.hubspotPortals &&
+                  me.hubspotPortals.portalSettings &&
+                  me.hubspotPortals.portalSettings.brandName
+                    ? me.hubspotPortals.portalSettings.brandName
                     : "Digitalwoods"}
                 </h1>
               </div>
