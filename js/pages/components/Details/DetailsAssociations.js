@@ -1,6 +1,6 @@
-const DetailsAssociations = ({ association }) => {
+const DetailsAssociations = ({ association, isActive }) => {
   return (
-    <Accordion className="mb-0 rounded-none">
+    <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
           <span>
