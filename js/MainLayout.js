@@ -5,6 +5,7 @@ const MainLayout = ({ children }) => {
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
   const { me } = useMe();
+  const [showPortalMessage, setShowPortalMessage] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,48 +45,61 @@ const MainLayout = ({ children }) => {
   ];
 
   useEffect(() => {
-    // console.log("Effect running", me);
+    console.log("Effect running", me);
 
     if (me) {
-      if (me.navigations && me.navigations.length > 0) {
-        const apiRoutes = me.navigations.map((label) => ({
-          path: `/${label.name}`,
-          title: label.label,
-          icon: label.icon,
-          isRequiredAuth: true,
-          isHeader: true,
-          component: (
-            <DynamicComponent
-              path={`/${label.name}`}
-              title={label.label}
-              icon={label.icon}
-            />
-          ),
-        }));
-
-        setRoutes(apiRoutes);
+      if (me.hubspotPortals === null) {
+        setShowPortalMessage(true);
+        setIsLoading(false);
       } else {
-        setRoutes([
-          {
-            path: "/no-routes",
-            title: "No Routes Found",
-            icon: "🚫",
-            isRequiredAuth: false,
-            isHeader: false,
+        setShowPortalMessage(false);
+        if (me.navigations && me.navigations.length > 0) {
+          const apiRoutes = me.navigations.map((label) => ({
+            path: `/${label.name}`,
+            title: label.label,
+            icon: label.icon,
+            isRequiredAuth: true,
+            isHeader: true,
             component: (
-              <div className="text-center p-10">
-                <h2>No Navigation Available</h2>
-                <p>Please check back later.</p>
-              </div>
+              <DynamicComponent
+                path={`/${label.name}`}
+                title={label.label}
+                icon={label.icon}
+              />
             ),
-          },
-        ]);
+          }));
+
+          setRoutes(apiRoutes);
+        } else {
+          setRoutes([
+            {
+              path: "/no-routes",
+              title: "No Routes Found",
+              icon: "🚫",
+              isRequiredAuth: false,
+              isHeader: false,
+              component: (
+                <div className="text-center p-10">
+                  <h2>No Navigation Available</h2>
+                  <p>Please check back later.</p>
+                </div>
+              ),
+            },
+          ]);
+        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
   }, [me, setRoutes]);
 
-  // console.log(routes);
+  if (showPortalMessage) {
+    return (
+      <div className="text-center p-10 w-full h-screen text-3xl font-semibold bg-secondary text-white flex flex-col items-center justify-center">
+        <h2>Please Select a HubSpot Portal</h2>
+        <p> Before Continuing.</p>
+      </div>
+    );
+  }
 
   return (
     <React.Fragment>
