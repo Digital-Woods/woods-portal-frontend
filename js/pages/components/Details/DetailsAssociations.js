@@ -1,15 +1,6 @@
 const DetailsAssociations = ({ association }) => {
-  const firstItem =
-    association.list && association.list.length > 0
-      ? association.list[0]
-      : null;
-  const remainingItems = association.list && association.list.slice(1);
-
-  // Determine whether the Accordion should be disabled
-  const isDisabled = association.count === 0;
-
   return (
-    <Accordion className="mb-0 rounded-none" disabled={isDisabled}>
+    <Accordion className="mb-0 rounded-none">
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
           <span>
@@ -30,53 +21,22 @@ const DetailsAssociations = ({ association }) => {
             </span>
           </span>
         </div>
-
-        <div className="flex flex-col pt-2 py-2 w-full">
-          {association.count === 0 ? (
-            <div className="p-2 dark:bg-dark-300 bg-cleanWhite rounded-md text-xs font-semibold dark:text-white">
-              See the {association.label} associated with this record.
-            </div>
-          ) : (
-            firstItem && (
-              <div className=" dark:bg-dark-300 bg-cleanWhite rounded-md dark:text-white">
-                <div className="mt-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-cleanWhite dark:bg-dark-500">
-                  {sortData(firstItem, "associations", association.label).map(
-                    (row) => (
-                      <div key={row.name} className="py-2 flex">
-                        <div className="text-xs font-semibold w-[100px]">
-                          {row.label}:
-                        </div>
-                        <div className="text-xs text-gray-500 flex-1">
-                          {renderCellContent(
-                            firstItem[row.name],
-                            firstItem.id,
-                            `/${association.featureName}`
-                          )}
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            )
-          )}
-        </div>
       </AccordionSummary>
 
       <AccordionDetails>
-        <div className="flex flex-col pb-2">
+        <div className="flex flex-col py-2">
           {association.count === 0 ? (
-            <div className="p-2 dark:bg-dark-300 bg-cleanWhite rounded-md text-xs font-semibold dark:text-white">
+            <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
               See the {association.label} associated with this record.
             </div>
           ) : (
-            remainingItems &&
-            remainingItems.length > 0 && (
-              <div className="px-2 dark:bg-dark-300 bg-cleanWhite rounded-md dark:text-white">
-                {remainingItems.map((item, index) => (
+            association.list &&
+            association.list.length > 0 && (
+              <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
+                {association.list.map((item, index) => (
                   <div
                     key={index}
-                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-cleanWhite dark:bg-dark-500"
+                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
                   >
                     {sortData(item, "associations", association.label).map(
                       (row) => (

@@ -1,17 +1,17 @@
-const Alert = ({ message, type, onClose }) => {
+const Alert = ({ message, type, onClose, duration = 2000 }) => {
   const [progress, setProgress] = useState(100);
 
   useEffect(() => {
-    const timer = setTimeout(onClose, 3000);
+    const timer = setTimeout(onClose, duration);
     const interval = setInterval(() => {
-      setProgress((prev) => Math.max(prev - 100 / 30, 0));
+      setProgress((prev) => Math.max(prev - 100 / (duration / 100), 0));
     }, 100);
 
     return () => {
       clearInterval(interval);
       clearTimeout(timer);
     };
-  }, [onClose]);
+  }, [onClose, duration]);
 
   const icon =
     type === "success" ? (
@@ -42,6 +42,20 @@ const Alert = ({ message, type, onClose }) => {
       </svg>
     );
 
+  // Map progress to a Tailwind class dynamically
+  const getWidthClass = () => {
+    if (progress > 90) return "w-full";
+    if (progress > 80) return "w-4/5";
+    if (progress > 70) return "w-3/4";
+    if (progress > 60) return "w-3/5";
+    if (progress > 50) return "w-1/2";
+    if (progress > 40) return "w-2/5";
+    if (progress > 30) return "w-1/3";
+    if (progress > 20) return "w-1/4";
+    if (progress > 10) return "w-1/5";
+    return "w-0";
+  };
+
   return (
     <div className="fixed right-10 top-2 w-full max-w-md py-5 px-6 bg-cleanWhite text-gray-600 rounded-xl border border-gray-200 shadow-sm">
       <button
@@ -70,11 +84,9 @@ const Alert = ({ message, type, onClose }) => {
         <p className="text-base font-medium leading-relaxed">{message}</p>
       </div>
       <div className="w-full h-1 bg-gray-200 rounded-full mt-4 overflow-hidden">
-        <div className="w-full h-1 bg-gray-200 rounded-full mt-2 overflow-hidden">
-          <div
-            className={`h-full bg-blue-500 transition-all duration-100 w-[${progress}%]`}
-          ></div>
-        </div>
+        <div
+          className={`h-full bg-blue-500 progress-bar ${getWidthClass()}`}
+        ></div>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const API_ENDPOINTS = {
   FEATURES: "api/templates/demo/features?featureType=BASE",
   OBJECTS: "/api/feature-data",
   OBJECTS_BY_ID: "/api/feature-data",
-  PROFILE_UPDATE: "/update",
+  PROFILE_UPDATE: "api/users",
   GET_PROFILE_DETAILS: "/api/auth/me",
   USERS_ME: "/api/auth/me",
 };

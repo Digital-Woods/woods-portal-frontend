@@ -58,7 +58,9 @@ const SaveButton = ({ onClick }) => (
 
 const ProfileUpdate = () => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
-  const { me } = useMe();
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const { me, getMe } = useMe();
 
   const validationSchema = z.object({
     firstName: z.string().min(2, {
@@ -69,98 +71,123 @@ const ProfileUpdate = () => {
     }),
   });
 
-  const startEditing = () => {
-    setIsEditPersonalInfo(true);
+  const {
+    mutate: updateProfile,
+    isLoading,
+    isError,
+    isSuccess,
+    error,
+  } = useMutation({
+    mutationFn: (data) => Client.profile.update(data),
+    onSuccess: (response) => {
+      getMe();
+      setAlertMessage(response.statusMsg || "Profile updated successfully");
+      setShowAlert(true);
+      setIsEditPersonalInfo(false);
+    },
+    onError: (error) => {
+      setAlertMessage("Error updating profile");
+      setShowAlert(true);
+    },
+  });
+
+  const handleSaveChanges = (data) => {
+    const payload = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+    };
+
+    updateProfile(payload);
   };
 
-  const saveChanges = (data) => {
-    console.log("Submitted data:", data);
-    setIsEditPersonalInfo(false);
-  };
-
-  const onButtonClick = () => {
+  const handleButtonClick = () => {
     if (isEditPersonalInfo) {
-      saveChanges;
     } else {
-      startEditing();
+      setIsEditPersonalInfo(true);
     }
   };
 
   return (
-    <Form onSubmit={saveChanges} validationSchema={validationSchema}>
-      {({ register, formState: { errors } }) => (
-        <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
-          <div className="flex justify-between">
-            <h1 className="text-xl font-semibold pb-4">Personal Information</h1>
+    <div>
+      <Form onSubmit={handleSaveChanges} validationSchema={validationSchema}>
+        {({ register, formState: { errors } }) => (
+          <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
+            <div className="flex justify-between">
+              <h1 className="text-xl font-semibold pb-4">
+                Personal Information
+              </h1>
+              {isEditPersonalInfo ? (
+                <SaveButton onClick={handleButtonClick} isLoading={isLoading} />
+              ) : (
+                <EditButton onClick={handleButtonClick} />
+              )}
+            </div>
 
-            {isEditPersonalInfo === false ? (
-              <EditButton onClick={onButtonClick} />
-            ) : (
-              <SaveButton onClick={onButtonClick} />
-            )}
-          </div>
-
-          <div>
-            <FormItem className="!mb-0 py-2 flex items-center">
-              <FormLabel className="text-xs font-semibold w-[200px]">
-                First Name:
-              </FormLabel>
-              {isEditPersonalInfo === true ? (
-                <FormControl className="flex flex-col items-center">
-                  <div>
+            <div>
+              <FormItem className="!mb-0 py-2 flex items-center">
+                <FormLabel className="text-xs font-semibold w-[200px]">
+                  First Name:
+                </FormLabel>
+                {isEditPersonalInfo ? (
+                  <FormControl className="flex flex-col items-center">
                     <Input
                       type="text"
-                      defaultValue={me && me.firstName ? me.firstName : ""}
+                      defaultValue={me.firstName || ""}
                       placeholder="First Name"
                       {...register("firstName")}
                       className="text-xs text-gray-500 ml-2"
-                      icon={FirstNameIcon}
                     />
-                    {errors && errors.firstName && (
+                    {errors.firstName && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.firstName.message}
                       </div>
                     )}
+                  </FormControl>
+                ) : (
+                  <div className="text-xs text-gray-500">
+                    {me.firstName || "N/A"}
                   </div>
-                </FormControl>
-              ) : (
-                <div className="text-xs text-gray-500">
-                  {me && me.firstName ? me.firstName : "N/A"}
-                </div>
-              )}
-            </FormItem>
+                )}
+              </FormItem>
 
-            <FormItem className="!mb-0 py-2 flex items-center">
-              <FormLabel className="text-xs font-semibold w-[200px]">
-                Last Name:
-              </FormLabel>
-              {isEditPersonalInfo === true ? (
-                <FormControl className="flex flex-col items-center">
-                  <div>
+              <FormItem className="!mb-0 py-2 flex items-center">
+                <FormLabel className="text-xs font-semibold w-[200px]">
+                  Last Name:
+                </FormLabel>
+                {isEditPersonalInfo ? (
+                  <FormControl className="flex flex-col items-center">
                     <Input
                       type="text"
-                      defaultValue={me && me.lastName ? me.lastName : ""}
+                      defaultValue={me.lastName || ""}
                       placeholder="Last Name"
                       {...register("lastName")}
                       className="text-xs text-gray-500 ml-2"
-                      icon={FirstNameIcon}
                     />
-                    {errors && errors.lastName && (
+                    {errors.lastName && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.lastName.message}
                       </div>
                     )}
+                  </FormControl>
+                ) : (
+                  <div className="text-xs text-gray-500">
+                    {me.lastName || "N/A"}
                   </div>
-                </FormControl>
-              ) : (
-                <div className="text-xs text-gray-500">
-                  {me && me.lastName ? me.lastName : "N/A"}
-                </div>
-              )}
-            </FormItem>
+                )}
+              </FormItem>
+            </div>
           </div>
-        </div>
+        )}
+      </Form>
+
+      {showAlert && (
+        <Alert
+          duration={1000}
+          message={alertMessage}
+          type={isSuccess ? "success" : "error"}
+          onClose={() => setShowAlert(false)}
+        />
       )}
-    </Form>
+    </div>
   );
 };

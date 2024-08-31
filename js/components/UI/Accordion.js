@@ -1,17 +1,14 @@
 const { useState, useRef, useEffect } = React;
 
-const Accordion = ({ children, className, disabled }) => {
+const Accordion = ({ children, className }) => {
   const [active, setActive] = useState(null);
-
   const handleToggle = (index) => {
-    if (disabled) return;
     if (active === index) {
       setActive(null);
     } else {
       setActive(index);
     }
   };
-
   return (
     <div
       className={twMerge(
@@ -24,7 +21,6 @@ const Accordion = ({ children, className, disabled }) => {
           active,
           id: index,
           handleToggle,
-          disabled,
         })
       )}
     </div>
@@ -33,35 +29,34 @@ const Accordion = ({ children, className, disabled }) => {
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
   return (
     <div
-      className={`relative dark:border-gray-600 dark:bg-dark-300 items-start px-4 pt-4 bg-cleanWhite cursor-pointer transition-colors ${
+      className={`flex justify-between dark:border-gray-600 dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
         active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}
     >
       <h5 className="font-medium text-sm">{children}</h5>
-      <div className="absolute top-3 right-3">
-        {active === id ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="18px"
-            viewBox="0 -960 960 960"
-            width="18px"
-            className="dark:fill-white"
-          >
-            <path d="M200-440v-80h560v80H200Z" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="18px"
-            viewBox="0 -960 960 960"
-            width="18px"
-            className="dark:fill-white"
-          >
-            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-          </svg>
-        )}
-      </div>
+
+      {active === id ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18px"
+          viewBox="0 -960 960 960"
+          width="18px"
+          className="dark:fill-white"
+        >
+          <path d="M200-440v-80h560v80H200Z" />
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18px"
+          viewBox="0 -960 960 960"
+          width="18px"
+          className="dark:fill-white"
+        >
+          <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+        </svg>
+      )}
     </div>
   );
 };
@@ -85,7 +80,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      <div className="px-2 bg-cleanWhite dark:bg-dark-300">{children}</div>
+      <div className="px-2 bg-white dark:bg-dark-300">{children}</div>
     </div>
   );
 };
