@@ -3,35 +3,49 @@ const { RecoilRoot } = Recoil;
 const { QueryClientProvider, QueryClient } = ReactQuery;
 
 const isAuthenticated = () => {
-  return !!localStorage.getItem("token");
+  return !!localStorage.getItem(env.AUTH_TOKEN_KEY);
 };
 
-ReactDOM.render(
-  <RecoilRoot>
-    <QueryClientProvider client={new QueryClient()}>
-      <HashRouter>
-        <Route
-          render={() =>
-            isAuthenticated() ? (
-              <div>
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchInterval: false,
+    },
+  },
+});
+
+function App() {
+  useEffect(() => {
+    setColorsFromLocalStorage();
+  }, []);
+
+  return (
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
+          <Route
+            render={() =>
+              isAuthenticated() ? (
                 <MainLayout />
-                <DataInitializer />
-              </div>
-            ) : (
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route
-                  exact
-                  path="/forget-password"
-                  component={ForgetPassword}
-                />
-                <Redirect to="/login" />
-              </Switch>
-            )
-          }
-        />
-      </HashRouter>
-    </QueryClientProvider>
-  </RecoilRoot>,
-  document.getElementById("app")
-);
+              ) : (
+                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route
+                    exact
+                    path="/forget-password"
+                    component={ForgetPassword}
+                  />
+                  <Redirect to="/login" />
+                </Switch>
+              )
+            }
+          />
+        </HashRouter>
+      </QueryClientProvider>
+    </RecoilRoot>
+  );
+}
+
+// Render the App component
+ReactDOM.render(<App />, document.getElementById("app"));

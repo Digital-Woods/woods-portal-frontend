@@ -2,13 +2,13 @@ class Client {
   static authentication = {
     login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
-    Logout: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
-    forgetPassword: (data) =>
-      HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
+    Logout: () => HttpClient.get(API_ENDPOINTS.USER_LOGOUT),
+    changePassword: (data) =>
+      HttpClient.post(API_ENDPOINTS.USERS_CHANGE_PASSWORD, data),
   };
 
-  static fetchFeatures = {
-    all: HttpClient.get(API_ENDPOINTS.FEATURES),
+  static fetchAllFeatures = {
+    all: () => HttpClient.get(API_ENDPOINTS.FEATURES),
   };
 
   static profile = {
@@ -16,7 +16,11 @@ class Client {
   };
 
   static getProfileDetails = {
-    all: HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
+    all: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
+  };
+
+  static users = {
+    me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
   };
 
   static objects = {
@@ -26,21 +30,25 @@ class Client {
       after = "",
       sort = "updatedAt",
       inputValue,
-      hubId,
-      templatename,
+      page,
+      me,
       ...query
     }) =>
-      HttpClient.get(`/api/feature-data/${hubId}/${templatename}${path}`, {
-        limit,
-        sort,
-        after,
-        search: inputValue,
-        ...query,
-      }),
-
-    byObjectId: ({ path, objectId, hubId, templatename }) =>
       HttpClient.get(
-        `/api/feature-data/${hubId}/${templatename}${path}/${objectId}`
+        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.hubId}/${me.hubspotPortals.templates[0].name}${path}`,
+        {
+          limit,
+          sort,
+          after,
+          page: page,
+          search: inputValue,
+          ...query,
+        }
+      ),
+
+    byObjectId: ({ path, objectId, me }) =>
+      HttpClient.get(
+        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.hubId}/${me.hubspotPortals.templates[0].name}${path}/${objectId}`
       ),
   };
 

@@ -1,6 +1,22 @@
 const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
+  const loginUserValidationSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(4, {
+      message: "Password must be at least 4 characters.",
+    }),
+  });
+
+  const { getMe, me } = useMe();
+
+  const setItemAsync = async (key, value) => {
+    return new Promise((resolve) => {
+      localStorage.setItem(key, value);
+      getMe();
+      resolve();
+    });
+  };
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
@@ -15,13 +31,12 @@ const Login = () => {
         throw error;
       }
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!data.data.token) {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
-
-      localStorage.setItem("token", data.data.token);
+      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },
@@ -29,7 +44,7 @@ const Login = () => {
       let errorMessage = "An unexpected error occurred.";
 
       if (error.response && error.response.data) {
-        const errorData = error.response.data;
+        const errorData = error.response.data.detailedMessage;
         setServerError(errorData);
 
         errorMessage =
@@ -45,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center bg-flatGray justify-center h-screen">
+    <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
       {alert && (
         <Alert
           message={alert.message}
@@ -53,21 +68,24 @@ const Login = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className="dark:bg-dark-100 bg-white py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+      <div className="dark:bg-gray-900 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
-          <Logo />
+          <img
+            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
+            alt="user photo"
+          />
         </div>
         <div className="w-full">
           <Form
             onSubmit={onSubmit}
             validationSchema={loginUserValidationSchema}
             serverError={serverError}
-            className="dark:bg-dark-100"
+            className="dark:bg-gray-900"
           >
             {({ register, formState: { errors } }) => (
-              <div className="text-dark dark:text-light">
+              <div className="text-gray-800 dark:text-gray-200">
                 <FormItem>
-                  <FormLabel className="text-xs font-semibold focus:text-blue-600">
+                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Email
                   </FormLabel>
                   <FormControl>
@@ -76,20 +94,20 @@ const Login = () => {
                         height="medium"
                         icon={emailIcon}
                         placeholder="Email"
-                        className="focus:border-brand focus:ring-brand"
+                        className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
                         {...register("email")}
                       />
                     </div>
                   </FormControl>
                   {errors.email && (
-                    <FormMessage className="text-red-600">
+                    <FormMessage className="text-red-600 dark:text-red-400">
                       {errors.email.message}
                     </FormMessage>
                   )}
                 </FormItem>
 
                 <FormItem>
-                  <FormLabel className="text-xs font-semibold focus:text-blue-600">
+                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Password
                   </FormLabel>
                   <FormControl>
@@ -97,42 +115,40 @@ const Login = () => {
                       <Input
                         placeholder="Password"
                         icon={passwordIcon}
-                        className="focus:border-brand focus:ring-brand"
+                        type="password"
+                        className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
                         {...register("password")}
                       />
                     </div>
                   </FormControl>
                   {errors.password && (
-                    <FormMessage className="text-red-600">
+                    <FormMessage className="text-red-600 dark:text-red-400">
                       {errors.password.message}
                     </FormMessage>
                   )}
                 </FormItem>
 
                 <div className="flex justify-between items-center">
-                  <div className="flex">
+                  <div className="flex items-center">
                     <Input type="checkbox" icon="none" className="mr-1 ml-2" />
-                    <p className="text-xs ">Keep me signed in</p>
+                    <p className="text-xs text-gray-800 dark:text-gray-300">
+                      Keep me signed in
+                    </p>
                   </div>
 
                   <div>
-                    <NavLink
-                      to="/forget-password"
-                      className=""
-                      activeClassName=""
-                    >
-                      <p
-                        className={`
-                       text-black text-xs dark:text-white`}
-                      >
-                        forget password?
+                    <NavLink to="/forget-password">
+                      <p className="text-black text-xs dark:text-gray-300">
+                        Forget password?
                       </p>
                     </NavLink>
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-col justiful-center items-center">
-                  <Button className="w-full">Continue</Button>
+                <div className="mt-4 flex flex-col justify-center items-center">
+                  <Button className="w-full" isLoading={isLoading}>
+                    Continue
+                  </Button>
                 </div>
               </div>
             )}

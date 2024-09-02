@@ -1,8 +1,8 @@
-const Tabs = ({ children, activeTab, setActiveTab=null, className }) => {
+const Tabs = ({ children, activeTab, setActiveTab = null, className }) => {
   const [selectedValue, setSelectedValue] = useState(activeTab);
   const handleTabClick = (value) => {
     setSelectedValue(value);
-    if(setActiveTab != null)setActiveTab(value);
+    if (setActiveTab != null) setActiveTab(value);
   };
 
   // Filter children to separate TabsList and content components
@@ -50,7 +50,9 @@ const Tabs = ({ children, activeTab, setActiveTab=null, className }) => {
 };
 
 const TabsList = ({ children, className }) => (
-  <ul className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}>
+  <ul
+    className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}
+  >
     {children}
   </ul>
 );
@@ -64,7 +66,9 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
   >
     <button
       className={`inline-block px-4 py-2  rounded-full cursor-pointer rounded-md ${
-        isActive ? "bg-primary dark:bg-dark-400 text-white" : "bg-white dark:bg-dark-300"
+        isActive
+          ? "bg-primary dark:bg-dark-400 text-white"
+          : "bg-cleanWhite dark:bg-dark-300"
       }`}
       aria-current="page"
     >

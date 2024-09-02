@@ -3,7 +3,7 @@ const Details = ({ path, id }) => {
   const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const { me } = useMe();
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
@@ -13,8 +13,7 @@ const Details = ({ path, id }) => {
       await Client.objects.byObjectId({
         path,
         objectId: id,
-        hubId: personalInfo.hubId,
-        templatename: personalInfo.templatename,
+        me: me,
       }),
     onSuccess: (data) => {
       if (data.data) {
@@ -49,61 +48,68 @@ const Details = ({ path, id }) => {
   }
 
   return (
-    <div className="h-[100vh] dark:bg-dark-200 w-[100%] flex p-6">
-      <div className="w-[calc(100%_-350px)] pr-4">
-        {isLoading && !item && <div className="loader-line"></div>}
+    <div className="h-full dark:bg-dark-200 w-[100%] p-6">
+      {isLoading && !item && <div className="loader-line"></div>}
 
-        <DetailsHeaderCard
-          bgImageClass="bg-custom-bg"
-          plantName="South Plant"
-          date="17/01/2024"
-          serviceName="AquaFlow Service"
-          following="Following"
-          path={path}
-          item={item}
-        />
+      {item && (
+        <div className=" flex ">
+          <div className="w-[calc(100%_-350px)] pr-4">
+            <DetailsHeaderCard
+              bgImageClass="bg-custom-bg"
+              plantName="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."
+              date="17/01/2024"
+              serviceName="AquaFlow Service"
+              following="Following"
+              path={path}
+              item={item}
+            />
 
-        {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
+            {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
 
-        {path === "/jobs" && (
-          <div className="col-span-4">
-            <DetailsTable item={item} path={path} />
-          </div>
-        )}
-        {sortItems && <DetailsView sortItems={sortItems} />}
+            {path === "/jobs" && (
+              <div className="col-span-4">
+                <DetailsTable item={item} path={path} />
+              </div>
+            )}
+            {sortItems && <DetailsView item={item} sortItems={sortItems} />}
 
-        {images.length > 0 && (
-          <DetailsGallery images={images} setGalleryDialog={setGalleryDialog} />
-        )}
-      </div>
-
-      <div className="w-[350px]">
-        <div className="max-h-[calc(100vh_-120px)] scrollbox pr-2 fixed w-[350px]">
-          {associations &&
-            Object.entries(associations).map(([key, association]) => (
-              <DetailsAssociations key={key} association={association} />
-            ))}
-        </div>
-      </div>
-
-      <Dialog
-        open={galleryDialog}
-        onClose={setGalleryDialog}
-        className="w-[50%]"
-      >
-        <div className=" bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-          <div className="grid grid-cols-2 gap-4">
-            {images.map((url, index) => (
-              <img
-                key={index}
-                src={url}
-                alt={`Image ${index + 1}`}
-                className="w-full h-auto"
+            {images.length > 0 && (
+              <DetailsGallery
+                images={images}
+                setGalleryDialog={setGalleryDialog}
               />
-            ))}
+            )}
           </div>
+
+          <div className="w-[350px]">
+            <div className="max-h-[calc(100vh_-120px)] scrollbox pr-2 fixed w-[350px]">
+              {associations &&
+                Object.entries(associations).map(([key, association], index) => (
+                  <DetailsAssociations key={key} association={association} isActive={index == 0 ? true : false} />
+                ))}
+            </div>
+          </div>
+
+          <Dialog
+            open={galleryDialog}
+            onClose={setGalleryDialog}
+            className="w-[50%]"
+          >
+            <div className=" bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+              <div className="grid grid-cols-2 gap-4">
+                {images.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Image ${index + 1}`}
+                    className="w-full h-auto"
+                  />
+                ))}
+              </div>
+            </div>
+          </Dialog>
         </div>
-      </Dialog>
+      )}
     </div>
   );
 };

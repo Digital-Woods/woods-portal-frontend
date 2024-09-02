@@ -1,6 +1,6 @@
 const DetailsGallery = ({ images, setGalleryDialog }) => {
   return (
-    <div className="p-3 dark:bg-dark-300 bg-white rounded-md mt-5 dark:text-white">
+    <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <div className="text-sm font-semibold pb-5">Site Images</div>
       <div class="grid grid-cols-3 gap-4">
         {images.slice(0, 3).map((url, index) =>

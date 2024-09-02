@@ -4,7 +4,6 @@ const { useQuery } = ReactQuery;
 const DynamicComponent = ({ title, path }) => {
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -25,13 +24,16 @@ const DynamicComponent = ({ title, path }) => {
       .toLowerCase();
 
   return (
-    <div className="dark:bg-dark-200 dark:text-white p-6">
-      <div className="flex justify-between items-center">
+    <div className="dark:bg-dark-200  dark:text-white p-6">
+      <div className="flex justify-between items-center relative">
         <div>
           <h1 className="text-xl font-semibold mb-2">{title}</h1>
-          <p className="text-secondary leading-5 text-sm">{viewText}</p>
+          <p className="text-secondary  dark:text-white leading-5 text-sm">
+            {viewText}
+          </p>
         </div>
-        <div className="border rounded-lg p-1 bg-white dark:bg-dark-300 border-flatGray dark:border-gray-700">
+
+        {/* <div className="centered-tab border rounded-lg p-1 bg-cleanWhite dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -66,18 +68,19 @@ const DynamicComponent = ({ title, path }) => {
             <TabsContent value="account"></TabsContent>
             <TabsContent value="password"></TabsContent>
           </Tabs>
-        </div>
-        <div>
+        </div> */}
+
+        {/* <div>
           <Button className="text-white">
             New Site <span className="ml-2"> + </span>{" "}
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {activeTab === "account" ? (
         <div>
-          <div className="flex justify-between items-center py-6">
-            <div className="flex gap-x-4">
+          <div className="flex flex-col justify-end items-end py-6">
+            {/* <div className="flex gap-x-4">
               <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
               <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
               <CustomCheckbox
@@ -90,26 +93,24 @@ const DynamicComponent = ({ title, path }) => {
                 spanText="3"
                 showSpan={true}
               />
-            </div>
+            </div> */}
 
-            <div className="w-[25%]">
+            {/* <div className="w-[25%]">
               <Input
                 className="dark:bg-dark-400"
                 value={inputValue}
                 onChange={handleInputChange}
               />
-            </div>
+            </div> */}
           </div>
 
-          <DashboardTable
-            path={path}
-            inputValue={inputValue}
-            hubId={personalInfo.hubId}
-            templatename={personalInfo.templatename}
-          />
+          {/* <DashboardTable path={path} inputValue={inputValue} /> */}
+          <DashboardTable path={path} />
         </div>
       ) : (
-        <div className="dark:text-white">Under Construction</div>
+        <div className="dark:text-white text-cleanWhite">
+          Under Construction
+        </div>
       )}
     </div>
   );

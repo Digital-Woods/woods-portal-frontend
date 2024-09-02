@@ -4,7 +4,7 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   return (
     <a
       href={to}
-      className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
+      className={`block hover:bg-primary p-3 hover:text-cleanWhite rounded-md no-underline ${className}`}
     >
       {children}
     </a>
@@ -13,13 +13,13 @@ const NavLink = ({ to, className, activeClassName, children }) => {
 
 const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [logoutDialog, setLogoutDialog] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
+  const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
-
-  console.log(path);
+  const { me } = useMe();
+  const { logout, isLoading, error } = useLogout();
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -38,12 +38,6 @@ const HeaderLayout = ({ title, path }) => {
 
   const toggleDrawer = () => {
     setSidebarOpen(!sidebarOpen);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.hash = "/logout";
-    setLogoutDialog(false);
   };
 
   useEffect(() => {
@@ -77,7 +71,7 @@ const HeaderLayout = ({ title, path }) => {
 
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
-          <p className="text-primary font-semibold dark:text-white">
+          <p className="text-primary font-semibold  dark:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -93,12 +87,12 @@ const HeaderLayout = ({ title, path }) => {
 
       <div>
         <div className="flex gap-x-4">
-          <div className="bg-white rounded-md dark:bg-dark-400">
+          <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-white rounded-md pl-2 cursor-pointer dark:bg-dark-400 profile-section"
+            className="flex flex-col justify-center items-center bg-cleanWhite rounded-md pl-2 cursor-pointer dark:bg-dark-400 profile-section"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >
@@ -138,7 +132,7 @@ const HeaderLayout = ({ title, path }) => {
               <div className="w-8 pr-2">
                 <Avatar
                   src={
-                    "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"
+                    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
                   }
                 />
               </div>
@@ -149,22 +143,21 @@ const HeaderLayout = ({ title, path }) => {
         {dropdownOpen && (
           <div
             ref={dropdownRef}
-            className="absolute right-8 mt-2 w-[280px] bg-white rounded-md shadow-lg z-50 dark:bg-dark-400"
+            className="absolute right-8 mt-2 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400"
           >
             <div className="flex flex-col p-4">
               <div className="flex">
                 <Avatar
-                  src={
-                    "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_640.png"
-                  }
+                  src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
+                  alt="user photo"
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-4 flex flex-col">
-                  <p className="font-semibold dark:text-white">
-                    {personalInfo.firstName}
-                  </p>
+                  <div className="font-semibold dark:text-white">
+                    {me.firstName}
+                  </div>
                   <p className="text-xs text-secondary dark:text-gray-400">
-                    {personalInfo.email}
+                    {me.email}
                   </p>
                 </div>
               </div>
@@ -196,7 +189,7 @@ const HeaderLayout = ({ title, path }) => {
                   </p>
                 </div>
               </NavLink>
-
+              {/* 
               <NavLink
                 to="/logout"
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline "
@@ -225,6 +218,7 @@ const HeaderLayout = ({ title, path }) => {
 
               <NavLink
                 to="/logout"
+                onClick={logout}
                 className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                 activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
               >
@@ -247,10 +241,10 @@ const HeaderLayout = ({ title, path }) => {
                     Security
                   </p>
                 </div>
-              </NavLink>
+              </NavLink> */}
 
-              <NavLink
-                className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
+              <div
+                className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline cursor-pointer"
                 // activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
                 onClick={() => setLogoutDialog(true)}
               >
@@ -268,43 +262,15 @@ const HeaderLayout = ({ title, path }) => {
                   </div>
                   <p
                     className={`
-                       text-black text-sm font-medium dark:text-white`}
+                       text-black text-sm font-medium  dark:text-white`}
                   >
                     Logout
                   </p>
                 </div>
-              </NavLink>
+              </div>
             </div>
           </div>
         )}
-        <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-          <div className="bg-white dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-            <div className="w-8">
-              <Logo />
-            </div>
-
-            <div className="flex-col justify-start items-start gap-1 flex">
-              <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
-                Log out of your account?
-              </div>
-            </div>
-            <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
-              <Button
-                className="dark:text-white"
-                onClick={() => setLogoutDialog(false)}
-              >
-                Keep Me Logged In
-              </Button>
-              <Button
-                variant="outline"
-                className="dark:text-white"
-                onClick={handleLogout}
-              >
-                {/* {mutation.isLoading ? "Logging out..." : "Logout"} */}Logout
-              </Button>
-            </div>
-          </div>
-        </Dialog>
       </div>
     </div>
   );

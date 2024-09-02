@@ -1,7 +1,16 @@
 const { useState, useRef, useEffect } = React;
 
-const Accordion = ({ children, className }) => {
+const Accordion = ({ children, className, isActive }) => {
   const [active, setActive] = useState(null);
+
+  useEffect(() => {
+    if (isActive) {
+      setActive(0);
+    } else {
+      setActive(null);
+    }
+  }, [isActive]);
+
   const handleToggle = (index) => {
     if (active === index) {
       setActive(null);
@@ -9,6 +18,7 @@ const Accordion = ({ children, className }) => {
       setActive(index);
     }
   };
+  
   return (
     <div
       className={twMerge(

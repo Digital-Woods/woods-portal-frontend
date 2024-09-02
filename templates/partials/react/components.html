@@ -1,4 +1,10 @@
+<!--
+  templateType: global_partial
+  label: Libraries
+-->
+
 <!-- Pages -->
+<script type="text/babel" src='{{get_asset_url("../../../js/env.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/MainLayout.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/HeaderLayout.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/PrivateRoute.js")}}'></script>
@@ -25,9 +31,6 @@
     src='{{get_asset_url("../../../js/pages/components/details/DetailsAssociations.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsTable.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsView.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/pages/DataInitializer.js")}}'></script>
-
-
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsGallery.js")}}'></script>
 
 <!-- UI -->
@@ -46,18 +49,27 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Pagination.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Accordion.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/DashboardTable.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/checkboxes/Client-checkbox.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/checkboxes/CustomCheckbox.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/SvgRenderer.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Dialog.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Tooltip.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Alert.js")}}'></script>
 
+<!--Profile-->
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/ChangePassword.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/ProfileUpdate.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/ProfileCard.js")}}'></script>
+
+
+
+
 
 <!-- Data -->
 <script type="text/babel" src='{{get_asset_url("../../../js/data/client/http-client.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/data/client/endpoints.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/data/client/index.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/data/client/token.utils.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/data/user.js")}}'></script>
 
 <!-- Store -->
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-name.js")}}'></script>
@@ -65,6 +77,9 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-collapsible.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-theme.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-me.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/state/use-logout-dialogstate.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/state/use-auth.js")}}'></script>
+
 
 
 <!-- Store -->

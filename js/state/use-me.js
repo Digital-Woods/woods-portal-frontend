@@ -8,5 +8,10 @@ const profileState = atom({
     email: "",
     hubId: "",
     templatename: "",
+    logo: "",
+    primaryColor: "",
+    secondaryColor: "",
+    hubspotDomain: "",
+    label: "",
   },
 });

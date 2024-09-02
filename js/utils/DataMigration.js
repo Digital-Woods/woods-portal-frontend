@@ -70,7 +70,8 @@ const keysToSkipList = (key) => {
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("hs") ||
-    key.includes("files")
+    key.includes("files") ||
+    key.includes("iframe")
   );
 };
 
@@ -82,7 +83,8 @@ const keysToSkipDetails = (key) => {
     key.includes("createdAt") ||
     key.includes("updatedAt") ||
     key.includes("files") ||
-    key.includes("image")
+    key.includes("image") ||
+    key.includes("iframe")
   );
 };
 
@@ -100,9 +102,10 @@ const keysToSkipAssociations = (key) => {
 };
 
 const checkEquipments = (value, title) => {
-  if(title == "Equipments" || title == "Equipment" || title == '/assets') return value.replace("Asset", "Equipment")
-  return value
-}
+  if (title == "Equipments" || title == "Equipment" || title == "/assets")
+    return value.replace("Asset", "Equipment");
+  return value;
+};
 
 const sortData = (item, viewType = "list", title = "") => {
   if (!item || !isObject(item)) return [];
@@ -140,9 +143,10 @@ const sortData = (item, viewType = "list", title = "") => {
     if (typeof value === "string" && isImage(value, key)) {
       imageFields.push({
         name: key,
-        label: checkEquipments(key
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()), title),
+        label: checkEquipments(
+          key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
+          title
+        ),
         value: value,
       });
     } else if (key.startsWith("hs_")) {
@@ -165,9 +169,12 @@ const sortData = (item, viewType = "list", title = "") => {
       if (value.key) {
         nameFields.push({
           name: key,
-          label: checkEquipments(value.key
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (char) => char.toUpperCase()), title),
+          label: checkEquipments(
+            value.key
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (char) => char.toUpperCase()),
+            title
+          ),
           value: value.value,
         });
       } else {
@@ -176,9 +183,10 @@ const sortData = (item, viewType = "list", title = "") => {
     } else {
       simpleFields.push({
         name: key,
-        label: checkEquipments(key
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()), title),
+        label: checkEquipments(
+          key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
+          title
+        ),
         value: value,
       });
     }
@@ -224,9 +232,10 @@ const renderCellContent = (value, itemId = null, path = null) => {
       );
 
     case isImage(value):
-      console.log("value", value)
-      let urlArray = value.split(',');
-      return <img src={urlArray[0]} alt={urlArray[0]} class="w-10 h-10 rounded" />;
+      let urlArray = value.split(",");
+      return (
+        <img src={urlArray[0]} alt={urlArray[0]} class="w-10 h-10 rounded" />
+      );
 
     case isDate(value):
       return formatDate(value);
@@ -244,3 +253,36 @@ const renderCellContent = (value, itemId = null, path = null) => {
     }
   }
 };
+
+function setColorsFromLocalStorage() {
+  const portalSettings = localStorage.getItem(env.AUTH_PORTAL_KEY);
+  let primaryColor = "#000000";
+  let secondaryColor = "#000000";
+
+  if (portalSettings) {
+    try {
+      const parsedSettings = JSON.parse(portalSettings);
+      if (parsedSettings.primaryColor) {
+        primaryColor = parsedSettings.primaryColor;
+      }
+      if (parsedSettings.secondaryColor) {
+        secondaryColor = parsedSettings.secondaryColor;
+      }
+    } catch (error) {
+      console.error("Error parsing portalSettings from localStorage:", error);
+    }
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const finalPrimaryColor = urlParams.get("primaryColor") || primaryColor;
+  const finalSecondaryColor = urlParams.get("secondaryColor") || secondaryColor;
+
+  document.documentElement.style.setProperty(
+    "--primary-color",
+    finalPrimaryColor
+  );
+  document.documentElement.style.setProperty(
+    "--secondary-color",
+    finalSecondaryColor
+  );
+}

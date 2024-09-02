@@ -1,7 +1,7 @@
 const { Switch, Route, Redirect } = ReactRouterDOM;
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
-  const token = localStorage.getItem("token");
+const PublicRoute = ({ component: Component, restricted = true, ...rest }) => {
+  const token = localStorage.getItem(env.AUTH_TOKEN_KEY);
 
   return (
     <Route

@@ -8,13 +8,31 @@ function withOpacity(variableName) {
   };
 }
 
-function getUrlParams() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return {
-    primaryColor: urlParams.get("primaryColor") || "#000000",
-    secondaryColor: urlParams.get("secondaryColor") || "#8D8D99",
-  };
-}
+// function getColorsFromLocalStorage() {
+//   const portalSettings = localStorage.getItem("portalSettings");
+//   let primaryColor = "#000000";
+//   let secondaryColor = "#8D8D99";
+
+//   if (portalSettings) {
+//     try {
+//       const parsedSettings = JSON.parse(portalSettings);
+//       if (parsedSettings.primaryColor) {
+//         primaryColor = parsedSettings.primaryColor;
+//       }
+//       if (parsedSettings.secondaryColor) {
+//         secondaryColor = parsedSettings.secondaryColor;
+//       }
+//     } catch (error) {
+//       console.error("Error parsing portalSettings from localStorage:", error);
+//     }
+//   }
+
+//   const urlParams = new URLSearchParams(window.location.search);
+//   return {
+//     primaryColor: urlParams.get("primaryColor") || primaryColor,
+//     secondaryColor: urlParams.get("secondaryColor") || secondaryColor,
+//   };
+// }
 
 tailwind.config = {
   content: [
@@ -32,21 +50,23 @@ tailwind.config = {
       xl: "1280px",
       "2xl": "1440px",
       "3xl": "1780px",
-      "4xl": "2160px", 
+      "4xl": "2160px",
     },
     extend: {
       backgroundImage: {
-        'custom-gradient': 'linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)',
-        
-        'custom-bg': "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-    
+        "custom-gradient":
+          "linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)",
+
+        "custom-bg":
+          "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
       },
-      
+
       colors: {
-        white: "#FFFFFF",
+        cleanWhite: "#FFFFFF",
+        white: "#FAF9F6",
         lightblue: "#005fad",
-        primary: getUrlParams().primaryColor,
-        secondary: getUrlParams().secondaryColor,
+        primary: "var(--primary-color)",
+        secondary: "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",
@@ -56,7 +76,7 @@ tailwind.config = {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
         },
-        
+
         light: {
           base: "#646464",
           100: "#f9f9f9",

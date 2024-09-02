@@ -1,17 +1,14 @@
 const Axios = axios.create({
-  baseURL: "https://digitalwoods.io.ngrok.dev/",
+  baseURL: env.API_BASE_URL,
   timeout: 150000000,
   headers: {
     "Content-Type": "application/json",
-    // "X-User-Email": "john.doe@example.com",
-    // "X-User-Roles": "ROLE_USER, ROLE_ADMIN",
-    "ngrok-skip-browser-warning": 1,
   },
 });
 
 Axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem(env.AUTH_TOKEN_KEY);
     if (token) {
       config.headers = {
         ...config.headers,
@@ -29,6 +26,14 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (
+      (error.response && error.response.status === 401) ||
+      (error.response && error.response.status === 403) ||
+      (error.response &&
+        error.response.data.message === "DIGITALWOODS_ERROR.NOT_AUTHORIZED")
+    ) {
+      useLogout();
+    }
     return Promise.reject(error);
   }
 );
