@@ -269,7 +269,7 @@ function setColorsFromLocalStorage() {
         secondaryColor = parsedSettings.secondaryColor;
       }
     } catch (error) {
-      console.error("Error parsing portalSettings from localStorage:", error);
+      // console.error("Error parsing portalSettings from localStorage:", error);
     }
   }
 

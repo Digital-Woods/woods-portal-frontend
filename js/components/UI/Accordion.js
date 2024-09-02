@@ -18,7 +18,7 @@ const Accordion = ({ children, className, isActive }) => {
       setActive(index);
     }
   };
-  
+
   return (
     <div
       className={twMerge(
