@@ -1,7 +1,7 @@
 const { Switch, Route, Redirect } = ReactRouterDOM;
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const token = localStorage.getItem(env.AUTH_TOKEN_KEY);
+  const token = getCookie(env.AUTH_TOKEN_KEY);
 
   return (
     <Route

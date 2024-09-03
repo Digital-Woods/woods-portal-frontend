@@ -3,7 +3,7 @@ const { RecoilRoot } = Recoil;
 const { QueryClientProvider, QueryClient } = ReactQuery;
 
 const isAuthenticated = () => {
-  return !!localStorage.getItem(env.AUTH_TOKEN_KEY);
+  return !!getCookie(env.AUTH_TOKEN_KEY);
 };
 
 const queryClient = new QueryClient({

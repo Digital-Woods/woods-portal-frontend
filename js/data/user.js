@@ -30,6 +30,29 @@ function useMe() {
   };
 }
 
+// function useLogout() {
+//   const setAuthorization = useSetRecoilState(authorizationAtom);
+//   const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
+
+//   const mutation = useMutation({
+//     mutationFn: Client.authentication.Logout,
+//     onSuccess: () => {
+//       localStorage.clear();
+//       setAuthorization(null);
+//       window.location.hash = "/login";
+//       setLogoutDialog(false);
+//     },
+//     onError: (err) => {
+//       console.error("Logout failed: ", err);
+//     },
+//   });
+
+//   return {
+//     logout: mutation.mutate,
+//     isLoading: mutation.isLoading,
+//     error: mutation.error,
+//   };
+
 function useLogout() {
   const setAuthorization = useSetRecoilState(authorizationAtom);
   const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
@@ -37,7 +60,7 @@ function useLogout() {
   const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
-      localStorage.clear();
+      removeCookie("testToken");
       setAuthorization(null);
       window.location.hash = "/login";
       setLogoutDialog(false);

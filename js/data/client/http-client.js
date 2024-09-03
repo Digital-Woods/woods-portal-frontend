@@ -6,13 +6,31 @@ const Axios = axios.create({
   },
 });
 
-axios.interceptors.request.use(
+// axios.interceptors.request.use(
+//   (config) => {
+//     console.log("Hellooo");
+//     const token = getCookie(env.AUTH_TOKEN_KEY);
+//     console.log(token, "token");
+
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
+Axios.interceptors.request.use(
   (config) => {
     const token = getCookie(env.AUTH_TOKEN_KEY);
-    console.log(token, "token");
-
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`,
+      };
     }
 
     return config;

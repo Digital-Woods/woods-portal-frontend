@@ -27,5 +27,5 @@ const getIsEmailVerify = () => {
   if (typeof window === "undefined") {
     return null;
   }
-  return localStorage.getItem('IS_EMAIL_VERIFY');
+  return localStorage.getItem("IS_EMAIL_VERIFY");
 };
