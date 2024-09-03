@@ -17,8 +17,8 @@ function useMe() {
   if (data) {
     response = data.data;
     const portalSettings = response.portalSettings;
-    localStorage.setItem(env.AUTH_PORTAL_KEY, JSON.stringify(portalSettings));
-    localStorage.setItem(env.AUTH_USER_KEY, JSON.stringify(response));
+    setCookie(env.AUTH_PORTAL_KEY, JSON.stringify(portalSettings), 7);
+    setCookie(env.AUTH_USER_KEY, JSON.stringify(response), 7);
   }
 
   return {

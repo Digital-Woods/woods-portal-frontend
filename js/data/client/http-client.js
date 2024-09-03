@@ -6,14 +6,13 @@ const Axios = axios.create({
   },
 });
 
-Axios.interceptors.request.use(
+axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(env.AUTH_TOKEN_KEY);
+    const token = getCookie(env.AUTH_TOKEN_KEY);
+    console.log(token, "token");
+
     if (token) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
