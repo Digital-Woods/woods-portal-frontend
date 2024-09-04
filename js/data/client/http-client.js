@@ -25,7 +25,7 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use(
   (config) => {
-    const token = getCookie(env.AUTH_TOKEN_KEY);
+    const token = getAuthToken();
     if (token) {
       config.headers = {
         ...config.headers,
