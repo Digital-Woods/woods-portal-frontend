@@ -32,7 +32,7 @@ function removeAuthToken() {
 }
 
 function setAuthToken(token) {
-  setCookie(env.AUTH_TOKEN_KEY, token, 7);
+  setCookie(env.AUTH_TOKEN_KEY, token, env.COOKIE_EXPIRE);
 }
 
 function isAuthenticated() {

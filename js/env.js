@@ -5,4 +5,5 @@ const env = {
   AUTH_TOKEN_KEY: "testToken",
   AUTH_USER_KEY: "testUser",
   AUTH_PORTAL_KEY: "portalSettings",
+  COOKIE_EXPIRE: 7,
 };

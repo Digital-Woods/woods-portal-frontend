@@ -17,8 +17,12 @@ function useMe() {
   if (data) {
     response = data.data;
     const portalSettings = response.portalSettings;
-    setCookie(env.AUTH_PORTAL_KEY, JSON.stringify(portalSettings), 7);
-    setCookie(env.AUTH_USER_KEY, JSON.stringify(response), 7);
+    setCookie(
+      env.AUTH_PORTAL_KEY,
+      JSON.stringify(portalSettings),
+      env.COOKIE_EXPIRE
+    );
+    setCookie(env.AUTH_USER_KEY, JSON.stringify(response), env.COOKIE_EXPIRE);
   }
 
   return {

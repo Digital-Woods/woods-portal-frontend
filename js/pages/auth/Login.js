@@ -10,7 +10,7 @@ const Login = () => {
 
   const { getMe, me } = useMe();
 
-  const setItemAsync = async (key, value, days = 7) => {
+  const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
     return new Promise((resolve) => {
       setCookie(key, value, days);
       resolve();
