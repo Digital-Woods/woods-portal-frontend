@@ -153,10 +153,10 @@ const HeaderLayout = ({ title, path }) => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-4 flex flex-col">
-                  <div className="font-semibold dark:text-white">
+                  <div className="font-semibold dark:text-white break-all">
                     {me.firstName}
                   </div>
-                  <p className="text-xs text-secondary dark:text-gray-400">
+                  <p className="text-xs text-secondary dark:text-gray-400 break-all">
                     {me.email}
                   </p>
                 </div>

@@ -10,10 +10,9 @@ const Login = () => {
 
   const { getMe, me } = useMe();
 
-  const setItemAsync = async (key, value) => {
+  const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
     return new Promise((resolve) => {
-      localStorage.setItem(key, value);
-      getMe();
+      setCookie(key, value, days);
       resolve();
     });
   };
@@ -36,7 +35,10 @@ const Login = () => {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
-      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
+      // await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
+      setItemAsync(env.AUTH_TOKEN_KEY, data.data.token).then(() => {
+        getMe();
+      });
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

@@ -267,6 +267,7 @@ const Drawer = ({ className }) => {
           </div>
         </div>
       </div>
+
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
         <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
           <div className="w-8">
