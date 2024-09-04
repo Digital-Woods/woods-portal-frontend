@@ -2,10 +2,6 @@ const { BrowserRouter, Route, Link, HashRouter, NavLink } = ReactRouterDOM;
 const { RecoilRoot } = Recoil;
 const { QueryClientProvider, QueryClient } = ReactQuery;
 
-const isAuthenticated = () => {
-  return !!getCookie(env.AUTH_TOKEN_KEY);
-};
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
