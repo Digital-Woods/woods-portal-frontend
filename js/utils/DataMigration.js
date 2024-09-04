@@ -210,7 +210,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
       return "-";
 
     case isObject(value) && value.type === "link": {
-      const label = value.label ? value.label : value.featureName;
+      const label = value.labels ? value.labels : value.featureName;
       return (
         <Link
           className="text-lightblue font-bold border-input rounded-md"

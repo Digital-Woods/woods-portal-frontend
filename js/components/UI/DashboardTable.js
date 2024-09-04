@@ -52,6 +52,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
     setFilterValue(queryParams.get("filterValue"));
   }, [location.search]);
 
+  // console.log(filterPropertyName, "filterPropertyNma");
+
   const { error, data, refetch } = useQuery({
     queryKey: [
       "TableData",
