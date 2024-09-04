@@ -31,12 +31,12 @@ const Login = () => {
       }
     },
     onSuccess: async (data) => {
-      if (!data.data.token) {
+      if (!data.data.tokenData.token) {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
       // await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
-      setItemAsync(env.AUTH_TOKEN_KEY, data.data.token).then(() => {
+      setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token).then(() => {
         getMe();
       });
       setAlert({ message: "Login successful", type: "success" });

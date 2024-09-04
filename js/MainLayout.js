@@ -53,18 +53,18 @@ const MainLayout = ({ children }) => {
         setIsLoading(false);
       } else {
         setShowPortalMessage(false);
-        if (me.navigations && me.navigations.length > 0) {
-          const apiRoutes = me.navigations.map((label) => ({
-            path: `/${label.name}`,
-            title: label.label,
-            icon: label.icon,
+        if (me.sideMenu && me.sideMenu.length > 0) {
+          const apiRoutes = me.sideMenu.map((menuItem) => ({
+            path: `/${menuItem.name}`,
+            title: menuItem.labels.plural,
+            icon: menuItem.icon,
             isRequiredAuth: true,
             isHeader: true,
             component: (
               <DynamicComponent
-                path={`/${label.name}`}
-                title={label.label}
-                icon={label.icon}
+                path={`/${menuItem.name}`}
+                title={menuItem.labels.plural}
+                icon={menuItem.icon}
               />
             ),
           }));
@@ -96,7 +96,7 @@ const MainLayout = ({ children }) => {
     return (
       <div className="text-center p-10 w-full h-screen text-3xl font-semibold bg-secondary text-white flex flex-col items-center justify-center">
         <h2>Please Select a HubSpot Portal</h2>
-        <p> Before Continuing.</p>
+        <p>Before Continuing.</p>
       </div>
     );
   }
@@ -131,7 +131,7 @@ const MainLayout = ({ children }) => {
                             <HeaderLayout
                               {...props}
                               path={path}
-                              title={`${title}s`}
+                              title={`${title}`}
                               icon={icon}
                             />
                           )}
@@ -149,7 +149,7 @@ const MainLayout = ({ children }) => {
                             <HeaderLayout
                               {...props}
                               path={path}
-                              title={`${title}s`}
+                              title={`${title}`}
                               icon={icon}
                             />
                           )}
@@ -209,13 +209,13 @@ const MainLayout = ({ children }) => {
                       <HeaderLayout
                         {...props}
                         path={path}
-                        title={`${title}s`}
+                        title={`${title}`}
                         icon={icon}
                       />
                       <DynamicComponent
                         {...props}
                         path={path}
-                        title={`${title}s`}
+                        title={`${title}`}
                         icon={icon}
                       />
                     </React.Fragment>

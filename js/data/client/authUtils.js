@@ -14,6 +14,14 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
+const removeAllCookies = () => {
+  const cookies = document.cookie.split("; ");
+  cookies.forEach((cookie) => {
+    const name = cookie.split("=")[0];
+    removeCookie(name);
+  });
+};
+
 function removeCookie(name) {
   setCookie(name, "", -1);
 }

@@ -216,7 +216,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
           className="text-lightblue font-bold border-input rounded-md"
           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
         >
-          {label.charAt(0).toUpperCase() + label.slice(1)}
+          {label.plural}
         </Link>
       );
     }
