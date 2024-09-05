@@ -26,6 +26,11 @@ const ChangePassword = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
+  // State variables to manage form input values
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const passwordValidationSchema = z
     .object({
       currentPassword: z
@@ -61,6 +66,10 @@ const ChangePassword = () => {
     onSuccess: (response) => {
       setAlertMessage(response.statusMsg || "Password updated successfully");
       setShowAlert(true);
+      // Clear input fields on success
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
     },
     onError: (error) => {
       let errorMessage = "Error updating password";
@@ -78,11 +87,11 @@ const ChangePassword = () => {
     },
   });
 
-  const handleSubmit = (data) => {
+  const handleSubmit = () => {
     const payload = {
-      currentPassword: String(data.currentPassword),
-      newPassword: String(data.newPassword),
-      confirmPassword: String(data.confirmPassword),
+      currentPassword: String(currentPassword),
+      newPassword: String(newPassword),
+      confirmPassword: String(confirmPassword),
     };
 
     changePassword(payload);
@@ -131,6 +140,8 @@ const ChangePassword = () => {
                       {...register("currentPassword")}
                       className="text-xs text-gray-500 ml-2"
                       icon={CurrentpassIcon}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                     {errors.currentPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
@@ -154,6 +165,8 @@ const ChangePassword = () => {
                       {...register("newPassword")}
                       className="text-xs text-gray-500 ml-2"
                       icon={ConfirmandCurrentPassIcon}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                     />
                     {errors.newPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
@@ -177,6 +190,8 @@ const ChangePassword = () => {
                       {...register("confirmPassword")}
                       className="text-xs text-gray-500 ml-2"
                       icon={ConfirmandCurrentPassIcon}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     {errors.confirmPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
