@@ -35,7 +35,7 @@ class Client {
       ...query
     }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.hubId}/${me.hubspotPortals.templateName}${path}`,
+        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
         {
           limit,
           sort,
@@ -48,7 +48,7 @@ class Client {
 
     byObjectId: ({ path, objectId, me }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.hubId}/${me.hubspotPortals.templateName}${path}/${objectId}`
+        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
       ),
   };
 

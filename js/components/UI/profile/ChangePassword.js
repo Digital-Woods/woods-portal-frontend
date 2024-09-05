@@ -23,6 +23,9 @@ const ConfirmandCurrentPassIcon = () => (
 );
 
 const ChangePassword = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
   const passwordValidationSchema = z
     .object({
       currentPassword: z
@@ -30,7 +33,14 @@ const ChangePassword = () => {
         .min(6, { message: "Current password is required" }),
       newPassword: z
         .string()
-        .min(6, { message: "It should be 6 characters long" }),
+        .min(6, { message: "It should be 6 characters long" })
+        .regex(/[A-Z]/, {
+          message: "Must contain at least one uppercase letter",
+        })
+        .regex(/\d/, { message: "Must contain at least one number" })
+        .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+          message: "Must contain at least one special character",
+        }),
       confirmPassword: z
         .string()
         .min(6, { message: "Please confirm your new password" }),
@@ -48,11 +58,23 @@ const ChangePassword = () => {
     error,
   } = useMutation({
     mutationFn: (data) => Client.authentication.changePassword(data),
-    onSuccess: () => {
-      console.log("Password changed successfully");
+    onSuccess: (response) => {
+      setAlertMessage(response.statusMsg || "Password updated successfully");
+      setShowAlert(true);
     },
     onError: (error) => {
-      console.error("Error changing password:", error);
+      let errorMessage = "Error updating password";
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.errorMessage
+      ) {
+        errorMessage = error.response.data.errorMessage;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      setAlertMessage(errorMessage);
+      setShowAlert(true);
     },
   });
 
@@ -67,105 +89,107 @@ const ChangePassword = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
-      {({ register, formState: { errors } }) => (
-        <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
-          <div className="flex justify-between">
-            <h1 className="text-xl font-semibold pb-4">Password Information</h1>
-
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-secondary dark:text-white"
-              disabled={isLoading}
-            >
-              {isLoading ? "Saving..." : "Save"}
-            </Button>
-          </div>
-
-          <div>
-            <FormItem className="!mb-0 py-2 flex items-center">
-              <FormLabel className="text-xs font-semibold w-[200px]">
-                Current Password
-              </FormLabel>
-
-              <FormControl className="flex flex-col items-center">
-                <div>
-                  <Input
-                    type="password"
-                    placeholder="Current Password"
-                    {...register("currentPassword")}
-                    className="text-xs text-gray-500 ml-2"
-                    icon={CurrentpassIcon}
-                  />
-                  {errors.currentPassword && (
-                    <div className="text-red-600 text-[12px] px-2 mt-1">
-                      {errors.currentPassword.message}
-                    </div>
-                  )}
-                </div>
-              </FormControl>
-            </FormItem>
-
-            <FormItem className="!mb-0 py-2 flex items-center">
-              <FormLabel className="text-xs font-semibold w-[200px]">
-                New Password
-              </FormLabel>
-
-              <FormControl className="flex flex-col items-center">
-                <div>
-                  <Input
-                    type="password"
-                    placeholder="New password"
-                    {...register("newPassword")}
-                    className="text-xs text-gray-500 ml-2"
-                    icon={ConfirmandCurrentPassIcon}
-                  />
-                  {errors.newPassword && (
-                    <div className="text-red-600 text-[12px] px-2 mt-1">
-                      {errors.newPassword.message}
-                    </div>
-                  )}
-                </div>
-              </FormControl>
-            </FormItem>
-
-            <FormItem className="!mb-0 py-2 flex items-center">
-              <FormLabel className="text-xs font-semibold w-[200px]">
-                Confirm New Password
-              </FormLabel>
-
-              <FormControl className="flex flex-col items-center">
-                <div>
-                  <Input
-                    type="password"
-                    placeholder="Confirm new password"
-                    {...register("confirmPassword")}
-                    className="text-xs text-gray-500 ml-2"
-                    icon={ConfirmandCurrentPassIcon}
-                  />
-                  {errors.confirmPassword && (
-                    <div className="text-red-600 text-[12px] px-2 mt-1">
-                      {errors.confirmPassword.message}
-                    </div>
-                  )}
-                </div>
-              </FormControl>
-            </FormItem>
-          </div>
-
-          {isError && (
-            <div className="text-red-600 text-sm mt-2">
-              An error occurred: {error.message}
-            </div>
-          )}
-          {isSuccess && (
-            <div className="text-green-600 text-sm mt-2">
-              Password changed successfully!
-            </div>
-          )}
-        </div>
+    <div>
+      {showAlert && (
+        <Alert
+          duration={1000}
+          message={alertMessage}
+          type={isSuccess ? "success" : "error"}
+          onClose={() => setShowAlert(false)}
+        />
       )}
-    </Form>
+
+      <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
+        {({ register, formState: { errors } }) => (
+          <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
+            <div className="flex justify-between">
+              <h1 className="text-xl font-semibold pb-4">
+                Password Information
+              </h1>
+
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-secondary dark:text-white"
+                disabled={isLoading}
+              >
+                {isLoading ? "Saving..." : "Save"}
+              </Button>
+            </div>
+
+            <div>
+              <FormItem className="!mb-0 py-2 flex items-center">
+                <FormLabel className="text-xs font-semibold w-[200px]">
+                  Current Password
+                </FormLabel>
+
+                <FormControl className="flex flex-col items-center">
+                  <div>
+                    <Input
+                      type="password"
+                      placeholder="Current Password"
+                      {...register("currentPassword")}
+                      className="text-xs text-gray-500 ml-2"
+                      icon={CurrentpassIcon}
+                    />
+                    {errors.currentPassword && (
+                      <div className="text-red-600 text-[12px] px-2 mt-1">
+                        {errors.currentPassword.message}
+                      </div>
+                    )}
+                  </div>
+                </FormControl>
+              </FormItem>
+
+              <FormItem className="!mb-0 py-2 flex items-center">
+                <FormLabel className="text-xs font-semibold w-[200px]">
+                  New Password
+                </FormLabel>
+
+                <FormControl className="flex flex-col items-center">
+                  <div>
+                    <Input
+                      type="password"
+                      placeholder="New password"
+                      {...register("newPassword")}
+                      className="text-xs text-gray-500 ml-2"
+                      icon={ConfirmandCurrentPassIcon}
+                    />
+                    {errors.newPassword && (
+                      <div className="text-red-600 text-[12px] px-2 mt-1">
+                        {errors.newPassword.message}
+                      </div>
+                    )}
+                  </div>
+                </FormControl>
+              </FormItem>
+
+              <FormItem className="!mb-0 py-2 flex items-center">
+                <FormLabel className="text-xs font-semibold w-[200px]">
+                  Confirm New Password
+                </FormLabel>
+
+                <FormControl className="flex flex-col items-center">
+                  <div>
+                    <Input
+                      type="password"
+                      placeholder="Confirm new password"
+                      {...register("confirmPassword")}
+                      className="text-xs text-gray-500 ml-2"
+                      icon={ConfirmandCurrentPassIcon}
+                    />
+                    {errors.confirmPassword && (
+                      <div className="text-red-600 text-[12px] px-2 mt-1">
+                        {errors.confirmPassword.message}
+                      </div>
+                    )}
+                  </div>
+                </FormControl>
+              </FormItem>
+            </div>
+          </div>
+        )}
+      </Form>
+    </div>
   );
 };
