@@ -135,13 +135,13 @@ const Login = () => {
                   )}
                 </FormItem>
 
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
+                <div className="flex justify-end items-center">
+                  {/* <div className="flex items-center">
                     <Input type="checkbox" icon="none" className="mr-1 ml-2" />
                     <p className="text-xs text-gray-800 dark:text-gray-300">
                       Keep me signed in
                     </p>
-                  </div>
+                  </div> */}
 
                   <div>
                     <NavLink to="/forget-password">
