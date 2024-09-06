@@ -255,7 +255,7 @@ const Drawer = ({ className }) => {
                       <p
                         className={`${
                           sidebarCollapsed ? "hidden" : ""
-                        } text-black dark:text-white text-sm font-medium text-white`}
+                        } text-cleanWhite dark:text-white text-sm font-medium `}
                       >
                         Logout
                       </p>

@@ -22,3 +22,8 @@ function useAuth() {
     },
   };
 }
+
+const userDetailsAtom = atom({
+  key: "userDetailsAtom",
+  default: null,
+});

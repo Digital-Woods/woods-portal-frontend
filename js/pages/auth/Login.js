@@ -1,3 +1,5 @@
+const { useSetRecoilState } = Recoil;
+
 const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
@@ -9,6 +11,7 @@ const Login = () => {
   });
 
   const { getMe, me } = useMe();
+  const setUserDetails = useSetRecoilState(userDetailsAtom);
 
   const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
     return new Promise((resolve) => {
@@ -39,6 +42,8 @@ const Login = () => {
       setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token).then(() => {
         getMe();
       });
+
+      setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },

@@ -61,6 +61,7 @@ const ProfileUpdate = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const { me, getMe } = useMe();
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
 
   const validationSchema = z.object({
     firstName: z.string().min(2, {
@@ -132,7 +133,7 @@ const ProfileUpdate = () => {
                   <FormControl className="flex flex-col items-center">
                     <Input
                       type="text"
-                      defaultValue={me.firstName || ""}
+                      defaultValue={getFirstName()}
                       placeholder="First Name"
                       {...register("firstName")}
                       className="text-xs text-gray-500 ml-2"
@@ -145,7 +146,7 @@ const ProfileUpdate = () => {
                   </FormControl>
                 ) : (
                   <div className="text-xs text-gray-500">
-                    {me.firstName || "N/A"}
+                    {getFirstName() || "N/A"}
                   </div>
                 )}
               </FormItem>
@@ -158,7 +159,7 @@ const ProfileUpdate = () => {
                   <FormControl className="flex flex-col items-center">
                     <Input
                       type="text"
-                      defaultValue={me.lastName || ""}
+                      defaultValue={getLastName()}
                       placeholder="Last Name"
                       {...register("lastName")}
                       className="text-xs text-gray-500 ml-2"
@@ -171,7 +172,7 @@ const ProfileUpdate = () => {
                   </FormControl>
                 ) : (
                   <div className="text-xs text-gray-500">
-                    {me.lastName || "N/A"}
+                    {getLastName() || "N/A"}
                   </div>
                 )}
               </FormItem>

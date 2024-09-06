@@ -6,7 +6,7 @@ const MainLayout = ({ children }) => {
   const { Switch, Route, Redirect } = ReactRouterDOM;
   const { me } = useMe();
   const [showPortalMessage, setShowPortalMessage] = useState(false);
-
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
   const [isLoading, setIsLoading] = useState(true);
 
   const defaultRoutes = [
@@ -45,16 +45,18 @@ const MainLayout = ({ children }) => {
   ];
 
   useEffect(() => {
-    console.log("Effect running", me);
+    console.log("Effect running", loggedInDetails, me);
 
-    if (me) {
-      if (me.hubspotPortals === null) {
+    const userDetails = loggedInDetails || me;
+
+    if (userDetails) {
+      if (userDetails.hubspotPortals === null) {
         setShowPortalMessage(true);
         setIsLoading(false);
       } else {
         setShowPortalMessage(false);
-        if (me.sideMenu && me.sideMenu.length > 0) {
-          const apiRoutes = me.sideMenu.map((menuItem) => ({
+        if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
+          const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
             path: `/${menuItem.name}`,
             title: menuItem.labels.plural,
             icon: menuItem.icon,
@@ -89,8 +91,19 @@ const MainLayout = ({ children }) => {
         }
         setIsLoading(false);
       }
+    } else {
+      setShowPortalMessage(true);
+      setIsLoading(false);
     }
-  }, [me, setRoutes]);
+  }, [loggedInDetails, me, setRoutes]);
+
+  if (isLoading) {
+    return (
+      <div className="text-center p-10 w-full h-screen flex items-center justify-center">
+        <div className="loader">Loading...</div>
+      </div>
+    );
+  }
 
   if (showPortalMessage) {
     return (
