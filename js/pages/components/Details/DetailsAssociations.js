@@ -1,4 +1,5 @@
 const DetailsAssociations = ({ association, isActive }) => {
+  useEffect(() => console.log(association));
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -15,7 +16,7 @@ const DetailsAssociations = ({ association, isActive }) => {
             </svg>
           </span>
           <span>
-            {association.label}
+            {association.labels.plural}
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
               {association.count}
             </span>
@@ -27,7 +28,7 @@ const DetailsAssociations = ({ association, isActive }) => {
         <div className="flex flex-col py-2">
           {association.count === 0 ? (
             <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
-              See the {association.label} associated with this record.
+              See the {association.labels.plural} associated with this record.
             </div>
           ) : (
             association.list &&
