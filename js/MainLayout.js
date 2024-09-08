@@ -203,7 +203,7 @@ const MainLayout = ({ children }) => {
                       <HeaderLayout
                         {...props}
                         path={path}
-                        title={`${title}s`}
+                        title={`${title}`}
                         icon={icon}
                       />
                       <Details path={path} id={props.match.params.id} />
