@@ -44,16 +44,10 @@ const Drawer = ({ className }) => {
     }
   }, [routes]);
 
-  useEffect(() => {
-    console.log(`Active Route: ${activeRoute}`);
-  }, [activeRoute]);
-
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
   };
-
-  console.log(routes);
 
   const mutation = useMutation({
     mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),

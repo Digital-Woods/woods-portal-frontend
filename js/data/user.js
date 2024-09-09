@@ -1,6 +1,4 @@
 function useMe() {
-  // console.log('isLivePreview_meeeeeeeeeeeee', isLivePreview())
-
   if (isLivePreview()) {
     return {
       me: fakeTableData,

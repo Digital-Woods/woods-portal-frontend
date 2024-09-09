@@ -35,14 +35,12 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
   const [sortConfig, setSortConfig] = useState("createdAt");
-  // const [isLoading, setIsLoading] = useState(true);
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
-  // const { me } = useMe();
+  const { me } = useMe();
 
   useEffect(() => {
-    // const queryParams = new URLSearchParams(location.search);
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
     const queryParams = new URLSearchParams(hash.substring(queryIndex)); // Parse the query string
@@ -52,11 +50,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
     setFilterValue(queryParams.get("filterValue"));
   }, [location.search]);
 
-  // console.log(filterPropertyName, "filterPropertyNma");
-
   const mapResponseData = (data) => {
     const results = data.data.results || [];
-    console.log('results', sortData(results[0], "list", title))
     setTableData(results);
     setTotalItems(data.data.total || 0);
     setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
@@ -68,7 +63,6 @@ const DashboardTable = ({ path, inputValue, title }) => {
     }
   };
 
-  // const { error, data, refetch } = useQuery({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
@@ -99,10 +93,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
       if (data.statusCode === "200") {
         mapResponseData(data);
       }
-      // setIsLoading(false);
     },
     onError: () => {
-      // setIsLoading(false);
       setTableData([]);
     },
   });
@@ -115,27 +107,23 @@ const DashboardTable = ({ path, inputValue, title }) => {
       newSortConfig = column;
     }
     setSortConfig(newSortConfig);
-    // setIsLoading(true);
     getData();
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     setAfter((page - 1) * itemsPerPage);
-    // setIsLoading(true);
     getData();
   };
 
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
-    // setIsLoading(true);
-    getData();
+    if (!isLivePreview()) getData();
   }, [inputValue]);
 
   useEffect(() => {
     if (isLivePreview()) {
-      console.log('fakeTableData', fakeTableData)
       mapResponseData(fakeTableData);
     } else {
       getData();
@@ -145,7 +133,6 @@ const DashboardTable = ({ path, inputValue, title }) => {
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
-      {console.log('tableData', tableData)}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <p className="text-secondary text-2xl dark:text-gray-300">
