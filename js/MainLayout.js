@@ -47,55 +47,53 @@ const MainLayout = ({ children }) => {
   useEffect(() => {
     let userDetails = null;
 
+    console.log(loggedInDetails, me);
+
     if (isLivePreview()) {
       userDetails = fakeUserDetails;
     } else {
       userDetails = loggedInDetails || me;
     }
 
-    if (userDetails) {
-      if (userDetails.hubspotPortals === null) {
-        setShowPortalMessage(true);
-        setIsLoading(false);
-      } else {
-        setShowPortalMessage(false);
-        if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
-          const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
-            path: `/${menuItem.name}`,
-            title: menuItem.labels.plural,
-            icon: menuItem.icon,
-            isRequiredAuth: true,
-            isHeader: true,
-            component: (
-              <DynamicComponent
-                path={`/${menuItem.name}`}
-                title={menuItem.labels.plural}
-                icon={menuItem.icon}
-              />
-            ),
-          }));
+    console.log("userDetails", userDetails);
 
-          setRoutes(apiRoutes);
-        } else {
-          setRoutes([
-            {
-              path: "/no-routes",
-              title: "No Routes Found",
-              icon: "🚫",
-              isRequiredAuth: false,
-              isHeader: false,
-              component: (
-                <div className="text-center p-10">
-                  <h2>No Navigation Available</h2>
-                  <p>Please check back later.</p>
-                </div>
-              ),
-            },
-          ]);
-        }
-        setIsLoading(false);
+    if (userDetails && userDetails.hubspotPortals) {
+      if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
+        const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
+          path: `/${menuItem.name}`,
+          title: menuItem.labels.plural,
+          icon: menuItem.icon,
+          isRequiredAuth: true,
+          isHeader: true,
+          component: (
+            <DynamicComponent
+              path={`/${menuItem.name}`}
+              title={menuItem.labels.plural}
+              icon={menuItem.icon}
+            />
+          ),
+        }));
+
+        setRoutes(apiRoutes);
+      } else {
+        setRoutes([
+          {
+            path: "/no-routes",
+            title: "No Routes Found",
+            icon: "🚫",
+            isRequiredAuth: false,
+            isHeader: false,
+            component: (
+              <div className="text-center p-10">
+                <h2>No Navigation Available</h2>
+                <p>Please check back later.</p>
+              </div>
+            ),
+          },
+        ]);
       }
-    } else {
+      setIsLoading(false);
+    } else if (userDetails && !userDetails.hubspotPortals) {
       setShowPortalMessage(true);
       setIsLoading(false);
     }
