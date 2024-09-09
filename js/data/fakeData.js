@@ -8,8 +8,8 @@ const fakeUserDetails = {
   hubspotPortals: {
     hubId: 1,
     subscriptionLevel: 1,
-    hubspotDomain: "test.com",
-    hubspotSelectedDomain: "test.com",
+    hubspotDomain: "",
+    hubspotSelectedDomain: "",
     portalSettings: {
       theme: "light",
       logo: "",
