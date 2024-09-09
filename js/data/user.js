@@ -1,37 +1,49 @@
 function useMe() {
-  const { isAuthorized } = useAuth();
-  let response = null;
+  // console.log('isLivePreview_meeeeeeeeeeeee', isLivePreview())
 
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["me_data"],
-    queryFn: Client.users.me,
-    staleTime: 10000,
-    // queryFn: async () => Client.users.me,
-    // enabled: isAuthorized
-  });
+  if (isLivePreview()) {
+    return {
+      me: fakeTableData,
+      isLoading: false,
+      error: null,
+      isAuthorized: null,
+      getMe: null,
+    };
+  } else {
+    const { isAuthorized } = useAuth();
+    let response = null;
 
-  const getMe = () => {
-    refetch();
-  };
+    const { data, isLoading, error, refetch } = useQuery({
+      queryKey: ["me_data"],
+      queryFn: Client.users.me,
+      staleTime: 10000,
+      // queryFn: async () => Client.users.me,
+      // enabled: isAuthorized
+    });
 
-  if (data) {
-    response = data.data;
-    const portalSettings = response.portalSettings;
-    setCookie(
-      env.AUTH_PORTAL_KEY,
-      JSON.stringify(portalSettings),
-      env.COOKIE_EXPIRE
-    );
-    setCookie(env.AUTH_USER_KEY, JSON.stringify(response), env.COOKIE_EXPIRE);
+    const getMe = () => {
+      refetch();
+    };
+
+    if (data) {
+      response = data.data;
+      const portalSettings = response.portalSettings;
+      setCookie(
+        env.AUTH_PORTAL_KEY,
+        JSON.stringify(portalSettings),
+        env.COOKIE_EXPIRE
+      );
+      setCookie(env.AUTH_USER_KEY, JSON.stringify(response), env.COOKIE_EXPIRE);
+    }
+
+    return {
+      me: response,
+      isLoading,
+      error,
+      isAuthorized,
+      getMe,
+    };
   }
-
-  return {
-    me: response,
-    isLoading,
-    error,
-    isAuthorized,
-    getMe,
-  };
 }
 
 // function useLogout() {
