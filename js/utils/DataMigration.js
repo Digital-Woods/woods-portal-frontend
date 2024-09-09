@@ -107,6 +107,14 @@ const checkEquipments = (value, title) => {
   return value;
 };
 
+const checkEquipmentsName = (value, title) => {
+  if (title == "Equipment")
+    if(value == "Asset Name") return value.replace("Asset Name", "Equipment Name");
+    if(value == "Asset Type") return value.replace("Asset Type", "Equipment Type");
+  return value;
+};
+
+
 const sortData = (item, viewType = "list", title = "") => {
   if (!item || !isObject(item)) return [];
 

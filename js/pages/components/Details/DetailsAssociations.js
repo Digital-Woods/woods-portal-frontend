@@ -1,5 +1,4 @@
 const DetailsAssociations = ({ association, isActive }) => {
-  useEffect(() => console.log(association));
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -43,7 +42,7 @@ const DetailsAssociations = ({ association, isActive }) => {
                       (row) => (
                         <div key={row.name} className="py-2 flex">
                           <div className="text-xs font-semibold w-[100px]">
-                            {row.label}:
+                            {checkEquipmentsName(row.label, association.labels.plural)}:
                           </div>
                           <div className="text-xs text-gray-500 flex-1">
                             {renderCellContent(
