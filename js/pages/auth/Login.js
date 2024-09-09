@@ -5,8 +5,8 @@ const Login = () => {
   const [alert, setAlert] = useState(null);
   const loginUserValidationSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(4, {
-      message: "Password must be at least 4 characters.",
+    password: z.string().nonempty({
+      message: "Password is required.",
     }),
   });
 

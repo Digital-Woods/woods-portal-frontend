@@ -84,9 +84,15 @@ const Details = ({ path, id }) => {
           <div className="w-[350px]">
             <div className="max-h-[calc(100vh_-120px)] scrollbox pr-2 fixed w-[350px]">
               {associations &&
-                Object.entries(associations).map(([key, association], index) => (
-                  <DetailsAssociations key={key} association={association} isActive={index == 0 ? true : false} />
-                ))}
+                Object.entries(associations).map(
+                  ([key, association], index) => (
+                    <DetailsAssociations
+                      key={key}
+                      association={association}
+                      isActive={index == 0 ? true : false}
+                    />
+                  )
+                )}
             </div>
           </div>
 
