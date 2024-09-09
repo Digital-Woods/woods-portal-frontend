@@ -18,8 +18,32 @@ const HeaderLayout = ({ title, path }) => {
   const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
-  const { me } = useMe();
-  const { logout, isLoading, error } = useLogout();
+
+  const { me, getMe } = useMe();
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
+
+  const firstName = getFirstName(loggedInDetails, me);
+  const email = getEmail(loggedInDetails, me);
+
+  function getFirstName(loggedInDetails, me) {
+    if (loggedInDetails && loggedInDetails.firstName) {
+      return loggedInDetails.firstName;
+    } else if (me && me.firstName) {
+      return me.firstName;
+    } else {
+      return "";
+    }
+  }
+
+  function getEmail(loggedInDetails, me) {
+    if (loggedInDetails && loggedInDetails.email) {
+      return loggedInDetails.email;
+    } else if (me && me.email) {
+      return me.email;
+    } else {
+      return "";
+    }
+  }
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -154,10 +178,10 @@ const HeaderLayout = ({ title, path }) => {
                 />
                 <div className="ml-4 flex flex-col">
                   <div className="font-semibold dark:text-white break-all">
-                    {me.firstName}
+                    {firstName}
                   </div>
                   <p className="text-xs text-secondary dark:text-gray-400 break-all">
-                    {me.email}
+                    {email}
                   </p>
                 </div>
               </div>

@@ -27,11 +27,7 @@ const Logo = ({ className }) => {
 
   return (
     <div>
-      <img
-        src={logoToDisplay}
-        alt="Logo"
-        className={`h-auto ${className} rounded-md`}
-      />
+      <img src={logoToDisplay} alt="Logo" className={`h-auto ${className}`} />
     </div>
   );
 };

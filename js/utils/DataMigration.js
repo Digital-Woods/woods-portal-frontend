@@ -210,13 +210,13 @@ const renderCellContent = (value, itemId = null, path = null) => {
       return "-";
 
     case isObject(value) && value.type === "link": {
-      const label = value.label ? value.label : value.featureName;
+      const label = value.labels ? value.labels : value.featureName;
       return (
         <Link
           className="text-lightblue font-bold border-input rounded-md"
           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
         >
-          {label.charAt(0).toUpperCase() + label.slice(1)}
+          {label.plural}
         </Link>
       );
     }
@@ -308,3 +308,29 @@ function setColorsFromLocalStorage() {
 // function removeCookie(name) {
 //   setCookie(name, "", -1);
 // }
+
+function getFirstName() {
+  const { me, getMe } = useMe();
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
+
+  if (loggedInDetails && loggedInDetails.firstName) {
+    return loggedInDetails.firstName;
+  } else if (me && me.firstName) {
+    return me.firstName;
+  } else {
+    return "";
+  }
+}
+
+function getLastName() {
+  const { me, getMe } = useMe();
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
+
+  if (loggedInDetails && loggedInDetails.lastName) {
+    return loggedInDetails.lastName;
+  } else if (me && me.lastName) {
+    return me.lastName;
+  } else {
+    return "";
+  }
+}

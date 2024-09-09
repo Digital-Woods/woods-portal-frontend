@@ -2,7 +2,7 @@ class Client {
   static authentication = {
     login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
-    Logout: () => HttpClient.get(API_ENDPOINTS.USER_LOGOUT),
+    Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT),
     changePassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USERS_CHANGE_PASSWORD, data),
   };
@@ -35,7 +35,7 @@ class Client {
       ...query
     }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.hubId}/${me.hubspotPortals.templates[0].name}${path}`,
+        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
         {
           limit,
           sort,
@@ -48,7 +48,7 @@ class Client {
 
     byObjectId: ({ path, objectId, me }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.hubId}/${me.hubspotPortals.templates[0].name}${path}/${objectId}`
+        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
       ),
   };
 

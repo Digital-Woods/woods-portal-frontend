@@ -1,5 +1,26 @@
+const { useRecoilValue } = Recoil;
+
 const ProfileCard = () => {
   const { me } = useMe();
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
+
+  let email = "no-email@example.com";
+  let brandName = "Digitalwoods";
+
+  if (loggedInDetails && loggedInDetails.email) {
+    email = loggedInDetails.email;
+  } else if (me && me.email) {
+    email = me.email;
+  }
+
+  if (
+    me &&
+    me.hubspotPortals &&
+    me.hubspotPortals.portalSettings &&
+    me.hubspotPortals.portalSettings.brandName
+  ) {
+    brandName = me.hubspotPortals.portalSettings.brandName;
+  }
 
   return (
     <div className="flex justify-between dark:bg-dark-300 p-5 bg-cleanWhite rounded-md mt-8">
@@ -13,18 +34,14 @@ const ProfileCard = () => {
         </div>
 
         <div className="flex flex-col justify-center space-y-1">
-          <h1 className="text-2xl font-semibold dark:text-white">{`${me.firstName} ${me.lastName}`}</h1>
+          <h1 className="text-2xl font-semibold dark:text-white">{`${
+            getFirstName() || "N/A"
+          } ${getLastName() || "N/A"}`}</h1>
           <p className="text-secondary dark:text-white font-medium text-sm">
-            User ,{" "}
-            {me &&
-            me.hubspotPortals &&
-            me.hubspotPortals.portalSettings &&
-            me.hubspotPortals.portalSettings.brandName
-              ? me.hubspotPortals.portalSettings.brandName
-              : "Digitalwoods"}
+            User, {brandName}
           </p>
           <p className="text-xs font-normal dark:text-white text-secondary">
-            {me.email}
+            {email}
           </p>
         </div>
       </div>

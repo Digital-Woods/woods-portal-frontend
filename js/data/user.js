@@ -64,7 +64,7 @@ function useLogout() {
   const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
-      removeCookie(env.AUTH_TOKEN_KEY);
+      removeAllCookies();
       setAuthorization(null);
       window.location.hash = "/login";
       setLogoutDialog(false);

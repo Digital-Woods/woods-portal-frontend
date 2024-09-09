@@ -6,7 +6,7 @@ const MainLayout = ({ children }) => {
   const { Switch, Route, Redirect } = ReactRouterDOM;
   const { me } = useMe();
   const [showPortalMessage, setShowPortalMessage] = useState(false);
-
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
   const [isLoading, setIsLoading] = useState(true);
 
   const defaultRoutes = [
@@ -45,26 +45,28 @@ const MainLayout = ({ children }) => {
   ];
 
   useEffect(() => {
-    console.log("Effect running", me);
+    console.log("Effect running", loggedInDetails, me);
 
-    if (me) {
-      if (me.hubspotPortals === null) {
+    const userDetails = loggedInDetails || me;
+
+    if (userDetails) {
+      if (userDetails.hubspotPortals === null) {
         setShowPortalMessage(true);
         setIsLoading(false);
       } else {
         setShowPortalMessage(false);
-        if (me.navigations && me.navigations.length > 0) {
-          const apiRoutes = me.navigations.map((label) => ({
-            path: `/${label.name}`,
-            title: label.label,
-            icon: label.icon,
+        if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
+          const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
+            path: `/${menuItem.name}`,
+            title: menuItem.labels.plural,
+            icon: menuItem.icon,
             isRequiredAuth: true,
             isHeader: true,
             component: (
               <DynamicComponent
-                path={`/${label.name}`}
-                title={label.label}
-                icon={label.icon}
+                path={`/${menuItem.name}`}
+                title={menuItem.labels.plural}
+                icon={menuItem.icon}
               />
             ),
           }));
@@ -89,14 +91,25 @@ const MainLayout = ({ children }) => {
         }
         setIsLoading(false);
       }
+    } else {
+      setShowPortalMessage(true);
+      setIsLoading(false);
     }
-  }, [me, setRoutes]);
+  }, [loggedInDetails, me, setRoutes]);
+
+  if (isLoading) {
+    return (
+      <div className="text-center p-10 w-full h-screen flex items-center justify-center">
+        <div className="loader">Loading...</div>
+      </div>
+    );
+  }
 
   if (showPortalMessage) {
     return (
       <div className="text-center p-10 w-full h-screen text-3xl font-semibold bg-secondary text-white flex flex-col items-center justify-center">
         <h2>Please Select a HubSpot Portal</h2>
-        <p> Before Continuing.</p>
+        <p>Before Continuing.</p>
       </div>
     );
   }
@@ -131,7 +144,7 @@ const MainLayout = ({ children }) => {
                             <HeaderLayout
                               {...props}
                               path={path}
-                              title={`${title}s`}
+                              title={`${title}`}
                               icon={icon}
                             />
                           )}
@@ -149,7 +162,7 @@ const MainLayout = ({ children }) => {
                             <HeaderLayout
                               {...props}
                               path={path}
-                              title={`${title}s`}
+                              title={`${title}`}
                               icon={icon}
                             />
                           )}
@@ -190,7 +203,7 @@ const MainLayout = ({ children }) => {
                       <HeaderLayout
                         {...props}
                         path={path}
-                        title={`${title}s`}
+                        title={`${title}`}
                         icon={icon}
                       />
                       <Details path={path} id={props.match.params.id} />
@@ -209,13 +222,13 @@ const MainLayout = ({ children }) => {
                       <HeaderLayout
                         {...props}
                         path={path}
-                        title={`${title}s`}
+                        title={`${title}`}
                         icon={icon}
                       />
                       <DynamicComponent
                         {...props}
                         path={path}
-                        title={`${title}s`}
+                        title={`${title}`}
                         icon={icon}
                       />
                     </React.Fragment>

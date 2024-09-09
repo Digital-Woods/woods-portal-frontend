@@ -178,7 +178,7 @@ const Drawer = ({ className }) => {
                                 : "opacity-100"
                             } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
                           >
-                            {`${title}s`}
+                            {`${title}`}
                           </p>
                         </div>
                       </NavLink>
@@ -255,7 +255,7 @@ const Drawer = ({ className }) => {
                       <p
                         className={`${
                           sidebarCollapsed ? "hidden" : ""
-                        } text-black dark:text-white text-sm font-medium text-white`}
+                        } text-cleanWhite dark:text-white text-sm font-medium `}
                       >
                         Logout
                       </p>

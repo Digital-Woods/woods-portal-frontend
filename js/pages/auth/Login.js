@@ -1,3 +1,5 @@
+const { useSetRecoilState } = Recoil;
+
 const Login = () => {
   let [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
@@ -9,6 +11,7 @@ const Login = () => {
   });
 
   const { getMe, me } = useMe();
+  const setUserDetails = useSetRecoilState(userDetailsAtom);
 
   const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
     return new Promise((resolve) => {
@@ -31,14 +34,16 @@ const Login = () => {
       }
     },
     onSuccess: async (data) => {
-      if (!data.data.token) {
+      if (!data.data.tokenData.token) {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
       // await setItemAsync(env.AUTH_TOKEN_KEY, data.data.token);
-      setItemAsync(env.AUTH_TOKEN_KEY, data.data.token).then(() => {
+      setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token).then(() => {
         getMe();
       });
+
+      setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
       window.location.hash = "/";
     },
@@ -130,13 +135,13 @@ const Login = () => {
                   )}
                 </FormItem>
 
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
+                <div className="flex justify-end items-center">
+                  {/* <div className="flex items-center">
                     <Input type="checkbox" icon="none" className="mr-1 ml-2" />
                     <p className="text-xs text-gray-800 dark:text-gray-300">
                       Keep me signed in
                     </p>
-                  </div>
+                  </div> */}
 
                   <div>
                     <NavLink to="/forget-password">
