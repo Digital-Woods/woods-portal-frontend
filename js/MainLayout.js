@@ -45,9 +45,13 @@ const MainLayout = ({ children }) => {
   ];
 
   useEffect(() => {
-    console.log("Effect running", loggedInDetails, me);
+    let userDetails = null;
 
-    const userDetails = loggedInDetails || me;
+    if (isLivePreview()) {
+      userDetails = fakeUserDetails;
+    } else {
+      userDetails = loggedInDetails || me;
+    }
 
     if (userDetails) {
       if (userDetails.hubspotPortals === null) {
