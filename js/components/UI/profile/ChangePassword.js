@@ -31,6 +31,11 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // State variables to manage password visibility
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const passwordValidationSchema = z
     .object({
       currentPassword: z
@@ -97,6 +102,18 @@ const ChangePassword = () => {
     changePassword(payload);
   };
 
+  const toggleCurrentPasswordVisibility = () => {
+    setShowCurrentPassword((prevState) => !prevState);
+  };
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword((prevState) => !prevState);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prevState) => !prevState);
+  };
+
   return (
     <div>
       {showAlert && (
@@ -133,9 +150,9 @@ const ChangePassword = () => {
                 </FormLabel>
 
                 <FormControl className="flex flex-col items-center">
-                  <div>
+                  <div className="relative">
                     <Input
-                      type="password"
+                      type={showCurrentPassword ? "text" : "password"}
                       placeholder="Current Password"
                       {...register("currentPassword")}
                       className="text-xs text-gray-500 ml-2"
@@ -143,6 +160,12 @@ const ChangePassword = () => {
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                     />
+                    <span
+                      className="absolute right-2 top-2 cursor-pointer"
+                      onClick={toggleCurrentPasswordVisibility}
+                    >
+                      {showNewPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </span>
                     {errors.currentPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.currentPassword.message}
@@ -158,9 +181,9 @@ const ChangePassword = () => {
                 </FormLabel>
 
                 <FormControl className="flex flex-col items-center">
-                  <div>
+                  <div className="relative">
                     <Input
-                      type="password"
+                      type={showNewPassword ? "text" : "password"}
                       placeholder="New password"
                       {...register("newPassword")}
                       className="text-xs text-gray-500 ml-2"
@@ -168,6 +191,12 @@ const ChangePassword = () => {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                     />
+                    <span
+                      className="absolute right-2 top-2 cursor-pointer"
+                      onClick={toggleNewPasswordVisibility}
+                    >
+                      {showNewPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </span>
                     {errors.newPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.newPassword.message}
@@ -183,9 +212,9 @@ const ChangePassword = () => {
                 </FormLabel>
 
                 <FormControl className="flex flex-col items-center">
-                  <div>
+                  <div className="relative">
                     <Input
-                      type="password"
+                      type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm new password"
                       {...register("confirmPassword")}
                       className="text-xs text-gray-500 ml-2"
@@ -193,6 +222,12 @@ const ChangePassword = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
+                    <span
+                      className="absolute right-2 top-2 cursor-pointer"
+                      onClick={toggleConfirmPasswordVisibility}
+                    >
+                      {showNewPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </span>
                     {errors.confirmPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1">
                         {errors.confirmPassword.message}
