@@ -37,6 +37,23 @@ const Drawer = ({ className }) => {
   const { routes, setRoutes } = useRoute();
 
   const [activeRoute, setActiveRoute] = useState("");
+  const [brandName, setBrandName] = useState("Digitalwoods");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const brandFromUrl = urlParams.get("brandName");
+
+    if (brandFromUrl) {
+      setBrandName(brandFromUrl);
+    } else if (
+      me &&
+      me.hubspotPortals &&
+      me.hubspotPortals.portalSettings &&
+      me.hubspotPortals.portalSettings.brandName
+    ) {
+      setBrandName(me.hubspotPortals.portalSettings.brandName);
+    }
+  }, [me]);
 
   useEffect(() => {
     if (routes.length > 0) {
@@ -91,12 +108,7 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {me &&
-                  me.hubspotPortals &&
-                  me.hubspotPortals.portalSettings &&
-                  me.hubspotPortals.portalSettings.brandName
-                    ? me.hubspotPortals.portalSettings.brandName
-                    : "Digitalwoods"}
+                  {brandName}
                 </h1>
               </div>
               <div
