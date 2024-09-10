@@ -9,6 +9,7 @@ const MainLayout = ({ children }) => {
   const loggedInDetails = useRecoilValue(userDetailsAtom);
   const [isLoading, setIsLoading] = useState(true);
   const { logout, error } = useLogout();
+  useSetColors();
 
   const defaultRoutes = [
     {

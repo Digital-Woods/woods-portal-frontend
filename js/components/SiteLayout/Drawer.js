@@ -40,11 +40,10 @@ const Drawer = ({ className }) => {
   const [brandName, setBrandName] = useState("Digitalwoods");
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const brandFromUrl = urlParams.get("brandName");
+    const brandParam = getParam("brandName");
 
-    if (brandFromUrl) {
-      setBrandName(brandFromUrl);
+    if (brandParam && brandParam !== "null") {
+      setBrandName(brandParam);
     } else if (
       me &&
       me.hubspotPortals &&
@@ -54,7 +53,6 @@ const Drawer = ({ className }) => {
       setBrandName(me.hubspotPortals.portalSettings.brandName);
     }
   }, [me]);
-
   useEffect(() => {
     if (routes.length > 0) {
       setActiveRoute(routes[0].path);

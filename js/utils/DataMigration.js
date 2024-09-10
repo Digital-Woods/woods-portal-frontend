@@ -109,11 +109,12 @@ const checkEquipments = (value, title) => {
 
 const checkEquipmentsName = (value, title) => {
   if (title == "Equipment")
-    if(value == "Asset Name") return value.replace("Asset Name", "Equipment Name");
-    if(value == "Asset Type") return value.replace("Asset Type", "Equipment Type");
+    if (value == "Asset Name")
+      return value.replace("Asset Name", "Equipment Name");
+  if (value == "Asset Type")
+    return value.replace("Asset Type", "Equipment Type");
   return value;
 };
-
 
 const sortData = (item, viewType = "list", title = "") => {
   if (!item || !isObject(item)) return [];
@@ -262,59 +263,50 @@ const renderCellContent = (value, itemId = null, path = null) => {
   }
 };
 
-function setColorsFromLocalStorage() {
-  const portalSettings = localStorage.getItem(env.AUTH_PORTAL_KEY);
-  let primaryColor = "#000000";
-  let secondaryColor = "#000000";
+// function setColorsFromMe() {
+//   // Default colors
+//   const defaultPrimaryColor = "#0000FF"; // Blue
+//   const defaultSecondaryColor = "#000000"; // Black
 
-  if (portalSettings) {
-    try {
-      const parsedSettings = JSON.parse(portalSettings);
-      if (parsedSettings.primaryColor) {
-        primaryColor = parsedSettings.primaryColor;
-      }
-      if (parsedSettings.secondaryColor) {
-        secondaryColor = parsedSettings.secondaryColor;
-      }
-    } catch (error) {
-      // console.error("Error parsing portalSettings from localStorage:", error);
-    }
-  }
+//   // Retrieve user data using useMe hook
+//   const { me } = useMe(); // Ensure this is called in a functional component or an appropriate hook
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const finalPrimaryColor = urlParams.get("primaryColor") || primaryColor;
-  const finalSecondaryColor = urlParams.get("secondaryColor") || secondaryColor;
+//   // Initialize colors with default values
+//   let primaryColor = defaultPrimaryColor;
+//   let secondaryColor = defaultSecondaryColor;
 
-  document.documentElement.style.setProperty(
-    "--primary-color",
-    finalPrimaryColor
-  );
-  document.documentElement.style.setProperty(
-    "--secondary-color",
-    finalSecondaryColor
-  );
-}
+//   if (me && me.hubspotPortals && me.hubspotPortals.portalSettings) {
+//     const portalSettings = me.hubspotPortals.portalSettings;
 
-//Cookie
-
-// function setCookie(name, value, days) {
-//   let expires = "";
-//   if (days) {
-//     const date = new Date();
-//     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-//     expires = "; expires=" + date.toUTCString();
+//     // Update colors if available in the portalSettings
+//     if (portalSettings.primaryColor) {
+//       primaryColor = portalSettings.primaryColor;
+//     }
+//     if (portalSettings.secondaryColor) {
+//       secondaryColor = portalSettings.secondaryColor;
+//     }
 //   }
-//   document.cookie = name + "=" + (value || "") + expires + "; path=/";
-// }
 
-// function getCookie(name) {
-//   const value = `; ${document.cookie}`;
-//   const parts = value.split(`; ${name}=`);
-//   if (parts.length === 2) return parts.pop().split(";").shift();
-// }
+//   // Retrieve color parameters from URL
+//   const urlParams = new URLSearchParams(window.location.search);
+//   const urlPrimaryColor = urlParams.get("primaryColor");
+//   const urlSecondaryColor = urlParams.get("secondaryColor");
 
-// function removeCookie(name) {
-//   setCookie(name, "", -1);
+//   // Override defaults with URL parameters if they are present and valid
+//   const finalPrimaryColor = urlPrimaryColor ? urlPrimaryColor : primaryColor;
+//   const finalSecondaryColor = urlSecondaryColor
+//     ? urlSecondaryColor
+//     : secondaryColor;
+
+//   // Apply the colors as CSS custom properties
+//   document.documentElement.style.setProperty(
+//     "--primary-color",
+//     finalPrimaryColor
+//   );
+//   document.documentElement.style.setProperty(
+//     "--secondary-color",
+//     finalSecondaryColor
+//   );
 // }
 
 function getFirstName() {
