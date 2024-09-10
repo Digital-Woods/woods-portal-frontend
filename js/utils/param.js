@@ -14,6 +14,5 @@ const getParam = (key) => {
     // Get the parameter value by name
     const value = searchParams.get(key);
 
-    console.log(value); // Output: 'true'
     return value
 }
