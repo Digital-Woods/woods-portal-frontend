@@ -78,7 +78,7 @@ const MainLayout = ({ children }) => {
           {
             path: "/no-routes",
             title: "No Routes Found",
-            icon: "🚫",
+
             isRequiredAuth: false,
             isHeader: false,
             component: (

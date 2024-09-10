@@ -27,7 +27,9 @@ const DynamicComponent = ({ title, path }) => {
     <div className="dark:bg-dark-200  dark:text-white p-6">
       <div className="flex justify-between items-center relative">
         <div>
-          <h1 className="text-xl font-semibold mb-2 text-primary">{title}</h1>
+          <h1 className="text-xl font-semibold mb-2 text-primary dark:text-white">
+            {title}
+          </h1>
           <p className="text-secondary  dark:text-white leading-5 text-sm">
             {viewText}
           </p>

@@ -99,9 +99,18 @@ const ForgetPassword = () => {
                         {errors.email.message}
                       </FormMessage>
                     )}
+                    <div className="flex justify-end items-center">
+                      <div>
+                        <NavLink to="/login">
+                          <p className="text-black text-xs dark:text-gray-300 mt-4">
+                            Back to login?
+                          </p>
+                        </NavLink>
+                      </div>
+                    </div>
                     <div className="mt-4 flex flex-col justify-center items-center">
                       <Button
-                        className="w-full"
+                        className="w-full !bg-defaultPrimary"
                         type="button"
                         onClick={onSubmit}
                       >
@@ -118,7 +127,7 @@ const ForgetPassword = () => {
                     </FormLabel>
                     <div className="mt-4 flex flex-col justify-center items-center">
                       <Button
-                        className="w-full"
+                        className="w-full !bg-defaultPrimary"
                         type="button"
                         onClick={onSubmit}
                       >
@@ -169,7 +178,10 @@ const ForgetPassword = () => {
                       </FormMessage>
                     )}
                     <div className="mt-4 flex flex-col justify-center items-center">
-                      <Button className="w-full" type="submit">
+                      <Button
+                        className="w-full !bg-defaultPrimary"
+                        type="submit"
+                      >
                         Reset Password
                       </Button>
                     </div>
