@@ -47,15 +47,11 @@ const MainLayout = ({ children }) => {
   useEffect(() => {
     let userDetails = null;
 
-    console.log(loggedInDetails, me);
-
     if (isLivePreview()) {
       userDetails = fakeUserDetails;
     } else {
       userDetails = loggedInDetails || me;
     }
-
-    console.log("userDetails", userDetails);
 
     if (userDetails && userDetails.hubspotPortals) {
       if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {

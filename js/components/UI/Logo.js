@@ -3,8 +3,7 @@ const Logo = ({ className }) => {
   const [logoSrc, setLogoSrc] = useState("");
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const logoParam = urlParams.get("logo");
+    const logoParam = getParam("logo");
 
     if (logoParam && logoParam !== "null" && isValidUrl(logoParam)) {
       setLogoSrc(logoParam);
