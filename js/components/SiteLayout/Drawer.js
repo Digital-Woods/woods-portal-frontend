@@ -37,6 +37,23 @@ const Drawer = ({ className }) => {
   const { routes, setRoutes } = useRoute();
 
   const [activeRoute, setActiveRoute] = useState("");
+  const [brandName, setBrandName] = useState("Digitalwoods");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const brandFromUrl = urlParams.get("brandName");
+
+    if (brandFromUrl) {
+      setBrandName(brandFromUrl);
+    } else if (
+      me &&
+      me.hubspotPortals &&
+      me.hubspotPortals.portalSettings &&
+      me.hubspotPortals.portalSettings.brandName
+    ) {
+      setBrandName(me.hubspotPortals.portalSettings.brandName);
+    }
+  }, [me]);
 
   useEffect(() => {
     if (routes.length > 0) {
@@ -91,12 +108,7 @@ const Drawer = ({ className }) => {
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {me &&
-                  me.hubspotPortals &&
-                  me.hubspotPortals.portalSettings &&
-                  me.hubspotPortals.portalSettings.brandName
-                    ? me.hubspotPortals.portalSettings.brandName
-                    : "Digitalwoods"}
+                  {brandName}
                 </h1>
               </div>
               <div
@@ -273,16 +285,16 @@ const Drawer = ({ className }) => {
               Log out of your account?
             </div>
           </div>
-          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
+          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3 w-full">
             <Button
-              className="dark:text-white"
+              className="dark:text-white w-1/2"
               onClick={() => setLogoutDialog(false)}
             >
               Keep Me Logged In
             </Button>
             <Button
               variant="outline"
-              className="dark:text-white"
+              className="dark:text-white w-1/2"
               onClick={() => {
                 if (!isLoading) {
                   logout();

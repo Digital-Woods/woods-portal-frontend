@@ -4,10 +4,11 @@ const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
-  const { me } = useMe();
+  const { me, getMe } = useMe();
   const [showPortalMessage, setShowPortalMessage] = useState(false);
   const loggedInDetails = useRecoilValue(userDetailsAtom);
   const [isLoading, setIsLoading] = useState(true);
+  const { logout, error } = useLogout();
 
   const defaultRoutes = [
     {
@@ -108,6 +109,31 @@ const MainLayout = ({ children }) => {
       <div className="text-center p-10 w-full h-screen text-3xl font-semibold bg-secondary text-white flex flex-col items-center justify-center">
         <h2>Please Select a HubSpot Portal</h2>
         <p>Before Continuing.</p>
+        <div
+          className="block bg-white text-black my-4 px-3 py-2.5 rounded-md no-underline cursor-pointer"
+          // activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
+          onClick={logout}
+        >
+          <div className="flex items-center gap-x-4">
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                className="dark:fill-white fill-black"
+              >
+                <path d="M228.31-164q-27.01 0-45.66-18.65Q164-201.3 164-228.31v-503.38q0-27.01 18.65-45.66Q201.3-796 228.31-796h252.07v52H228.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v503.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h252.07v52H228.31Zm428.92-177.23-37.54-36.39L696.08-454H387.85v-52h308.23l-76.39-76.38 37.54-36.39L796-480 657.23-341.23Z" />
+              </svg>
+            </div>
+            <p
+              className={`
+                       text-black text-sm font-medium  dark:text-white`}
+            >
+              Logout
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
