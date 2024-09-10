@@ -273,16 +273,16 @@ const Drawer = ({ className }) => {
               Log out of your account?
             </div>
           </div>
-          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3">
+          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3 w-full">
             <Button
-              className="dark:text-white"
+              className="dark:text-white w-1/2"
               onClick={() => setLogoutDialog(false)}
             >
               Keep Me Logged In
             </Button>
             <Button
               variant="outline"
-              className="dark:text-white"
+              className="dark:text-white w-1/2"
               onClick={() => {
                 if (!isLoading) {
                   logout();
