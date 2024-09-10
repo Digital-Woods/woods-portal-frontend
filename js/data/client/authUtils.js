@@ -44,9 +44,18 @@ function setAuthToken(token) {
 }
 
 function isAuthenticated() {
+  if(isLivePreview()) return true;
   return !!getCookie(env.AUTH_TOKEN_KEY);
 }
 
 function getIsEmailVerify() {
   return getCookie("IS_EMAIL_VERIFY");
 }
+
+const isLivePreview = () => {
+  const fragment = window.location.hash.substring(1);
+  const livePreview = fragment.includes("live-preview");
+  if (livePreview) {
+  }
+  return livePreview;
+};

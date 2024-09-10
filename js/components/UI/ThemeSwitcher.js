@@ -1,50 +1,46 @@
-
 const { useState, useEffect } = React;
 
 const ThemeSwitcher = () => {
-  const { themeMode, setThemeMode } = useTheme();
-
   const [theme, setTheme] = useState(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlTheme = urlParams.get('theme');
+    const urlTheme = getParam("theme");
     switch (urlTheme) {
-      case 'dark':
-        return 'dark';
-      case 'light':
-        return 'light';
+      case "dark":
+        return "dark";
+      case "light":
+        return "light";
       default:
-        return localStorage.theme === 'dark' ||
-          (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-          ? 'dark'
-          : 'light';
+        return localStorage.getItem("theme") === "dark" ||
+          (!("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+          ? "dark"
+          : "light";
     }
   });
 
   useEffect(() => {
     switch (theme) {
-      case 'dark':
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
+      case "dark":
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
         break;
-      case 'light':
+      case "light":
       default:
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
         break;
     }
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
-    setThemeMode((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
-  
+
   return (
     <div
       className="text-light-900  hover:text-dark  p-3 text-center dark:text-light-900  cursor-pointer"
       onClick={toggleTheme}
     >
-      <span className={theme === 'dark' ? 'hidden' : 'block'}>
+      <span className={theme === "dark" ? "hidden" : "block"}>
         <svg
           viewBox="0 0 20 20"
           fill="none"
@@ -89,7 +85,7 @@ const ThemeSwitcher = () => {
           />
         </svg>
       </span>
-      <span className={theme === 'dark' ? 'block' : 'hidden'}>
+      <span className={theme === "dark" ? "block" : "hidden"}>
         <svg
           viewBox="0 0 20 20"
           fill="none"

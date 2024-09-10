@@ -12,10 +12,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  useEffect(() => {
-    setColorsFromLocalStorage();
-  }, []);
-
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>

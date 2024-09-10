@@ -35,14 +35,12 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
   const [sortConfig, setSortConfig] = useState("createdAt");
-  const [isLoading, setIsLoading] = useState(true);
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
   const { me } = useMe();
 
   useEffect(() => {
-    // const queryParams = new URLSearchParams(location.search);
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
     const queryParams = new URLSearchParams(hash.substring(queryIndex)); // Parse the query string
@@ -52,10 +50,21 @@ const DashboardTable = ({ path, inputValue, title }) => {
     setFilterValue(queryParams.get("filterValue"));
   }, [location.search]);
 
-  // console.log(filterPropertyName, "filterPropertyNma");
+  const mapResponseData = (data) => {
+    const results = data.data.results || [];
+    setTableData(results);
+    setTotalItems(data.data.total || 0);
+    setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-  const { error, data, refetch } = useQuery({
-    queryKey: [
+    if (results.length > 0) {
+      setTableHeader(sortData(results[0], "list", title));
+    } else {
+      setTableHeader([]);
+    }
+  };
+
+  const { mutate: getData, isLoading } = useMutation({
+    mutationKey: [
       "TableData",
       path,
       itemsPerPage,
@@ -67,7 +76,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
       filterOperator,
       filterValue,
     ],
-    queryFn: async () =>
+    mutationFn: async () =>
       await Client.objects.all({
         path,
         limit: itemsPerPage || 10,
@@ -82,21 +91,10 @@ const DashboardTable = ({ path, inputValue, title }) => {
       }),
     onSuccess: (data) => {
       if (data.statusCode === "200") {
-        const results = data.data.results || [];
-        setTableData(results);
-        setTotalItems(data.data.total || 0);
-        setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-
-        if (results.length > 0) {
-          setTableHeader(sortData(results[0], "list", title));
-        } else {
-          setTableHeader([]);
-        }
+        mapResponseData(data);
       }
-      setIsLoading(false);
     },
     onError: () => {
-      setIsLoading(false);
       setTableData([]);
     },
   });
@@ -109,23 +107,28 @@ const DashboardTable = ({ path, inputValue, title }) => {
       newSortConfig = column;
     }
     setSortConfig(newSortConfig);
-    setIsLoading(true);
-    refetch();
+    getData();
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     setAfter((page - 1) * itemsPerPage);
-    setIsLoading(true);
-    refetch();
+    getData();
   };
 
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
-    setIsLoading(true);
-    refetch();
+    if (!isLivePreview()) getData();
   }, [inputValue]);
+
+  useEffect(() => {
+    if (isLivePreview()) {
+      mapResponseData(fakeTableData);
+    } else {
+      getData();
+    }
+  }, []);
 
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
