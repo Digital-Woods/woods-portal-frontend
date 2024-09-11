@@ -170,15 +170,13 @@ const DashboardTable = ({ path, inputValue, title }) => {
                       className="whitespace-nowrap dark:text-white cursor-pointer"
                       onClick={() => handleSort(item.name)}
                     >
-                      <div className="flex">
+                      <div className="flex items-center">
                         <span className="font-semibold text-xs">
-                          {" "}
-                          {item.label}{" "}
+                          {item.label}
                         </span>
                         {sortConfig === item.name && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            height="24px"
                             viewBox="0 -960 960 960"
                             width="24px"
                             className="dark:fill-white cursor-pointer"
@@ -189,7 +187,6 @@ const DashboardTable = ({ path, inputValue, title }) => {
                         {sortConfig === `-${item.name}` && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            height="24px"
                             viewBox="0 -960 960 960"
                             width="24px"
                             className="dark:fill-white cursor-pointer"

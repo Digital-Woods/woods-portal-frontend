@@ -96,8 +96,8 @@ const useSetColors = () => {
 
   const applyColors = () => {
     // Default colors
-    const defaultPrimaryColor = "#0000FF"; // Blue
-    const defaultSecondaryColor = "#000000"; // Black
+    const defaultPrimaryColor = "#0e1111";
+    const defaultSecondaryColor = "#000000";
 
     // Initialize colors with default values
     let primaryColor = defaultPrimaryColor;
