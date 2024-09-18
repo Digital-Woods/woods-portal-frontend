@@ -162,7 +162,7 @@ const ChangePassword = () => {
                       className="absolute right-2 top-2 cursor-pointer"
                       onClick={toggleCurrentPasswordVisibility}
                     >
-                      {showCurrentPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      {showCurrentPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
                     {errors.currentPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
@@ -192,7 +192,7 @@ const ChangePassword = () => {
                       className="absolute right-2 top-2 cursor-pointer"
                       onClick={toggleNewPasswordVisibility}
                     >
-                      {showNewPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      {showNewPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
                     {errors.newPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
@@ -222,7 +222,7 @@ const ChangePassword = () => {
                       className="absolute right-2 top-2 cursor-pointer"
                       onClick={toggleConfirmPasswordVisibility}
                     >
-                      {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
                     {errors.confirmPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
