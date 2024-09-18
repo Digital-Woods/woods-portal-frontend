@@ -222,7 +222,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
       const label = value.labels ? value.labels : value.featureName;
       return (
         <Link
-          className="text-lightblue font-bold border-input rounded-md"
+          className="text-secondary font-bold border-input rounded-md"
           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
         >
           {label.plural}
@@ -233,7 +233,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
     case isObject(value) && value.type === "primaryDisplayProperty":
       return (
         <Link
-          className="text-lightblue font-bold border-input rounded-md"
+          className="text-secondary font-bold border-input rounded-md"
           to={`${path}/${itemId}`}
         >
           {value.value}
