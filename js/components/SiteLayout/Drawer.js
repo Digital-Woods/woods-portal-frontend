@@ -29,6 +29,28 @@ const NavLink = ({ to, className, activeClassName, children }) => {
   );
 };
 
+const useDynamicPathname = () => {
+  const [customPath, setCustomPath] = useState("");
+
+  useEffect(() => {
+    const fullPath = window.location.href;
+
+    const segments = fullPath.split("/");
+
+    const dynamicBasePath = segments[3];
+
+    const basePath = `/${dynamicBasePath}`;
+    const index = fullPath.indexOf(basePath);
+
+    if (index !== -1) {
+      const extractedPath = fullPath.substring(index + basePath.length);
+      setCustomPath(extractedPath);
+    }
+  }, []);
+
+  return customPath;
+};
+
 const Drawer = ({ className }) => {
   const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
@@ -37,9 +59,12 @@ const Drawer = ({ className }) => {
   const { me } = useMe();
   const { logout, isLoading, error } = useLogout();
   const { routes, setRoutes } = useRoute();
+  const customPath = useDynamicPathname();
 
   const [activeRoute, setActiveRoute] = useState("");
   const [brandName, setBrandName] = useState("Digitalwoods");
+
+  useEffect(() => setActiveRoute(customPath), [customPath]);
 
   useEffect(() => {
     const brandParam = getParam("brandName");
@@ -55,11 +80,6 @@ const Drawer = ({ className }) => {
       setBrandName(me.hubspotPortals.portalSettings.brandName);
     }
   }, [me]);
-  useEffect(() => {
-    if (routes.length > 0) {
-      setActiveRoute(routes[0].path);
-    }
-  }, [routes]);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);

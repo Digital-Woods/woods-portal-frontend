@@ -78,9 +78,6 @@ const DashboardTable = ({ path, inputValue, title }) => {
       filterValue,
     ],
     mutationFn: async () => {
-      console.log({
-        page: currentPage,
-      });
       return await Client.objects.all({
         path,
         limit: itemsPerPage || 10,

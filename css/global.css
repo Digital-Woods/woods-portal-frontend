@@ -107,3 +107,11 @@ body {
 .progress-bar {
   transition: width 0.1s linear;
 }
+
+.tooltip-styles {
+  min-width: 200px;
+  max-width: 800px;
+  z-index: 1000;
+  white-space: pre-wrap;
+  overflow: visible;
+}

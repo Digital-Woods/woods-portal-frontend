@@ -47,7 +47,7 @@ function isEmptyObject(data) {
   return Object.keys(data).length === 0;
 }
 
-const truncateString = (str, MAX_LENGTH = 50) => {
+const truncateString = (str, MAX_LENGTH = 40) => {
   if (str.length > MAX_LENGTH) {
     return {
       truncated: str.substring(0, MAX_LENGTH) + "...",
@@ -220,31 +220,59 @@ const renderCellContent = (value, itemId = null, path = null) => {
 
     case isObject(value) && value.type === "link": {
       const label = value.labels ? value.labels : value.featureName;
-      return (
+      const { truncated, isTruncated } = truncateString(label.plural);
+
+      return isTruncated ? (
+        <Tooltip right content={label.plural}>
+          <Link
+            className="text-secondary font-bold border-input rounded-md"
+            to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+          >
+            {truncated}
+          </Link>
+        </Tooltip>
+      ) : (
         <Link
           className="text-secondary font-bold border-input rounded-md"
           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
         >
-          {label.plural}
+          {truncated}
         </Link>
       );
     }
 
-    case isObject(value) && value.type === "primaryDisplayProperty":
-      return (
+    case isObject(value) && value.type === "primaryDisplayProperty": {
+      const { truncated, isTruncated } = truncateString(value.value);
+
+      return isTruncated ? (
+        <Tooltip content={value.value}>
+          <Link
+            className="text-secondary font-bold border-input rounded-md"
+            to={`${path}/${itemId}`}
+          >
+            {truncated}
+          </Link>
+        </Tooltip>
+      ) : (
         <Link
           className="text-secondary font-bold border-input rounded-md"
           to={`${path}/${itemId}`}
         >
-          {value.value}
+          {truncated}
         </Link>
       );
+    }
 
-    case isImage(value):
+    case isImage(value): {
       let urlArray = value.split(",");
       return (
-        <img src={urlArray[0]} alt={urlArray[0]} class="w-10 h-10 rounded" />
+        <img
+          src={urlArray[0]}
+          alt={urlArray[0]}
+          className="w-10 h-10 rounded"
+        />
       );
+    }
 
     case isDate(value):
       return formatDate(value);
@@ -254,6 +282,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
         ? JSON.stringify(value)
         : String(value);
       const { truncated, isTruncated } = truncateString(cellContent);
+
       return isTruncated ? (
         <Tooltip content={cellContent}>{truncated}</Tooltip>
       ) : (
