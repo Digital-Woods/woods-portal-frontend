@@ -105,6 +105,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
       setTableData([]);
     },
   });
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
     let newSortConfig = column;
@@ -154,7 +155,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
             Showing
           </p>
           <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-            {tableData.length}
+            {endItem}
           </span>
           <span>/</span>
           <span className="rounded-md font-medium">{totalItems}</span>
