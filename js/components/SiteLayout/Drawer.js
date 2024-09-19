@@ -65,6 +65,7 @@ const Drawer = ({ className }) => {
     setSidebarCollapsed(!sidebarCollapsed);
     setIsSecondIcon(!isSecondIcon);
   };
+  const shouldShowTooltip = brandName.length > 10;
 
   const mutation = useMutation({
     mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
@@ -104,11 +105,18 @@ const Drawer = ({ className }) => {
                 </div>
 
                 <h1
-                  className={`text-lg font-semibold pr-4 pl-1 text-white dark:text-white ${
+                  className={`text-lg font-semibold pr-4 pl-1 break-all text-white dark:text-white ${
                     sidebarCollapsed ? "hidden" : "block"
                   }`}
                 >
-                  {brandName}
+                  {shouldShowTooltip ? (
+                    <Tooltip content={brandName} right>
+                      {brandName.slice(0, 15)}
+                      {brandName.length > 15 ? "..." : ""}
+                    </Tooltip>
+                  ) : (
+                    brandName
+                  )}
                 </h1>
               </div>
               <div

@@ -153,13 +153,13 @@ const ChangePassword = () => {
                       type={showCurrentPassword ? "text" : "password"}
                       placeholder="Current Password"
                       {...register("currentPassword")}
-                      className="text-xs text-gray-500 ml-2 w-full"
+                      className="text-xs text-gray-500 ml-2 w-full !px-10"
                       icon={CurrentpassIcon}
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                     <span
-                      className="absolute right-2 top-2 cursor-pointer"
+                      className="absolute right-3 top-2 cursor-pointer"
                       onClick={toggleCurrentPasswordVisibility}
                     >
                       {showCurrentPassword ? <EyeIcon /> : <EyeOffIcon />}
@@ -183,7 +183,7 @@ const ChangePassword = () => {
                       type={showNewPassword ? "text" : "password"}
                       placeholder="New password"
                       {...register("newPassword")}
-                      className="text-xs text-gray-500 ml-2 w-full"
+                      className="text-xs text-gray-500 ml-2 !px-10 w-full"
                       icon={ConfirmandCurrentPassIcon}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
@@ -195,7 +195,7 @@ const ChangePassword = () => {
                       {showNewPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
                     {errors.newPassword && (
-                      <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
+                      <div className="text-red-600 text-[12px] px-2  mt-1 max-w-[calc(100%-16px)]">
                         {errors.newPassword.message}
                       </div>
                     )}
@@ -213,7 +213,7 @@ const ChangePassword = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm new password"
                       {...register("confirmPassword")}
-                      className="text-xs text-gray-500 ml-2 w-full"
+                      className="text-xs text-gray-500 ml-2 !px-10 w-full"
                       icon={ConfirmandCurrentPassIcon}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
