@@ -69,9 +69,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
               currentPage === data
                 ? " bg-primary dark:bg-dark-400 text-white"
                 : ""
-            } ${
-              data === "..." ? "cursor-default" : ""
-            }`}
+            } ${data === "..." ? "cursor-default" : ""}`}
             onClick={() => data !== "..." && setCurrentPage(data)}
           >
             {data}
