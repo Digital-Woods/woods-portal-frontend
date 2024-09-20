@@ -47,7 +47,7 @@ function isEmptyObject(data) {
   return Object.keys(data).length === 0;
 }
 
-const truncateString = (str, MAX_LENGTH = 40) => {
+const truncateString = (str, MAX_LENGTH = 50) => {
   if (str.length > MAX_LENGTH) {
     return {
       truncated: str.substring(0, MAX_LENGTH) + "...",
