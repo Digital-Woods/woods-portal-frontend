@@ -27,7 +27,7 @@ class Client {
     all: ({
       path,
       limit = 10,
-      after = "",
+      after,
       sort = "updatedAt",
       inputValue,
       page,

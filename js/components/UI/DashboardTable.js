@@ -39,6 +39,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
   const { me } = useMe();
+  useEffect(() => console.log(currentPage), [currentPage]);
 
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
@@ -76,19 +77,25 @@ const DashboardTable = ({ path, inputValue, title }) => {
       filterOperator,
       filterValue,
     ],
-    mutationFn: async () =>
-      await Client.objects.all({
+    mutationFn: async () => {
+      return await Client.objects.all({
         path,
         limit: itemsPerPage || 10,
         page: currentPage,
-        after,
+        // after,
+        ...(after &&
+          after.length > 0 && {
+            after,
+          }),
         me,
         sort: sortConfig,
         // inputValue,
         filterPropertyName,
         filterOperator,
         filterValue,
-      }),
+      });
+    },
+
     onSuccess: (data) => {
       if (data.statusCode === "200") {
         mapResponseData(data);
@@ -98,6 +105,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
       setTableData([]);
     },
   });
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
     let newSortConfig = column;
@@ -110,9 +118,10 @@ const DashboardTable = ({ path, inputValue, title }) => {
     getData();
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = async (page) => {
     setCurrentPage(page);
     setAfter((page - 1) * itemsPerPage);
+    await wait(100);
     getData();
   };
 
@@ -146,7 +155,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
             Showing
           </p>
           <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-            {tableData.length}
+            {endItem}
           </span>
           <span>/</span>
           <span className="rounded-md font-medium">{totalItems}</span>

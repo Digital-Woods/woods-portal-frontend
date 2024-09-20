@@ -28,6 +28,7 @@ const Login = () => {
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const { routes, setRoutes } = useRoute();
 
   const loginUserValidationSchema = z.object({
     email: z.string().email(),
@@ -70,7 +71,9 @@ const Login = () => {
 
       setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
-      window.location.hash = "/";
+      const firstRoute = routes[0].path;
+      window.location.hash = firstRoute;
+      // window.location.hash = "/";
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
