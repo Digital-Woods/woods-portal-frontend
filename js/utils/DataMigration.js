@@ -220,12 +220,12 @@ const renderCellContent = (value, itemId = null, path = null) => {
 
     case isObject(value) && value.type === "link": {
       const label = value.labels ? value.labels : value.featureName;
-      const { truncated, isTruncated } = truncateString(label.plural);
+      const { truncated, isTruncated } = truncateString(label.plural || "");
 
       return isTruncated ? (
         <Tooltip right content={label.plural}>
           <Link
-            className="text-secondary font-bold border-input rounded-md"
+            className="text-lightblue font-bold border-input rounded-md"
             to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
           >
             {truncated}
@@ -233,21 +233,21 @@ const renderCellContent = (value, itemId = null, path = null) => {
         </Tooltip>
       ) : (
         <Link
-          className="text-secondary font-bold border-input rounded-md"
+          className="text-lightblue font-bold border-input rounded-md"
           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
         >
-          {truncated}
+          {label.plural}
         </Link>
       );
     }
 
     case isObject(value) && value.type === "primaryDisplayProperty": {
-      const { truncated, isTruncated } = truncateString(value.value);
+      const { truncated, isTruncated } = truncateString(value.value || "");
 
       return isTruncated ? (
         <Tooltip content={value.value}>
           <Link
-            className="text-secondary font-bold border-input rounded-md"
+            className="text-lightblue font-bold border-input rounded-md"
             to={`${path}/${itemId}`}
           >
             {truncated}
@@ -255,23 +255,23 @@ const renderCellContent = (value, itemId = null, path = null) => {
         </Tooltip>
       ) : (
         <Link
-          className="text-secondary font-bold border-input rounded-md"
+          className="text-lightblue font-bold border-input rounded-md"
           to={`${path}/${itemId}`}
         >
-          {truncated}
+          {value.value}
         </Link>
       );
     }
 
     case isImage(value): {
-      let urlArray = value.split(",");
-      return (
+      let urlArray = typeof value === "string" ? value.split(",") : [];
+      return urlArray.length > 0 ? (
         <img
           src={urlArray[0]}
           alt={urlArray[0]}
           className="w-10 h-10 rounded"
         />
-      );
+      ) : null;
     }
 
     case isDate(value):
