@@ -65,16 +65,22 @@ const Login = () => {
         setAlert({ message: "Wrong email or password", type: "error" });
         return;
       }
-      setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token).then(() => {
-        getMe();
-      });
+
+      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
+      getMe(); // Fetch user details
 
       setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
-      const firstRoute = routes[0].path;
-      window.location.hash = firstRoute;
-      // window.location.hash = "/";
+
+      // Use if-else to check if routes exist
+      if (routes && routes.length > 0) {
+        const firstRoute = routes[0].path;
+        window.location.hash = firstRoute;
+      } else {
+        window.location.hash = "/no-routes";
+      }
     },
+
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
 
