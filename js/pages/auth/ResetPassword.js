@@ -34,17 +34,26 @@ const ResetPassword = () => {
   };
 
   const getTokenFromParams = () => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("token");
+    const hash = window.location.hash;
+    const params = new URLSearchParams(hash.split("?")[1]);
+    let token = params.get("token");
+
+    if (token) {
+      token = token.replace(/ /g, "+");
+      return decodeURIComponent(token);
+    }
+
+    return null;
   };
 
-  const { mutate: resetPassword, isLoading } = useMutation({
-    mutationKey: ["resetPassword"],
+  const { mutate: resetNewPassword, isLoading } = useMutation({
+    mutationKey: ["resetNewPassword"],
     mutationFn: async (input) => {
       const token = getTokenFromParams();
       if (!token) {
         throw new Error("Token not found");
       }
+      console.log("Token Passed to API:", token);
       try {
         const response = await Client.authentication.resetPassword({
           newPassword: input.newPassword,
@@ -61,13 +70,10 @@ const ResetPassword = () => {
       window.location.hash = "/login";
     },
     onError: (error) => {
+      console.error("Error:", error); // Log the error to inspect
       setAlert({ message: "Failed to reset password", type: "error" });
     },
   });
-
-  const onSubmit = (data) => {
-    resetPassword(data);
-  };
 
   useEffect(() => {
     const token = getTokenFromParams();
@@ -75,6 +81,18 @@ const ResetPassword = () => {
       window.location.hash = "/login";
     }
   }, []);
+
+  const onSubmit = (data) => {
+    console.log("Submitting Data:", data);
+    resetNewPassword(data);
+  };
+
+  // useEffect(() => {
+  //   const token = getTokenFromParams();
+  //   if (!token) {
+  //     window.location.hash = "/login";
+  //   }
+  // }, []);
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
