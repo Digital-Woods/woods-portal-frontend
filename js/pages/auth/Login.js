@@ -150,7 +150,6 @@ const Login = () => {
                     </FormMessage>
                   )}
                 </FormItem>
-
                 <FormItem>
                   <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Password
@@ -178,7 +177,6 @@ const Login = () => {
                     </FormMessage>
                   )}
                 </FormItem>
-
                 <div className="flex justify-end items-center">
                   <div>
                     <NavLink to="/forget-password">
@@ -188,7 +186,6 @@ const Login = () => {
                     </NavLink>
                   </div>
                 </div>
-
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
                     className="w-full !bg-defaultPrimary"

@@ -5,6 +5,10 @@ class Client {
     Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT),
     changePassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USERS_CHANGE_PASSWORD, data),
+    forgetPassword: (data) =>
+      HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
+    resetPassword: (data) =>
+      HttpClient.post(API_ENDPOINTS.USERS_RESET_PASSWORD, data),
   };
 
   static fetchAllFeatures = {

@@ -28,6 +28,12 @@ function App() {
                     path="/forget-password"
                     component={ForgetPassword}
                   />
+                  <Route exact path="/verify-email" component={VerifyEmail} />
+                  <Route
+                    exact
+                    path="/reset-password"
+                    component={ResetPassword}
+                  />
                   <Redirect to="/login" />
                 </Switch>
               )

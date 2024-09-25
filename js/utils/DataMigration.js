@@ -225,7 +225,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
       return isTruncated ? (
         <Tooltip right content={label.plural}>
           <Link
-            className="text-lightblue font-bold border-input rounded-md"
+            className="text-secondary font-bold border-input rounded-md"
             to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
           >
             {truncated}
@@ -233,7 +233,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
         </Tooltip>
       ) : (
         <Link
-          className="text-lightblue font-bold border-input rounded-md"
+          className="text-secondary font-bold border-input rounded-md"
           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
         >
           {label.plural}
@@ -247,7 +247,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
       return isTruncated ? (
         <Tooltip content={value.value}>
           <Link
-            className="text-lightblue font-bold border-input rounded-md"
+            className="text-secondary font-bold border-input rounded-md"
             to={`${path}/${itemId}`}
           >
             {truncated}
@@ -255,7 +255,7 @@ const renderCellContent = (value, itemId = null, path = null) => {
         </Tooltip>
       ) : (
         <Link
-          className="text-lightblue font-bold border-input rounded-md"
+          className="text-secondary font-bold border-input rounded-md"
           to={`${path}/${itemId}`}
         >
           {value.value}
