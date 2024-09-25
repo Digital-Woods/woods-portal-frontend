@@ -8,7 +8,8 @@ class Client {
     forgetPassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
     resetPassword: (data) =>
-      HttpClient.post(API_ENDPOINTS.USERS_RESET_PASSWORD, data),
+      HttpClient.post(API_ENDPOINTS.USER_RESET_PASSWORD, data),
+    resendEmail: (data) => HttpClient.get(API_ENDPOINTS.RESEND_EMAIL, data),
   };
 
   static fetchAllFeatures = {

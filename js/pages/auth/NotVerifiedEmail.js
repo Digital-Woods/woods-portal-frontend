@@ -1,6 +1,8 @@
 const NotVerifiedEmail = () => {
   const { me } = useMe();
   const loggedInDetails = useRecoilValue(userDetailsAtom);
+  const [alert, setAlert] = useState(null);
+  const [serverError, setServerError] = useState(null);
 
   let email = "no-email@example.com";
 
@@ -9,6 +11,36 @@ const NotVerifiedEmail = () => {
   } else if (me && me.email) {
     email = me.email;
   }
+
+  const { mutate: resetPassword, isLoading } = useMutation({
+    mutationKey: ["resetPassword"],
+    mutationFn: async () => {
+      try {
+        const response = await Client.authentication.resendEmail({
+          email: email,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data) => {
+      setAlert({ message: data.statusMsg, type: "success" });
+    },
+    onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data.detailedMessage;
+        setServerError(errorData);
+
+        errorMessage =
+          typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
+      }
+
+      setAlert({ message: errorMessage, type: "error" });
+    },
+  });
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center px-4">
@@ -29,16 +61,28 @@ const NotVerifiedEmail = () => {
         </svg>
         <h1 className="text-2xl font-bold mb-4">Please Verify Your Email</h1>
         <p className="text-base mb-6">
-          Click <span className="font-semibold">Resend</span> to send the link
-          to your email:
+          Click <span className="font-semibold cursor-pointer">Resend</span> to
+          send the link to your email:
           <span className="font-semibold ml-1">{email}</span>
         </p>
         <div className="flex justify-between space-x-4">
-          <Button variant="outline" className="w-full">
-            Cancel
+          <Button className="w-full !bg-white">Cancel</Button>
+          <Button
+            className="w-full"
+            onClick={() => resetPassword()}
+            disabled={isLoading}
+          >
+            {isLoading ? "Sending..." : "Resend"}
           </Button>
-          <Button className="w-full">Resend</Button>
         </div>
+
+        {alert && (
+          <Alert
+            message={alert.message}
+            type={alert.type}
+            onClose={() => setAlert(null)}
+          />
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ const API_ENDPOINTS = {
   USERS_REGISTER: "/register",
   USERS_CHANGE_PASSWORD: "/api/auth/change-password",
   USERS_FORGET_PASSWORD: "/api/client-portal/auth/forget-password",
-  USERS_RESET_PASSWORD: "/api/client-portal/auth/reset-password",
+  USER_RESET_PASSWORD: "/api/client-portal/auth/reset-password",
   RESEND_EMAIL: "/api/auth/resend-email",
   PRODUCTS: "/products",
   FEATURES: "api/templates/demo/features?featureType=BASE",
