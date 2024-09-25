@@ -134,8 +134,11 @@ const ForgetPassword = () => {
                 </div>
 
                 <div className="mt-4 flex flex-col justify-center items-center">
-                  <Button className="w-full !bg-defaultPrimary">
-                    Send Link
+                  <Button
+                    disabled={isLoading}
+                    className="w-full !bg-defaultPrimary"
+                  >
+                    {isLoading ? "Sending..." : "Send Link"}
                   </Button>
                 </div>
               </div>
