@@ -66,7 +66,7 @@ const NotVerifiedEmail = () => {
           <span className="font-semibold ml-1">{email}</span>
         </p>
         <div className="flex justify-between space-x-4">
-          <Button className="w-full !bg-white">Cancel</Button>
+          <Button className="w-full !bg-white !text-black">Cancel</Button>
           <Button
             className="w-full"
             onClick={() => resetPassword()}
