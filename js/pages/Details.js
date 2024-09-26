@@ -65,16 +65,7 @@ const Details = ({ path, id }) => {
               item={item}
             />
 
-            {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
-
-            {path === "/jobs" && (
-              <div className="col-span-4">
-                <DetailsTable item={item} path={path} />
-              </div>
-            )}
-            {sortItems && <DetailsView item={item} sortItems={sortItems} />}
-
-            <div className="border rounded-lg  bg-gray-200 dark:bg-dark-300 border-flatGray dark:border-gray-700 my-4">
+            <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               <Tabs
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
@@ -96,15 +87,28 @@ const Details = ({ path, id }) => {
                 </TabsList>
 
                 <TabsContent value="overview"></TabsContent>
-                <TabsContent value="files">
-                  <Files />
-                </TabsContent>
-                <TabsContent value="notes"></TabsContent>
+                <TabsContent value="files"></TabsContent>
+                <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
                 <TabsContent value="photos"></TabsContent>
               </Tabs>
             </div>
 
-            {images.length > 0 && (
+            {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
+
+            {path === "/jobs" && (
+              <div className="col-span-4">
+                <DetailsTable item={item} path={path} />
+              </div>
+            )}
+            {sortItems && activeTab === "overview" && (
+              <DetailsView item={item} sortItems={sortItems} />
+            )}
+
+            {activeTab === "files" && <Files />}
+
+            {activeTab === "notes" && <Notes />}
+
+            {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
                 images={images}
                 setGalleryDialog={setGalleryDialog}

@@ -59,7 +59,7 @@ const Files = () => {
 
   return (
     <div>
-      <div className="border min-w-[500px] mt-2 bg-cleanWhite p-4">
+      <div className=" rounded-lg  mt-2 bg-cleanWhite p-4">
         <div className="flex justify-between mt-2 mb-6 items-center">
           <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
           <Button className="text-white">
@@ -67,7 +67,7 @@ const Files = () => {
           </Button>
         </div>
         <Table className="w-full border rounded-lg overflow-hidden">
-          <TableHeader className="bg-gray-100">
+          <TableHeader className="bg-graySecondary">
             <TableRow>
               <TableHead className="py-2 text-left text-xs"></TableHead>
               <TableHead className="pr-4 py-2 text-left text-xs">
