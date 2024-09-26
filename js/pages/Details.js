@@ -4,6 +4,7 @@ const Details = ({ path, id }) => {
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
+  const [activeTab, setActiveTab] = useState("overview");
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
@@ -72,6 +73,36 @@ const Details = ({ path, id }) => {
               </div>
             )}
             {sortItems && <DetailsView item={item} sortItems={sortItems} />}
+
+            <div className="border rounded-lg  bg-gray-200 dark:bg-dark-300 border-flatGray dark:border-gray-700 my-4">
+              <Tabs
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                className="rounded-md "
+              >
+                <TabsList>
+                  <TabsTrigger value="overview">
+                    <p className="text-black">Overview</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="files">
+                    <p className="text-black">Files</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="notes">
+                    <p className="text-black">Notes</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="photos">
+                    <p className="text-black">Photos</p>
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="overview"></TabsContent>
+                <TabsContent value="files">
+                  <Files />
+                </TabsContent>
+                <TabsContent value="notes"></TabsContent>
+                <TabsContent value="photos"></TabsContent>
+              </Tabs>
+            </div>
 
             {images.length > 0 && (
               <DetailsGallery
