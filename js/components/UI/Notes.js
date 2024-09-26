@@ -1,53 +1,102 @@
-const CopyIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="20px"
-    viewBox="0 -960 960 960"
-    width="20px"
-    className="fill:gray-200 dark:fill-white"
-  >
-    <path d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
-  </svg>
-);
-
-const ThreeDotIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="20px"
-    viewBox="0 -960 960 960"
-    width="20px"
-    className="fill:gray-200 dark:fill-white"
-  >
-    <path d="M479.79-192Q450-192 429-213.21t-21-51Q408-294 429.21-315t51-21Q510-336 531-314.79t21 51Q552-234 530.79-213t-51 21Zm0-216Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm0-216Q450-624 429-645.21t-21-51Q408-726 429.21-747t51-21Q510-768 531-746.79t21 51Q552-666 530.79-645t-51 21Z" />
-  </svg>
-);
-
-const DeleteIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="20px"
-    viewBox="0 -960 960 960"
-    width="20px"
-    className="fill:gray-200 dark:fill-white"
-  >
-    <path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z" />
-  </svg>
-);
-
-const PinIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="20px"
-    viewBox="0 -960 960 960"
-    width="20px"
-    className="fill:gray-200 dark:fill-white"
-  >
-    <path d="M480.21-480Q510-480 531-501.21t21-51Q552-582 530.79-603t-51-21Q450-624 429-602.79t-21 51Q408-522 429.21-501t51 21ZM480-191q119-107 179.5-197T720-549q0-105-68.5-174T480-792q-103 0-171.5 69T240-549q0 71 60.5 161T480-191Zm0 95Q323.03-227.11 245.51-339.55 168-452 168-549q0-134 89-224.5T479.5-864q133.5 0 223 90.5T792-549q0 97-77 209T480-96Zm0-456Z" />
-  </svg>
-);
-
 const Notes = () => {
   const [showDialog, setShowDialog] = useState(false);
+
+  const [editorContent, setEditorContent] = useState("");
+  const editorRef = useRef(null);
+
+  const handleSaveNote = () => {
+    console.log(editorContent);
+    setShowDialog(false);
+  };
+
+  useEffect(() => {
+    if (showDialog && editorRef.current) {
+      window.ClassicEditor.create(editorRef.current, {
+        toolbar: [
+          "heading",
+          "|",
+          "bold",
+          "italic",
+          "link",
+          "|",
+          "bulletedList",
+          "numberedList",
+          "|",
+          "blockQuote",
+          "insertTable",
+          "|",
+          "undo",
+          "redo",
+        ],
+        heading: {
+          options: [
+            {
+              model: "paragraph",
+              title: "Paragraph",
+              class: "ck-heading_paragraph",
+            },
+            {
+              model: "heading1",
+              view: "h1",
+              title: "Heading 1",
+              class: "ck-heading_heading1",
+            },
+            {
+              model: "heading2",
+              view: "h2",
+              title: "Heading 2",
+              class: "ck-heading_heading2",
+            },
+            {
+              model: "heading3",
+              view: "h3",
+              title: "Heading 3",
+              class: "ck-heading_heading3",
+            },
+          ],
+        },
+        placeholder: "Add new note...",
+      })
+        .then((editor) => {
+          editor.ui.view.editable.element.style.minHeight = "200px";
+
+          editor.model.document.on("change:data", () => {
+            setEditorContent(editor.getData());
+          });
+
+          editor.model.document.selection.on("change:range", () => {
+            const selectedElement =
+              editor.model.document.selection.getSelectedElement();
+            if (selectedElement) {
+              const currentBlockType = selectedElement.name;
+              console.log("Current Block Type: ", currentBlockType);
+            } else {
+              const block =
+                editor.model.document.selection
+                  .getFirstPosition()
+                  .findAncestor("paragraph") ||
+                editor.model.document.selection
+                  .getFirstPosition()
+                  .findAncestor("heading");
+              if (block) {
+                const currentBlockType = block.name; // Either 'paragraph', 'heading1', etc.
+                console.log("Current Block Type: ", currentBlockType);
+                // Reflect this in your UI if necessary.
+              }
+            }
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      return () => {
+        if (editorRef.current && editorRef.current.editor) {
+          editorRef.current.editor.destroy();
+        }
+      };
+    }
+  }, [showDialog]);
 
   const notesData = [
     {
@@ -149,12 +198,24 @@ const Notes = () => {
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className="max-w-md mx-auto bg-white p-6"
+        className="  mx-auto bg-white overflow-y-auto"
       >
-        <h2 className="text-lg font-semibold">Under Construction</h2>
-        <p className="text-sm text-gray-500 mt-2">
-          This feature is under construction.
-        </p>
+        <div className="flex justify-between items-center mb-3">
+          <p className="text-gray-600 text-xs ">For</p>
+
+          <Button variant="ghost" size="sm">
+            {" "}
+            Add Association{" "}
+          </Button>
+        </div>
+
+        <div ref={editorRef} className="editor-container "></div>
+
+        <div className="mt-4 text-start">
+          <Button onClick={handleSaveNote} className="text-white">
+            Create Note
+          </Button>
+        </div>
       </Dialog>
     </div>
   );

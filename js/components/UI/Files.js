@@ -57,12 +57,18 @@ const Files = () => {
     }
   };
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
+
   return (
     <div>
       <div className=" rounded-lg  mt-2 bg-cleanWhite p-4">
         <div className="flex justify-between mt-2 mb-6 items-center">
           <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
-          <Button className="text-white">
+          <Button className="text-white" onClick={() => setIsDialogOpen(true)}>
             <span className="mr-2"> + </span> New Document
           </Button>
         </div>
@@ -118,6 +124,10 @@ const Files = () => {
           <Pagination />
         </div>
       </div>
+
+      <Dialog open={isDialogOpen} onClose={closeDialog} className="mx-auto">
+        <FileUpload />
+      </Dialog>
     </div>
   );
 };
