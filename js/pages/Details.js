@@ -73,16 +73,16 @@ const Details = ({ path, id }) => {
               >
                 <TabsList>
                   <TabsTrigger value="overview">
-                    <p className="text-black">Overview</p>
+                    <p className="text-black dark:text-white">Overview</p>
                   </TabsTrigger>
                   <TabsTrigger value="files">
-                    <p className="text-black">Files</p>
+                    <p className="text-black dark:text-white">Files</p>
                   </TabsTrigger>
                   <TabsTrigger value="notes">
-                    <p className="text-black">Notes</p>
+                    <p className="text-black dark:text-white">Notes</p>
                   </TabsTrigger>
                   <TabsTrigger value="photos">
-                    <p className="text-black">Photos</p>
+                    <p className="text-black dark:text-white">Photos</p>
                   </TabsTrigger>
                 </TabsList>
 

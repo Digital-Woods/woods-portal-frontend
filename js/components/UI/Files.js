@@ -65,7 +65,7 @@ const Files = () => {
 
   return (
     <div>
-      <div className=" rounded-lg  mt-2 bg-cleanWhite p-4">
+      <div className=" rounded-lg  mt-2 bg-cleanWhite dark:bg-dark-300 p-4">
         <div className="flex justify-between mt-2 mb-6 items-center">
           <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
           <Button className="text-white" onClick={() => setIsDialogOpen(true)}>
@@ -73,10 +73,10 @@ const Files = () => {
           </Button>
         </div>
         <Table className="w-full border rounded-lg overflow-hidden">
-          <TableHeader className="bg-graySecondary">
+          <TableHeader className="bg-graySecondary dark:bg-dark-300">
             <TableRow>
               <TableHead className="py-2 text-left text-xs"></TableHead>
-              <TableHead className="pr-4 py-2 text-left text-xs">
+              <TableHead className="pr-4 py-2 text-left dark:text-white text-xs">
                 Name
               </TableHead>
               <TableHead className="px-4 py-2 text-right text-xs"></TableHead>
@@ -90,15 +90,17 @@ const Files = () => {
                   <div>{getIcon(file.type)}</div>
                 </TableCell>
                 <TableCell className="px-4 py-2 text-xs">
-                  <div>{file.name}</div>
-                  <div className="text-gray-500 text-xs">{file.type}</div>
+                  <div className="dark:text-white">{file.name}</div>
+                  <div className="text-gray-500 dark:text-white text-xs">
+                    {file.type}
+                  </div>
                 </TableCell>
 
                 <TableCell className="px-4 py-2 text-right">
-                  <button className="border border-gray-200 text-xs px-3 py-1 rounded mr-2">
+                  <button className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded mr-2">
                     Open
                   </button>
-                  <button className="border border-gray-200 text-xs px-3 py-1 rounded">
+                  <button className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded">
                     Download
                   </button>
                 </TableCell>
@@ -112,12 +114,12 @@ const Files = () => {
             <p className="text-secondary leading-5 text-sm dark:text-gray-300">
               Showing
             </p>
-            <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+            <span className="border border-2 dark:text-white border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
               6
             </span>
-            <span>/</span>
-            <span className="rounded-md font-medium">6</span>
-            <p className="text-secondary font-normal text-sm dark:text-gray-300">
+            <span className="dark:text-white">/</span>
+            <span className="rounded-md dark:text-white font-medium">6</span>
+            <p className="text-secondary dark:text-white font-normal text-sm dark:text-gray-300">
               Results
             </p>
           </div>
