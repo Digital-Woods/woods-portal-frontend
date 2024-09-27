@@ -104,7 +104,7 @@ const Details = ({ path, id }) => {
               <DetailsView item={item} sortItems={sortItems} />
             )}
 
-            {activeTab === "files" && <Files />}
+            {activeTab === "files" && <Files fileId={id} path={path} />}
 
             {activeTab === "notes" && <Notes />}
 

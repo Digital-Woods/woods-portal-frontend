@@ -367,3 +367,117 @@ function getLastName() {
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+const getIcon = (filename) => {
+  const extension = filename.split(".").pop().toLowerCase();
+
+  switch (extension) {
+    case "pdf":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="red"
+        >
+          <path d="M19 2h-5L7 8v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 7H9V8h5V4h5v5h-5v1z"></path>
+        </svg>
+      );
+    case "doc":
+    case "docx":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="blue"
+        >
+          <path d="M19 2H9L5 6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H9V7h5V2h5v16z"></path>
+        </svg>
+      );
+    case "xls":
+    case "xlsx":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="green"
+        >
+          <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 12l-2 2H5v-2h2v-2H5v-2h2v-2H5V6h4v6zm6-6v4h-2V6h2zm-4 8v-4h2v4h-2zm4 2v2h-2v-2h2zm-4 2v-2h2v2h-2z"></path>
+        </svg>
+      );
+    case "ppt":
+    case "pptx":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="orange"
+        >
+          <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM7 18h2v-6H7v6zm10 0h2v-6h-2v6zm-4 0h2v-6h-2v6zM7 8h8v2H7V8z"></path>
+        </svg>
+      );
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="purple"
+        >
+          <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM5 18h14V6H5v12zm2-8l3 3.5L12 11l3 4H5z"></path>
+        </svg>
+      );
+    case "svg":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="orange"
+        >
+          <path d="M6 2h12l4 6v12c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm12 16h2V8h-5V3H6v12h2v2h10z"></path>
+        </svg>
+      );
+    default:
+      // Default SVG for unmatched file types
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="gray"
+        >
+          <path d="M6 2h12v4H6V2zm2 8h2v6H8v-6zm4 0h2v6h-2v-6zm4 0h2v6h-2v-6z"></path>
+        </svg>
+      );
+  }
+};
+
+const getIconType = (type) => {
+  switch (type) {
+    case "PDF":
+      return "📄";
+    case "Word":
+      return "📝";
+    case "Excel":
+      return "📊";
+    case "Image":
+      return "🖼️";
+    case "PowerPoint":
+      return "📽️";
+    case "Text":
+      return "📑";
+    case "file":
+      return "📄";
+    case "folder":
+      return "📁";
+    default:
+      return "📁";
+  }
+};

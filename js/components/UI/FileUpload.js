@@ -7,19 +7,16 @@ const FileUpload = () => {
   };
 
   const inputChange = (e) => {
-    let filesArray = [];
+    let validFilesArray = [];
+
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i];
 
-      const allowedExtensions = /(\.pdf|\.doc|\.docx|\.xls|\.xlsx)$/i;
-      if (!allowedExtensions.exec(file.name)) {
-        alert("Invalid file type. Please upload PDF or Excel files only.");
-        continue;
-      }
+      // You can add additional validation for file extensions if needed
+      validFilesArray.push(file);
 
-      filesArray.push(file);
+      // FileReader to preview the file
       const reader = new FileReader();
-
       reader.onloadend = () => {
         setSelectedFile((prevValue) => [
           ...prevValue,
@@ -27,7 +24,7 @@ const FileUpload = () => {
             id: generateUniqueId(),
             filename: file.name,
             filetype: file.type,
-            fileimage: reader.result,
+            fileimage: reader.result, // File preview (base64)
           },
         ]);
       };
@@ -36,58 +33,9 @@ const FileUpload = () => {
         reader.readAsDataURL(file);
       }
     }
-  };
 
-  const getIcon = (filename) => {
-    const extension = filename.split(".").pop().toLowerCase();
-
-    switch (extension) {
-      case "pdf":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="red"
-          >
-            <path d="M19 2h-5L7 8v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 7H9V8h5V4h5v5h-5v1z"></path>
-          </svg>
-        );
-      case "doc":
-      case "docx":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="blue"
-          >
-            <path d="M19 2H9L5 6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H9V7h5V2h5v16z"></path>
-          </svg>
-        );
-      case "xls":
-      case "xlsx":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="green"
-          >
-            <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 12l-2 2H5v-2h2v-2H5v-2h2v-2H5V6h4v6zm6-6v4h-2V6h2zm-4 8v-4h2v4h-2zm4 2v2h-2v-2h2zm-4 2v-2h2v2h-2z"></path>
-          </svg>
-        );
-      default:
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="gray"
-          >
-            <path d="M6 2h8v5h5v11c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm6 7v7h2v-7h-2zm-4 0v7h2v-7H8zm8 0v7h2v-7h-2z"></path>
-          </svg>
-        );
+    if (validFilesArray.length > 0) {
+      e.target.value = ""; // Reset input after valid file selection
     }
   };
 
@@ -146,7 +94,6 @@ const FileUpload = () => {
                         type="file"
                         id="fileupload"
                         className="file-upload-input"
-                        accept=".pdf,.doc,.docx,.xls,.xlsx"
                         onChange={inputChange}
                         multiple
                       />

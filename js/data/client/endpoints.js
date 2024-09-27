@@ -13,4 +13,10 @@ const API_ENDPOINTS = {
   PROFILE_UPDATE: "api/users",
   GET_PROFILE_DETAILS: "/api/auth/me",
   USERS_ME: "/api/auth/me",
+
+  //File Upload
+  FILE_UPLOAD: "/api/feature-data/files",
+  ALL_FILES: "/api/feature-data/files",
+  ONE_FILE: "/api/feature-data/files",
+  DELETE_ONE_FILE: "/api/feature-data/files",
 };

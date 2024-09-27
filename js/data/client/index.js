@@ -28,6 +28,13 @@ class Client {
     me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
   };
 
+  static files = {
+    all: (me, fileId, path) =>
+      HttpClient.get(
+        `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`
+      ),
+  };
+
   static objects = {
     all: ({
       path,
