@@ -4,6 +4,35 @@ const FileTable = ({
   dropdownVisible,
   setDropdownVisible,
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleRowClick = (file) => {
+    if (file.type === "folder" && file.child && file.child.length > 0) {
+      toggleFolder(file);
+    } else {
+      setSelectedFile(file);
+      setModalVisible(true);
+    }
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedFile(null);
+  };
+
+  const handleDownload = (file, e) => {
+    e.stopPropagation(); // Prevent the modal from opening
+    // Logic to download the file (you can implement this based on your needs)
+    console.log("Downloading:", file);
+  };
+
+  const handleTrash = (file, e) => {
+    e.stopPropagation(); // Prevent the modal from opening
+    // Logic to handle trash action (you can implement this based on your needs)
+    console.log("Trashing:", file);
+  };
+
   const renderFiles = (files) => {
     if (!files || files.length === 0) {
       return (
@@ -17,52 +46,52 @@ const FileTable = ({
 
     return files.map((file, index) => (
       <React.Fragment key={file.id}>
-        <TableRow className="border-t relative">
+        <TableRow
+          className={`border-t relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
+          onClick={() => handleRowClick(file)}
+        >
           <TableCell className="px-4 py-2 text-xs">
             <div>{getIconType(file.type)}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-xs">
             <div className="dark:text-white">{file.name}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 text-xs text-right">
+          <TableCell className="px-4 py-2 text-right text-xs">
             <div>{file.type}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 text-xs text-right">
+          <TableCell className="px-4 py-2 text-right text-xs">
             <div>{file.size}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-right relative">
-            {file.type === "folder" && file.child && file.child.length > 0 ? (
+            <div className="relative">
               <button
                 className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
-                onClick={() => toggleFolder(file)}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent the modal from opening
+                  setDropdownVisible(index);
+                }}
               >
-                Open
+                Actions
               </button>
-            ) : (
-              <div className="relative">
-                <button
-                  className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent click from bubbling
-                    setDropdownVisible(index);
-                  }}
-                >
-                  Actions
-                </button>
-                {dropdownVisible === index && (
-                  <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
+              {dropdownVisible === index && (
+                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
+                  {file.type !== "folder" && (
                     <button
                       className="block w-full text-left px-4 py-2 text-sm text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
-                      onClick={() => {
-                        // Handle action
-                      }}
+                      onClick={(e) => handleDownload(file, e)} // Pass event to handleDownload
                     >
-                      Delete
+                      Download
                     </button>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
+                    onClick={(e) => handleTrash(file, e)} // Pass event to handleTrash
+                  >
+                    Trash
+                  </button>
+                </div>
+              )}
+            </div>
           </TableCell>
         </TableRow>
       </React.Fragment>
@@ -72,17 +101,20 @@ const FileTable = ({
   return (
     <div className="table-container">
       <table className="table-auto w-full mb-6">
-        <thead className="bg-gray-100 dark:bg-dark-200">
+        <thead className="bg-gray-100 text-left dark:bg-dark-200">
           <tr>
             <th className="px-4 py-2 text-xs">Type</th>
             <th className="px-4 py-2 text-xs">Name</th>
-            <th className="px-4 py-2 text-xs text-right">Type</th>
+            <th className="px-4 py-2 text-xs text-right">File Type</th>
             <th className="px-4 py-2 text-xs text-right">Size</th>
-            <th className="px-4 py-2 text-xs text-right">Actions</th>
+            <th className="px-4 py-2 text-xs"></th>
           </tr>
         </thead>
         <tbody>{renderFiles(files)}</tbody>
       </table>
+      {modalVisible && (
+        <FileDetailModal file={selectedFile} onClose={closeModal} />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-const Files = (fileId, path) => {
+const Files = ({ fileId, path }) => {
   const filesData = {
     statusCode: "200",
     data: {
@@ -101,8 +101,9 @@ const Files = (fileId, path) => {
     },
     statusMsg: "Record(s) has been successfully retrieved.",
   };
+
   const [currentFiles, setCurrentFiles] = useState(filesData.data);
-  const [folderStack, setFolderStack] = useState([]);
+  const [folderStack, setFolderStack] = useState([filesData.data]); // Set initial folder in breadcrumb
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [rightClickedFolder, setRightClickedFolder] = useState(null);
@@ -119,16 +120,16 @@ const Files = (fileId, path) => {
     currentPage * itemsPerPage
   );
 
+  // Removed filesData from the dependency array to avoid re-triggering useEffect
   useEffect(() => {
-    if (filesData.data) {
-      setCurrentFiles(filesData.data);
-    }
-  }, [filesData]);
+    setCurrentFiles(filesData.data);
+  }, []);
 
   const toggleFolder = (folder) => {
     if (folder.child && folder.child.length > 0) {
+      setFolderStack([...folderStack, folder]); // Add the folder to the breadcrumb stack
       setCurrentFiles(folder);
-      setCurrentPage(1);
+      setCurrentPage(1); // Reset pagination to the first page when switching folders
     } else {
       console.error("No children to display in this folder.");
     }
@@ -138,12 +139,9 @@ const Files = (fileId, path) => {
     const newStack = folderStack.slice(0, index + 1);
     const folder = newStack[index];
 
-    if (folder && folder.child && folder.child.length > 0) {
-      setFolderStack(newStack);
-      setCurrentFiles(folder);
-    } else {
-      console.error("Folder has no children or is invalid.");
-    }
+    setFolderStack(newStack); // Update the folder stack to reflect the clicked breadcrumb
+    setCurrentFiles(folder); // Display the clicked folder's content
+    setCurrentPage(1); // Reset pagination
   };
 
   const createFolder = () => {
@@ -178,7 +176,7 @@ const Files = (fileId, path) => {
         <div className="flex justify-between items-center">
           <Breadcrumb
             folderStack={folderStack}
-            onClick={handleBreadcrumbClick}
+            onClick={handleBreadcrumbClick} // Update breadcrumb click handler
           />
           <div className="flex space-x-2">
             <Button
@@ -215,10 +213,12 @@ const Files = (fileId, path) => {
               Showing
             </p>
             <span className="border border-2 dark:text-white border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-              {currentFiles.length}
+              {currentFiles.child.length}
             </span>
             <span className="dark:text-white">/</span>
-            <span className="rounded-md dark:text-white font-medium">6</span>
+            <span className="rounded-md dark:text-white font-medium">
+              {totalFiles}
+            </span>
             <p className="text-secondary dark:text-white font-normal text-sm dark:text-gray-300">
               Results
             </p>
