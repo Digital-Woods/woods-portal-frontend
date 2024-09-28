@@ -11,7 +11,7 @@ const Files = ({ fileId, path }) => {
 
   const { me } = useMe();
 
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () => {
       console.log(
@@ -127,7 +127,13 @@ const Files = ({ fileId, path }) => {
           {currentFiles.name || "Root"}
         </h1>
 
-        <FileTable files={paginatedFiles} toggleFolder={toggleFolder} />
+        <FileTable
+          fileId={fileId}
+          path={path}
+          files={paginatedFiles}
+          toggleFolder={toggleFolder}
+          refetch={refetch}
+        />
 
         <div className="flex justify-between items-center px-4">
           <div className="flex items-center gap-x-2 pt-3 text-sm">

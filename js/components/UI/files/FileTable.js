@@ -1,20 +1,50 @@
-const FileTable = ({ files, toggleFolder }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
+  const [selectedFileId, setSelectedFileId] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null); // Initialize activeDropdown state
+  const { me } = useMe(); // Assuming you have a hook to get user context
+
+  // Define the query for fetching file details
+  const {
+    data: fileDetails,
+    isLoading,
+    isError,
+  } = useQuery(
+    ["fileDetails", selectedFileId, path, me],
+    () => Client.files.getDetails(me, path, selectedFileId, fileId),
+    {
+      enabled: !!selectedFileId,
+      onSuccess: (data) => {
+        console.log("File Details fetched successfully:", data);
+      },
+      onError: (error) => {
+        console.error("Error fetching file details:", error);
+      },
+    }
+  );
+
+  const deleteFileMutation = useMutation(
+    (file) => Client.files.deleteafile(me, path, file.id, fileId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["fileDetails"]);
+        console.log("File deleted successfully");
+      },
+      onError: (error) => {
+        console.error("Error deleting file:", error);
+      },
+    }
+  );
 
   const handleRowClick = (file) => {
     if (file.type === "folder" && file.child && file.child.length > 0) {
       toggleFolder(file);
     } else {
-      setSelectedFile(file);
-      setModalVisible(true);
+      setSelectedFileId(file.id); // Set the selected file ID to trigger the query
     }
   };
 
   const closeModal = () => {
-    setModalVisible(false);
-    setSelectedFile(null);
+    setSelectedFileId(null);
   };
 
   const handleDownload = (file, e) => {
@@ -24,7 +54,9 @@ const FileTable = ({ files, toggleFolder }) => {
 
   const handleTrash = (file, e) => {
     e.stopPropagation();
-    console.log("Trashing:", file);
+
+    deleteFileMutation.mutate(file);
+    refetch();
   };
 
   const toggleDropdown = (index) => {
@@ -110,8 +142,13 @@ const FileTable = ({ files, toggleFolder }) => {
         </thead>
         <tbody>{renderFiles(files)}</tbody>
       </table>
-      {modalVisible && (
-        <FileDetailModal file={selectedFile} onClose={closeModal} />
+      {selectedFileId && (
+        <FileDetailModal
+          file={fileDetails}
+          onClose={closeModal}
+          loading={isLoading}
+          error={isError}
+        />
       )}
     </div>
   );

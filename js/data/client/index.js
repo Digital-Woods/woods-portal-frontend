@@ -31,13 +31,19 @@ class Client {
   static files = {
     all: (me, fileId, path) => {
       const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      console.log("Fetching URL:", url);
       return HttpClient.get(url);
     },
     create: (me, fileId, path, fileData) => {
-      const url = `https://app.dev.one.digitalwoods.io/api/feature-data/files/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      console.log("Updating File Data URL:", url);
+      const url = `${API_ENDPOINTS.FILE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       return HttpClient.post(url, fileData);
+    },
+    getDetails: (me, path, fileId, postId) => {
+      const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+      return HttpClient.get(url);
+    },
+    deleteafile: (me, path, fileId, postId) => {
+      const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+      return HttpClient.delete(url);
     },
   };
 
