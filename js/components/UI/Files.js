@@ -1,17 +1,4 @@
 const Files = (fileId, path) => {
-  // const { me } = useMe();
-  // const { data, error, isLoading } = useQuery({
-  //   queryKey: ["FilesData", fileId],
-  //   queryFn: async () =>
-  //     await Client.files.all({
-  //       path,
-  //       fileId: fileId,
-  //       me: me,
-  //     }),
-  // });
-
-  // useEffect(() => console.log(data));
-
   const filesData = {
     statusCode: "200",
     data: {
@@ -37,70 +24,165 @@ const Files = (fileId, path) => {
           updatedAt: "2024-09-27T13:04:31.145Z",
           child: [],
         },
+        {
+          id: "179637786425",
+          name: "my-document.pdf",
+          type: "PDF",
+          size: "1.50 MB",
+          updatedAt: "2024-09-27T14:00:00.000Z",
+          child: [],
+        },
+        {
+          id: "179637786426",
+          name: "my-spreadsheet.xlsx",
+          type: "Excel",
+          size: "500.00 KB",
+          updatedAt: "2024-09-27T14:15:00.000Z",
+          child: [],
+        },
+        {
+          id: "179637786427",
+          name: "my-presentation.pptx",
+          type: "PPT",
+          size: "2.00 MB",
+          updatedAt: "2024-09-27T14:30:00.000Z",
+          child: [],
+        },
+        {
+          id: "179637786428",
+          name: "images-folder",
+          type: "folder",
+          size: "-",
+          updatedAt: "2024-09-27T14:45:00.000Z",
+          child: [
+            {
+              id: "179637786429",
+              name: "image1.jpg",
+              type: "IMG",
+              size: "500.00 KB",
+              updatedAt: "2024-09-27T14:50:00.000Z",
+              child: [],
+            },
+            {
+              id: "179637786430",
+              name: "image2.jpg",
+              type: "IMG",
+              size: "450.00 KB",
+              updatedAt: "2024-09-27T14:55:00.000Z",
+              child: [],
+            },
+          ],
+        },
+        {
+          id: "179637786431",
+          name: "reports-folder",
+          type: "folder",
+          size: "-",
+          updatedAt: "2024-09-27T15:00:00.000Z",
+          child: [
+            {
+              id: "179637786432",
+              name: "report-2023.pdf",
+              type: "PDF",
+              size: "1.20 MB",
+              updatedAt: "2024-09-27T15:05:00.000Z",
+            },
+            {
+              id: "179637786433",
+              name: "report-2022.pdf",
+              type: "PDF",
+              size: "1.00 MB",
+              updatedAt: "2024-09-27T15:10:00.000Z",
+              child: [],
+            },
+          ],
+        },
       ],
     },
     statusMsg: "Record(s) has been successfully retrieved.",
   };
 
-  const [currentFiles, setCurrentFiles] = useState(filesData);
+  const [currentFiles, setCurrentFiles] = useState(filesData.data);
   const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [rightClickedFolder, setRightClickedFolder] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const totalFiles = currentFiles.length;
+
+  const totalFiles = currentFiles.child.length;
   const numOfPages = Math.ceil(totalFiles / itemsPerPage);
 
-  const paginatedFiles = currentFiles.slice(
+  const paginatedFiles = currentFiles.child.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  useEffect(() => {
+    if (filesData.data) {
+      setCurrentFiles(filesData.data);
+    }
+  }, [filesData]);
+
+  useEffect(() => {
+    if (currentFiles && currentFiles.type === "folder") {
+      if (currentFiles.child && currentFiles.child.length > 0) {
+        console.log("Folder has children:", currentFiles.child);
+        setCurrentFiles(currentFiles);
+      } else {
+        console.error("Folder has no children or is invalid.");
+      }
+    } else {
+      console.error("Current file is not a folder.");
+    }
+  }, [currentFiles]);
+
   const toggleFolder = (folder) => {
-    if (folder.child && Array.isArray(folder.child)) {
-      setFolderStack([...folderStack, folder]); // Update folder stack with the current folder
-      setCurrentFiles(folder.child); // Set the child folders/files as the new currentFiles
+    if (folder.child && folder.child.length > 0) {
+      setCurrentFiles(folder);
+      setCurrentPage(1);
+    } else {
+      console.error("No children to display in this folder.");
     }
   };
 
-  const goBack = () => {
-    if (folderStack.length > 0) {
-      const newStack = [...folderStack];
-      newStack.pop(); // Remove the last folder from the stack
-      setFolderStack(newStack); // Update the folder stack
-
-      // If there are folders left in the stack, show their child files; otherwise, show root files
-      setCurrentFiles(
-        newStack.length > 0 ? newStack[newStack.length - 1].child : filesData
-      );
-    }
+  const toggleDropdown = (index) => {
+    setDropdownVisible((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const renderFiles = (files) => {
-    const [dropdownVisible, setDropdownVisible] = useState(null);
-
-    const toggleDropdown = (index) => {
-      setDropdownVisible(dropdownVisible === index ? null : index);
-    };
+    if (!files || files.length === 0) {
+      return (
+        <TableRow>
+          <TableCell colSpan={5} className="text-center text-gray-500">
+            No files available
+          </TableCell>
+        </TableRow>
+      );
+    }
 
     return files.map((file, index) => (
-      <React.Fragment key={file.name}>
+      <React.Fragment key={file.id}>
         <TableRow className="border-t relative">
           <TableCell className="px-4 py-2 text-xs">
             <div>{getIconType(file.type)}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-xs">
             <div className="dark:text-white">{file.name}</div>
-            <div className="text-gray-500 dark:text-white text-xs">
-              {file.type}
-            </div>
+          </TableCell>
+          <TableCell className="px-4 py-2 text-xs text-right">
+            <div>{file.type}</div>
+          </TableCell>
+          <TableCell className="px-4 py-2 text-xs text-right">
+            <div>{file.size}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-right relative">
-            {file.type === "folder" ? (
+            {file.type === "folder" && file.child && file.child.length > 0 ? (
               <button
-                className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded mr-2"
+                className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
                 onClick={() => toggleFolder(file)}
               >
                 Open
@@ -109,7 +191,10 @@ const Files = (fileId, path) => {
               <div className="relative">
                 <button
                   className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
-                  onClick={() => toggleDropdown(index)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent click from bubbling
+                    toggleDropdown(index);
+                  }}
                 >
                   Actions
                 </button>
@@ -117,13 +202,19 @@ const Files = (fileId, path) => {
                   <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
                     <button
                       className="block w-full text-left px-4 py-2 text-xs dark:text-white hover:bg-gray-100 dark:hover:bg-dark-100"
-                      onClick={() => console.log(`Download ${file.name}`)}
+                      onClick={(e) => {
+                        console.log(`Download ${file.name}`);
+                        e.stopPropagation(); // Prevent click from bubbling
+                      }}
                     >
                       Download
                     </button>
                     <button
                       className="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-gray-100 dark:hover:bg-dark-100"
-                      onClick={() => console.log(`Trash ${file.name}`)}
+                      onClick={(e) => {
+                        console.log(`Trash ${file.name}`);
+                        e.stopPropagation(); // Prevent click from bubbling
+                      }}
                     >
                       Trash
                     </button>
@@ -159,6 +250,18 @@ const Files = (fileId, path) => {
     setIsDialogOpen(false);
   };
 
+  const handleBreadcrumbClick = (index) => {
+    const newStack = folderStack.slice(0, index + 1);
+    const folder = newStack[index];
+
+    if (folder && folder.child && folder.child.length > 0) {
+      setFolderStack(newStack);
+      setCurrentFiles(folder);
+    } else {
+      console.error("Folder has no children or is invalid.");
+    }
+  };
+
   return (
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 p-4">
@@ -173,13 +276,7 @@ const Files = (fileId, path) => {
                 <li key={index} className="flex items-center">
                   <span
                     className="text-primary cursor-pointer"
-                    onClick={() => {
-                      const newStack = folderStack.slice(0, index + 1);
-                      setFolderStack(newStack);
-                      setCurrentFiles(
-                        index === 0 ? filesData : newStack[index].child
-                      );
-                    }}
+                    onClick={handleBreadcrumbClick}
                   >
                     {folder.name}
                   </span>
@@ -219,12 +316,19 @@ const Files = (fileId, path) => {
               <TableHead className="pr-4 py-2 text-left dark:text-white text-xs">
                 Name
               </TableHead>
+              <TableHead className="px-4 py-2 text-right dark:text-white text-xs">
+                Type
+              </TableHead>
+              <TableHead className="px-4 py-2 text-right dark:text-white text-xs">
+                Size
+              </TableHead>
               <TableHead className="px-4 py-2 text-right text-xs"></TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>{renderFiles(paginatedFiles)}</TableBody>
         </Table>
+
         <div className="flex justify-between items-center px-4">
           <div className="flex items-center gap-x-2 pt-3 text-sm">
             <p className="text-secondary leading-5 text-sm dark:text-gray-300">
