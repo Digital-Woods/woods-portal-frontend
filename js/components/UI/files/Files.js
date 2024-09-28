@@ -101,7 +101,6 @@ const Files = (fileId, path) => {
     },
     statusMsg: "Record(s) has been successfully retrieved.",
   };
-
   const [currentFiles, setCurrentFiles] = useState(filesData.data);
   const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -112,7 +111,6 @@ const Files = (fileId, path) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-
   const totalFiles = currentFiles.child.length;
   const numOfPages = Math.ceil(totalFiles / itemsPerPage);
 
@@ -127,19 +125,6 @@ const Files = (fileId, path) => {
     }
   }, [filesData]);
 
-  useEffect(() => {
-    if (currentFiles && currentFiles.type === "folder") {
-      if (currentFiles.child && currentFiles.child.length > 0) {
-        console.log("Folder has children:", currentFiles.child);
-        setCurrentFiles(currentFiles);
-      } else {
-        console.error("Folder has no children or is invalid.");
-      }
-    } else {
-      console.error("Current file is not a folder.");
-    }
-  }, [currentFiles]);
-
   const toggleFolder = (folder) => {
     if (folder.child && folder.child.length > 0) {
       setCurrentFiles(folder);
@@ -149,87 +134,16 @@ const Files = (fileId, path) => {
     }
   };
 
-  const toggleDropdown = (index) => {
-    setDropdownVisible((prevIndex) => (prevIndex === index ? null : index));
-  };
+  const handleBreadcrumbClick = (index) => {
+    const newStack = folderStack.slice(0, index + 1);
+    const folder = newStack[index];
 
-  const renderFiles = (files) => {
-    if (!files || files.length === 0) {
-      return (
-        <TableRow>
-          <TableCell colSpan={5} className="text-center text-gray-500">
-            No files available
-          </TableCell>
-        </TableRow>
-      );
+    if (folder && folder.child && folder.child.length > 0) {
+      setFolderStack(newStack);
+      setCurrentFiles(folder);
+    } else {
+      console.error("Folder has no children or is invalid.");
     }
-
-    return files.map((file, index) => (
-      <React.Fragment key={file.id}>
-        <TableRow className="border-t relative">
-          <TableCell className="px-4 py-2 text-xs">
-            <div>{getIconType(file.type)}</div>
-          </TableCell>
-          <TableCell className="px-4 py-2 text-xs">
-            <div className="dark:text-white">{file.name}</div>
-          </TableCell>
-          <TableCell className="px-4 py-2 text-xs text-right">
-            <div>{file.type}</div>
-          </TableCell>
-          <TableCell className="px-4 py-2 text-xs text-right">
-            <div>{file.size}</div>
-          </TableCell>
-          <TableCell className="px-4 py-2 text-right relative">
-            {file.type === "folder" && file.child && file.child.length > 0 ? (
-              <button
-                className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
-                onClick={() => toggleFolder(file)}
-              >
-                Open
-              </button>
-            ) : (
-              <div className="relative">
-                <button
-                  className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent click from bubbling
-                    toggleDropdown(index);
-                  }}
-                >
-                  Actions
-                </button>
-                {dropdownVisible === index && (
-                  <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
-                    <button
-                      className="block w-full text-left px-4 py-2 text-xs dark:text-white hover:bg-gray-100 dark:hover:bg-dark-100"
-                      onClick={(e) => {
-                        console.log(`Download ${file.name}`);
-                        e.stopPropagation(); // Prevent click from bubbling
-                      }}
-                    >
-                      Download
-                    </button>
-                    <button
-                      className="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-gray-100 dark:hover:bg-dark-100"
-                      onClick={(e) => {
-                        console.log(`Trash ${file.name}`);
-                        e.stopPropagation(); // Prevent click from bubbling
-                      }}
-                    >
-                      Trash
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    ));
-  };
-
-  const closeContextMenu = () => {
-    document.getElementById("contextMenu").style.display = "none";
   };
 
   const createFolder = () => {
@@ -246,20 +160,12 @@ const Files = (fileId, path) => {
     }
   };
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
+  const closeContextMenu = () => {
+    document.getElementById("contextMenu").style.display = "none";
   };
 
-  const handleBreadcrumbClick = (index) => {
-    const newStack = folderStack.slice(0, index + 1);
-    const folder = newStack[index];
-
-    if (folder && folder.child && folder.child.length > 0) {
-      setFolderStack(newStack);
-      setCurrentFiles(folder);
-    } else {
-      console.error("Folder has no children or is invalid.");
-    }
+  const closeDialog = () => {
+    setIsDialogOpen(false);
   };
 
   return (
@@ -270,23 +176,10 @@ const Files = (fileId, path) => {
         </div>
 
         <div className="flex justify-between items-center">
-          <nav className="text-xs">
-            <ol className="flex space-x-2">
-              {folderStack.map((folder, index) => (
-                <li key={index} className="flex items-center">
-                  <span
-                    className="text-primary cursor-pointer"
-                    onClick={handleBreadcrumbClick}
-                  >
-                    {folder.name}
-                  </span>
-                  {index < folderStack.length - 1 && (
-                    <span className="mx-1"> / </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
+          <Breadcrumb
+            folderStack={folderStack}
+            onClick={handleBreadcrumbClick}
+          />
           <div className="flex space-x-2">
             <Button
               size="sm"
@@ -306,28 +199,15 @@ const Files = (fileId, path) => {
         </div>
 
         <h1 className="text-xl font-semibold mb-4 dark:text-white">
-          {currentFiles.length > 0 ? currentFiles[0].name : "Root"}
+          {currentFiles.name || "Root"}
         </h1>
 
-        <Table className="w-full border rounded-lg overflow-hidden">
-          <TableHeader className="bg-graySecondary dark:bg-dark-300">
-            <TableRow>
-              <TableHead className="py-2 text-left text-xs"></TableHead>
-              <TableHead className="pr-4 py-2 text-left dark:text-white text-xs">
-                Name
-              </TableHead>
-              <TableHead className="px-4 py-2 text-right dark:text-white text-xs">
-                Type
-              </TableHead>
-              <TableHead className="px-4 py-2 text-right dark:text-white text-xs">
-                Size
-              </TableHead>
-              <TableHead className="px-4 py-2 text-right text-xs"></TableHead>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>{renderFiles(paginatedFiles)}</TableBody>
-        </Table>
+        <FileTable
+          files={paginatedFiles}
+          toggleFolder={toggleFolder}
+          dropdownVisible={dropdownVisible}
+          setDropdownVisible={setDropdownVisible}
+        />
 
         <div className="flex justify-between items-center px-4">
           <div className="flex items-center gap-x-2 pt-3 text-sm">
@@ -343,6 +223,7 @@ const Files = (fileId, path) => {
               Results
             </p>
           </div>
+
           <Pagination
             numOfPages={numOfPages}
             currentPage={currentPage}
@@ -351,37 +232,12 @@ const Files = (fileId, path) => {
         </div>
       </div>
 
-      <div
-        id="contextMenu"
-        className="hidden fixed bg-white dark:bg-dark-200 rounded shadow-md z-50"
-      >
-        <button
-          className="block w-full px-4 py-2 text-left text-gray-700 dark:text-gray-300"
-          onClick={() => {
-            setIsCreateFolderOpen(true);
-            closeContextMenu();
-          }}
-        >
-          Create New Folder
-        </button>
-        <button
-          className="block w-full px-4 py-2 text-left text-gray-700 dark:text-gray-300"
-          onClick={() => {
-            setIsDialogOpen(true);
-            closeContextMenu();
-          }}
-        >
-          File Upload
-        </button>
-      </div>
-
       <Dialog
         open={isCreateFolderOpen}
         onClose={() => setIsCreateFolderOpen(false)}
-        className=""
       >
-        <div className="flex items-center justify-center ">
-          <div className="bg-cleanWhite dark:bg-dark-200 ">
+        <div className="flex items-center justify-center">
+          <div className="bg-cleanWhite dark:bg-dark-200">
             <h2 className="text-lg font-semibold mb-4 dark:text-white">
               New Folder
             </h2>
@@ -404,10 +260,8 @@ const Files = (fileId, path) => {
         </div>
       </Dialog>
 
-      <Dialog open={isDialogOpen} onClose={closeDialog} className="">
-        <div className="">
-          <FileUpload />
-        </div>
+      <Dialog open={isDialogOpen} onClose={closeDialog}>
+        <FileUpload />
       </Dialog>
     </div>
   );
