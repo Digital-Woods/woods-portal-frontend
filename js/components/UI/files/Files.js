@@ -189,7 +189,7 @@ const Files = ({ fileId, path }) => {
       </Dialog>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <FileUpload fileId={fileId} path={path} />
+        <FileUpload fileId={fileId} path={path} refetch={refetch} />
       </Dialog>
     </div>
   );

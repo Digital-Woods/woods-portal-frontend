@@ -1,6 +1,8 @@
-const FileUpload = ({ fileId, path }) => {
+const FileUpload = ({ fileId, path, refetch }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false); // To track upload status
+  const [alert, setAlert] = useState({ message: "", type: "", show: false }); // Alert state
   const { me } = useMe();
 
   const generateUniqueId = () => {
@@ -49,12 +51,24 @@ const FileUpload = ({ fileId, path }) => {
       await Client.files.create(me, fileId, path, fileData);
     },
     onSuccess: () => {
-      console.log("File uploaded successfully");
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
+      setIsUploading(false); // Turn off the uploading spinner
+      setAlert({
+        message: "Files uploaded successfully!",
+        type: "success",
+        show: true,
+      });
+      refetch();
     },
     onError: (error) => {
       console.error("Error uploading files:", error);
+      setIsUploading(false); // Turn off the uploading spinner
+      setAlert({
+        message: "Error uploading files!",
+        type: "error",
+        show: true,
+      });
     },
   });
 
@@ -63,6 +77,7 @@ const FileUpload = ({ fileId, path }) => {
     e.target.reset();
 
     if (selectedFile.length > 0) {
+      setIsUploading(true); // Turn on the uploading spinner
       for (const file of selectedFile) {
         const fileData = {
           fileName: file.filename,
@@ -85,6 +100,10 @@ const FileUpload = ({ fileId, path }) => {
       const result = files.filter((data) => data.id !== id);
       setFiles(result);
     }
+  };
+
+  const closeAlert = () => {
+    setAlert((prev) => ({ ...prev, show: false }));
   };
 
   return (
@@ -110,7 +129,7 @@ const FileUpload = ({ fileId, path }) => {
                           width="40px"
                           className="fill-black dark:fill-white my-3"
                         >
-                          <path d="M260-200q-74.85 0-127.42-52.06Q80-304.11 80-379.31q0-71.07 48.92-123.23 48.93-52.15 114.93-56.08Q257.31-646 324.23-703q66.92-57 155.77-57 100.29 0 170.14 69.86Q720-620.29 720-520v40h24.62q57.46 1.85 96.42 42.19Q880-397.46 880-340q0 58.85-39.81 99.42Q800.38-200 741.54-200H524.62q-27.62 0-46.12-18.5Q460-237 460-264.62v-232.15l-84 83.54-28.31-27.54L480-573.08l132.31 132.31L584-413.23l-84-83.54v232.15q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69H740q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-83 0-141.5 58.5T280-520h-21.54q-55.69 0-97.08 41Q120-438 120-380t41 99q41 41 99 41h100v40H260Zm220-260Z" />
+                          <path d="..." />
                         </svg>
                       </div>
                       <input
@@ -132,7 +151,7 @@ const FileUpload = ({ fileId, path }) => {
                       const { id, filename } = data;
                       return (
                         <div
-                          className="file-atc-box border border-gray-300 rounded-lg shadow-md p-2 mb-2 "
+                          className="file-atc-box border border-gray-300 rounded-lg shadow-md p-2 mb-2"
                           key={id}
                         >
                           <div className="file-detail flex items-center">
@@ -154,39 +173,19 @@ const FileUpload = ({ fileId, path }) => {
                       );
                     })}
                   </div>
-                  <Button type="submit">Upload</Button>
+                  <Button type="submit" disabled={isUploading}>
+                    {isUploading ? "Uploading..." : "Upload"}
+                  </Button>
                 </form>
 
-                {files.length > 0 && (
-                  <div className="kb-attach-box">
-                    <hr />
-                    {files.map((data) => {
-                      const { id, filename } = data;
-                      return (
-                        <div className="file-atc-box" key={id}>
-                          <div className="file-detail flex items-center">
-                            {getIcon(filename)}
-                            <h6 className="ml-2 ">{filename}</h6>
-                            <div className="file-actions ml-auto">
-                              <a
-                                href={data.fileimage}
-                                className="file-action-btn"
-                                download={filename}
-                              >
-                                Download
-                              </a>
-                              <button
-                                className="file-action-btn ml-3"
-                                onClick={() => deleteFile(id)}
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                {/* Success message */}
+                {alert.show && alert.type === "success" && (
+                  <div className="text-green-600 mt-3">{alert.message}</div>
+                )}
+
+                {/* Error message */}
+                {alert.show && alert.type === "error" && (
+                  <div className="text-red-600 mt-3">{alert.message}</div>
                 )}
               </div>
             </div>
