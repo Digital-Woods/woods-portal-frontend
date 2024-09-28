@@ -29,10 +29,11 @@ class Client {
   };
 
   static files = {
-    all: (me, fileId, path) =>
-      HttpClient.get(
-        `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`
-      ),
+    all: (me, fileId, path) => {
+      const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      console.log("Fetching URL:", url);
+      return HttpClient.get(url);
+    },
   };
 
   static objects = {

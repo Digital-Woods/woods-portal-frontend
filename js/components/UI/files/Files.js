@@ -103,12 +103,11 @@ const Files = ({ fileId, path }) => {
   };
 
   const [currentFiles, setCurrentFiles] = useState(filesData.data);
-  const [folderStack, setFolderStack] = useState([filesData.data]); // Set initial folder in breadcrumb
+  const [folderStack, setFolderStack] = useState([filesData.data]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [rightClickedFolder, setRightClickedFolder] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -120,7 +119,24 @@ const Files = ({ fileId, path }) => {
     currentPage * itemsPerPage
   );
 
-  // Removed filesData from the dependency array to avoid re-triggering useEffect
+  const { me } = useMe();
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["FilesData", fileId],
+    queryFn: async () => {
+      console.log(
+        "Fetching files with:",
+        me.hubspotPortals.templateName,
+        fileId,
+        path
+      );
+
+      return await Client.files.all(me, fileId, path);
+    },
+  });
+
+  console.log(data);
+
   useEffect(() => {
     setCurrentFiles(filesData.data);
   }, []);
@@ -176,7 +192,7 @@ const Files = ({ fileId, path }) => {
         <div className="flex justify-between items-center">
           <Breadcrumb
             folderStack={folderStack}
-            onClick={handleBreadcrumbClick} // Update breadcrumb click handler
+            onClick={handleBreadcrumbClick}
           />
           <div className="flex space-x-2">
             <Button
@@ -200,12 +216,7 @@ const Files = ({ fileId, path }) => {
           {currentFiles.name || "Root"}
         </h1>
 
-        <FileTable
-          files={paginatedFiles}
-          toggleFolder={toggleFolder}
-          dropdownVisible={dropdownVisible}
-          setDropdownVisible={setDropdownVisible}
-        />
+        <FileTable files={paginatedFiles} toggleFolder={toggleFolder} />
 
         <div className="flex justify-between items-center px-4">
           <div className="flex items-center gap-x-2 pt-3 text-sm">

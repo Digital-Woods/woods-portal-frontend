@@ -1,11 +1,7 @@
-const FileTable = ({
-  files,
-  toggleFolder,
-  dropdownVisible,
-  setDropdownVisible,
-}) => {
+const FileTable = ({ files, toggleFolder }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const handleRowClick = (file) => {
     if (file.type === "folder" && file.child && file.child.length > 0) {
@@ -29,6 +25,10 @@ const FileTable = ({
   const handleTrash = (file, e) => {
     e.stopPropagation();
     console.log("Trashing:", file);
+  };
+
+  const toggleDropdown = (index) => {
+    setActiveDropdown(activeDropdown === index ? null : index);
   };
 
   const renderFiles = (files) => {
@@ -66,12 +66,12 @@ const FileTable = ({
                 className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setDropdownVisible(index);
+                  toggleDropdown(index); // Toggle dropdown visibility
                 }}
               >
                 Actions
               </button>
-              {dropdownVisible === index && (
+              {activeDropdown === index && ( // Check against the new state
                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
                   {file.type !== "folder" && (
                     <button
