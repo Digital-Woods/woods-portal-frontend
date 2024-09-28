@@ -22,14 +22,12 @@ const FileTable = ({
   };
 
   const handleDownload = (file, e) => {
-    e.stopPropagation(); // Prevent the modal from opening
-    // Logic to download the file (you can implement this based on your needs)
+    e.stopPropagation();
     console.log("Downloading:", file);
   };
 
   const handleTrash = (file, e) => {
-    e.stopPropagation(); // Prevent the modal from opening
-    // Logic to handle trash action (you can implement this based on your needs)
+    e.stopPropagation();
     console.log("Trashing:", file);
   };
 
@@ -67,7 +65,7 @@ const FileTable = ({
               <button
                 className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent the modal from opening
+                  e.stopPropagation();
                   setDropdownVisible(index);
                 }}
               >
@@ -78,14 +76,14 @@ const FileTable = ({
                   {file.type !== "folder" && (
                     <button
                       className="block w-full text-left px-4 py-2 text-sm text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
-                      onClick={(e) => handleDownload(file, e)} // Pass event to handleDownload
+                      onClick={(e) => handleDownload(file, e)}
                     >
                       Download
                     </button>
                   )}
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
-                    onClick={(e) => handleTrash(file, e)} // Pass event to handleTrash
+                    onClick={(e) => handleTrash(file, e)}
                   >
                     Trash
                   </button>
