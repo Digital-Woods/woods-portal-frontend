@@ -66,6 +66,11 @@ class HttpClient {
     return response.data;
   }
 
+  static async patch(url, data) {
+    const response = await Axios.patch(url, data);
+    return response.data;
+  }
+
   static async put(url, data) {
     const response = await Axios.put(url, data);
     return response.data;

@@ -1,109 +1,6 @@
 const Files = ({ fileId, path }) => {
-  const filesData = {
-    statusCode: "200",
-    data: {
-      id: "14979091729",
-      name: "Neha",
-      type: "folder",
-      size: "-",
-      updatedAt: "-",
-      child: [
-        {
-          id: "179637786257",
-          name: "my-doc.png",
-          type: "IMG",
-          size: "3.00 KB",
-          updatedAt: "2024-09-27T13:03:50.098Z",
-          child: [],
-        },
-        {
-          id: "179637786424",
-          name: "my-doc-1.png",
-          type: "IMG",
-          size: "3.00 KB",
-          updatedAt: "2024-09-27T13:04:31.145Z",
-          child: [],
-        },
-        {
-          id: "179637786425",
-          name: "my-document.pdf",
-          type: "PDF",
-          size: "1.50 MB",
-          updatedAt: "2024-09-27T14:00:00.000Z",
-          child: [],
-        },
-        {
-          id: "179637786426",
-          name: "my-spreadsheet.xlsx",
-          type: "Excel",
-          size: "500.00 KB",
-          updatedAt: "2024-09-27T14:15:00.000Z",
-          child: [],
-        },
-        {
-          id: "179637786427",
-          name: "my-presentation.pptx",
-          type: "PPT",
-          size: "2.00 MB",
-          updatedAt: "2024-09-27T14:30:00.000Z",
-          child: [],
-        },
-        {
-          id: "179637786428",
-          name: "images-folder",
-          type: "folder",
-          size: "-",
-          updatedAt: "2024-09-27T14:45:00.000Z",
-          child: [
-            {
-              id: "179637786429",
-              name: "image1.jpg",
-              type: "IMG",
-              size: "500.00 KB",
-              updatedAt: "2024-09-27T14:50:00.000Z",
-              child: [],
-            },
-            {
-              id: "179637786430",
-              name: "image2.jpg",
-              type: "IMG",
-              size: "450.00 KB",
-              updatedAt: "2024-09-27T14:55:00.000Z",
-              child: [],
-            },
-          ],
-        },
-        {
-          id: "179637786431",
-          name: "reports-folder",
-          type: "folder",
-          size: "-",
-          updatedAt: "2024-09-27T15:00:00.000Z",
-          child: [
-            {
-              id: "179637786432",
-              name: "report-2023.pdf",
-              type: "PDF",
-              size: "1.20 MB",
-              updatedAt: "2024-09-27T15:05:00.000Z",
-            },
-            {
-              id: "179637786433",
-              name: "report-2022.pdf",
-              type: "PDF",
-              size: "1.00 MB",
-              updatedAt: "2024-09-27T15:10:00.000Z",
-              child: [],
-            },
-          ],
-        },
-      ],
-    },
-    statusMsg: "Record(s) has been successfully retrieved.",
-  };
-
-  const [currentFiles, setCurrentFiles] = useState(filesData.data);
-  const [folderStack, setFolderStack] = useState([filesData.data]);
+  const [currentFiles, setCurrentFiles] = useState({ child: [] }); // Initialize as an object with child
+  const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [rightClickedFolder, setRightClickedFolder] = useState(null);
@@ -111,13 +8,6 @@ const Files = ({ fileId, path }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const totalFiles = currentFiles.child.length;
-  const numOfPages = Math.ceil(totalFiles / itemsPerPage);
-
-  const paginatedFiles = currentFiles.child.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   const { me } = useMe();
 
@@ -130,22 +20,38 @@ const Files = ({ fileId, path }) => {
         fileId,
         path
       );
-
       return await Client.files.all(me, fileId, path);
     },
   });
 
-  console.log(data);
-
   useEffect(() => {
-    setCurrentFiles(filesData.data);
-  }, []);
+    if (data) {
+      setCurrentFiles(data.data); // Set currentFiles to the fetched data
+      setFolderStack([data.data]); // Initialize folderStack with the root folder
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Show loading state
+  }
+
+  if (error) {
+    return <div>Error loading files.</div>; // Handle error state
+  }
+
+  const totalFiles = currentFiles.child.length;
+  const numOfPages = Math.ceil(totalFiles / itemsPerPage);
+
+  const paginatedFiles = currentFiles.child.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const toggleFolder = (folder) => {
     if (folder.child && folder.child.length > 0) {
-      setFolderStack([...folderStack, folder]); // Add the folder to the breadcrumb stack
+      setFolderStack([...folderStack, folder]);
       setCurrentFiles(folder);
-      setCurrentPage(1); // Reset pagination to the first page when switching folders
+      setCurrentPage(1);
     } else {
       console.error("No children to display in this folder.");
     }
@@ -155,20 +61,25 @@ const Files = ({ fileId, path }) => {
     const newStack = folderStack.slice(0, index + 1);
     const folder = newStack[index];
 
-    setFolderStack(newStack); // Update the folder stack to reflect the clicked breadcrumb
-    setCurrentFiles(folder); // Display the clicked folder's content
-    setCurrentPage(1); // Reset pagination
+    setFolderStack(newStack);
+    setCurrentFiles(folder);
+    setCurrentPage(1);
   };
 
   const createFolder = () => {
     if (newFolderName) {
-      const newFolder = { name: newFolderName, type: "folder", child: [] };
+      const newFolder = {
+        id: Date.now().toString(),
+        name: newFolderName,
+        type: "folder",
+        child: [],
+      };
       if (rightClickedFolder) {
         rightClickedFolder.child.push(newFolder);
       } else {
-        currentFiles.push(newFolder);
+        currentFiles.child.push(newFolder);
       }
-      setCurrentFiles([...currentFiles]);
+      setCurrentFiles({ ...currentFiles });
       setNewFolderName("");
       setIsCreateFolderOpen(false);
     }
@@ -272,7 +183,7 @@ const Files = ({ fileId, path }) => {
       </Dialog>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <FileUpload />
+        <FileUpload fileId={fileId} path={path} />
       </Dialog>
     </div>
   );

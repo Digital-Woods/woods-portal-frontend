@@ -34,6 +34,11 @@ class Client {
       console.log("Fetching URL:", url);
       return HttpClient.get(url);
     },
+    create: (me, fileId, path, fileData) => {
+      const url = `https://app.dev.one.digitalwoods.io/api/feature-data/files/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      console.log("Updating File Data URL:", url);
+      return HttpClient.post(url, fileData);
+    },
   };
 
   static objects = {

@@ -39,7 +39,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
   const { me } = useMe();
-  useEffect(() => console.log(currentPage), [currentPage]);
+  // useEffect(() => console.log(currentPage), [currentPage]);
 
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment

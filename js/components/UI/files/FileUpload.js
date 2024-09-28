@@ -1,6 +1,7 @@
-const FileUpload = () => {
+const FileUpload = ({ fileId, path }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
+  const { me } = useMe();
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -11,11 +12,8 @@ const FileUpload = () => {
 
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i];
-
-      // You can add additional validation for file extensions if needed
       validFilesArray.push(file);
 
-      // FileReader to preview the file
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedFile((prevValue) => [
@@ -24,7 +22,7 @@ const FileUpload = () => {
             id: generateUniqueId(),
             filename: file.name,
             filetype: file.type,
-            fileimage: reader.result, // File preview (base64)
+            fileimage: reader.result,
           },
         ]);
       };
@@ -35,7 +33,7 @@ const FileUpload = () => {
     }
 
     if (validFilesArray.length > 0) {
-      e.target.value = ""; // Reset input after valid file selection
+      e.target.value = "";
     }
   };
 
@@ -46,12 +44,37 @@ const FileUpload = () => {
     }
   };
 
+  const uploadFileMutation = useMutation({
+    mutationFn: async (fileData) => {
+      await Client.files.create(me, fileId, path, fileData);
+    },
+    onSuccess: () => {
+      console.log("File uploaded successfully");
+      setFiles((prevValue) => [...prevValue, ...selectedFile]);
+      setSelectedFile([]);
+    },
+    onError: (error) => {
+      console.error("Error uploading files:", error);
+    },
+  });
+
   const fileUploadSubmit = async (e) => {
     e.preventDefault();
     e.target.reset();
+
     if (selectedFile.length > 0) {
-      setFiles((prevValue) => [...prevValue, ...selectedFile]);
-      setSelectedFile([]);
+      for (const file of selectedFile) {
+        const fileData = {
+          fileName: file.filename,
+          fileData: file.fileimage.split(",")[1], // Extract base64 data
+        };
+
+        try {
+          await uploadFileMutation.mutateAsync(fileData); // Call the mutation
+        } catch (err) {
+          console.error("Error during file upload:", err);
+        }
+      }
     } else {
       alert("Please select a file");
     }
@@ -99,12 +122,12 @@ const FileUpload = () => {
                       />
                       <p> Drag and drop </p>
                       <p> or </p>
-                      <p className="border-2 border-black text-black p-2  rounded-lg !mt-3 font-semibold">
+                      <p className="border-2 border-black text-black p-2 rounded-lg !mt-3 font-semibold">
                         Browse
                       </p>
                     </div>
                   </div>
-                  <div className="kb-attach-box mb-3  max-h-[100px] overflow-y-scroll scrollbar">
+                  <div className="kb-attach-box mb-3 max-h-[100px] overflow-y-scroll scrollbar">
                     {selectedFile.map((data) => {
                       const { id, filename } = data;
                       return (
