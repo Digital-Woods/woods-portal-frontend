@@ -1,3 +1,39 @@
+// Set
+const setAuthCredentials = async (data, days = env.COOKIE_EXPIRE) => {
+  return new Promise((resolve) => {
+    setCookie(env.AUTH_TOKEN_KEY, JSON.stringify(data), days);
+    resolve();
+  });
+};
+
+const setLoggedInDetails = async (data, days = env.COOKIE_EXPIRE) => {
+  return new Promise((resolve) => {
+    setCookie(env.LOGIN_DETAILS, JSON.stringify(data), days);
+    resolve();
+  });
+};
+
+const setTwoFa = async (data, days = env.COOKIE_EXPIRE) => {
+  return new Promise((resolve) => {
+    setCookie(env.TWO_FA, JSON.stringify(data), days);
+    resolve();
+  });
+};
+
+// Get
+const getAuthCredentials = () => {
+  return JSON.parse(getCookie(env.AUTH_TOKEN_KEY));
+};
+
+const getLoggedInDetails = () => {
+  return JSON.parse(getCookie(env.LOGIN_DETAILS));
+};
+
+const getTwoFa = () => {
+  return JSON.parse(getCookie(env.TWO_FA));
+};
+
+// Reuse functions
 function setCookie(name, value, days) {
   let expires = "";
   if (days) {
@@ -44,7 +80,7 @@ function setAuthToken(token) {
 }
 
 function isAuthenticated() {
-  if(isLivePreview()) return true;
+  if (isLivePreview()) return true;
   return !!getCookie(env.AUTH_TOKEN_KEY);
 }
 

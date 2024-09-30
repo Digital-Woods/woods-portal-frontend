@@ -87,12 +87,12 @@ const Login = () => {
   const { getMe, me } = useMe();
   const setUserDetails = useSetRecoilState(userDetailsAtom);
 
-  const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
-    return new Promise((resolve) => {
-      setCookie(key, value, days);
-      resolve();
-    });
-  };
+  // const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
+  //   return new Promise((resolve) => {
+  //     setCookie(key, value, days);
+  //     resolve();
+  //   });
+  // };
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["loginUser"],
@@ -113,19 +113,25 @@ const Login = () => {
         return;
       }
 
-      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
-      getMe(); // Fetch user details
+      if(data.data.loggedInDetails && data.data.loggedInDetails.hubspotPortals && data.data.loggedInDetails.hubspotPortals.twoFa) {
+        setLoggedInDetails(data.data)
+        setTwoFa({twoFa: data.data.loggedInDetails.hubspotPortals.twoFa})
+        window.location.hash = '/login/tow-fa';
+      }
 
-      setUserDetails(data.data.loggedInDetails);
+      // await setAuthCredentials(data.data.tokenData.token);
+      // getMe(); // Fetch user details
+
+      // setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
 
       // Use if-else to check if routes exist
-      if (routes && routes.length > 0) {
-        const firstRoute = routes[0].path;
-        window.location.hash = firstRoute;
-      } else {
-        window.location.hash = "/no-routes";
-      }
+      // if (routes && routes.length > 0) {
+      //   const firstRoute = routes[0].path;
+      //   window.location.hash = firstRoute;
+      // } else {
+      //   window.location.hash = "/no-routes";
+      // }
     },
 
     onError: (error) => {
