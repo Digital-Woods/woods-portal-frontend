@@ -1,0 +1,563 @@
+[ {
+  "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
+  "name" : "page_editor_preview_",
+  "display_width" : null,
+  "label" : "Preview Membership Dashboard",
+  "help_text" : "If you are in the page editor, you can enable the preview to see the design. Once all edits are complete, please ensure the preview is disabled.",
+  "inline_help_text" : "Developer Parse Only",
+  "required" : false,
+  "locked" : false,
+  "display" : "checkbox",
+  "type" : "boolean",
+  "default" : false
+}, {
+  "id" : "7376cb6f-1b17-3775-7f5c-dfc8af8f848b",
+  "name" : "contact_id",
+  "display_width" : null,
+  "label" : "Contact Id",
+  "required" : false,
+  "locked" : false,
+  "validation_regex" : "",
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "page_editor_preview_",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "placeholder" : "Enter contact id",
+  "allow_new_line" : false,
+  "show_emoji_picker" : false,
+  "type" : "text",
+  "default" : ""
+}, {
+  "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
+  "name" : "hubspot_defined_object",
+  "display_width" : null,
+  "label" : "Hubspot Defined Object",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "2448d2e9-dc1b-552c-2731-a00855e1c1d8",
+  "name" : "objects",
+  "display_width" : null,
+  "label" : "Objects",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : null,
+    "max" : null,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_defined_object",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "421e3e26-9834-2827-daae-5af486df2cc3",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "deal"
+  }, {
+    "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "dealname,dealstage,amount"
+  }, {
+    "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "display" : "text",
+    "step" : 1,
+    "type" : "number",
+    "default" : 4
+  }, {
+    "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "deal",
+    "list_object_properties" : "dealname,dealstage,amount",
+    "association_object_type_id" : 4,
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ]
+}, {
+  "id" : "49155e57-6695-78de-cce9-e05e90a399c1",
+  "name" : "hubspot_custom_object",
+  "display_width" : null,
+  "label" : "Hubspot Custom Object",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : false
+}, {
+  "id" : "4ead23fa-98bf-7348-0024-e87eb0a11ade",
+  "name" : "hubspot_custom_objects",
+  "display_width" : null,
+  "label" : "Hubspot Custom Objects",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : null,
+    "max" : null,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_custom_object",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "f0467f72-bad2-c77e-c943-2b779c5862dd",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : ""
+  }, {
+    "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text"
+  }, {
+    "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "display" : "text",
+    "step" : 1,
+    "type" : "number"
+  }, {
+    "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ]
+}, {
+  "id" : "9b29ea6c-a0cd-4cd7-d092-8e3f356d8871",
+  "name" : "other_options",
+  "display_width" : null,
+  "label" : "Other Options",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "a64db76d-d2ff-4e31-2319-8a038d3e7cc1",
+    "name" : "company_options",
+    "display_width" : null,
+    "label" : "Company Options",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "3a631ccb-c71e-a66a-5968-602b720e77af",
+      "name" : "logo",
+      "display_width" : null,
+      "label" : "Logo",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
+        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "loading" : "lazy",
+        "width" : 500,
+        "height" : 500,
+        "max_width" : 500,
+        "max_height" : 500
+      }
+    }, {
+      "id" : "6deba33a-0ad3-265a-1fb2-913295dca4f1",
+      "name" : "company_name",
+      "display_width" : null,
+      "label" : "Company name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "ACME"
+    }, {
+      "id" : "018763ff-debd-a572-574e-3788c17396a7",
+      "name" : "logo_url",
+      "display_width" : null,
+      "label" : "Logo URL",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "CALL_TO_ACTION" ],
+      "type" : "url",
+      "default" : {
+        "content_id" : null,
+        "href" : "",
+        "type" : "EXTERNAL"
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "logo" : {
+        "size_type" : "auto",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
+        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "loading" : "lazy",
+        "width" : 500,
+        "height" : 500,
+        "max_width" : 500,
+        "max_height" : 500
+      },
+      "company_name" : "ACME",
+      "logo_url" : {
+        "content_id" : null,
+        "href" : "",
+        "type" : "EXTERNAL"
+      }
+    }
+  }, {
+    "id" : "809b00e0-388d-cb9b-8a22-5b931af517ca",
+    "name" : "sidebar_cta_details",
+    "display_width" : null,
+    "label" : "Sidebar CTA Details",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "1b5b5550-38ba-b702-2c86-6507ecdfc4df",
+      "name" : "title",
+      "display_width" : null,
+      "label" : "Title",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Get the best Maintenance Service"
+    }, {
+      "id" : "0e035591-23c0-76b2-d948-257ecad27e28",
+      "name" : "button_text",
+      "display_width" : null,
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Click Me"
+    }, {
+      "id" : "61637da3-86f7-7afb-9e61-1680c08bad86",
+      "name" : "button_url",
+      "display_width" : null,
+      "label" : "Button Url",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+      "type" : "url",
+      "default" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "title" : "Get the best Maintenance Service",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    }
+  }, {
+    "id" : "ae70b319-9a00-b78f-9695-ba7be4213f76",
+    "name" : "banner_details",
+    "display_width" : null,
+    "label" : "Banner Details",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "e3c6915c-cd76-750f-8afd-a7f2ce751bfe",
+      "name" : "title",
+      "display_width" : null,
+      "label" : "Title",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Welcome back,"
+    }, {
+      "id" : "2d4e71c0-36cc-4ab3-2937-478ae2565bd1",
+      "name" : "tag_text",
+      "display_width" : null,
+      "label" : "Tag Text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "New Release"
+    }, {
+      "id" : "81d01342-2291-6bbb-450f-d70a28e92775",
+      "name" : "description",
+      "display_width" : null,
+      "label" : "Description",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla."
+    }, {
+      "id" : "c2879da7-4176-5090-d726-5edc0817d7cb",
+      "name" : "button_text",
+      "display_width" : null,
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Click Me"
+    }, {
+      "id" : "60eb4199-31c4-b0b2-4105-fd98f847e5e5",
+      "name" : "button_url",
+      "display_width" : null,
+      "label" : "Button Url",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+      "type" : "url",
+      "default" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    }, {
+      "id" : "b4cb6998-249c-4b76-4458-576325485fc1",
+      "name" : "background_image",
+      "display_width" : null,
+      "label" : "Background Image",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : false,
+      "show_loading" : false,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto_custom_max",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/VERITEN%20FEATURED.jpg",
+        "alt" : "VERITEN FEATURED",
+        "loading" : "lazy",
+        "width" : 2187,
+        "height" : 816,
+        "max_width" : 2000,
+        "max_height" : 746.2277091906722
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "title" : "Welcome back,",
+      "tag_text" : "New Release",
+      "description" : "dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla.",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      },
+      "background_image" : {
+        "size_type" : "auto_custom_max",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/VERITEN%20FEATURED.jpg",
+        "alt" : "VERITEN FEATURED",
+        "loading" : "lazy",
+        "width" : 2187,
+        "height" : 816,
+        "max_width" : 2000,
+        "max_height" : 746.2277091906722
+      }
+    }
+  }, {
+    "id" : "a8ce5cd4-18f8-05f3-7f4a-8d3587cda540",
+    "name" : "line_chart_title",
+    "display_width" : null,
+    "label" : "Line Chart Title",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Energy Usage"
+  }, {
+    "id" : "1987fd9f-fa99-e30e-84dc-22a2f25eab49",
+    "name" : "doughnut_chart_title",
+    "display_width" : null,
+    "label" : "Doughnut Chart Title",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Energy Efficiency"
+  }, {
+    "id" : "e9120ee3-6fcf-2116-b5ad-802d2077ddbf",
+    "name" : "data_table_title",
+    "display_width" : null,
+    "label" : "Data Table Title",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Recent Reports"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "company_options" : {
+      "logo" : {
+        "size_type" : "auto",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
+        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "loading" : "lazy",
+        "width" : 500,
+        "height" : 500,
+        "max_width" : 500,
+        "max_height" : 500
+      },
+      "company_name" : "ACME",
+      "logo_url" : {
+        "content_id" : null,
+        "href" : "",
+        "type" : "EXTERNAL"
+      }
+    },
+    "sidebar_cta_details" : {
+      "title" : "Get the best Maintenance Service",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    },
+    "banner_details" : {
+      "title" : "Welcome back,",
+      "tag_text" : "New Release",
+      "description" : "dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla.",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      },
+      "background_image" : {
+        "size_type" : "auto_custom_max",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/VERITEN%20FEATURED.jpg",
+        "alt" : "VERITEN FEATURED",
+        "loading" : "lazy",
+        "width" : 2187,
+        "height" : 816,
+        "max_width" : 2000,
+        "max_height" : 746.2277091906722
+      }
+    },
+    "line_chart_title" : "Energy Usage",
+    "doughnut_chart_title" : "Energy Efficiency",
+    "data_table_title" : "Recent Reports"
+  }
+} ]
