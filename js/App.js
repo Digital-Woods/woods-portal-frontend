@@ -23,6 +23,7 @@ function App() {
               ) : (
                 <Switch>
                   <Route exact path="/login" component={Login} />
+                  <Route exact path="/login/tow-fa" component={TwoFa} />
                   <Route
                     exact
                     path="/forget-password"

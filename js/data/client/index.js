@@ -1,6 +1,7 @@
 class Client {
   static authentication = {
     login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
+    verifyOtp: (data) => HttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
     Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT),
     changePassword: (data) =>

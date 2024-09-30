@@ -86,7 +86,7 @@ const Files = ({ fileId, path }) => {
   };
 
   const closeContextMenu = () => {
-    document.getElementById("contextMenu").style.display = "none";
+    document.getElementById("contextMenu");
   };
 
   const closeDialog = () => {

@@ -113,19 +113,27 @@ const Login = () => {
         return;
       }
 
-      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
-      getMe(); // Fetch user details
+      if(data.data.loggedInDetails && data.data.loggedInDetails.hubspotPortals && data.data.loggedInDetails.hubspotPortals.twoFa) {
+        setLoggedInDetails(data.data)
+        setTwoFa({twoFa: data.data.loggedInDetails.hubspotPortals.twoFa})
+        window.location.hash = '/login/tow-fa';
+      } else {
+        await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
+        getMe(); // Fetch user details
+        // Use if-else to check if routes exist
+        if (routes && routes.length > 0) {
+          const firstRoute = routes[0].path;
+          window.location.hash = firstRoute;
+        } else {
+          window.location.hash = "/no-routes";
+        }
+      }
 
-      setUserDetails(data.data.loggedInDetails);
+
+      // setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
 
-      // Use if-else to check if routes exist
-      if (routes && routes.length > 0) {
-        const firstRoute = routes[0].path;
-        window.location.hash = firstRoute;
-      } else {
-        window.location.hash = "/no-routes";
-      }
+
     },
 
     onError: (error) => {
