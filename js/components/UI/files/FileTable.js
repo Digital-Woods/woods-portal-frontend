@@ -122,10 +122,10 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
           <TableCell className="px-4 py-2 text-xs">
             <div className="dark:text-white">{file.name}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 text-right text-xs">
+          <TableCell className="px-4 py-2 text-left text-xs w-[100px]">
             <div>{file.type}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 text-right text-xs">
+          <TableCell className="px-4 py-2 text-left text-xs w-[100px]">
             <div>{file.size}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-right relative">
@@ -205,8 +205,8 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
           <tr>
             <th className="px-4 py-2 text-xs"></th>
             <th className="px-4 py-2 text-xs">Name</th>
-            <th className="px-4 py-2 text-xs text-right">File Type</th>
-            <th className="px-4 py-2 text-xs text-right">Size</th>
+            <th className="px-4 py-2 text-xs text-left w-[100px]">File Type</th>
+            <th className="px-4 py-2 text-xs text-left w-[100px]">Size</th>
             <th className="px-4 py-2 text-xs"></th>
           </tr>
         </thead>
