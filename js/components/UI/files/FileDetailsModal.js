@@ -1,4 +1,4 @@
-const FileDetailModal = ({ file, onClose }) => {
+const FileDetailsModal = ({ file, onClose }) => {
   if (!file) return null;
 
   const [isImageLoading, setIsImageLoading] = useState(true); // State for image loading

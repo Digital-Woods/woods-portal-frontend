@@ -213,7 +213,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
         <tbody>{renderFiles(files)}</tbody>
       </table>
       {selectedFileId && (
-        <FileDetailModal
+        <FileDetailsModal
           file={fileDetails}
           onClose={closeModal}
           loading={isLoading}
