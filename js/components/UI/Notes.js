@@ -1,6 +1,6 @@
 const Notes = ({ fileId, path }) => {
   const [showDialog, setShowDialog] = useState(false);
-  const { me } = useMe(); // Ensure useMe is defined and imported
+  const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
   const editorRef = useRef(null);
 
