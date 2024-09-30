@@ -118,6 +118,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
           <TableCell className="px-4 py-2 text-xs">
             <div>{getIconType(file.type)}</div>
           </TableCell>
+
           <TableCell className="px-4 py-2 text-xs">
             <div className="dark:text-white">{file.name}</div>
           </TableCell>
@@ -202,7 +203,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
       <table className="table-auto w-full mb-6">
         <thead className="bg-gray-100 text-left dark:bg-dark-200">
           <tr>
-            <th className="px-4 py-2 text-xs">Type</th>
+            <th className="px-4 py-2 text-xs"></th>
             <th className="px-4 py-2 text-xs">Name</th>
             <th className="px-4 py-2 text-xs text-right">File Type</th>
             <th className="px-4 py-2 text-xs text-right">Size</th>
