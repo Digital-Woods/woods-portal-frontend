@@ -48,6 +48,13 @@ class Client {
     },
   };
 
+  static notes = {
+    all: (me, fileId, path) => {
+      const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      return HttpClient.get(url);
+    },
+  };
+
   static objects = {
     all: ({
       path,

@@ -106,7 +106,7 @@ const Details = ({ path, id }) => {
 
             {activeTab === "files" && <Files fileId={id} path={path} />}
 
-            {activeTab === "notes" && <Notes />}
+            {activeTab === "notes" && <Notes fileId={id} path={path} />}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
