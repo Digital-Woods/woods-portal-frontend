@@ -72,12 +72,14 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
   const handleDownload = (file, e) => {
     e.stopPropagation();
     console.log("Downloading:", file);
+    setActiveDropdown(false);
   };
 
   const handleTrash = (file, e) => {
     e.stopPropagation();
     setFileToDelete(file);
-    setShowDeleteDialog(true); // Open dialog instead of direct delete
+    setShowDeleteDialog(true);
+    setActiveDropdown(false);
   };
 
   const confirmDelete = () => {
