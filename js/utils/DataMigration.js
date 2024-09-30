@@ -459,25 +459,117 @@ const getIcon = (filename) => {
   }
 };
 
+const FileIcons = {
+  PDF: (
+    <svg
+      className="fill-current text-primary dark:text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M19 21H5c-1.1 0-1.99-.9-1.99-2L3 3c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2zm-8-16h6v4h-6zm-1 6h8v10H10z" />
+    </svg>
+  ),
+  Word: (
+    <svg
+      className="fill-current text-primary dark:text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M4 4v16h16V4H4zm9 14H8v-2h5v2zm0-4H8v-2h5v2zm3-4H8V8h8v2z" />
+    </svg>
+  ),
+  Excel: (
+    <svg
+      className="fill-current text-primary dark:text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M4 4v16h16V4H4zm3 14h2v-2H7v2zm0-4h2v-2H7v2zm0-4h2V8H7v2zm4 8h5v-2h-5v2zm0-4h5v-2h-5v2zm0-4h5V8h-5v2z" />
+    </svg>
+  ),
+  IMG: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="20px"
+      viewBox="0 -960 960 960"
+      width="20px"
+      className="fill-primary  dark:fill-white"
+    >
+      <path d="M240.62-184q-24.32 0-40.47-16.5T184-240.62v-478.76q0-23.62 16.15-40.12Q216.3-776 240.62-776h478.76q24.32 0 40.47 16.5T776-719.38v478.76q0 23.62-16.15 40.12Q743.7-184 719.38-184H240.62Zm0-32h478.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-478.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H240.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v478.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69ZM324-308h318.15L535.08-450.77l-92.62 116.31-52-60.62L324-308Zm-108 92v-528 528Z" />
+    </svg>
+  ),
+  PowerPoint: (
+    <svg
+      className="fill-primary  dark:fill-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M4 4v16h16V4H4zm10 10H8v-2h6v2zm0-4H8V8h6v2z" />
+    </svg>
+  ),
+  Text: (
+    <svg
+      className="fill-current text-primary dark:text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M3 3h18v18H3V3zm3 15h12v-2H6v2zm0-4h12v-2H6v2zm0-4h12V8H6v2z" />
+    </svg>
+  ),
+  file: (
+    <svg
+      className="fill-current text-primary dark:text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M19 21H5c-1.1 0-1.99-.9-1.99-2L3 3c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2zm-8-16h6v4h-6zm-1 6h8v10H10z" />
+    </svg>
+  ),
+  folder: (
+    <svg
+      className="fill-current text-primary dark:text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M10 4H2v16h20V4H12l-2-2zm0 2h4v4h-4V6zm0 8h4v2h-4v-2z" />
+    </svg>
+  ),
+};
+
 const getIconType = (type) => {
   switch (type) {
     case "PDF":
-      return "📄";
+      return FileIcons.PDF;
     case "Word":
-      return "📝";
+      return FileIcons.Word;
     case "Excel":
-      return "📊";
+      return FileIcons.Excel;
     case "Image":
-      return "🖼️";
+      return FileIcons.IMG;
     case "PowerPoint":
-      return "📽️";
+      return FileIcons.PowerPoint;
     case "Text":
-      return "📑";
+      return FileIcons.Text;
     case "file":
-      return "📄";
+      return FileIcons.file;
     case "folder":
-      return "📁";
+      return FileIcons.folder;
     default:
-      return "📁";
+      console.warn("Unknown file type:", type);
+      return FileIcons.folder;
   }
 };
