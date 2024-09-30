@@ -4,6 +4,7 @@ const Details = ({ path, id }) => {
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
+  const [activeTab, setActiveTab] = useState("overview");
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
@@ -64,6 +65,34 @@ const Details = ({ path, id }) => {
               item={item}
             />
 
+            <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
+              <Tabs
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                className="rounded-md "
+              >
+                <TabsList>
+                  <TabsTrigger value="overview">
+                    <p className="text-black dark:text-white">Overview</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="files">
+                    <p className="text-black dark:text-white">Files</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="notes">
+                    <p className="text-black dark:text-white">Notes</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="photos">
+                    <p className="text-black dark:text-white">Photos</p>
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="overview"></TabsContent>
+                <TabsContent value="files"></TabsContent>
+                <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
+                <TabsContent value="photos"></TabsContent>
+              </Tabs>
+            </div>
+
             {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
 
             {path === "/jobs" && (
@@ -71,9 +100,15 @@ const Details = ({ path, id }) => {
                 <DetailsTable item={item} path={path} />
               </div>
             )}
-            {sortItems && <DetailsView item={item} sortItems={sortItems} />}
+            {sortItems && activeTab === "overview" && (
+              <DetailsView item={item} sortItems={sortItems} />
+            )}
 
-            {images.length > 0 && (
+            {activeTab === "files" && <Files fileId={id} path={path} />}
+
+            {activeTab === "notes" && <Notes />}
+
+            {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
                 images={images}
                 setGalleryDialog={setGalleryDialog}

@@ -51,7 +51,7 @@ const Tabs = ({ children, activeTab, setActiveTab = null, className }) => {
 
 const TabsList = ({ children, className }) => (
   <ul
-    className={`flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 TabsList ${className}`}
+    className={`flex flex-wrap p-1 text-sm font-medium text-center  text-gray-500 dark:text-gray-400 TabsList ${className}`}
   >
     {children}
   </ul>
@@ -67,8 +67,8 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
     <button
       className={`inline-block px-4 py-2  rounded-full cursor-pointer rounded-md ${
         isActive
-          ? "bg-primary dark:bg-dark-400 text-white"
-          : "bg-cleanWhite dark:bg-dark-300"
+          ? "bg-cleanWhite dark:bg-dark-400 text-white"
+          : "dark:bg-dark-300"
       }`}
       aria-current="page"
     >

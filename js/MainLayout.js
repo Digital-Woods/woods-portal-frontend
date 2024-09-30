@@ -197,6 +197,11 @@ const MainLayout = ({ children }) => {
                     />
                   )
               )}
+              <PrivateRoute
+                exact
+                path="/not-verified-email"
+                component={NotVerifiedEmail}
+              />
 
               {/* Root Route */}
               <PrivateRoute
@@ -217,7 +222,6 @@ const MainLayout = ({ children }) => {
                   </React.Fragment>
                 )}
               />
-
               {/* Details Routs */}
               {routes.map(({ path, title, icon }) => (
                 <PrivateRoute

@@ -23,10 +23,17 @@ function App() {
               ) : (
                 <Switch>
                   <Route exact path="/login" component={Login} />
+                  <Route exact path="/login/tow-fa" component={TwoFa} />
                   <Route
                     exact
                     path="/forget-password"
                     component={ForgetPassword}
+                  />
+                  <Route exact path="/verify-email" component={VerifyEmail} />
+                  <Route
+                    exact
+                    path="/reset-password"
+                    component={ResetPassword}
                   />
                   <Redirect to="/login" />
                 </Switch>

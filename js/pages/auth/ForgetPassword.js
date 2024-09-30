@@ -37,30 +37,54 @@ const passwordIcon = () => (
 
 const ForgetPassword = () => {
   const [serverError, setServerError] = useState(null);
-  const [step, setStep] = useState(1);
-
-  const loginUserValidationSchema = z.object({
+  const [alert, setAlert] = useState(null);
+  const resetPasswordValidationSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(4, {
-      message: "Password must be at least 4 characters.",
-    }),
-    confirmPassword: z.string().min(4, {
-      message: "Password confirmation is required.",
-    }),
+  });
+
+  const { mutate: resetPassword, isLoading } = useMutation({
+    mutationKey: ["resetPassword"],
+    mutationFn: async (input) => {
+      try {
+        const response = await Client.authentication.forgetPassword({
+          email: input.email,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data) => {
+      setAlert({ message: data.statusMsg, type: "success" });
+    },
+    onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data.detailedMessage;
+        setServerError(errorData);
+
+        errorMessage =
+          typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
+      }
+
+      setAlert({ message: errorMessage, type: "error" });
+    },
   });
 
   const onSubmit = (data) => {
-    if (step === 1) {
-      setStep(2);
-    } else if (step === 2) {
-      setStep(3);
-    } else {
-      password(data);
-    }
+    resetPassword(data);
   };
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-900 justify-center h-screen">
+      {alert && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
       <div className="dark:bg-gray-800 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-16">
           <img
@@ -72,121 +96,51 @@ const ForgetPassword = () => {
         <div className="w-full">
           <Form
             onSubmit={onSubmit}
-            validationSchema={loginUserValidationSchema}
+            validationSchema={resetPasswordValidationSchema}
             // serverError={serverError}
             className="dark:bg-gray-800"
           >
             {({ register, formState: { errors } }) => (
               <div className="text-gray-800 dark:text-gray-200">
-                {step === 1 && (
-                  <FormItem>
-                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                      Enter your email
-                    </FormLabel>
-                    <FormControl>
-                      <div>
-                        <Input
-                          height="medium"
-                          icon={emailIcon}
-                          placeholder="Email"
-                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
-                          {...register("email")}
-                        />
-                      </div>
-                    </FormControl>
-                    {errors.email && (
-                      <FormMessage className="text-red-600 dark:text-red-400">
-                        {errors.email.message}
-                      </FormMessage>
-                    )}
-                    <div className="flex justify-end items-center">
-                      <div>
-                        <NavLink to="/login">
-                          <p className="text-black text-xs dark:text-gray-300 mt-4">
-                            Back to login?
-                          </p>
-                        </NavLink>
-                      </div>
+                <FormItem>
+                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <div>
+                      <Input
+                        height="medium"
+                        icon={emailIcon}
+                        placeholder="Email"
+                        className=""
+                        {...register("email")}
+                      />
                     </div>
-                    <div className="mt-4 flex flex-col justify-center items-center">
-                      <Button
-                        className="w-full !bg-defaultPrimary"
-                        type="button"
-                        onClick={onSubmit}
-                      >
-                        Continue
-                      </Button>
-                    </div>
-                  </FormItem>
-                )}
+                  </FormControl>
+                  {errors.email && (
+                    <FormMessage className="text-red-600 dark:text-red-400">
+                      {errors.email.message}
+                    </FormMessage>
+                  )}
+                </FormItem>
+                <div className="flex justify-end items-center">
+                  <div>
+                    <NavLink to="/login">
+                      <p className="text-black text-xs dark:text-gray-300">
+                        Back to Login?
+                      </p>
+                    </NavLink>
+                  </div>
+                </div>
 
-                {step === 2 && (
-                  <FormItem>
-                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                      Verify Token
-                    </FormLabel>
-                    <div className="mt-4 flex flex-col justify-center items-center">
-                      <Button
-                        className="w-full !bg-defaultPrimary"
-                        type="button"
-                        onClick={onSubmit}
-                      >
-                        Verify Token
-                      </Button>
-                    </div>
-                  </FormItem>
-                )}
-
-                {step === 3 && (
-                  <FormItem>
-                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                      Set new password
-                    </FormLabel>
-                    <FormControl>
-                      <div>
-                        <Input
-                          type="password"
-                          placeholder="New Password"
-                          icon={passwordIcon}
-                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 mb-1"
-                          {...register("password")}
-                        />
-                      </div>
-                      {errors.password && (
-                        <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors.password.message}
-                        </FormMessage>
-                      )}
-
-                      <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                        Confirm new password
-                      </FormLabel>
-                      <div>
-                        <Input
-                          type="password"
-                          placeholder="Confirm New Password"
-                          icon={passwordIcon}
-                          className="focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
-                          {...register("confirmPassword")}
-                        />
-                      </div>
-                    </FormControl>
-
-                    {errors.confirmPassword && (
-                      <FormMessage className="text-red-600 dark:text-red-400">
-                        {errors.confirmPassword.message}
-                      </FormMessage>
-                    )}
-                    <div className="mt-4 flex flex-col justify-center items-center">
-                      <Button
-                        className="w-full !bg-defaultPrimary"
-                        type="submit"
-                      >
-                        Reset Password
-                      </Button>
-                    </div>
-                  </FormItem>
-                )}
+                <div className="mt-4 flex flex-col justify-center items-center">
+                  <Button
+                    disabled={isLoading}
+                    className="w-full !bg-defaultPrimary"
+                  >
+                    {isLoading ? "Sending..." : "Send Link"}
+                  </Button>
+                </div>
               </div>
             )}
           </Form>

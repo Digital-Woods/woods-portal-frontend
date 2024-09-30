@@ -88,13 +88,14 @@ const Input = React.forwardRef(
   ) => {
     const heightClasses = {
       small: "py-1",
+      semiMedium: "py-2",
       medium: "py-3",
       large: "py-5",
     };
 
     return (
       <div className="relative dark:bg-dark-300 flex items-center">
-        <div className="absolute left-3 top-3 h-4 w-4 text-gray-500">
+        <div className="absolute left-3 top-3 h-4 w-4 text-gray-500 top-2">
           <Icon />
         </div>
         <input

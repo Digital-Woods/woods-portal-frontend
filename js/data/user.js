@@ -148,3 +148,15 @@ const useSetColors = () => {
     };
   }, [me]); // Dependency array includes 'me' to rerun if 'me' changes
 };
+
+const isEmailVerified = () => {
+  const loggedInDetails = useRecoilValue(userDetailsAtom);
+  const { me } = useMe();
+
+  if (loggedInDetails && !loggedInDetails.isEmailVerified) {
+    return false;
+  } else if (me && !me.isEmailVerified) {
+    return false;
+  }
+  return true;
+};

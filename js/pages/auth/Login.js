@@ -1,4 +1,51 @@
 const { useSetRecoilState } = Recoil;
+const CopyIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="20px"
+    viewBox="0 -960 960 960"
+    width="20px"
+    className="fill:gray-200 dark:fill-white"
+  >
+    <path d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
+  </svg>
+);
+
+const ThreeDotIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="20px"
+    viewBox="0 -960 960 960"
+    width="20px"
+    className="fill:gray-200 dark:fill-white"
+  >
+    <path d="M479.79-192Q450-192 429-213.21t-21-51Q408-294 429.21-315t51-21Q510-336 531-314.79t21 51Q552-234 530.79-213t-51 21Zm0-216Q450-408 429-429.21t-21-51Q408-510 429.21-531t51-21Q510-552 531-530.79t21 51Q552-450 530.79-429t-51 21Zm0-216Q450-624 429-645.21t-21-51Q408-726 429.21-747t51-21Q510-768 531-746.79t21 51Q552-666 530.79-645t-51 21Z" />
+  </svg>
+);
+
+const DeleteIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="20px"
+    viewBox="0 -960 960 960"
+    width="20px"
+    className="fill:gray-200 dark:fill-white"
+  >
+    <path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z" />
+  </svg>
+);
+
+const PinIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="20px"
+    viewBox="0 -960 960 960"
+    width="20px"
+    className="fill:gray-200 dark:fill-white"
+  >
+    <path d="M480.21-480Q510-480 531-501.21t21-51Q552-582 530.79-603t-51-21Q450-624 429-602.79t-21 51Q408-522 429.21-501t51 21ZM480-191q119-107 179.5-197T720-549q0-105-68.5-174T480-792q-103 0-171.5 69T240-549q0 71 60.5 161T480-191Zm0 95Q323.03-227.11 245.51-339.55 168-452 168-549q0-134 89-224.5T479.5-864q133.5 0 223 90.5T792-549q0 97-77 209T480-96Zm0-456Z" />
+  </svg>
+);
 
 const EyeIcon = () => (
   <svg
@@ -66,19 +113,27 @@ const Login = () => {
         return;
       }
 
-      await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
-      getMe(); // Fetch user details
+      if(data.data.loggedInDetails && data.data.loggedInDetails.hubspotPortals && data.data.loggedInDetails.hubspotPortals.twoFa) {
+        setLoggedInDetails(data.data)
+        setTwoFa({twoFa: data.data.loggedInDetails.hubspotPortals.twoFa})
+        window.location.hash = '/login/tow-fa';
+      } else {
+        await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
+        getMe(); // Fetch user details
+        // Use if-else to check if routes exist
+        if (routes && routes.length > 0) {
+          const firstRoute = routes[0].path;
+          window.location.hash = firstRoute;
+        } else {
+          window.location.hash = "/no-routes";
+        }
+      }
 
-      setUserDetails(data.data.loggedInDetails);
+
+      // setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });
 
-      // Use if-else to check if routes exist
-      if (routes && routes.length > 0) {
-        const firstRoute = routes[0].path;
-        window.location.hash = firstRoute;
-      } else {
-        window.location.hash = "/no-routes";
-      }
+
     },
 
     onError: (error) => {
@@ -150,7 +205,6 @@ const Login = () => {
                     </FormMessage>
                   )}
                 </FormItem>
-
                 <FormItem>
                   <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Password
@@ -178,7 +232,6 @@ const Login = () => {
                     </FormMessage>
                   )}
                 </FormItem>
-
                 <div className="flex justify-end items-center">
                   <div>
                     <NavLink to="/forget-password">
@@ -188,7 +241,6 @@ const Login = () => {
                     </NavLink>
                   </div>
                 </div>
-
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
                     className="w-full !bg-defaultPrimary"
