@@ -1,12 +1,14 @@
 const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
   const [selectedFileId, setSelectedFileId] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState(null); // Initialize activeDropdown state
-  const [alert, setAlert] = useState({ message: "", type: "", show: false }); // Alert state
-  const [loadingFileId, setLoadingFileId] = useState(null); // Track which file is being deleted
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [alert, setAlert] = useState({ message: "", type: "", show: false });
+  const [loadingFileId, setLoadingFileId] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteInput, setDeleteInput] = useState("");
+  const [fileToDelete, setFileToDelete] = useState(null);
 
-  const { me } = useMe(); // Assuming you have a hook to get user context
+  const { me } = useMe();
 
-  // Define the query for fetching file details
   const {
     data: fileDetails,
     isLoading,
@@ -29,32 +31,28 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
     (file) => Client.files.deleteafile(me, path, file.id, fileId),
     {
       onMutate: (file) => {
-        setLoadingFileId(file.id); // Set loading state for the file
-        setAlert({ message: "Deleting file...", type: "info", show: true }); // Show the alert as "Deleting..."
+        setLoadingFileId(file.id);
+        setAlert({ message: "Deleting file...", type: "info", show: true });
       },
       onSuccess: () => {
         queryClient.invalidateQueries(["fileDetails"]);
         console.log("File deleted successfully");
         refetch();
-
-        // Update the alert to show success
         setAlert({
           message: "File deleted successfully!",
           type: "success",
           show: true,
         });
-        setLoadingFileId(null); // Clear the loading state
+        setLoadingFileId(null);
       },
       onError: (error) => {
         console.error("Error deleting file:", error);
-
-        // Update the alert to show an error
         setAlert({
           message: "Error deleting file!",
           type: "error",
           show: true,
         });
-        setLoadingFileId(null); // Clear the loading state
+        setLoadingFileId(null);
       },
     }
   );
@@ -63,7 +61,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
     if (file.type === "folder" && file.child && file.child.length > 0) {
       toggleFolder(file);
     } else {
-      setSelectedFileId(file.id); // Set the selected file ID to trigger the query
+      setSelectedFileId(file.id);
     }
   };
 
@@ -78,13 +76,20 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
 
   const handleTrash = (file, e) => {
     e.stopPropagation();
+    setFileToDelete(file);
+    setShowDeleteDialog(true); // Open dialog instead of direct delete
+  };
 
-    // Call the delete file mutation with the file object
-    deleteFileMutation.mutate(file);
+  const confirmDelete = () => {
+    if (deleteInput === "Delete Me" && fileToDelete) {
+      deleteFileMutation.mutate(fileToDelete);
+      setShowDeleteDialog(false);
+      setDeleteInput("");
+    }
   };
 
   const toggleDropdown = (index) => {
-    setActiveDropdown(activeDropdown === index ? null : index); // Toggle dropdown visibility
+    setActiveDropdown(activeDropdown === index ? null : index);
   };
 
   const closeAlert = () => {
@@ -126,12 +131,12 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                 className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleDropdown(index); // Toggle dropdown visibility
+                  toggleDropdown(index);
                 }}
               >
                 Actions
               </button>
-              {activeDropdown === index && ( // Check against the new state
+              {activeDropdown === index && (
                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
                   {file.type !== "folder" && (
                     <button
@@ -144,9 +149,9 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
                     onClick={(e) => handleTrash(file, e)}
-                    disabled={loadingFileId === file.id} // Disable button if loading
+                    disabled={loadingFileId === file.id}
                   >
-                    {loadingFileId === file.id ? ( // Show spinner if deleting
+                    {loadingFileId === file.id ? (
                       <svg
                         className="animate-spin h-5 w-5 text-red-500"
                         xmlns="http://www.w3.org/2000/svg"
@@ -203,15 +208,48 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
         />
       )}
 
-      {/* Show the alert */}
       {alert.show && (
         <Alert
           message={alert.message}
           type={alert.type}
           onClose={closeAlert}
-          duration={2000} // Auto-close after 2 seconds
+          duration={2000}
         />
       )}
+
+      <Dialog
+        open={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        className="w-full max-w-lg"
+      >
+        <div className="p-4">
+          <h3 className="text-2xl font-semibold mb-4">Confirm Deletion</h3>
+          <p className="mb-4">
+            Type <strong className="text-richRed">Delete Me</strong> to confirm
+            the deletion of the file.
+          </p>
+          <input
+            value={deleteInput}
+            onChange={(e) => setDeleteInput(e.target.value)}
+            className="w-full px-2 py-1 border rounded"
+            placeholder="Delete Me"
+          />
+          <div className="mt-4 flex gap-x-4 justify-end">
+            <Button
+              onClick={() => setShowDeleteDialog(false)}
+              variant="outline"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={confirmDelete}
+              disabled={deleteInput !== "Delete Me"}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };
