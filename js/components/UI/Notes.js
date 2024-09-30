@@ -98,44 +98,78 @@ const Notes = () => {
     }
   }, [showDialog]);
 
-  const notesData = [
-    {
-      id: 1,
-      date: "December 14, 2021",
-      day: "Tuesday",
-      author: "Cane Doe",
-      time: "3:45pm",
-      content: "lorem ipsum 23 dkna..",
-      associations: "2 associations",
+  const notesData = {
+    statusCode: "200",
+    data: {
+      results: [
+        {
+          id: "61253019678",
+          attachmentIds: [
+            {
+              value: "179733788972",
+              label: "179733788972",
+            },
+            {
+              value: "179729388294",
+              label: "179729388294",
+            },
+            {
+              value: "179733550194",
+              label: "179733550194",
+            },
+          ],
+          createdAt: 1727517542285,
+          noteBody:
+            '<div style="" dir="auto" data-top-level="true"><p style="margin:0;">Note 2</p><p style="margin:0;">From Student Neha</p></div>',
+          bodyPreview: "Note 2 From Student Neha",
+        },
+        {
+          id: "61241346891",
+          attachmentIds: "",
+          createdAt: 1727523724792,
+          noteBody:
+            "<h1>Helllo, <strong>This is bold, </strong><i><strong>italicsssss</strong></i></h1><p><i><strong>Noral dnlsm bold italic paragraph.&nbsp;</strong></i></p>",
+          bodyPreview:
+            "Helllo, This is bold, italicsssss Noral dnlsm bold italic paragraph. ",
+        },
+        {
+          id: "61247596545",
+          attachmentIds: [
+            {
+              value: "179788717082",
+              label: "179788717082",
+            },
+          ],
+          createdAt: 1727523831290,
+          noteBody:
+            '<div style="" dir="auto" data-top-level="true"><h1>Helllo, <strong>This is bold, </strong>italicsssss</h1><p style="margin:0;">Noral dnlsm bold italic paragraph.</p><br><p style="margin:0;">sasas</p><br><p style="margin:0;">Note By: Manab Roy</p><p style="margin:0;">Email: manabroy@gmail.com</p><br><div style=""><img src="https://api.hubspot.com/filemanager/api/v2/files/179712614418/signed-url-redirect?portalId=47146741" width="400" style=""></div><br><div style=""><img src="https://api.hubspot.com/filemanager/api/v2/files/179788716630/signed-url-redirect?portalId=47146741" width="400" style=""></div><br></div>',
+          bodyPreview:
+            "Helllo, This is bold, italicsssss Noral dnlsm bold italic paragraph. sasas Note By: Manab Roy Email: manabroy@gmail.com",
+        },
+      ],
+      total: 4,
     },
-    {
-      id: 2,
-      date: "January 5, 2022",
-      day: "Wednesday",
-      author: "John Smith",
-      time: "11:30am",
-      content: "Sample note content here.",
-      associations: "3 associations",
-    },
-    {
-      id: 3,
-      date: "January 5, 2022",
-      day: "Wednesday",
-      author: "John Smith",
-      time: "11:30am",
-      content: "Sample note content here.",
-      associations: "3 associations",
-    },
-    {
-      id: 4,
-      date: "January 5, 2022",
-      day: "Wednesday",
-      author: "John Smith",
-      time: "11:30am",
-      content: "Sample note content here.",
-      associations: "3 associations",
-    },
-  ];
+    statusMsg: "Record(s) has been successfully retrieved.",
+  };
+
+  const renderHtml = (htmlString, containerRef) => {
+    const tempDiv = document.createElement("div"); // Create a temporary div
+    tempDiv.innerHTML = htmlString; // Parse the HTML string
+    const childNodes = Array.from(tempDiv.childNodes); // Convert child nodes to array
+    childNodes.forEach((node) => {
+      containerRef.current.appendChild(node); // Append each node to the container
+    });
+  };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp / 1000); // Convert from seconds to milliseconds
+    return date.toLocaleDateString(); // Returns only the date
+  };
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp / 1000);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); // Returns time without seconds
+  };
 
   return (
     <div className=" rounded-lg  mt-2 bg-cleanWhite p-4">
@@ -146,12 +180,13 @@ const Notes = () => {
         </Button>
       </div>
 
-      {notesData.map((note) => (
+      {notesData.data.results.map((note) => (
         <div>
           <div className="mt-5">
             <p className="text-xs font-semibold">
-              {note.date}{" "}
-              <span className="text-gray-400 font-normal ml-1">{note.day}</span>
+              {formatDate(note.createdAt)}
+
+              {/* <span className="text-gray-400 font-normal ml-1">{note.day}</span> */}
             </p>
           </div>
           <div
@@ -166,24 +201,22 @@ const Notes = () => {
                   className="rounded-full"
                 />
                 <p className="text-xs text-gray-400 whitespace-nowrap">
-                  {note.author}
+                  No name
                 </p>
               </div>
 
               <div>
-                <p className="text-gray-400 text-xs">{note.time}</p>
+                <p className="text-gray-400 text-xs">
+                  {formatTime(note.createdAt)}
+                </p>
               </div>
             </div>
 
             <div>
-              <p className="text-xs my-2 px-2">{note.content}</p>
+              <p className="text-xs my-2 px-2">{note.noteBody}</p>
             </div>
 
-            <div className="flex justify-between items-center">
-              <div className="rounded-lg bg-gray-200 px-2 py-1 w-fit">
-                <p className="text-xs text-gray-500">{note.associations}</p>
-              </div>
-
+            <div className="flex justify-end items-center">
               <div className="flex gap-x-2">
                 <PinIcon />
                 <CopyIcon />
