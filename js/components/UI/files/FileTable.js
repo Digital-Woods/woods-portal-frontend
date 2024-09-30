@@ -138,6 +138,16 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
               </button>
               {activeDropdown === index && (
                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedFileId(file.id);
+                      toggleDropdown(index);
+                    }}
+                  >
+                    Details
+                  </button>
                   {file.type !== "folder" && (
                     <button
                       className="block w-full text-left px-4 py-2 text-sm text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
