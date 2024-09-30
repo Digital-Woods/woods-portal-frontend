@@ -30,11 +30,9 @@ const Notes = ({ fileId, path }) => {
           "|",
           "bold",
           "italic",
-          "link",
+
           "|",
-          "bulletedList",
-          "numberedList",
-          "|",
+
           "blockQuote",
           "insertTable",
           "|",
@@ -138,12 +136,11 @@ const Notes = ({ fileId, path }) => {
         onClose={setShowDialog}
         className="mx-auto bg-white overflow-y-auto"
       >
-        <div className="flex justify-between items-center mb-3">
+        <div className="flex  items-center mb-3">
           <p className="text-gray-600 text-xs ">For</p>
-
-          <Button variant="ghost" size="sm">
-            Add Association
-          </Button>
+          <p className="border rounded-full px-2 py-1 text-xs ml-2">
+            {me.firstName}
+          </p>
         </div>
 
         <div ref={editorRef} className="editor-container "></div>
