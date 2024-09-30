@@ -131,7 +131,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
           <TableCell className="px-4 py-2 text-right relative">
             <div className="relative">
               <button
-                className="border border-gray-200 dark:text-white text-xs px-3 py-1 rounded"
+                className="border border-gray-300 dark:text-white text-xs px-3 py-1 rounded"
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleDropdown(index);
