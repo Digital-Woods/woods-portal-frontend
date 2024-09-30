@@ -110,7 +110,7 @@ const TwoFa = () => {
               <div className="text-gray-800 dark:text-gray-200">
                 <FormItem>
                   <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                    Email
+                    OTP
                   </FormLabel>
                   <FormControl>
                     <div>
