@@ -1,14 +1,43 @@
+class MyUploadAdapter {
+  constructor(loader) {
+    this.loader = loader;
+  }
+  upload() {
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          const data = new FormData();
+          data.append("upload", file);
+          fetch("https://example.com/upload", {
+            method: "POST",
+            body: data,
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              resolve({ default: result.url });
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+    );
+  }
+  abort() {}
+}
+function MyCustomUploadAdapterPlugin(editor) {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+    return new MyUploadAdapter(loader);
+  };
+}
 const Notes = ({ fileId, path }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
   const editorRef = useRef(null);
-
   const handleSaveNote = () => {
     console.log(editorContent);
     setShowDialog(false);
   };
-
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", fileId],
     queryFn: async () => {
@@ -21,29 +50,28 @@ const Notes = ({ fileId, path }) => {
       return await Client.notes.all(me, fileId, path);
     },
   });
-
   useEffect(() => {
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
+        extraPlugins: [MyCustomUploadAdapterPlugin],
         toolbar: [
           "heading",
           "|",
           "bold",
           "italic",
-
           "|",
-
-          "blockQuote",
-          "insertTable",
-          "|",
-          "undo",
-          "redo",
+          // "blockQuote",
+          // "insertTable",
+          // 'link',
+          "uploadImage",
+          // "|",
+          // "undo",
+          // "redo",
         ],
         placeholder: "Add new note...",
       })
         .then((editor) => {
           editor.ui.view.editable.element.style.minHeight = "200px";
-
           editor.model.document.on("change:data", () => {
             setEditorContent(editor.getData());
           });
@@ -51,7 +79,6 @@ const Notes = ({ fileId, path }) => {
         .catch((error) => {
           console.error(error);
         });
-
       return () => {
         if (editorRef.current && editorRef.current.editor) {
           editorRef.current.editor.destroy();
@@ -59,27 +86,21 @@ const Notes = ({ fileId, path }) => {
       };
     }
   }, [showDialog]);
-
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString();
   };
-
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
   if (error) {
     return <div>Error fetching notes: {error.message}</div>;
   }
-
   const results = data && data.data && data.data.results;
-
   return (
     <div className="rounded-lg mt-2 bg-cleanWhite p-4">
       <div className="flex justify-between mt-2 mb-6 items-center">
@@ -88,7 +109,6 @@ const Notes = ({ fileId, path }) => {
           <span className="mr-2"> + </span> New Note
         </Button>
       </div>
-
       {results && results.length > 0 ? (
         results.map((note) => (
           <div key={note.id} className="mt-5">
@@ -114,7 +134,8 @@ const Notes = ({ fileId, path }) => {
                 </div>
               </div>
               <div>
-                <p className="text-xs my-2 px-2">{note.noteBody}</p>
+                {ReactHtmlParser.default(note.noteBody)}
+                {/* <p className="text-xs my-2 px-2">{note.noteBody}</p> */}
               </div>
               <div className="flex justify-end items-center">
                 <div className="flex gap-x-2">
@@ -130,7 +151,6 @@ const Notes = ({ fileId, path }) => {
       ) : (
         <div>No notes available.</div>
       )}
-
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
@@ -142,9 +162,7 @@ const Notes = ({ fileId, path }) => {
             {me.firstName}
           </p>
         </div>
-
         <div ref={editorRef} className="editor-container "></div>
-
         <div className="mt-4 text-start">
           <Button onClick={handleSaveNote} className="text-white">
             Create Note
