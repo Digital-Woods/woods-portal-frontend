@@ -1,5 +1,5 @@
 const Files = ({ fileId, path }) => {
-  const [currentFiles, setCurrentFiles] = useState({ child: [] }); // Initialize as an object with child
+  const [currentFiles, setCurrentFiles] = useState({ child: [] });
   const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
@@ -14,41 +14,52 @@ const Files = ({ fileId, path }) => {
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () => {
-      console.log(
-        "Fetching files with:",
-        me.hubspotPortals.templateName,
-        fileId,
-        path
-      );
-      return await Client.files.all(me, fileId, path);
+      if (me && me.hubspotPortals && fileId && path) {
+        console.log(
+          "Fetching files with:",
+          me.hubspotPortals.templateName,
+          fileId,
+          path
+        );
+        return await Client.files.all(me, fileId, path);
+      } else {
+        throw new Error("Missing data for fetching files");
+      }
     },
   });
 
   useEffect(() => {
     if (data) {
-      setCurrentFiles(data.data); // Set currentFiles to the fetched data
-      setFolderStack([data.data]); // Initialize folderStack with the root folder
+      setCurrentFiles(data.data);
+      setFolderStack([data.data]);
     }
   }, [data]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show loading state
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error loading files.</div>; // Handle error state
+    return <div>Error loading files.</div>;
   }
 
-  const totalFiles = currentFiles.child.length;
+  let totalFiles = 0;
+  let paginatedFiles = [];
+
+  if (currentFiles && currentFiles.child) {
+    totalFiles = currentFiles.child.length;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = currentPage * itemsPerPage;
+    paginatedFiles = currentFiles.child.slice(startIndex, endIndex);
+  } else {
+    totalFiles = 0;
+    paginatedFiles = [];
+  }
+
   const numOfPages = Math.ceil(totalFiles / itemsPerPage);
 
-  const paginatedFiles = currentFiles.child.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
   const toggleFolder = (folder) => {
-    if (folder.child && folder.child.length > 0) {
+    if (folder && folder.child && folder.child.length > 0) {
       setFolderStack([...folderStack, folder]);
       setCurrentFiles(folder);
       setCurrentPage(1);
@@ -58,12 +69,13 @@ const Files = ({ fileId, path }) => {
   };
 
   const handleBreadcrumbClick = (index) => {
-    const newStack = folderStack.slice(0, index + 1);
-    const folder = newStack[index];
-
-    setFolderStack(newStack);
-    setCurrentFiles(folder);
-    setCurrentPage(1);
+    if (folderStack && folderStack.length > index) {
+      const newStack = folderStack.slice(0, index + 1);
+      const folder = newStack[index];
+      setFolderStack(newStack);
+      setCurrentFiles(folder);
+      setCurrentPage(1);
+    }
   };
 
   const createFolder = () => {
@@ -74,9 +86,9 @@ const Files = ({ fileId, path }) => {
         type: "folder",
         child: [],
       };
-      if (rightClickedFolder) {
+      if (rightClickedFolder && rightClickedFolder.child) {
         rightClickedFolder.child.push(newFolder);
-      } else {
+      } else if (currentFiles && currentFiles.child) {
         currentFiles.child.push(newFolder);
       }
       setCurrentFiles({ ...currentFiles });
@@ -124,7 +136,7 @@ const Files = ({ fileId, path }) => {
         </div>
 
         <h1 className="text-xl font-semibold mb-4 dark:text-white">
-          {currentFiles.name || "Root"}
+          {currentFiles && currentFiles.name ? currentFiles.name : "Root"}
         </h1>
 
         <FileTable
@@ -141,7 +153,7 @@ const Files = ({ fileId, path }) => {
               Showing
             </p>
             <span className="border border-2 dark:text-white border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-              {currentFiles.child.length}
+              {paginatedFiles.length}
             </span>
             <span className="dark:text-white">/</span>
             <span className="rounded-md dark:text-white font-medium">
