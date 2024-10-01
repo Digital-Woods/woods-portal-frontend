@@ -1,8 +1,8 @@
 const FileUpload = ({ fileId, path, refetch, folderId }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
-  const [isUploading, setIsUploading] = useState(false); // To track upload status
-  const [alert, setAlert] = useState({ message: "", type: "", show: false }); // Alert state
+  const [isUploading, setIsUploading] = useState(false);
+  const [alert, setAlert] = useState({ message: "", type: "", show: false });
   const { me } = useMe();
 
   console.log(folderId);

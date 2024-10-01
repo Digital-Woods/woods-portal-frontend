@@ -21,6 +21,8 @@ const API_ENDPOINTS = {
   ONE_FILE: "/api/feature-data/files",
   DELETE_ONE_FILE: "/api/feature-data/files",
 
+  //Folder Upload
+  FOLDER_UPLOAD: "/api/feature-data/folders",
   //notes
   ALL_NOTES: "/api/feature-data/notes",
 };

@@ -46,6 +46,10 @@ class Client {
       const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
       return HttpClient.delete(url);
     },
+    createAfolder: (me, fileId, path, fileData) => {
+      const url = `${API_ENDPOINTS.FOLDER_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      return HttpClient.post(url, fileData);
+    },
   };
 
   static notes = {

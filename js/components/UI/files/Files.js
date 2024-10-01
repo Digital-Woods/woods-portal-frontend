@@ -78,23 +78,21 @@ const Files = ({ fileId, path }) => {
     }
   };
 
-  const createFolder = () => {
-    if (newFolderName) {
-      const newFolder = {
-        id: Date.now().toString(),
-        name: newFolderName,
-        type: "folder",
-        child: [],
-      };
-      if (rightClickedFolder && rightClickedFolder.child) {
-        rightClickedFolder.child.push(newFolder);
-      } else if (currentFiles && currentFiles.child) {
-        currentFiles.child.push(newFolder);
-      }
-      setCurrentFiles({ ...currentFiles });
-      setNewFolderName("");
-      setIsCreateFolderOpen(false);
+  const createFolder = (folderName) => {
+    const newFolder = {
+      id: Date.now().toString(),
+      name: folderName,
+      type: "folder",
+      child: [],
+    };
+    if (rightClickedFolder && rightClickedFolder.child) {
+      rightClickedFolder.child.push(newFolder);
+    } else if (currentFiles && currentFiles.child) {
+      currentFiles.child.push(newFolder);
     }
+    setCurrentFiles({ ...currentFiles });
+    setNewFolderName("");
+    setIsCreateFolderOpen(false);
   };
 
   const closeContextMenu = () => {
@@ -178,33 +176,17 @@ const Files = ({ fileId, path }) => {
         </div>
       </div>
 
-      <Dialog
-        open={isCreateFolderOpen}
+      <FolderUpload
+        isOpen={isCreateFolderOpen}
         onClose={() => setIsCreateFolderOpen(false)}
-      >
-        <div className="flex items-center justify-center">
-          <div className="bg-cleanWhite dark:bg-dark-200">
-            <h2 className="text-lg font-semibold mb-4 dark:text-white">
-              New Folder
-            </h2>
-            <input
-              type="text"
-              value={newFolderName}
-              onChange={(e) => setNewFolderName(e.target.value)}
-              className="border border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
-              placeholder="Folder Name"
-            />
-            <div className="mt-4 flex justify-end">
-              <Button onClick={() => setIsCreateFolderOpen(false)}>
-                Cancel
-              </Button>
-              <Button variant="sm" onClick={createFolder}>
-                Create
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Dialog>
+        onCreate={createFolder}
+        newFolderName={newFolderName}
+        setNewFolderName={setNewFolderName}
+        folderId={getCurrentFolderId()}
+        fileId={fileId}
+        path={path}
+        refetch={refetch}
+      />
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
         <FileUpload
