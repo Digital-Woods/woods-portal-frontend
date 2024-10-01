@@ -59,13 +59,9 @@ const Files = ({ fileId, path }) => {
   const numOfPages = Math.ceil(totalFiles / itemsPerPage);
 
   const toggleFolder = (folder) => {
-    if (folder && folder.child && folder.child.length > 0) {
-      setFolderStack([...folderStack, folder]);
-      setCurrentFiles(folder);
-      setCurrentPage(1);
-    } else {
-      console.error("No children to display in this folder.");
-    }
+    setFolderStack([...folderStack, folder]);
+    setCurrentFiles(folder);
+    setCurrentPage(1);
   };
 
   const handleBreadcrumbClick = (index) => {
