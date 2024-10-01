@@ -99,9 +99,11 @@ const Drawer = ({ className }) => {
     },
   });
   useEffect(() => {
-    setSideBarOptions(fakeUserDetails.sideBarOptions);
+    if(env.DATA_SOURCE_SET == true){
+      setSideBarOptions(fakeUserDetails.sideBarOptions);
+    }
   })
-  console.log(sideBarOptions, 'sideBarOptions');
+  console.log(sideBarOptions,env.DATA_SOURCE_SET, 'hkjhsgfdgasdf');
 
   return (
     <div>
@@ -220,7 +222,7 @@ const Drawer = ({ className }) => {
                 </div>
 
                 {!sidebarCollapsed && (
-                  (sideBarOptions ? (
+                  (env.DATA_SOURCE_SET == true && sideBarOptions ? (
                     <div>
                       <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
                         <p> {sideBarOptions.title} </p>
