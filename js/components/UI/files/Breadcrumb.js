@@ -20,9 +20,7 @@ const Breadcrumb = ({ folderStack, onClick }) => (
           } else {
             return (
               <li key={index} className="flex items-center">
-                <span className="text-gray-500 cursor-default">
-                  Unnamed Folder
-                </span>
+                <span className="text-gray-500 cursor-default">No Folder</span>
                 {index < folderStack.length - 1 && (
                   <span className="mx-1"> / </span>
                 )}
