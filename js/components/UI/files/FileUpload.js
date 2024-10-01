@@ -1,9 +1,11 @@
-const FileUpload = ({ fileId, path, refetch }) => {
+const FileUpload = ({ fileId, path, refetch, folderId }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false); // To track upload status
   const [alert, setAlert] = useState({ message: "", type: "", show: false }); // Alert state
   const { me } = useMe();
+
+  console.log(folderId);
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -48,12 +50,20 @@ const FileUpload = ({ fileId, path, refetch }) => {
 
   const uploadFileMutation = useMutation({
     mutationFn: async (fileData) => {
-      await Client.files.create(me, fileId, path, fileData);
+      const parentFolder = folderId === fileId ? "obj-root" : folderId;
+
+      const payload = {
+        parentFolder,
+        fileName: fileData.fileName,
+        fileData: fileData.fileData,
+      };
+
+      await Client.files.create(me, fileId, path, payload);
     },
     onSuccess: () => {
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
-      setIsUploading(false); // Turn off the uploading spinner
+      setIsUploading(false);
       setAlert({
         message: "Files uploaded successfully!",
         type: "success",
@@ -77,15 +87,15 @@ const FileUpload = ({ fileId, path, refetch }) => {
     e.target.reset();
 
     if (selectedFile.length > 0) {
-      setIsUploading(true); // Turn on the uploading spinner
+      setIsUploading(true);
       for (const file of selectedFile) {
         const fileData = {
           fileName: file.filename,
-          fileData: file.fileimage.split(",")[1], // Extract base64 data
+          fileData: file.fileimage.split(",")[1],
         };
 
         try {
-          await uploadFileMutation.mutateAsync(fileData); // Call the mutation
+          await uploadFileMutation.mutateAsync(fileData);
         } catch (err) {
           console.error("Error during file upload:", err);
         }

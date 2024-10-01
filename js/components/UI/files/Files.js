@@ -105,6 +105,12 @@ const Files = ({ fileId, path }) => {
     setIsDialogOpen(false);
   };
 
+  const getCurrentFolderId = () => {
+    return (currentFiles && currentFiles.id) || "obj-root";
+  };
+
+  console.log(getCurrentFolderId());
+
   return (
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 p-4">
@@ -201,7 +207,12 @@ const Files = ({ fileId, path }) => {
       </Dialog>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <FileUpload fileId={fileId} path={path} refetch={refetch} />
+        <FileUpload
+          folderId={getCurrentFolderId()}
+          fileId={fileId}
+          path={path}
+          refetch={refetch}
+        />
       </Dialog>
     </div>
   );
