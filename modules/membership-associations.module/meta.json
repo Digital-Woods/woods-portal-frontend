@@ -2,7 +2,7 @@
   "global" : false,
   "content_types" : [ "MEMBERSHIP", "LANDING_PAGE", "SUBSCRIPTION", "SITE_PAGE", "BLOG_LISTING", "BLOG_POST" ],
   "host_template_types" : [ "PAGE", "BLOG_LISTING", "BLOG_POST" ],
-  "module_id" : 167691203494,
+  "module_id" : 116987399405,
   "data_query_path" : "../associations",
   "is_available_for_new_content" : true
 }

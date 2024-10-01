@@ -28,6 +28,7 @@ const sortedHeaders = (headers) => {
 const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
 const DashboardTable = ({ path, inputValue, title }) => {
+  console.log(title, 'title');
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -40,7 +41,6 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [filterValue, setFilterValue] = useState(null);
   const { me } = useMe();
   // useEffect(() => console.log(currentPage), [currentPage]);
-
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
@@ -53,14 +53,30 @@ const DashboardTable = ({ path, inputValue, title }) => {
 
   const mapResponseData = (data) => {
     const results = data.data.results || [];
-    setTableData(results);
-    setTotalItems(data.data.total || 0);
-    setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-
-    if (results.length > 0) {
-      setTableHeader(sortData(results[0], "list", title));
+    if (env.DATA_SOURCE_SET === true) {
+      const foundItem = results.find((item) => {
+        return item.name === path.replace("/", "");
+      });
+      console.log(foundItem.results, 'foundItem');
+      setTableData(foundItem.results);
+      console.log(tableData, 'tableData');
+      setTotalItems(foundItem.results.length || 0);
+      setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
+      if (foundItem.results.length > 0) {
+        setTableHeader(sortData(foundItem.results[0], "list", title));
+      } else {
+        setTableHeader([]);
+      }
     } else {
-      setTableHeader([]);
+      setTableData(results);
+      setTotalItems(data.data.total || 0);
+      setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
+
+      if (results.length > 0) {
+        setTableHeader(sortData(results[0], "list", title));
+      } else {
+        setTableHeader([]);
+      }
     }
   };
 
@@ -85,8 +101,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
         // after,
         ...(after &&
           after.length > 0 && {
-            after,
-          }),
+          after,
+        }),
         me,
         sort: sortConfig,
         // inputValue,
@@ -128,11 +144,13 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
-    if (!isLivePreview()) getData();
+    if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
   }, [inputValue]);
 
   useEffect(() => {
     if (isLivePreview()) {
+      mapResponseData(fakeTableData);
+    } else if (env.DATA_SOURCE_SET == true) {
       mapResponseData(fakeTableData);
     } else {
       getData();

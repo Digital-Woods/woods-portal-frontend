@@ -107,7 +107,7 @@ const DynamicComponent = ({ title, path }) => {
           </div>
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <DashboardTable path={path} />
+          <DashboardTable path={path} title={title} />
         </div>
       ) : (
         <div className="dark:text-white text-cleanWhite">

@@ -149,7 +149,7 @@ const sortData = (item, viewType = "list", title = "") => {
       return;
     }
 
-    if (typeof value === "string" && isImage(value, key)) {
+    if (typeof value === "string" &&  (value, key)) {
       imageFields.push({
         name: key,
         label: checkEquipments(

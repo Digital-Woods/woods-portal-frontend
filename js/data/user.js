@@ -1,7 +1,7 @@
 function useMe() {
-  if (isLivePreview()) {
+  if (isLivePreview() || env.DATA_SOURCE_SET === true ) {
     return {
-      me: fakeTableData,
+      me: fakeUserDetails,
       isLoading: false,
       error: null,
       isAuthorized: null,

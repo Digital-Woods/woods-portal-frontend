@@ -1,4 +1,14 @@
 [ {
+  "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",
+  "name" : "hubspot_data_source",
+  "display_width" : null,
+  "label" : "HubSpot Data Source",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
   "display_width" : null,

@@ -62,6 +62,7 @@ const Drawer = ({ className }) => {
   const customPath = useDynamicPathname();
 
   const [activeRoute, setActiveRoute] = useState("");
+  const [sideBarOptions, setSideBarOptions] = useState({});
   const [brandName, setBrandName] = useState("Digitalwoods");
 
   useEffect(() => setActiveRoute(customPath), [customPath]);
@@ -97,6 +98,10 @@ const Drawer = ({ className }) => {
       console.error("Logout failed", error);
     },
   });
+  useEffect(() => {
+    setSideBarOptions(fakeUserDetails.sideBarOptions);
+  })
+  console.log(sideBarOptions, 'sideBarOptions');
 
   return (
     <div>
@@ -111,9 +116,8 @@ const Drawer = ({ className }) => {
       )}
       <div className={className}>
         <div
-          className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }
+          className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            }
           ${sidebarCollapsed ? "p-3" : "p-4"}
           `}
         >
@@ -125,9 +129,8 @@ const Drawer = ({ className }) => {
                 </div>
 
                 <h1
-                  className={`text-lg font-semibold pr-4 pl-1 break-all text-white dark:text-white ${
-                    sidebarCollapsed ? "hidden" : "block"
-                  }`}
+                  className={`text-lg font-semibold pr-4 pl-1 break-all text-white dark:text-white ${sidebarCollapsed ? "hidden" : "block"
+                    }`}
                 >
                   {shouldShowTooltip ? (
                     <Tooltip content={brandName} right>
@@ -188,17 +191,15 @@ const Drawer = ({ className }) => {
                       <NavLink
                         key={path}
                         to={path}
-                        className={`block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline ${
-                          activeRoute === path ? "bg-activeState" : ""
-                        }`}
+                        className={`block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
+                          }`}
                         onClick={() => setActiveRoute(path)}
                       >
                         <div
-                          className={`flex items-center gap-x-3 gap-y-1 ${
-                            sidebarCollapsed
-                              ? "justify-center"
-                              : "justify-start"
-                          }`}
+                          className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed
+                            ? "justify-center"
+                            : "justify-start"
+                            }`}
                         >
                           {icon ? (
                             <SvgRenderer svgContent={icon} />
@@ -206,11 +207,10 @@ const Drawer = ({ className }) => {
                             <SvgRenderer svgContent={defaultSvg} />
                           )}
                           <p
-                            className={`${
-                              sidebarCollapsed
-                                ? "hidden opacity-0"
-                                : "opacity-100"
-                            } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
+                            className={`${sidebarCollapsed
+                              ? "hidden opacity-0"
+                              : "opacity-100"
+                              } text-white dark:text-white text-sm font-medium transition-opacity duration-500 opacity-0 ml-2`}
                           >
                             {`${title}`}
                           </p>
@@ -220,17 +220,33 @@ const Drawer = ({ className }) => {
                 </div>
 
                 {!sidebarCollapsed && (
-                  <div>
-                    <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-                      <p> Get the best Maintenance Service </p>
-                      <Button
-                        className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
-                        size="sm"
-                      >
-                        Go Now
-                      </Button>
+                  (sideBarOptions ? (
+                    <div>
+                      <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                        <p> {sideBarOptions.title} </p>
+                        <a href={sideBarOptions.buttonUrl}>
+                          <Button
+                            className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
+                            size="sm"
+                          >
+                            {sideBarOptions.buttonText}
+                          </Button>
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div>
+                      <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                        <p> Get the best Maintenance Service </p>
+                        <Button
+                          className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
+                          size="sm"
+                        >
+                          Go Now
+                        </Button>
+                      </div>
+                    </div>
+                  ))
                 )}
 
                 <div>
@@ -271,9 +287,8 @@ const Drawer = ({ className }) => {
                     onClick={() => setLogoutDialog(true)}
                   >
                     <div
-                      className={`flex items-center gap-x-3 gap-y-1 ${
-                        sidebarCollapsed ? "justify-center" : "justify-start"
-                      }`}
+                      className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-start"
+                        }`}
                     >
                       <div>
                         <svg
@@ -287,9 +302,8 @@ const Drawer = ({ className }) => {
                         </svg>
                       </div>
                       <p
-                        className={`${
-                          sidebarCollapsed ? "hidden" : ""
-                        } text-cleanWhite dark:text-white text-sm font-medium `}
+                        className={`${sidebarCollapsed ? "hidden" : ""
+                          } text-cleanWhite dark:text-white text-sm font-medium `}
                       >
                         Logout
                       </p>
@@ -313,25 +327,37 @@ const Drawer = ({ className }) => {
               Log out of your account?
             </div>
           </div>
-          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3 w-full">
+          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3 justify-between w-full">
             <Button
-              className="dark:text-white w-1/2"
+              className="dark:text-white"
               onClick={() => setLogoutDialog(false)}
             >
               Keep Me Logged In
             </Button>
-            <Button
-              variant="outline"
-              className="dark:text-white w-1/2"
-              onClick={() => {
-                if (!isLoading) {
-                  logout();
-                }
-              }}
-              disabled={isLoading}
-            >
-              {isLoading ? "Logging out..." : "Logout"}
-            </Button>
+            {env.DATA_SOURCE_SET === false ? (
+              <Button
+                variant="outline"
+                className="dark:text-white"
+                onClick={() => {
+                  if (!isLoading) {
+                    logout();
+                  }
+                }}
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging out..." : "Logout"}
+              </Button>
+            ) : (
+              <a href="/_hcms/mem/logout" className="dark:text-white">
+                <Button
+                  variant="outline"
+                  className="dark:text-white"
+                  onClick={() => setLogoutDialog(false)}
+                >
+                  Logout
+                </Button>
+              </a>
+            )}
           </div>
         </div>
       </Dialog>
