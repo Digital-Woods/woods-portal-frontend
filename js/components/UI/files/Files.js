@@ -5,6 +5,7 @@ const Files = ({ fileId, path }) => {
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [rightClickedFolder, setRightClickedFolder] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -49,18 +50,15 @@ const Files = ({ fileId, path }) => {
     return <div>Error loading files.</div>;
   }
 
-  let totalFiles = 0;
-  let paginatedFiles = [];
+  // Filter files based on search term
+  const filteredFiles = currentFiles.child.filter((file) =>
+    file.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  if (currentFiles && currentFiles.child) {
-    totalFiles = currentFiles.child.length;
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = currentPage * itemsPerPage;
-    paginatedFiles = currentFiles.child.slice(startIndex, endIndex);
-  } else {
-    totalFiles = 0;
-    paginatedFiles = [];
-  }
+  const totalFiles = filteredFiles.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = currentPage * itemsPerPage;
+  const paginatedFiles = filteredFiles.slice(startIndex, endIndex);
 
   const numOfPages = Math.ceil(totalFiles / itemsPerPage);
 
@@ -120,7 +118,12 @@ const Files = ({ fileId, path }) => {
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 p-4">
         <div className="flex justify-between mb-6 items-center mt-2">
-          <Input placeholder="Search..." height="semiMedium" />
+          <Input
+            placeholder="Search..."
+            height="semiMedium"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
 
         <div className="flex justify-between items-center">
@@ -153,7 +156,7 @@ const Files = ({ fileId, path }) => {
         <FileTable
           fileId={fileId}
           path={path}
-          files={paginatedFiles}
+          files={paginatedFiles} // Use paginatedFiles which is based on filteredFiles
           toggleFolder={toggleFolder}
           refetch={refetch}
         />
