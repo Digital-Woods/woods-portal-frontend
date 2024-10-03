@@ -64,6 +64,11 @@ class Client {
       const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       return HttpClient.post(url, data);
     },
+
+    imageUpload: (me, fileId, path, data) => {
+      const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      return HttpClient.post(url, data);
+    },
   };
 
   static objects = {
