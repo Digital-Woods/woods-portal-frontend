@@ -62,6 +62,8 @@ const Notes = ({ fileId, path }) => {
     }
   );
 
+  const { isLoading: isPosting } = createNoteMutation;
+
   // Handle saving a new note
   const handleSaveNote = () => {
     const payload = {
@@ -189,8 +191,12 @@ const Notes = ({ fileId, path }) => {
         </div>
         <div ref={editorRef} className="editor-container"></div>
         <div className="mt-4 text-start">
-          <Button onClick={handleSaveNote} className="text-white">
-            Create Note
+          <Button
+            disabled={isPosting || editorContent.trim() === ""}
+            onClick={handleSaveNote}
+            className="text-white"
+          >
+            {isPosting ? "Saving Post..." : "Save Post"}
           </Button>
         </div>
       </Dialog>
