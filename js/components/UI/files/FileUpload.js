@@ -137,7 +137,7 @@ const FileUpload = ({ fileId, path, refetch, folderId }) => {
               <div className="kb-data-box">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
-                    <div className="absolute right-0 top-[-20px] pointer">
+                    <div className="absolute right-0 top-[-20px] cursor-pointer">
                       <CloseIcon />
                     </div>
 
