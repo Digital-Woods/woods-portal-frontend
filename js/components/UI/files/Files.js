@@ -105,6 +105,13 @@ const Files = ({ fileId, path }) => {
     setIsDialogOpen(false);
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target.id === "dialog-overlay") {
+      // Only close if clicked on the overlay
+      closeDialog();
+    }
+  };
+
   const getCurrentFolderId = () => {
     return (currentFiles && currentFiles.id) || "obj-root";
   };
@@ -199,12 +206,15 @@ const Files = ({ fileId, path }) => {
       )}
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <FileUpload
-          folderId={getCurrentFolderId()}
-          fileId={fileId}
-          path={path}
-          refetch={refetch}
-        />
+        <div id="dialog-overlay" onClick={handleOverlayClick}>
+          <FileUpload
+            folderId={getCurrentFolderId()}
+            fileId={fileId}
+            path={path}
+            refetch={refetch}
+            onClose={closeDialog}
+          />
+        </div>
       </Dialog>
     </div>
   );

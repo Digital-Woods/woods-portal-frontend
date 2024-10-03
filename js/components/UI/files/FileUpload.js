@@ -10,7 +10,7 @@ const CloseIcon = () => (
   </svg>
 );
 
-const FileUpload = ({ fileId, path, refetch, folderId }) => {
+const FileUpload = ({ fileId, path, refetch, folderId, onClose }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -137,7 +137,10 @@ const FileUpload = ({ fileId, path, refetch, folderId }) => {
               <div className="kb-data-box">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
-                    <div className="absolute right-0 top-[-20px] cursor-pointer">
+                    <div
+                      className="absolute right-0 top-[-20px] cursor-pointer"
+                      onClick={onClose}
+                    >
                       <CloseIcon />
                     </div>
 
