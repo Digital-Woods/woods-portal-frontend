@@ -58,7 +58,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
   );
 
   const handleRowClick = (file) => {
-    if (file.type === "folder" && file.child && file.child.length > 0) {
+    if (file.type === "folder") {
       toggleFolder(file);
     } else {
       setSelectedFileId(file.id);

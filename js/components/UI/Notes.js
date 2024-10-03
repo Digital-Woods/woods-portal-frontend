@@ -1,49 +1,83 @@
+class MyUploadAdapter {
+  constructor(loader) {
+    this.loader = loader;
+  }
+  upload() {
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          const data = new FormData();
+          data.append("upload", file);
+          fetch("https://example.com/upload", {
+            method: "POST",
+            body: data,
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              resolve({ default: result.url });
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+    );
+  }
+  abort() {}
+}
+function MyCustomUploadAdapterPlugin(editor) {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+    return new MyUploadAdapter(loader);
+  };
+}
 const Notes = ({ fileId, path }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
   const editorRef = useRef(null);
 
-  const handleSaveNote = () => {
-    console.log(editorContent);
-    setShowDialog(false);
-  };
-
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", fileId],
     queryFn: async () => {
-      console.log(
-        "Fetching files with:",
-        me.hubspotPortals.templateName,
-        fileId,
-        path
-      );
       return await Client.notes.all(me, fileId, path);
     },
   });
 
+  const createNoteMutation = useMutation(
+    async (newNote) => {
+      return await Client.notes.createnote(me, fileId, path, newNote);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["data", fileId]);
+
+        setShowDialog(false);
+        refetch();
+      },
+      onError: (error) => {
+        console.error("Error creating note:", error);
+      },
+    }
+  );
+
+  // Handle saving a new note
+  const handleSaveNote = () => {
+    const payload = {
+      noteBody: editorContent, // This will be the HTML content from the editor
+    };
+
+    // Trigger the mutation with the note payload
+    createNoteMutation.mutate(payload);
+  };
+
   useEffect(() => {
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
-        toolbar: [
-          "heading",
-          "|",
-          "bold",
-          "italic",
-
-          "|",
-
-          "blockQuote",
-          "insertTable",
-          "|",
-          "undo",
-          "redo",
-        ],
+        extraPlugins: [MyCustomUploadAdapterPlugin],
+        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
         placeholder: "Add new note...",
       })
         .then((editor) => {
           editor.ui.view.editable.element.style.minHeight = "200px";
-
           editor.model.document.on("change:data", () => {
             setEditorContent(editor.getData());
           });
@@ -88,7 +122,6 @@ const Notes = ({ fileId, path }) => {
           <span className="mr-2"> + </span> New Note
         </Button>
       </div>
-
       {results && results.length > 0 ? (
         results.map((note) => (
           <div key={note.id} className="mt-5">
@@ -113,8 +146,9 @@ const Notes = ({ fileId, path }) => {
                   </p>
                 </div>
               </div>
+
               <div>
-                <p className="text-xs my-2 px-2">{note.noteBody}</p>
+                {ReactHtmlParser.default(DOMPurify.sanitize(note.noteBody))}
               </div>
               <div className="flex justify-end items-center">
                 <div className="flex gap-x-2">
@@ -130,21 +164,18 @@ const Notes = ({ fileId, path }) => {
       ) : (
         <div>No notes available.</div>
       )}
-
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
         className="mx-auto bg-white overflow-y-auto"
       >
-        <div className="flex  items-center mb-3">
-          <p className="text-gray-600 text-xs ">For</p>
+        <div className="flex items-center mb-3">
+          <p className="text-gray-600 text-xs">For</p>
           <p className="border rounded-full px-2 py-1 text-xs ml-2">
             {me.firstName}
           </p>
         </div>
-
-        <div ref={editorRef} className="editor-container "></div>
-
+        <div ref={editorRef} className="editor-container"></div>
         <div className="mt-4 text-start">
           <Button onClick={handleSaveNote} className="text-white">
             Create Note

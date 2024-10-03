@@ -140,6 +140,11 @@ body {
   overflow: visible;
 }
 
+.ck-editor {
+  min-width: 700px !important;
+  max-width: 700px !important;
+}
+
 .ck-editor__editable_inline {
   min-height: 200px !important;
 }
