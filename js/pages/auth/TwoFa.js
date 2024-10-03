@@ -14,8 +14,6 @@ const TwoFa = () => {
 
   const {tokenData} = getLoggedInDetails()
 
-  console.log('tokenData', tokenData)
-
   const { getMe, me } = useMe();
   const setUserDetails = useSetRecoilState(userDetailsAtom);
 
