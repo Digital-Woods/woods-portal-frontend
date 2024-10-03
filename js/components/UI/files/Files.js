@@ -120,17 +120,17 @@ const Files = ({ fileId, path }) => {
           <div className="flex space-x-2">
             <Button
               size="sm"
-              className="text-white"
+              className="text-white w-28"
               onClick={() => setIsCreateFolderOpen(true)}
             >
               <span className="mr-2"> + </span> New Folder
             </Button>
             <Button
               size="sm"
-              className="text-white"
+              className="text-white w-28"
               onClick={() => setIsDialogOpen(true)}
             >
-              <span className="mr-2"> + </span> New Document
+              <span className="mr-2"> + </span> New File
             </Button>
           </div>
         </div>

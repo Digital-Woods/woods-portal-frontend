@@ -1,6 +1,40 @@
+class MyUploadAdapter {
+  constructor(loader) {
+    this.loader = loader;
+  }
+  upload() {
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          const data = new FormData();
+          data.append("upload", file);
+          fetch("https://example.com/upload", {
+            method: "POST",
+            body: data,
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              resolve({ default: result.url });
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+    );
+  }
+  abort() {}
+}
+function MyCustomUploadAdapterPlugin(editor) {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+    return new MyUploadAdapter(loader);
+  };
+}
 const Notes = ({ fileId, path }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
+  const [editorContent, setEditorContent] = useState("");
+  const editorRef = useRef(null);
+
   const [page, setPage] = useState(1);
   const limit = 5;
 
@@ -18,6 +52,7 @@ const Notes = ({ fileId, path }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["data", fileId]);
+
         refetch();
         setShowDialog(false);
       },
@@ -27,12 +62,40 @@ const Notes = ({ fileId, path }) => {
     }
   );
 
-  const handleSaveNote = (editorContent) => {
+  const { isLoading: isPosting } = createNoteMutation;
+
+  const handleSaveNote = () => {
     const payload = {
       noteBody: editorContent,
     };
+
     createNoteMutation.mutate(payload);
   };
+
+  useEffect(() => {
+    if (showDialog && editorRef.current) {
+      window.ClassicEditor.create(editorRef.current, {
+        extraPlugins: [MyCustomUploadAdapterPlugin],
+        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
+        placeholder: "Add new note...",
+      })
+        .then((editor) => {
+          editor.ui.view.editable.element.style.minHeight = "200px";
+          editor.model.document.on("change:data", () => {
+            setEditorContent(editor.getData());
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      return () => {
+        if (editorRef.current && editorRef.current.editor) {
+          editorRef.current.editor.destroy();
+        }
+      };
+    }
+  }, [showDialog]);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -51,7 +114,6 @@ const Notes = ({ fileId, path }) => {
   if (error) {
     return <div>Error fetching notes: {error.message}</div>;
   }
-
   const results = data && data.data && data.data.results;
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
@@ -114,15 +176,28 @@ const Notes = ({ fileId, path }) => {
           setCurrentPage={setPage}
         />
       )}
-
-      <EditorComponent
-        showDialog={showDialog}
-        setShowDialog={setShowDialog}
-        handleSaveNote={handleSaveNote}
-        isPosting={createNoteMutation.isLoading}
-        fileId={fileId}
-        path={path}
-      />
+      <Dialog
+        open={showDialog}
+        onClose={setShowDialog}
+        className="mx-auto bg-white overflow-y-auto"
+      >
+        <div className="flex items-center mb-3">
+          <p className="text-gray-600 text-xs">For</p>
+          <p className="border rounded-full px-2 py-1 text-xs ml-2">
+            {me.firstName}
+          </p>
+        </div>
+        <div ref={editorRef} className="editor-container"></div>
+        <div className="mt-4 text-start">
+          <Button
+            disabled={isPosting || editorContent.trim() === ""}
+            onClick={handleSaveNote}
+            className="text-white"
+          >
+            {isPosting ? "Saving Post..." : "Save Post"}
+          </Button>
+        </div>
+      </Dialog>
     </div>
   );
 };

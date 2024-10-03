@@ -1,7 +1,6 @@
 const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
   const { me } = useMe();
   const [newFolderName, setNewFolderName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "", show: false });
 
   const createFolderMutation = useMutation({
@@ -43,9 +42,7 @@ const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
       folderName: newFolderName,
     };
 
-    setIsLoading(true);
     createFolderMutation.mutate(payload);
-    setIsLoading(false);
   };
 
   return (
@@ -63,11 +60,20 @@ const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
             placeholder="Folder Name"
           />
           <div className="mt-4 flex gap-x-5 justify-end">
-            <Button onClick={onClose} variant="outline" disabled={isLoading}>
+            <Button
+              onClick={onClose}
+              variant="outline"
+              disabled={createFolderMutation.isLoading}
+            >
               Cancel
             </Button>
-            <Button onClick={handleCreateFolder} disabled={isLoading}>
-              {isLoading ? "Creating..." : "Create"}
+            <Button
+              onClick={handleCreateFolder}
+              disabled={
+                createFolderMutation.isLoading || newFolderName.trim() === ""
+              }
+            >
+              {createFolderMutation.isLoading ? "Creating..." : "Create"}
             </Button>
           </div>
           {alert.show && (

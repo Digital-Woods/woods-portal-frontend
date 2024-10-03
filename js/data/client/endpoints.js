@@ -26,4 +26,7 @@ const API_ENDPOINTS = {
   //notes
   ALL_NOTES: "/api/feature-data/notes",
   NOTES_UPLOAD: "/api/feature-data/notes",
+
+  //notes-Image
+  IMAGE_UPLOAD: "/api/feature-data/notes/images",
 };
