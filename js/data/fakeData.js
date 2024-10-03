@@ -1,7 +1,3 @@
-
-console.log(userData,'userData from fake data');
-console.log(loggedInUserDetails,'loggedInUserDetails from fake data');
-
 const fakeUserDetails = {
   userId: userData.id || 0,
   firstName: userData.firstname || 'No firstname',
@@ -28,7 +24,6 @@ const fakeUserDetails = {
   sideMenu: moduleText,
   sideBarOptions:sidebarCtaDetails,
 };
-console.log(moduleText,"jdfgusdyfhusdg");
 const fakeTableData = {
   statusCode: "200",
   data: {

@@ -28,7 +28,6 @@ const sortedHeaders = (headers) => {
 const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
 const DashboardTable = ({ path, inputValue, title }) => {
-  console.log(title, 'title');
   const [tableData, setTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -39,8 +38,10 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
   const { me } = useMe();
-  // useEffect(() => console.log(currentPage), [currentPage]);
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
@@ -57,9 +58,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
       });
-      console.log(foundItem.results, 'foundItem');
       setTableData(foundItem.results);
-      console.log(tableData, 'tableData');
       setTotalItems(foundItem.results.length || 0);
       setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
       if (foundItem.results.length > 0) {
@@ -157,6 +156,11 @@ const DashboardTable = ({ path, inputValue, title }) => {
     }
   }, []);
 
+  const setDialogData = (data) => {
+    setModalData(data);
+    setOpenModal(true);
+  };
+  console.log(modalData);
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
@@ -248,22 +252,23 @@ const DashboardTable = ({ path, inputValue, title }) => {
                         </div>
                       </TableCell>
                     ))}
-                    {/* <TableCell>
-                    <div className="flex items-center space-x-2 gap-x-5">
-                      <Link
-                        className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
-                        to={`${path}/${item.id}`}
-                      >
-                        View Details
-                      </Link>
-                    </div>
-                  </TableCell> */}
+                    {env.DATA_SOURCE_SET === true &&
+                      <TableCell>
+                        <div className="flex items-center space-x-2 gap-x-5">
+                          <button
+                            className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
+                            onClick={() => setDialogData(item)}
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      </TableCell>
+                    }
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
-
           <div className="flex justify-end px-4">
             <Pagination
               numOfPages={numOfPages}
@@ -272,7 +277,35 @@ const DashboardTable = ({ path, inputValue, title }) => {
             />
           </div>
         </React.Fragment>
-      )}
-    </div>
+      )
+      }
+      {env.DATA_SOURCE_SET === true &&
+        <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[430px]">
+          <div className="rounded-md flex-col gap-6 flex">
+            <h3 className="text-start text-xl font-semibold">
+              Details
+            </h3>
+            {modalData &&
+              Object.keys(modalData).map((key) => (
+                <div key={key} className="flex justify-between items-center w-full gap-1 border-b">
+                  <div className="text-start dark:text-white">
+                    {formatKey(key)} -
+                  </div>
+                  <div className="dark:text-white text-end">
+                    {modalData[key]}
+                  </div>
+                </div>
+              ))}
+            <div className="pt-3 text-end">
+              <Button
+                onClick={() => setOpenModal(false)}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </Dialog>
+      }
+    </div >
   );
 };

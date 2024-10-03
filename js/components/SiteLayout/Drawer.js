@@ -69,7 +69,6 @@ const Drawer = ({ className }) => {
 
   useEffect(() => {
     const brandParam = getParam("brandName");
-    console.log(routes);
     if (brandParam && brandParam !== "null") {
       setBrandName(brandParam);
     } else if (
@@ -103,7 +102,6 @@ const Drawer = ({ className }) => {
       setSideBarOptions(fakeUserDetails.sideBarOptions);
     }
   })
-  console.log(sideBarOptions,env.DATA_SOURCE_SET, 'hkjhsgfdgasdf');
 
   return (
     <div>
