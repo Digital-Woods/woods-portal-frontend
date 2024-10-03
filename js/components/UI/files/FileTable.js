@@ -71,8 +71,16 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
 
   const handleDownload = (file, e) => {
     e.stopPropagation();
-    console.log("Downloading:", file);
-    setActiveDropdown(false);
+    // Fetch file details
+    Client.files
+      .getDetails(me, path, file.id, fileId)
+      .then((fileDetails) => {
+        const downloadUrl = fileDetails.data.url; // Get the download URL
+        window.open(downloadUrl, "_blank"); // Open the URL in a new tab
+      })
+      .catch((error) => {
+        console.error("Error fetching file details for download:", error);
+      });
   };
 
   const handleTrash = (file, e) => {
@@ -198,7 +206,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                         ></path>
                       </svg>
                     ) : (
-                      "Trash"
+                      "Delete"
                     )}
                   </button>
                 </div>

@@ -64,11 +64,13 @@ const Notes = ({ fileId, path }) => {
 
   const { isLoading: isPosting } = createNoteMutation;
 
+  // Handle saving a new note
   const handleSaveNote = () => {
     const payload = {
-      noteBody: editorContent,
+      noteBody: editorContent, // This will be the HTML content from the editor
     };
 
+    // Trigger the mutation with the note payload
     createNoteMutation.mutate(payload);
   };
 
