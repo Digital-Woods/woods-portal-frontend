@@ -77,7 +77,7 @@ const FileDetailsModal = ({ file, onClose }) => {
                 </div>
               ) : (
                 <div className="flex items-center justify-center w-full h-48">
-                  {getIconType(file.data.name)}
+                  {getIconType(file.data.extension)}
                 </div>
               )}
             </div>
