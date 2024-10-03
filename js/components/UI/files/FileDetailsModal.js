@@ -18,12 +18,7 @@ const FileDetailsModal = ({ file, onClose }) => {
   };
 
   const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = file.data.url;
-    link.download = file.data.name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.open(file.data.url, "_blank");
   };
 
   const handleImageClick = () => {
