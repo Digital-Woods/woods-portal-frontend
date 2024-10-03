@@ -183,7 +183,10 @@ const FileUpload = ({ fileId, path, refetch, folderId }) => {
                       );
                     })}
                   </div>
-                  <Button type="submit" disabled={isUploading}>
+                  <Button
+                    type="submit"
+                    disabled={selectedFile.length === 0 || isUploading}
+                  >
                     {isUploading ? "Uploading..." : "Upload"}
                   </Button>
                 </form>
