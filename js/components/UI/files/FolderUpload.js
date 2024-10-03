@@ -54,11 +54,20 @@ const FolderUpload = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <div className="flex relative items-center justify-center">
+    <Dialog
+      open={isOpen}
+      onClose={() => {} /* Disable closing on backdrop click */}
+    >
+      <div
+        className="flex relative items-center justify-center"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on modal content
+      >
         <div className="bg-cleanWhite dark:bg-dark-200 p-4">
           <h2 className="text-lg font-semibold mb-4 dark:text-white">
-            <div className="absolute right-0 top-[-10px] cursor-pointer">
+            <div
+              className="absolute right-0 top-[-10px] cursor-pointer"
+              onClick={onClose} // Close only when the CloseIcon is clicked
+            >
               <CloseIcon />
             </div>
             New Folder
