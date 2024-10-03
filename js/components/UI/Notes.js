@@ -53,8 +53,8 @@ const Notes = ({ fileId, path }) => {
       onSuccess: () => {
         queryClient.invalidateQueries(["data", fileId]);
 
-        setShowDialog(false);
         refetch();
+        setShowDialog(false);
       },
       onError: (error) => {
         console.error("Error creating note:", error);
