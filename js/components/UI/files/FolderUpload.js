@@ -1,7 +1,14 @@
-const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
+const FolderUpload = ({
+  isOpen,
+  onClose,
+  refetch,
+  folderId,
+  fileId,
+  path,
+  setAlert,
+}) => {
   const { me } = useMe();
   const [newFolderName, setNewFolderName] = useState("");
-  const [alert, setAlert] = useState({ message: "", type: "", show: false });
 
   const createFolderMutation = useMutation({
     mutationFn: async (payload) => {
@@ -15,6 +22,7 @@ const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
       });
       refetch();
       setNewFolderName("");
+      onClose(); // Close modal after folder creation
     },
     onError: (error) => {
       console.error("Error creating folder:", error);
@@ -55,7 +63,7 @@ const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
           <input
             type="text"
             value={newFolderName}
-            onChange={(e) => setNewFolderName(e.target.value)} // Update folder name on change
+            onChange={(e) => setNewFolderName(e.target.value)}
             className="border border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
             placeholder="Folder Name"
           />
@@ -76,15 +84,6 @@ const FolderUpload = ({ isOpen, onClose, refetch, folderId, fileId, path }) => {
               {createFolderMutation.isLoading ? "Creating..." : "Create"}
             </Button>
           </div>
-          {alert.show && (
-            <div
-              className={`mt-2 text-${
-                alert.type === "error" ? "red" : "green"
-              }-500`}
-            >
-              {alert.message}
-            </div>
-          )}
         </div>
       </div>
     </Dialog>

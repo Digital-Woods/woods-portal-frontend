@@ -11,6 +11,12 @@ const Files = ({ fileId, path }) => {
 
   const { me } = useMe();
 
+  const [alert, setAlert] = useState({ message: "", type: "", show: false });
+
+  const handleCloseAlert = () => {
+    setAlert({ message: "", type: "", show: false });
+  };
+
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () => {
@@ -180,7 +186,17 @@ const Files = ({ fileId, path }) => {
         fileId={fileId}
         path={path}
         refetch={refetch}
+        setAlert={setAlert}
       />
+
+      {alert.show && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={handleCloseAlert}
+          duration={3000}
+        />
+      )}
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
         <FileUpload
