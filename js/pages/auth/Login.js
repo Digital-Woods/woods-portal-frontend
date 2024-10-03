@@ -141,7 +141,8 @@ const Login = () => {
 
       if (error.response && error.response.data) {
         const errorData = error.response.data.detailedMessage;
-        setServerError(errorData);
+        const errors = error.response.data.errors;
+        setServerError(errors);
 
         errorMessage =
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
@@ -199,9 +200,9 @@ const Login = () => {
                       />
                     </div>
                   </FormControl>
-                  {errors.email && (
+                  {errors.username && (
                     <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.email.message}
+                      {errors.username.message}
                     </FormMessage>
                   )}
                 </FormItem>
