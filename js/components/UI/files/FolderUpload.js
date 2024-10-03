@@ -55,9 +55,12 @@ const FolderUpload = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <div className="flex items-center justify-center">
+      <div className="flex relative items-center justify-center">
         <div className="bg-cleanWhite dark:bg-dark-200 p-4">
           <h2 className="text-lg font-semibold mb-4 dark:text-white">
+            <div className="absolute right-0 top-[-10px] pointer">
+              <CloseIcon />
+            </div>
             New Folder
           </h2>
           <input

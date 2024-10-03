@@ -1,3 +1,15 @@
+const CloseIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    className="fill-black dark:fill-white"
+  >
+    <path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z" />
+  </svg>
+);
+
 const FileUpload = ({ fileId, path, refetch, folderId }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
@@ -117,7 +129,7 @@ const FileUpload = ({ fileId, path, refetch, folderId }) => {
   };
 
   return (
-    <div className="fileupload-view">
+    <div className="fileupload-view relative">
       <div className="row justify-content-center m-0">
         <div className="col-md-6">
           <div className="card mt-5">
@@ -125,6 +137,10 @@ const FileUpload = ({ fileId, path, refetch, folderId }) => {
               <div className="kb-data-box">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
+                    <div className="absolute right-0 top-[-20px] pointer">
+                      <CloseIcon />
+                    </div>
+
                     <h6>File Upload</h6>
                   </div>
                 </div>
