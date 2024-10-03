@@ -116,7 +116,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
           onClick={() => handleRowClick(file)}
         >
           <TableCell className="px-4 py-2 text-xs">
-            <div>{getIconType(file.type)}</div>
+            <div>{getIcon(file.name)}</div>
           </TableCell>
 
           <TableCell className="px-4 py-2 text-xs">

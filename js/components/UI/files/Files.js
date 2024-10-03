@@ -103,8 +103,6 @@ const Files = ({ fileId, path }) => {
     return (currentFiles && currentFiles.id) || "obj-root";
   };
 
-  console.log(getCurrentFolderId());
-
   return (
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 p-4">
