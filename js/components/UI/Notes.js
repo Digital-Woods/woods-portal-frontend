@@ -34,40 +34,46 @@ const Notes = ({ fileId, path }) => {
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
   const editorRef = useRef(null);
-  const handleSaveNote = () => {
-    console.log(editorContent);
-    setShowDialog(false);
-  };
+
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", fileId],
     queryFn: async () => {
-      console.log(
-        "Fetching files with:",
-        me.hubspotPortals.templateName,
-        fileId,
-        path
-      );
       return await Client.notes.all(me, fileId, path);
     },
   });
+
+  const createNoteMutation = useMutation(
+    async (newNote) => {
+      return await Client.notes.createnote(me, fileId, path, newNote);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["data", fileId]);
+
+        setShowDialog(false);
+        refetch();
+      },
+      onError: (error) => {
+        console.error("Error creating note:", error);
+      },
+    }
+  );
+
+  // Handle saving a new note
+  const handleSaveNote = () => {
+    const payload = {
+      noteBody: editorContent, // This will be the HTML content from the editor
+    };
+
+    // Trigger the mutation with the note payload
+    createNoteMutation.mutate(payload);
+  };
+
   useEffect(() => {
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
         extraPlugins: [MyCustomUploadAdapterPlugin],
-        toolbar: [
-          "heading",
-          "|",
-          "bold",
-          "italic",
-          "|",
-          // "blockQuote",
-          // "insertTable",
-          // 'link',
-          "uploadImage",
-          // "|",
-          // "undo",
-          // "redo",
-        ],
+        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
         placeholder: "Add new note...",
       })
         .then((editor) => {
@@ -79,6 +85,7 @@ const Notes = ({ fileId, path }) => {
         .catch((error) => {
           console.error(error);
         });
+
       return () => {
         if (editorRef.current && editorRef.current.editor) {
           editorRef.current.editor.destroy();
@@ -86,21 +93,27 @@ const Notes = ({ fileId, path }) => {
       };
     }
   }, [showDialog]);
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString();
   };
+
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
   if (error) {
     return <div>Error fetching notes: {error.message}</div>;
   }
+
   const results = data && data.data && data.data.results;
+
   return (
     <div className="rounded-lg mt-2 bg-cleanWhite p-4">
       <div className="flex justify-between mt-2 mb-6 items-center">
@@ -133,9 +146,9 @@ const Notes = ({ fileId, path }) => {
                   </p>
                 </div>
               </div>
+
               <div>
-                {ReactHtmlParser.default(note.noteBody)}
-                {/* <p className="text-xs my-2 px-2">{note.noteBody}</p> */}
+                {ReactHtmlParser.default(DOMPurify.sanitize(note.noteBody))}
               </div>
               <div className="flex justify-end items-center">
                 <div className="flex gap-x-2">
@@ -156,13 +169,13 @@ const Notes = ({ fileId, path }) => {
         onClose={setShowDialog}
         className="mx-auto bg-white overflow-y-auto"
       >
-        <div className="flex  items-center mb-3">
-          <p className="text-gray-600 text-xs ">For</p>
+        <div className="flex items-center mb-3">
+          <p className="text-gray-600 text-xs">For</p>
           <p className="border rounded-full px-2 py-1 text-xs ml-2">
             {me.firstName}
           </p>
         </div>
-        <div ref={editorRef} className="editor-container "></div>
+        <div ref={editorRef} className="editor-container"></div>
         <div className="mt-4 text-start">
           <Button onClick={handleSaveNote} className="text-white">
             Create Note

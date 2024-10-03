@@ -25,4 +25,5 @@ const API_ENDPOINTS = {
   FOLDER_UPLOAD: "/api/feature-data/folders",
   //notes
   ALL_NOTES: "/api/feature-data/notes",
+  NOTES_UPLOAD: "/api/feature-data/notes",
 };
