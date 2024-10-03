@@ -35,10 +35,13 @@ const Notes = ({ fileId, path }) => {
   const [editorContent, setEditorContent] = useState("");
   const editorRef = useRef(null);
 
+  const [page, setPage] = useState(1);
+  const limit = 5;
+
   const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ["data", fileId],
+    queryKey: ["data", fileId, page],
     queryFn: async () => {
-      return await Client.notes.all(me, fileId, path);
+      return await Client.notes.all(me, fileId, path, limit, page);
     },
   });
 
@@ -111,8 +114,9 @@ const Notes = ({ fileId, path }) => {
   if (error) {
     return <div>Error fetching notes: {error.message}</div>;
   }
-
   const results = data && data.data && data.data.results;
+  const totalNotes = data && data.data && data.data.total;
+  const numOfPages = Math.ceil(totalNotes / limit);
 
   return (
     <div className="rounded-lg mt-2 bg-cleanWhite p-4">
@@ -163,6 +167,14 @@ const Notes = ({ fileId, path }) => {
         ))
       ) : (
         <div>No notes available.</div>
+      )}
+
+      {totalNotes > limit && (
+        <Pagination
+          numOfPages={numOfPages}
+          currentPage={page}
+          setCurrentPage={setPage}
+        />
       )}
       <Dialog
         open={showDialog}

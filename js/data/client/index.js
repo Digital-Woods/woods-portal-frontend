@@ -53,9 +53,12 @@ class Client {
   };
 
   static notes = {
-    all: (me, fileId, path) => {
+    all: (me, fileId, path, limit = 5, page) => {
       const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      return HttpClient.get(url);
+      return HttpClient.get(url, {
+        limit,
+        page: page,
+      });
     },
     createnote: (me, fileId, path, data) => {
       const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
