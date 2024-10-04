@@ -167,7 +167,7 @@ const Files = ({ fileId, path }) => {
               Showing
             </p>
             <span className="border border-2 dark:text-white border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-              {paginatedFiles.length}
+              {Math.min(endIndex, totalFiles)}
             </span>
             <span className="dark:text-white">/</span>
             <span className="rounded-md dark:text-white font-medium">
