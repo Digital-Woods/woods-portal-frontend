@@ -1,5 +1,5 @@
 function useMe() {
-  if (isLivePreview() || env.DATA_SOURCE_SET === true ) {
+  if (isLivePreview() || env.DATA_SOURCE_SET === true) {
     return {
       me: fakeUserDetails,
       isLoading: false,
@@ -93,7 +93,6 @@ function useLogout() {
 
 const useSetColors = () => {
   const { me } = useMe();
-
   const applyColors = () => {
     // Default colors
     const defaultPrimaryColor = "#0e1111";
@@ -130,22 +129,24 @@ const useSetColors = () => {
       urlSecondaryColor
     );
   };
-
   useEffect(() => {
     // Initial color setup
-    applyColors();
+    if (env.DATA_SOURCE_SET !== true) {
 
-    // Handle URL changes (e.g., when using browser navigation)
-    const handlePopState = () => {
       applyColors();
-    };
 
-    window.addEventListener("popstate", handlePopState);
+      // Handle URL changes (e.g., when using browser navigation)
+      const handlePopState = () => {
+        applyColors();
+      };
 
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
+      window.addEventListener("popstate", handlePopState);
+
+      // Cleanup event listener on component unmount
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }
   }, [me]); // Dependency array includes 'me' to rerun if 'me' changes
 };
 

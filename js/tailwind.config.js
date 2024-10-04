@@ -7,7 +7,11 @@ function withOpacity(variableName) {
     }
   };
 }
+{% set primary_color = theme.global_colors.primary.color  %}
+{% set secondary_color = theme.global_colors.secondary.color %}
 
+const primarycolor = "{{ primary_color }}";
+const secondarycolor = "{{ secondary_color }}";
 // function getColorsFromLocalStorage() {
 //   const portalSettings = localStorage.getItem("portalSettings");
 //   let primaryColor = "#000000";
@@ -68,8 +72,8 @@ tailwind.config = {
         richRed: "#FF0000",
         lightblue: "#005fad",
         defaultPrimary: "#0e1111",
-        primary: "var(--primary-color)",
-        secondary: "var(--secondary-color)",
+        primary: primarycolor ? "{{ primary_color }}": "var(--primary-color)",
+        secondary: secondarycolor ? "{{ secondary_color }}" : "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",

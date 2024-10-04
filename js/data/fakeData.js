@@ -13,8 +13,8 @@ const fakeUserDetails = {
     portalSettings: {
       theme: "light",
       logo: baseCompanyOptions.logoImg || "",
-      primaryColor: "#000000",
-      secondaryColor: "#000000",
+      // primaryColor: "--primary-color",
+      // secondaryColor: "--secondary-color",
       brandName: baseCompanyOptions.companyName || "Digitalwoods",
     },
     onboardStatus: true,
