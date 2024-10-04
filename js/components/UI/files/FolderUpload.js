@@ -31,6 +31,8 @@ const FolderUpload = ({
         type: "error",
         show: true,
       });
+
+      onClose();
     },
   });
 

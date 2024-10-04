@@ -10,11 +10,10 @@ const CloseIcon = () => (
   </svg>
 );
 
-const FileUpload = ({ fileId, path, refetch, folderId, onClose }) => {
+const FileUpload = ({ fileId, path, refetch, folderId, onClose, setAlert }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [alert, setAlert] = useState({ message: "", type: "", show: false });
   const { me } = useMe();
 
   console.log(folderId);
@@ -82,15 +81,17 @@ const FileUpload = ({ fileId, path, refetch, folderId, onClose }) => {
         show: true,
       });
       refetch();
+      onClose();
     },
     onError: (error) => {
       console.error("Error uploading files:", error);
-      setIsUploading(false); // Turn off the uploading spinner
+      setIsUploading(false);
       setAlert({
         message: "Error uploading files!",
         type: "error",
         show: true,
       });
+      onClose();
     },
   });
 
@@ -209,16 +210,6 @@ const FileUpload = ({ fileId, path, refetch, folderId, onClose }) => {
                     {isUploading ? "Uploading..." : "Upload"}
                   </Button>
                 </form>
-
-                {/* Success message */}
-                {alert.show && alert.type === "success" && (
-                  <div className="text-green-600 mt-3">{alert.message}</div>
-                )}
-
-                {/* Error message */}
-                {alert.show && alert.type === "error" && (
-                  <div className="text-red-600 mt-3">{alert.message}</div>
-                )}
               </div>
             </div>
           </div>

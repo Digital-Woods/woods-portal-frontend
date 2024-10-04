@@ -216,9 +216,19 @@ const Files = ({ fileId, path }) => {
             path={path}
             refetch={refetch}
             onClose={closeDialog}
+            setAlert={setAlert}
           />
         </div>
       </Dialog>
+
+      {alert.show && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={handleCloseAlert}
+          duration={3000}
+        />
+      )}
     </div>
   );
 };
