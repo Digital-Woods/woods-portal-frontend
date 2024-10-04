@@ -68,7 +68,6 @@ const Drawer = ({ className }) => {
 
   useEffect(() => {
     const brandParam = getParam("brandName");
-    console.log(routes);
     if (brandParam && brandParam !== "null") {
       setBrandName(brandParam);
     } else if (
@@ -183,13 +182,13 @@ const Drawer = ({ className }) => {
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
                 <div>
-                  {routes.length > 0 &&
+                  {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <NavLink
                         key={path}
                         to={path}
                         className={`block hover:bg-dark-400 dark:hover:bg-dark-400 dark:hover:text-white p-3 rounded-md no-underline ${
-                          activeRoute === path ? "bg-activeState" : ""
+                          (activeRoute === path) || ((activeRoute === '/' || activeRoute === '/login'  || activeRoute === '/login/tow-fa') && ( routes[0].path === path)) ? "bg-activeState" : ""
                         }`}
                         onClick={() => setActiveRoute(path)}
                       >

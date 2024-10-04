@@ -84,7 +84,7 @@ const Login = () => {
     }),
   });
 
-  const { getMe, me } = useMe();
+  // const { getMe } = useMe();
   const setUserDetails = useSetRecoilState(userDetailsAtom);
 
   const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
@@ -119,7 +119,7 @@ const Login = () => {
         window.location.hash = '/login/tow-fa';
       } else {
         await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
-        getMe(); // Fetch user details
+        // getMe(); // Fetch user details
         // Use if-else to check if routes exist
         if (routes && routes.length > 0) {
           const firstRoute = routes[0].path;
@@ -141,7 +141,8 @@ const Login = () => {
 
       if (error.response && error.response.data) {
         const errorData = error.response.data.detailedMessage;
-        setServerError(errorData);
+        const errors = error.response.data.errors;
+        setServerError(errors);
 
         errorMessage =
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
@@ -199,9 +200,9 @@ const Login = () => {
                       />
                     </div>
                   </FormControl>
-                  {errors.email && (
+                  {errors.username && (
                     <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.email.message}
+                      {errors.username.message}
                     </FormMessage>
                   )}
                 </FormItem>
