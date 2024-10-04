@@ -12,19 +12,14 @@ const DetailsHeaderCard = ({
 
     if (item) {
       for (const key of Object.keys(item)) {
-        const normalizedKey = key.replace(/_/g, "").toLowerCase();
-
-        if (normalizedKey.includes("name")) {
-          const valueObject = item[key];
-
-          if (
-            valueObject &&
-            valueObject.type === "primaryDisplayProperty" &&
-            valueObject.value
-          ) {
-            displayValue = valueObject.value;
-            break;
-          }
+        const valueObject = item[key];
+        if (
+          valueObject &&
+          valueObject.type === "primaryDisplayProperty" &&
+          valueObject.value
+        ) {
+          displayValue = valueObject.value;
+          break;
         }
       }
     }
