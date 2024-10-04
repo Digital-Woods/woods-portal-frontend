@@ -179,7 +179,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                       </button>
                     </div>
                   )}
-                  <button
+                  {/* <button
                     className="block w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
                     onClick={(e) => handleTrash(file, e)}
                     disabled={loadingFileId === file.id}
@@ -208,7 +208,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                     ) : (
                       "Delete"
                     )}
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>

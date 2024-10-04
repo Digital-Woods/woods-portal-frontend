@@ -132,13 +132,13 @@ const Files = ({ fileId, path }) => {
             onClick={handleBreadcrumbClick}
           />
           <div className="flex space-x-2">
-            <Button
+            {/* <Button
               size="sm"
               className="text-white w-28"
               onClick={() => setIsCreateFolderOpen(true)}
             >
               <span className="mr-2"> + </span> New Folder
-            </Button>
+            </Button> */}
             <Button
               size="sm"
               className="text-white w-28"
@@ -198,7 +198,6 @@ const Files = ({ fileId, path }) => {
         refetch={refetch}
         setAlert={setAlert}
       />
-
       {alert.show && (
         <Alert
           message={alert.message}
@@ -207,7 +206,6 @@ const Files = ({ fileId, path }) => {
           duration={3000}
         />
       )}
-
       <Dialog open={isDialogOpen} onClose={closeDialog}>
         <div id="dialog-overlay" onClick={handleOverlayClick}>
           <FileUpload
@@ -220,7 +218,6 @@ const Files = ({ fileId, path }) => {
           />
         </div>
       </Dialog>
-
       {alert.show && (
         <Alert
           message={alert.message}
