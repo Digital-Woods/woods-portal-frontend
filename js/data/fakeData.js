@@ -1,5 +1,5 @@
 const fakeUserDetails = {
-  userId: userData.id || 0,
+  userId: userData.id || 1,
   firstName: userData.firstname || 'No firstname',
   lastName: userData.lastname || 'No lastname',
   email: userData.email || 'No email',

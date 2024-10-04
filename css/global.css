@@ -1,10 +1,5 @@
-{% set primary_font = theme.global_fonts.primary %}
-{% set secondary_font = theme.global_fonts.secondary %}
-
 body {
-  {{ body_font.style }};
-  color: {{ body_font.color }};
-  font-size: {{ body_font.size ~ body_font.size_unit }};
+  font-family: "Inter", sans-serif;
 }
 
 

@@ -29,6 +29,7 @@ const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
 const DashboardTable = ({ path, inputValue, title }) => {
   const [tableData, setTableData] = useState([]);
+  const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +41,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   const { me } = useMe();
   useEffect(() => {
@@ -58,7 +60,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
       });
-      setTableData(foundItem.results);
+      setCurrentTableData(foundItem.results);
       setTotalItems(foundItem.results.length || 0);
       setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
       if (foundItem.results.length > 0) {
@@ -125,23 +127,57 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const handleSort = (column) => {
     let newSortConfig = column;
     if (sortConfig === column) {
-      newSortConfig = `-${column}`;
+      newSortConfig = `-${column}`; // Toggle to descending if the same column is clicked again
     } else if (sortConfig === `-${column}`) {
-      newSortConfig = column;
+      newSortConfig = column; // Toggle back to ascending if clicked again
     }
     setSortConfig(newSortConfig);
-    getData();
+  
+    if (env.DATA_SOURCE_SET === true) {
+      // Handle sorting for local data (currentTableData)
+      const sortedData = [...currentTableData].sort((a, b) => {
+        const columnValueA = getValueByPath(a, column);
+        const columnValueB = getValueByPath(b, column);
+  
+        if (newSortConfig.startsWith('-')) {
+          return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
+        }
+        return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
+      });
+      setTableData(sortedData.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ));
+    } else {
+      // Fetch new sorted data from API if `env.DATA_SOURCE_SET !== true`
+      getData();
+    }
   };
+  
+  // Helper function to get the value by key from nested objects
+  const getValueByPath = (obj, path) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  };
+  
 
   const handlePageChange = async (page) => {
-    setCurrentPage(page);
-    setAfter((page - 1) * itemsPerPage);
-    await wait(100);
-    getData();
+    if (env.DATA_SOURCE_SET === true) {
+      setCurrentPage(page);
+    } else {
+      setCurrentPage(page);
+      setAfter((page - 1) * itemsPerPage);
+      await wait(100);
+      getData();
+    }
   };
-
-  const numOfPages = Math.ceil(totalItems / itemsPerPage);
-
+  useEffect(() => {
+    if (env.DATA_SOURCE_SET === true) {
+      setTableData(currentTableData.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ));
+    }
+  }, [currentTableData, currentPage, itemsPerPage]);
   useEffect(() => {
     if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
   }, [inputValue]);
@@ -160,7 +196,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
     setModalData(data);
     setOpenModal(true);
   };
-  console.log(modalData);
+
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}

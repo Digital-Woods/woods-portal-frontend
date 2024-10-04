@@ -143,7 +143,7 @@ const Drawer = ({ className }) => {
                 </h1>
               </div>
               <div
-                className="cursor-pointer flex items-center md:hidden lg:block"
+                className="cursor-pointer  items-center max-lg:hidden flex"
                 onClick={toggleSidebar}
               >
                 {isSecondIcon ? (
@@ -152,9 +152,9 @@ const Drawer = ({ className }) => {
                     height="20px"
                     viewBox="0 -960 960 960"
                     width="20px"
-                    className="fill-white"
+                    className="fill-white dark:fill-white"
                   >
-                    <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+                    <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
                   </svg>
                 ) : (
                   <svg
@@ -162,9 +162,9 @@ const Drawer = ({ className }) => {
                     height="20px"
                     viewBox="0 -960 960 960"
                     width="20px"
-                    className="fill-white"
+                    className="fill-white dark:fill-white"
                   >
-                    <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
+                    <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
                   </svg>
                 )}
               </div>
