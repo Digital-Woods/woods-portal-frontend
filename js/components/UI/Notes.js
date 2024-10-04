@@ -57,6 +57,7 @@ const Notes = ({ fileId, path }) => {
   const [editorContent, setEditorContent] = useState("");
   const editorRef = useRef(null);
   const [page, setPage] = useState(1);
+  const [alert, setAlert] = useState(null);
   const limit = 5;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", fileId, page],
@@ -68,14 +69,23 @@ const Notes = ({ fileId, path }) => {
     async (newNote) => {
       return await Client.notes.createnote(me, fileId, path, newNote);
     },
+
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["data", fileId]);
         refetch();
         setShowDialog(false);
+        setAlert({
+          message: "Note uploaded successfully!",
+          type: "success",
+        });
       },
       onError: (error) => {
         console.error("Error creating note:", error);
+        setAlert({
+          message: "Failed to upload the note.",
+          type: "error",
+        });
       },
     }
   );
@@ -130,6 +140,13 @@ const Notes = ({ fileId, path }) => {
   const numOfPages = Math.ceil(totalNotes / limit);
   return (
     <div className="rounded-lg mt-2 bg-cleanWhite p-4">
+      {alert && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
       <div className="flex justify-end mt-2 mb-6 items-center">
         {/* <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} /> */}
         <Button className="text-white" onClick={() => setShowDialog(true)}>
