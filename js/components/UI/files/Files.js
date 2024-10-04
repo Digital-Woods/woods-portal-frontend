@@ -36,7 +36,7 @@ const Files = ({ fileId, path }) => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data && data.data) {
       setCurrentFiles(data.data);
       setFolderStack([data.data]);
     }
