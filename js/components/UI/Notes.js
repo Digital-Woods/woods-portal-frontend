@@ -210,9 +210,16 @@ const Notes = ({ fileId, path }) => {
       )}
       <Dialog
         open={showDialog}
-        onClose={setShowDialog}
-        className="mx-auto bg-white overflow-y-auto"
+        onClose={() => {}}
+        // onClose={setShowDialog}
+        className=" relative mx-auto bg-white overflow-y-auto"
       >
+        <div
+          className="absolute right-3 top-2 cursor-pointer"
+          onClick={() => setShowDialog(false)}
+        >
+          <CloseIcon />
+        </div>
         <div className="flex items-center mb-3">
           <p className="text-gray-600 text-xs">For</p>
           <p className="border rounded-full px-2 py-1 text-xs ml-2">
