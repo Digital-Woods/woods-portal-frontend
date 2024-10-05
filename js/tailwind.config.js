@@ -7,36 +7,12 @@ function withOpacity(variableName) {
     }
   };
 }
+
 {% set primary_color = theme.global_colors.primary.color  %}
 {% set secondary_color = theme.global_colors.secondary.color %}
 
-const primarycolor = "{{ primary_color }}";
-const secondarycolor = "{{ secondary_color }}";
-// function getColorsFromLocalStorage() {
-//   const portalSettings = localStorage.getItem("portalSettings");
-//   let primaryColor = "#000000";
-//   let secondaryColor = "#8D8D99";
-
-//   if (portalSettings) {
-//     try {
-//       const parsedSettings = JSON.parse(portalSettings);
-//       if (parsedSettings.primaryColor) {
-//         primaryColor = parsedSettings.primaryColor;
-//       }
-//       if (parsedSettings.secondaryColor) {
-//         secondaryColor = parsedSettings.secondaryColor;
-//       }
-//     } catch (error) {
-//       console.error("Error parsing portalSettings from localStorage:", error);
-//     }
-//   }
-
-//   const urlParams = new URLSearchParams(window.location.search);
-//   return {
-//     primaryColor: urlParams.get("primaryColor") || primaryColor,
-//     secondaryColor: urlParams.get("secondaryColor") || secondaryColor,
-//   };
-// }
+let primarycolor = "{{ primary_color }}";
+let secondarycolor ="{{ secondary_color }}";
 
 tailwind.config = {
   content: [
@@ -72,8 +48,8 @@ tailwind.config = {
         richRed: "#FF0000",
         lightblue: "#005fad",
         defaultPrimary: "#0e1111",
-        primary: primarycolor ? "{{ primary_color }}": "var(--primary-color)",
-        secondary: secondarycolor ? "{{ secondary_color }}" : "var(--secondary-color)",
+        primary: "var(--primary-color)",
+        secondary: "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",

@@ -95,8 +95,8 @@ const useSetColors = () => {
   const { me } = useMe();
   const applyColors = () => {
     // Default colors
-    const defaultPrimaryColor = "#0e1111";
-    const defaultSecondaryColor = "#000000";
+    const defaultPrimaryColor = primarycolor ;
+    const defaultSecondaryColor = secondarycolor;
 
     // Initialize colors with default values
     let primaryColor = defaultPrimaryColor;
@@ -131,7 +131,6 @@ const useSetColors = () => {
   };
   useEffect(() => {
     // Initial color setup
-    if (env.DATA_SOURCE_SET !== true) {
 
       applyColors();
 
@@ -146,7 +145,6 @@ const useSetColors = () => {
       return () => {
         window.removeEventListener("popstate", handlePopState);
       };
-    }
   }, [me]); // Dependency array includes 'me' to rerun if 'me' changes
 };
 
