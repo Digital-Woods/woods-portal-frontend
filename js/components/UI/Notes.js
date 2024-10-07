@@ -101,7 +101,7 @@ const Notes = ({ fileId, path }) => {
     // test_payload = "test_payload";
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
-        // extraPlugins: [MyCustomUploadAdapterPlugin],
+        extraPlugins: [MyCustomUploadAdapterPlugin],
         toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
         placeholder: "Add new note...",
       })
