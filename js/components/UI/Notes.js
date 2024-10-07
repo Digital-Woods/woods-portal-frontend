@@ -102,7 +102,7 @@ const Notes = ({ fileId, path }) => {
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
         // extraPlugins: [MyCustomUploadAdapterPlugin],
-        toolbar: ["heading", "|", "bold", "italic"],
+        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
         placeholder: "Add new note...",
       })
         .then((editor) => {
@@ -187,14 +187,14 @@ const Notes = ({ fileId, path }) => {
               <div>
                 {ReactHtmlParser.default(DOMPurify.sanitize(note.noteBody))}
               </div>
-              {/* <div className="flex justify-end items-center">
+              <div className="flex justify-end items-center">
                 <div className="flex gap-x-2">
                   <PinIcon />
                   <CopyIcon />
                   <DeleteIcon />
                   <ThreeDotIcon />
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         ))
