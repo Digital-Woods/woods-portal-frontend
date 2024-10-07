@@ -17,17 +17,19 @@ class MyUploadAdapter {
               fileName: file.name,
               fileData: base64data,
             };
+            const token = getAuthToken();
 
             fetch(IMAGE_URL, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json", // Send as JSON
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify(payload), // Convert payload to JSON string
             })
               .then((response) => response.json())
               .then((result) => {
-                resolve({ default: result.url });
+                resolve({ default: result.data.url });
               })
               .catch((error) => {
                 reject(error);
@@ -97,12 +99,12 @@ const Notes = ({ fileId, path }) => {
     createNoteMutation.mutate(payload);
   };
   useEffect(() => {
-    IMAGE_URL = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
     // test_payload = "test_payload";
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
-        // extraPlugins: [MyCustomUploadAdapterPlugin],
-        toolbar: ["heading", "|", "bold", "italic"],
+        extraPlugins: [MyCustomUploadAdapterPlugin],
+        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
         placeholder: "Add new note...",
       })
         .then((editor) => {
