@@ -132,13 +132,13 @@ const DashboardTable = ({ path, inputValue, title }) => {
       newSortConfig = column; // Toggle back to ascending if clicked again
     }
     setSortConfig(newSortConfig);
-  
+
     if (env.DATA_SOURCE_SET === true) {
       // Handle sorting for local data (currentTableData)
       const sortedData = [...currentTableData].sort((a, b) => {
         const columnValueA = getValueByPath(a, column);
         const columnValueB = getValueByPath(b, column);
-  
+
         if (newSortConfig.startsWith('-')) {
           return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
         }
@@ -153,12 +153,12 @@ const DashboardTable = ({ path, inputValue, title }) => {
       getData();
     }
   };
-  
+
   // Helper function to get the value by key from nested objects
   const getValueByPath = (obj, path) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
   };
-  
+
 
   const handlePageChange = async (page) => {
     if (env.DATA_SOURCE_SET === true) {
@@ -291,12 +291,12 @@ const DashboardTable = ({ path, inputValue, title }) => {
                     {env.DATA_SOURCE_SET === true &&
                       <TableCell>
                         <div className="flex items-center space-x-2 gap-x-5">
-                          <button
+                          <Link
                             className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
-                            onClick={() => setDialogData(item)}
+                            to={`${path}/${item.id}`}
                           >
                             View Details
-                          </button>
+                          </Link>
                         </div>
                       </TableCell>
                     }
@@ -324,12 +324,22 @@ const DashboardTable = ({ path, inputValue, title }) => {
             {modalData &&
               Object.keys(modalData).map((key) => (
                 <div key={key} className="flex justify-between items-center w-full gap-1 border-b">
-                  <div className="text-start dark:text-white">
-                    {formatKey(key)} -
-                  </div>
-                  <div className="dark:text-white text-end">
-                    {modalData[key]}
-                  </div>
+                  {key !== 'iframe_file' && key !== 'id' ? (
+                    <div className="w-full">
+                      <div className="text-start dark:text-white">
+                        {formatKey(key)} -
+                      </div>
+                      <div className="dark:text-white text-end">
+                        {modalData[key]}
+                      </div>
+                    </div>
+                  ) : key === 'iframe_file' ? (
+                    <div>
+                      Hello {modalData[key].replace(";", ',')}
+                    </div>
+                  ) : (
+                    ''
+                  )}
                 </div>
               ))}
             <div className="pt-3 text-end">
@@ -337,6 +347,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
                 onClick={() => setOpenModal(false)}
               >
                 Close
+
               </Button>
             </div>
           </div>
