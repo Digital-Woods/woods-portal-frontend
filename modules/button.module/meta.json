@@ -4,7 +4,7 @@
   "categories" : [ "forms_and_buttons" ],
   "icon" : "@hubspot/boilerplate/images/module-icons/cta.svg",
   "host_template_types" : [ "PAGE" ],
-  "module_id" : 167688975025,
+  "module_id" : 116987399401,
   "label" : "Button",
   "is_available_for_new_content" : true
 }

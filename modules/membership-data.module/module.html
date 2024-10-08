@@ -1,0 +1,122 @@
+{% if request_contact.is_logged_in %}
+
+{% set contact_id = request.contact.contact_vid %}
+{% set loggedInUser = crm_object('contact', contact_id, "firstname,lastname,email,phone,file_name,file_url,chart_value,chart_label,music_player,line_chart" ) %}
+{% set fileNames = loggedInUser.file_name | split(",")%}
+{% set fileURL = loggedInUser.file_url | split(",")%}
+{% set podCasts = loggedInUser.music_player %}
+{% set lineChart = loggedInUser.line_chart %}
+
+{% set chartLabels = loggedInUser.chart_label | split(",")%}
+{% set chartValues = loggedInUser.chart_value | split(",")%}
+
+{% set iframeDatas = [] %}
+
+{% for i in range(fileNames|length) %}
+{% set name = fileNames[i] %}
+{% set url = fileURL[i] %}
+{% do iframeDatas.append({'name': name, 'url': url}) %}
+{% endfor %}
+
+
+{% set dynamicRouteList = [] %}
+
+{% if module.hubspot_defined_object %}
+{% for item in module.objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+            name: item.list_object_name,
+            labels:{
+              singular: objName | capitalize | replace("_"," "),
+              plural: objName | capitalize | replace("_"," "),
+            },
+            icon: item.icon_svg_code,
+            listObjectName: item.list_object_name,
+            listObjectProperties: item.list_object_properties,
+            associateObjectName: item.association_object_name,
+            associateObjectTypeId: item.association_object_type_id,
+            associateObjectProperties: item.association_object_properties,
+            objectType: "HUBSPOT_DEFINED",
+          }) %}
+
+{% endfor %}
+{% endif %}
+
+{% if module.hubspot_custom_object %}
+{% for item in module.hubspot_custom_objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% set svgIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6H20M4 12H14M4 18H9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' %}
+{% do dynamicRouteList.append({
+            name: item.list_object_name,
+            labels:{
+              singular: objName | capitalize| replace("_"," "),
+              plural: objName | capitalize | replace("_"," "),
+            },
+            icon:  item.icon_svg_code,
+            listObjectName: item.list_object_name,
+            listObjectProperties: item.list_object_properties,
+            associateObjectName: item.association_object_name,
+            associateObjectTypeId: item.association_object_type_id,
+            associateObjectProperties: item.association_object_properties,
+            objectType: "USER_DEFINED",
+          }) %}
+
+{% endfor %}
+{% endif %}
+
+
+
+{% set objectList = [] %}
+{# routelist loop #}
+
+{% for route in dynamicRouteList %}
+
+{% set objList = crm_associations(contact_id, route.objectType, route.associateObjectTypeId, "limit=100", route.listObjectProperties) %}
+{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.associateObjectTypeId, assoc_objectType: route.objectType, assoc_properties: route.associateObjectProperties, results: objList.results}) %}
+
+{% endfor %}
+
+
+{% else %}
+
+<h1>Hello</h1>
+
+{% endif %}
+
+<script>
+
+  let testData = {{ dynamicRouteList | tojson | safe }};
+  let sidebarCta = {
+    title:"{{ module.other_options.sidebar_cta_details.title }}",
+    buttonText:"{{ module.other_options.sidebar_cta_details.button_text }}",
+    buttonUrl:"{{ module.other_options.sidebar_cta_details.button_url.href|escape_url }}",
+  };
+    let moduleCompanyOptions = {
+    logoImg:"{{ module.other_options.company_options.logo.src|escape_url }}",
+    companyName:"{{ module.other_options.company_options.company_name }}",
+    logoUrl:"{{ module.other_options.company_options.logo_url.href|escape_url }}",
+  };
+  let moduleDashBoardTitle= {
+    lineChartTitle:"{{ module.other_options.line_chart_title }}",
+    doughnutChartTitle:"{{ module.other_options.doughnut_chart_title }}",
+    dataTableTitle:"{{ module.other_options.data_table_title }}",
+  }
+  let moduleBannerDetails = {
+    title:"{{ module.other_options.banner_details.title }}",
+    tagText:"{{ module.other_options.banner_details.tag_text }}",
+    description:"{{ module.other_options.banner_details.description }}",
+    buttonText:"{{ module.other_options.banner_details.button_text }}",
+    buttonUrl:"{{ module.other_options.banner_details.button_url.href|escape_url }}",
+    backgroundImage:"{{ module.other_options.banner_details.background_image.src }}",
+  };
+  let loggedInUserDetails = {{ loggedInUser | tojson | safe }};
+  let objList = {{ objectList | tojson | safe }};
+  let iframeTest = {{  iframeDatas  | tojson | safe }};
+  let chartLabel = {{  chartLabels  | tojson | safe }};
+  let chartValue = {{  chartValues  | tojson | safe }};
+  let PodCastsEpisodes = {{  podCasts | safe || [] }};
+  let lineChartDatas = {{  lineChart | safe || [] }};
+  let dataSource = {{ module.hubspot_data_source }};
+</script>

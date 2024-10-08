@@ -8,31 +8,11 @@ function withOpacity(variableName) {
   };
 }
 
-// function getColorsFromLocalStorage() {
-//   const portalSettings = localStorage.getItem("portalSettings");
-//   let primaryColor = "#000000";
-//   let secondaryColor = "#8D8D99";
+{% set primary_color = theme.global_colors.primary.color  %}
+{% set secondary_color = theme.global_colors.secondary.color %}
 
-//   if (portalSettings) {
-//     try {
-//       const parsedSettings = JSON.parse(portalSettings);
-//       if (parsedSettings.primaryColor) {
-//         primaryColor = parsedSettings.primaryColor;
-//       }
-//       if (parsedSettings.secondaryColor) {
-//         secondaryColor = parsedSettings.secondaryColor;
-//       }
-//     } catch (error) {
-//       console.error("Error parsing portalSettings from localStorage:", error);
-//     }
-//   }
-
-//   const urlParams = new URLSearchParams(window.location.search);
-//   return {
-//     primaryColor: urlParams.get("primaryColor") || primaryColor,
-//     secondaryColor: urlParams.get("secondaryColor") || secondaryColor,
-//   };
-// }
+let primarycolor = "{{ primary_color }}";
+let secondarycolor ="{{ secondary_color }}";
 
 tailwind.config = {
   content: [

@@ -30,81 +30,85 @@ const FileDetailsModal = ({ file, onClose }) => {
   };
 
   return (
-    <div>
-      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-        <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-3xl max-h-[80vh] overflow-auto">
-          <div className="flex justify-between items-start border-b pb-4">
-            <h2 className="text-xl font-semibold">File Details</h2>
-            <button onClick={onClose} className="text-xl font-bold">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                className="fill-black dark:fill-white"
-              >
-                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
-            </button>
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] overflow-auto">
+        <div className="flex justify-between items-center border-b pb-4">
+          <h2 className="text-xl font-semibold dark:text-white">{file.data.name}</h2>
+          <button onClick={onClose} className="text-xl font-bold">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              className="fill-black dark:fill-white"
+            >
+              <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+            </svg>
+          </button>
+        </div>
+
+        {copyMessage && (
+          <div className="bg-green-100 text-green-700 p-2 rounded mt-4">
+            {copyMessage}
           </div>
 
-          {copyMessage && (
-            <div className="bg-green-100 text-green-700 p-2 rounded mt-4">
-              {copyMessage}
-            </div>
-          )}
+        <div className="mt-4 flex flex-col items-center">
+          {file.data.url ? (
+            file.data.type === "IMG" ? (
+              <div>
+                {isImageLoading && (
+                  <div className="w-full h-48 flex items-center justify-center">
+                    <div
+                      className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+                      role="status"
+                    ></div>
+                  </div>
+                )}
 
-          <div className="mt-4 flex">
-            <div className="flex-shrink-0 w-1/3">
-              {file.data.type === "IMG" && file.data.url ? (
-                <div className="relative">
-                  {isImageLoading && (
-                    <div className="w-full h-48 flex items-center justify-center absolute top-0 left-0">
-                      <div
-                        className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-                        role="status"
-                      ></div>
-                    </div>
-                  )}
-                  <img
-                    src={file.data.url}
-                    alt={file.data.name}
-                    className={`max-w-full max-h-48 rounded-lg shadow-md transition-opacity duration-500 ${
-                      isImageLoading ? "opacity-0" : "opacity-100"
+                <img
+                  src={file.data.url}
+                  alt={file.data.name}
+                  className={`max-w-full max-h-48 mx-auto rounded-lg shadow-md transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
                     }`}
-                    onLoad={() => setIsImageLoading(false)}
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center justify-center w-full h-48">
-                  {getIconType(file.data.extension)}
-                </div>
-              )}
-            </div>
-            <div className="ml-4 w-2/3">
-              <p className="text-2xl font-semibold my-4">{file.data.name}</p>
-              <table className="w-full table-auto text-sm">
-                <tbody>
+                  onLoad={() => setIsImageLoading(false)}
+                />
+              </div>
+            ) : (
+              <iframe
+                src={file.data.url}
+                title={file.data.name}
+                className="w-full h-48 border-0 rounded-lg shadow-md"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            )) : null}
+
+          <div className="mt-4 w-full">
+            <table className="w-full table-auto">
+              <tbody>
+                <tr>
+                  <td className="text-gray-700 font-semibold pr-4 text-left">
+                    Type:
+                  </td>
+                  <td className="ml-10 dark:text-white" >{file.data.type}</td>
+                </tr>
+                <tr>
+                  <td className="text-gray-700 font-semibold pr-4 text-left">
+                    Size:
+                  </td>
+                  <td className="ml-10 dark:text-white" >{file.data.size} bytes</td>
+                </tr>
+                {file.data.extension &&
                   <tr>
-                    <td className="text-gray-700 font-semibold  text-left">
-                      Type:
-                    </td>
-                    <td>{file.data.type}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-700 font-semibold  text-left">
-                      Size:
-                    </td>
-                    <td>{file.data.size} bytes</td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-700 font-semibold  text-left">
+                    <td className="text-gray-700 font-semibold pr-4 text-left">
                       Extension:
                     </td>
-                    <td>{file.data.extension}</td>
+                    <td className="ml-10 dark:text-white" >{file.data.extension}</td>
                   </tr>
-                </tbody>
-              </table>
+                }
+              </tbody>
+            </table>
+          </div>
 
               <div className="flex justify-end gap-x-5 mt-6 w-full">
                 <Button onClick={handleCopyLink} className="flex items-center">

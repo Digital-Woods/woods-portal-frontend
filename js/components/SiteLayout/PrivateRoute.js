@@ -5,7 +5,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated() ? <Component {...props} /> : <Redirect to="/login" />
+        isAuthenticated() || env.DATA_SOURCE_SET === true  ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );

@@ -1,6 +1,6 @@
 {
-  "label" : "Membership Portal",
-  "preview_path" : "./templates/home.html",
+  "label" : "Membership Customer Portal",
+  "preview_path" : "./templates/layouts/base.html",
   "screenshot_path" : "./images/template-previews/home.png",
   "enable_domain_stylesheets" : false,
   "is_available_for_new_content" : true,
@@ -14,11 +14,8 @@
     "messages" : { }
   } ],
   "author" : {
-    "name" : "HubSpot",
-    "email" : "hs-content-assets@hubspot.com",
-    "url" : "https://www.hubspot.com/"
-  },
-  "documentation_url" : "https://developers.hubspot.com/docs/cms/building-blocks/themes/hubspot-cms-boilerplate",
-  "example_url" : "https://boilerplate.hubspotcms.com",
-  "license" : "./license.txt"
+    "name" : "Digital Woods",
+    "email" : "support@digitalwods.ne",
+    "url" : "https://www.digitalwoods.io/"
+  }
 }

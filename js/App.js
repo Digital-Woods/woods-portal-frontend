@@ -18,7 +18,7 @@ function App() {
         <HashRouter>
           <Route
             render={() =>
-              isAuthenticated() ? (
+              isAuthenticated() || env.DATA_SOURCE_SET === true ? (
                 <MainLayout />
               ) : (
                 <Switch>

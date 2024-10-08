@@ -29,6 +29,7 @@ const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
 const DashboardTable = ({ path, inputValue, title }) => {
   const [tableData, setTableData] = useState([]);
+  const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,9 +39,11 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
-  const { me } = useMe();
-  // useEffect(() => console.log(currentPage), [currentPage]);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
+  const { me } = useMe();
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
@@ -53,14 +56,28 @@ const DashboardTable = ({ path, inputValue, title }) => {
 
   const mapResponseData = (data) => {
     const results = data.data.results || [];
-    setTableData(results);
-    setTotalItems(data.data.total || 0);
-    setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-
-    if (results.length > 0) {
-      setTableHeader(sortData(results[0], "list", title));
+    if (env.DATA_SOURCE_SET === true) {
+      const foundItem = results.find((item) => {
+        return item.name === path.replace("/", "");
+      });
+      setCurrentTableData(foundItem.results);
+      setTotalItems(foundItem.results.length || 0);
+      setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
+      if (foundItem.results.length > 0) {
+        setTableHeader(sortData(foundItem.results[0], "list", title));
+      } else {
+        setTableHeader([]);
+      }
     } else {
-      setTableHeader([]);
+      setTableData(results);
+      setTotalItems(data.data.total || 0);
+      setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
+
+      if (results.length > 0) {
+        setTableHeader(sortData(results[0], "list", title));
+      } else {
+        setTableHeader([]);
+      }
     }
   };
 
@@ -85,8 +102,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
         // after,
         ...(after &&
           after.length > 0 && {
-            after,
-          }),
+          after,
+        }),
         me,
         sort: sortConfig,
         // inputValue,
@@ -110,34 +127,75 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const handleSort = (column) => {
     let newSortConfig = column;
     if (sortConfig === column) {
-      newSortConfig = `-${column}`;
+      newSortConfig = `-${column}`; // Toggle to descending if the same column is clicked again
     } else if (sortConfig === `-${column}`) {
-      newSortConfig = column;
+      newSortConfig = column; // Toggle back to ascending if clicked again
     }
     setSortConfig(newSortConfig);
-    getData();
+
+    if (env.DATA_SOURCE_SET === true) {
+      // Handle sorting for local data (currentTableData)
+      const sortedData = [...currentTableData].sort((a, b) => {
+        const columnValueA = getValueByPath(a, column);
+        const columnValueB = getValueByPath(b, column);
+
+        if (newSortConfig.startsWith('-')) {
+          return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
+        }
+        return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
+      });
+      setTableData(sortedData.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ));
+    } else {
+      // Fetch new sorted data from API if `env.DATA_SOURCE_SET !== true`
+      getData();
+    }
   };
+
+  // Helper function to get the value by key from nested objects
+  const getValueByPath = (obj, path) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  };
+
 
   const handlePageChange = async (page) => {
-    setCurrentPage(page);
-    setAfter((page - 1) * itemsPerPage);
-    await wait(100);
-    getData();
+    if (env.DATA_SOURCE_SET === true) {
+      setCurrentPage(page);
+    } else {
+      setCurrentPage(page);
+      setAfter((page - 1) * itemsPerPage);
+      await wait(100);
+      getData();
+    }
   };
-
-  const numOfPages = Math.ceil(totalItems / itemsPerPage);
-
   useEffect(() => {
-    if (!isLivePreview()) getData();
+    if (env.DATA_SOURCE_SET === true) {
+      setTableData(currentTableData.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ));
+    }
+  }, [currentTableData, currentPage, itemsPerPage]);
+  useEffect(() => {
+    if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
   }, [inputValue]);
 
   useEffect(() => {
     if (isLivePreview()) {
       mapResponseData(fakeTableData);
+    } else if (env.DATA_SOURCE_SET == true) {
+      mapResponseData(fakeTableData);
     } else {
       getData();
     }
   }, []);
+
+  const setDialogData = (data) => {
+    setModalData(data);
+    setOpenModal(true);
+  };
 
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
@@ -230,22 +288,23 @@ const DashboardTable = ({ path, inputValue, title }) => {
                         </div>
                       </TableCell>
                     ))}
-                    {/* <TableCell>
-                    <div className="flex items-center space-x-2 gap-x-5">
-                      <Link
-                        className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
-                        to={`${path}/${item.id}`}
-                      >
-                        View Details
-                      </Link>
-                    </div>
-                  </TableCell> */}
+                    {env.DATA_SOURCE_SET === true &&
+                      <TableCell>
+                        <div className="flex items-center space-x-2 gap-x-5">
+                          <Link
+                            className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
+                            to={`${path}/${item.id}`}
+                          >
+                            View Details
+                          </Link>
+                        </div>
+                      </TableCell>
+                    }
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
-
           <div className="flex justify-end px-4">
             <Pagination
               numOfPages={numOfPages}
@@ -254,7 +313,46 @@ const DashboardTable = ({ path, inputValue, title }) => {
             />
           </div>
         </React.Fragment>
-      )}
-    </div>
+      )
+      }
+      {env.DATA_SOURCE_SET === true &&
+        <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[430px]">
+          <div className="rounded-md flex-col gap-6 flex">
+            <h3 className="text-start text-xl font-semibold">
+              Details
+            </h3>
+            {modalData &&
+              Object.keys(modalData).map((key) => (
+                <div key={key} className="flex justify-between items-center w-full gap-1 border-b">
+                  {key !== 'iframe_file' && key !== 'id' ? (
+                    <div className="w-full">
+                      <div className="text-start dark:text-white">
+                        {formatKey(key)} -
+                      </div>
+                      <div className="dark:text-white text-end">
+                        {modalData[key]}
+                      </div>
+                    </div>
+                  ) : key === 'iframe_file' ? (
+                    <div>
+                      Hello {modalData[key].replace(";", ',')}
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              ))}
+            <div className="pt-3 text-end">
+              <Button
+                onClick={() => setOpenModal(false)}
+              >
+                Close
+
+              </Button>
+            </div>
+          </div>
+        </Dialog>
+      }
+    </div >
   );
 };

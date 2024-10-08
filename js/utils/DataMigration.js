@@ -149,7 +149,7 @@ const sortData = (item, viewType = "list", title = "") => {
       return;
     }
 
-    if (typeof value === "string" && isImage(value, key)) {
+    if (typeof value === "string" &&  (value, key)) {
       imageFields.push({
         name: key,
         label: checkEquipments(
@@ -560,4 +560,34 @@ const getIconType = (filename) => {
         </svg>
       );
   }
+};
+
+
+const getFileDetails = async (urlArray) => {
+  const fileDetails = await Promise.all(urlArray.map(async (url) => {
+    const name = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1));
+    const type = name.substring(name.lastIndexOf(".") + 1);
+
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      const fileSize = response.headers.get('content-length');
+
+      return {
+        url,
+        name,
+        type,
+        size: fileSize ? `${(fileSize / 1024).toFixed(2)} KB` : 'Unknown size'
+      };
+    } catch (error) {
+      console.error(`Error fetching file details for ${url}:`, error);
+      return {
+        url,
+        name,
+        type,
+        size: 'Error fetching file size'
+      };
+    }
+  }));
+
+  return fileDetails;
 };

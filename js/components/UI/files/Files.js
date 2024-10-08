@@ -153,13 +153,14 @@ const Files = ({ fileId, path }) => {
           {currentFiles && currentFiles.name ? currentFiles.name : "Root"}
         </h1>
 
-        <FileTable
+        {/* <FileTable
           fileId={fileId}
           path={path}
           files={paginatedFiles} // Use paginatedFiles which is based on filteredFiles
           toggleFolder={toggleFolder}
           refetch={refetch}
-        />
+        /> */}
+        <ModuleFileTable/>
 
         <div className="flex justify-between items-center px-4">
           <div className="flex items-center gap-x-2 pt-3 text-sm">
