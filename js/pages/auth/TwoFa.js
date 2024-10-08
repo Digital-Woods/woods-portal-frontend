@@ -14,9 +14,7 @@ const TwoFa = () => {
 
   const {tokenData} = getLoggedInDetails()
 
-  console.log('tokenData', tokenData)
-
-  const { getMe, me } = useMe();
+  // const { getMe, me } = useMe();
   const setUserDetails = useSetRecoilState(userDetailsAtom);
 
   const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
@@ -46,7 +44,7 @@ const TwoFa = () => {
       }
 
       await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
-      getMe(); // Fetch user details
+      // getMe(); // Fetch user details
 
       setUserDetails(data.data.loggedInDetails);
       setAlert({ message: "Login successful", type: "success" });

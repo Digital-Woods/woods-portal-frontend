@@ -58,7 +58,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
   );
 
   const handleRowClick = (file) => {
-    if (file.type === "folder" && file.child && file.child.length > 0) {
+    if (file.type === "folder") {
       toggleFolder(file);
     } else {
       setSelectedFileId(file.id);
@@ -71,8 +71,16 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
 
   const handleDownload = (file, e) => {
     e.stopPropagation();
-    console.log("Downloading:", file);
-    setActiveDropdown(false);
+    // Fetch file details
+    Client.files
+      .getDetails(me, path, file.id, fileId)
+      .then((fileDetails) => {
+        const downloadUrl = fileDetails.data.url; // Get the download URL
+        window.open(downloadUrl, "_blank"); // Open the URL in a new tab
+      })
+      .catch((error) => {
+        console.error("Error fetching file details for download:", error);
+      });
   };
 
   const handleTrash = (file, e) => {
@@ -113,10 +121,10 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
       <React.Fragment key={file.id}>
         <TableRow
           className={`border-t relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
-          onClick={() => handleRowClick(file)}
+          onClick={() => handleRowClick(file)} // This will still allow row clicking for folders
         >
           <TableCell className="px-4 py-2 text-xs">
-            <div>{getIconType(file.type)}</div>
+            <div>{getIcon(file.name)}</div>
           </TableCell>
 
           <TableCell className="px-4 py-2 text-xs">
@@ -141,26 +149,38 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
               </button>
               {activeDropdown === index && (
                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedFileId(file.id);
-                      toggleDropdown(index);
-                    }}
-                  >
-                    Details
-                  </button>
-                  {file.type !== "folder" && (
+                  {file.type === "folder" ? (
                     <button
-                      className="block w-full text-left px-4 py-2 text-sm text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
-                      onClick={(e) => handleDownload(file, e)}
+                      className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFolder(file);
+                      }}
                     >
-                      Download
+                      Open
                     </button>
+                  ) : (
+                    <div>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedFileId(file.id);
+                          toggleDropdown(index);
+                        }}
+                      >
+                        Details
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                        onClick={(e) => handleDownload(file, e)}
+                      >
+                        Download
+                      </button>
+                    </div>
                   )}
                   <button
-                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
+                    className="block w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
                     onClick={(e) => handleTrash(file, e)}
                     disabled={loadingFileId === file.id}
                   >
@@ -186,7 +206,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                         ></path>
                       </svg>
                     ) : (
-                      "Trash"
+                      "Delete"
                     )}
                   </button>
                 </div>

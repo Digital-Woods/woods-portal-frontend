@@ -1,9 +1,22 @@
-const FileUpload = ({ fileId, path, refetch }) => {
+const CloseIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    className="fill-black dark:fill-white"
+  >
+    <path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z" />
+  </svg>
+);
+
+const FileUpload = ({ fileId, path, refetch, folderId, onClose, setAlert }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
-  const [isUploading, setIsUploading] = useState(false); // To track upload status
-  const [alert, setAlert] = useState({ message: "", type: "", show: false }); // Alert state
+  const [isUploading, setIsUploading] = useState(false);
   const { me } = useMe();
+
+  console.log(folderId);
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -48,27 +61,37 @@ const FileUpload = ({ fileId, path, refetch }) => {
 
   const uploadFileMutation = useMutation({
     mutationFn: async (fileData) => {
-      await Client.files.create(me, fileId, path, fileData);
+      const parentFolder = folderId === fileId ? "obj-root" : folderId;
+
+      const payload = {
+        parentFolder,
+        fileName: fileData.fileName,
+        fileData: fileData.fileData,
+      };
+
+      await Client.files.create(me, fileId, path, payload);
     },
     onSuccess: () => {
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
-      setIsUploading(false); // Turn off the uploading spinner
+      setIsUploading(false);
       setAlert({
         message: "Files uploaded successfully!",
         type: "success",
         show: true,
       });
       refetch();
+      onClose();
     },
     onError: (error) => {
       console.error("Error uploading files:", error);
-      setIsUploading(false); // Turn off the uploading spinner
+      setIsUploading(false);
       setAlert({
         message: "Error uploading files!",
         type: "error",
         show: true,
       });
+      onClose();
     },
   });
 
@@ -77,15 +100,15 @@ const FileUpload = ({ fileId, path, refetch }) => {
     e.target.reset();
 
     if (selectedFile.length > 0) {
-      setIsUploading(true); // Turn on the uploading spinner
+      setIsUploading(true);
       for (const file of selectedFile) {
         const fileData = {
           fileName: file.filename,
-          fileData: file.fileimage.split(",")[1], // Extract base64 data
+          fileData: file.fileimage.split(",")[1],
         };
 
         try {
-          await uploadFileMutation.mutateAsync(fileData); // Call the mutation
+          await uploadFileMutation.mutateAsync(fileData);
         } catch (err) {
           console.error("Error during file upload:", err);
         }
@@ -107,7 +130,7 @@ const FileUpload = ({ fileId, path, refetch }) => {
   };
 
   return (
-    <div className="fileupload-view">
+    <div className="fileupload-view relative">
       <div className="row justify-content-center m-0">
         <div className="col-md-6">
           <div className="card mt-5">
@@ -115,6 +138,13 @@ const FileUpload = ({ fileId, path, refetch }) => {
               <div className="kb-data-box">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
+                    <div
+                      className="absolute right-0 top-[-20px] cursor-pointer"
+                      onClick={onClose}
+                    >
+                      <CloseIcon />
+                    </div>
+
                     <h6>File Upload</h6>
                   </div>
                 </div>
@@ -173,20 +203,13 @@ const FileUpload = ({ fileId, path, refetch }) => {
                       );
                     })}
                   </div>
-                  <Button type="submit" disabled={isUploading}>
+                  <Button
+                    type="submit"
+                    disabled={selectedFile.length === 0 || isUploading}
+                  >
                     {isUploading ? "Uploading..." : "Upload"}
                   </Button>
                 </form>
-
-                {/* Success message */}
-                {alert.show && alert.type === "success" && (
-                  <div className="text-green-600 mt-3">{alert.message}</div>
-                )}
-
-                {/* Error message */}
-                {alert.show && alert.type === "error" && (
-                  <div className="text-red-600 mt-3">{alert.message}</div>
-                )}
               </div>
             </div>
           </div>

@@ -376,11 +376,12 @@ const getIcon = (filename) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="red"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:fill-white"
         >
-          <path d="M19 2h-5L7 8v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 7H9V8h5V4h5v5h-5v1z"></path>
+          <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60Zm-77.69 310Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z" />
         </svg>
       );
     case "doc":
@@ -388,11 +389,12 @@ const getIcon = (filename) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="blue"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:fill-white"
         >
-          <path d="M19 2H9L5 6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H9V7h5V2h5v16z"></path>
+          <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60Zm-77.69 310Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z" />
         </svg>
       );
     case "xls":
@@ -400,11 +402,12 @@ const getIcon = (filename) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="green"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:Fill-white"
         >
-          <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 12l-2 2H5v-2h2v-2H5v-2h2v-2H5V6h4v6zm6-6v4h-2V6h2zm-4 8v-4h2v4h-2zm4 2v2h-2v-2h2zm-4 2v-2h2v2h-2z"></path>
+          <path d="M510-530h60v-80h80v-60h-80v-80h-60v80h-80v60h80v80Zm-80 160h220v-60H430v60Zm-97.69 150Q302-220 281-241q-21-21-21-51.31v-535.38Q260-858 281-879q21-21 51.31-21H610l210 210v397.69Q820-262 799-241q-21 21-51.31 21H332.31Zm0-60h415.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-660L580-840H332.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v535.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85Zm-160 220Q142-60 121-81q-21-21-21-51.31V-660h60v527.69q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85H580v60H172.31ZM320-280v-560V-280Z" />
         </svg>
       );
     case "ppt":
@@ -412,11 +415,12 @@ const getIcon = (filename) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="orange"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:Fill-white"
         >
-          <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM7 18h2v-6H7v6zm10 0h2v-6h-2v6zm-4 0h2v-6h-2v6zM7 8h8v2H7V8z"></path>
+          <path d="M510-530h60v-80h80v-60h-80v-80h-60v80h-80v60h80v80Zm-80 160h220v-60H430v60Zm-97.69 150Q302-220 281-241q-21-21-21-51.31v-535.38Q260-858 281-879q21-21 51.31-21H610l210 210v397.69Q820-262 799-241q-21 21-51.31 21H332.31Zm0-60h415.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-660L580-840H332.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v535.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85Zm-160 220Q142-60 121-81q-21-21-21-51.31V-660h60v527.69q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85H580v60H172.31ZM320-280v-560V-280Z" />
         </svg>
       );
     case "jpg":
@@ -426,151 +430,135 @@ const getIcon = (filename) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="purple"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:fill-white"
         >
-          <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM5 18h14V6H5v12zm2-8l3 3.5L12 11l3 4H5z"></path>
+          <path d="M228.31-164q-27.01 0-45.66-19Q164-202 164-228.31v-503.38Q164-758 182.65-777q18.65-19 45.66-19h503.38q27.01 0 45.66 19Q796-758 796-731.69v503.38Q796-202 777.35-183q-18.65 19-45.66 19H228.31Zm0-52h503.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-503.38q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H228.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v503.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85ZM294-298h375.07L543.54-465.38 443.23-335.23l-62-78.31L294-298Zm-78 82v-528 528Z" />
         </svg>
       );
     case "svg":
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="orange"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:fill-white"
         >
-          <path d="M6 2h12l4 6v12c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm12 16h2V8h-5V3H6v12h2v2h10z"></path>
+          <path d="M440-501Zm0 354.07-86.61-77.84Q271.77-299 215.66-354.62q-56.12-55.61-90.77-101.57-34.66-45.96-49.77-86.43Q60-583.08 60-626q0-85.15 57.42-142.27 57.43-57.11 142.58-57.11 52.38 0 99 24.5t81 70.27q34.38-45.77 81-70.27 46.62-24.5 99-24.5 75.23 0 126.96 44.34 51.73 44.35 67.12 111.04H751q-13.77-44.61-50.31-70-36.54-25.39-80.69-25.39-49.85 0-88.19 27.5-38.35 27.5-72.27 77.89h-39.08q-33.69-50.77-73.38-78.08-39.7-27.31-87.08-27.31-57.77 0-98.88 39.7Q120-686 120-626q0 33.38 14 67.77 14 34.38 50 79.27 36 44.88 98 105.15T440-228q28.31-25.31 60.62-53.77 32.3-28.46 54.46-49.61l6.69 6.69L576.46-310l14.69 14.69 6.69 6.69q-22.76 21.16-54.26 48.93-31.5 27.77-59.43 53.07L440-146.93ZM714.61-290v-120h-120v-60h120v-120h60v120h120v60h-120v120h-60Z" />
         </svg>
       );
     default:
-      // Default SVG for unmatched file types
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="gray"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          className="fill-primary dark:fill-white"
         >
-          <path d="M6 2h12v4H6V2zm2 8h2v6H8v-6zm4 0h2v6h-2v-6zm4 0h2v6h-2v-6z"></path>
+          <path d="M178-212q-28.15 0-45.08-18.09Q116-248.17 116-274.04v-409.93q0-25.87 18.08-44.95Q152.16-748 180.31-748h195.61l96 96h308.77q24.85 0 40.31 14.85 15.46 14.84 20.54 37.15H451.38l-96-96H180.31q-5.39 0-8.85 3.46t-3.46 8.85v407.38q0 4.23 2.12 6.92 2.11 2.7 5.57 4.62L251-520.31h672.31l-78.85 264.62q-6.85 19.53-17.15 31.61Q817-212 795.08-212H178Zm51.54-52h562.23l62.46-204.31H290L229.54-264Zm0 0L290-468.31 229.54-264ZM168-600V-696v96Z" />
         </svg>
       );
   }
 };
 
-const FileIcons = {
-  PDF: (
-    <svg
-      className="fill-current text-primary dark:text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M19 21H5c-1.1 0-1.99-.9-1.99-2L3 3c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2zm-8-16h6v4h-6zm-1 6h8v10H10z" />
-    </svg>
-  ),
-  Word: (
-    <svg
-      className="fill-current text-primary dark:text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M4 4v16h16V4H4zm9 14H8v-2h5v2zm0-4H8v-2h5v2zm3-4H8V8h8v2z" />
-    </svg>
-  ),
-  Excel: (
-    <svg
-      className="fill-current text-primary dark:text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M4 4v16h16V4H4zm3 14h2v-2H7v2zm0-4h2v-2H7v2zm0-4h2V8H7v2zm4 8h5v-2h-5v2zm0-4h5v-2h-5v2zm0-4h5V8h-5v2z" />
-    </svg>
-  ),
-  IMG: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      height="20px"
-      viewBox="0 -960 960 960"
-      width="20px"
-      className="fill-primary  dark:fill-white"
-    >
-      <path d="M240.62-184q-24.32 0-40.47-16.5T184-240.62v-478.76q0-23.62 16.15-40.12Q216.3-776 240.62-776h478.76q24.32 0 40.47 16.5T776-719.38v478.76q0 23.62-16.15 40.12Q743.7-184 719.38-184H240.62Zm0-32h478.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-478.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H240.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v478.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69ZM324-308h318.15L535.08-450.77l-92.62 116.31-52-60.62L324-308Zm-108 92v-528 528Z" />
-    </svg>
-  ),
-  PowerPoint: (
-    <svg
-      className="fill-primary  dark:fill-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M4 4v16h16V4H4zm10 10H8v-2h6v2zm0-4H8V8h6v2z" />
-    </svg>
-  ),
-  Text: (
-    <svg
-      className="fill-current text-primary dark:text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M3 3h18v18H3V3zm3 15h12v-2H6v2zm0-4h12v-2H6v2zm0-4h12V8H6v2z" />
-    </svg>
-  ),
-  file: (
-    <svg
-      className="fill-current text-primary dark:text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M19 21H5c-1.1 0-1.99-.9-1.99-2L3 3c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2zm-8-16h6v4h-6zm-1 6h8v10H10z" />
-    </svg>
-  ),
-  folder: (
-    <svg
-      className="fill-current text-primary dark:text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path d="M10 4H2v16h20V4H12l-2-2zm0 2h4v4h-4V6zm0 8h4v2h-4v-2z" />
-    </svg>
-  ),
-};
+const getIconType = (filename) => {
+  const extension = filename.split(".").pop().toLowerCase();
 
-const getIconType = (type) => {
-  switch (type) {
-    case "PDF":
-      return FileIcons.PDF;
-    case "Word":
-      return FileIcons.Word;
-    case "Excel":
-      return FileIcons.Excel;
-    case "Image":
-      return FileIcons.IMG;
-    case "PowerPoint":
-      return FileIcons.PowerPoint;
-    case "Text":
-      return FileIcons.Text;
-    case "file":
-      return FileIcons.file;
-    case "folder":
-      return FileIcons.folder;
+  switch (extension) {
+    case "pdf":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:fill-white"
+        >
+          <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60Zm-77.69 310Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z" />
+        </svg>
+      );
+    case "doc":
+    case "docx":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:fill-white"
+        >
+          <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60Zm-77.69 310Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z" />
+        </svg>
+      );
+    case "xls":
+    case "xlsx":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:Fill-white"
+        >
+          <path d="M510-530h60v-80h80v-60h-80v-80h-60v80h-80v60h80v80Zm-80 160h220v-60H430v60Zm-97.69 150Q302-220 281-241q-21-21-21-51.31v-535.38Q260-858 281-879q21-21 51.31-21H610l210 210v397.69Q820-262 799-241q-21 21-51.31 21H332.31Zm0-60h415.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-660L580-840H332.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v535.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85Zm-160 220Q142-60 121-81q-21-21-21-51.31V-660h60v527.69q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85H580v60H172.31ZM320-280v-560V-280Z" />
+        </svg>
+      );
+    case "ppt":
+    case "pptx":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:Fill-white"
+        >
+          <path d="M510-530h60v-80h80v-60h-80v-80h-60v80h-80v60h80v80Zm-80 160h220v-60H430v60Zm-97.69 150Q302-220 281-241q-21-21-21-51.31v-535.38Q260-858 281-879q21-21 51.31-21H610l210 210v397.69Q820-262 799-241q-21 21-51.31 21H332.31Zm0-60h415.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-660L580-840H332.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v535.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85Zm-160 220Q142-60 121-81q-21-21-21-51.31V-660h60v527.69q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85H580v60H172.31ZM320-280v-560V-280Z" />
+        </svg>
+      );
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:fill-white"
+        >
+          <path d="M228.31-164q-27.01 0-45.66-19Q164-202 164-228.31v-503.38Q164-758 182.65-777q18.65-19 45.66-19h503.38q27.01 0 45.66 19Q796-758 796-731.69v503.38Q796-202 777.35-183q-18.65 19-45.66 19H228.31Zm0-52h503.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-503.38q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H228.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v503.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85ZM294-298h375.07L543.54-465.38 443.23-335.23l-62-78.31L294-298Zm-78 82v-528 528Z" />
+        </svg>
+      );
+    case "svg":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:fill-white"
+        >
+          <path d="M440-501Zm0 354.07-86.61-77.84Q271.77-299 215.66-354.62q-56.12-55.61-90.77-101.57-34.66-45.96-49.77-86.43Q60-583.08 60-626q0-85.15 57.42-142.27 57.43-57.11 142.58-57.11 52.38 0 99 24.5t81 70.27q34.38-45.77 81-70.27 46.62-24.5 99-24.5 75.23 0 126.96 44.34 51.73 44.35 67.12 111.04H751q-13.77-44.61-50.31-70-36.54-25.39-80.69-25.39-49.85 0-88.19 27.5-38.35 27.5-72.27 77.89h-39.08q-33.69-50.77-73.38-78.08-39.7-27.31-87.08-27.31-57.77 0-98.88 39.7Q120-686 120-626q0 33.38 14 67.77 14 34.38 50 79.27 36 44.88 98 105.15T440-228q28.31-25.31 60.62-53.77 32.3-28.46 54.46-49.61l6.69 6.69L576.46-310l14.69 14.69 6.69 6.69q-22.76 21.16-54.26 48.93-31.5 27.77-59.43 53.07L440-146.93ZM714.61-290v-120h-120v-60h120v-120h60v120h120v60h-120v120h-60Z" />
+        </svg>
+      );
     default:
-      console.warn("Unknown file type:", type);
-      return FileIcons.folder;
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="80px"
+          viewBox="0 -960 960 960"
+          width="80px"
+          className="fill-primary dark:fill-white"
+        >
+          <path d="M178-212q-28.15 0-45.08-18.09Q116-248.17 116-274.04v-409.93q0-25.87 18.08-44.95Q152.16-748 180.31-748h195.61l96 96h308.77q24.85 0 40.31 14.85 15.46 14.84 20.54 37.15H451.38l-96-96H180.31q-5.39 0-8.85 3.46t-3.46 8.85v407.38q0 4.23 2.12 6.92 2.11 2.7 5.57 4.62L251-520.31h672.31l-78.85 264.62q-6.85 19.53-17.15 31.61Q817-212 795.08-212H178Zm51.54-52h562.23l62.46-204.31H290L229.54-264Zm0 0L290-468.31 229.54-264ZM168-600V-696v96Z" />
+        </svg>
+      );
   }
 };
 

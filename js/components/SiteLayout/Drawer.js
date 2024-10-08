@@ -186,7 +186,7 @@ const Drawer = ({ className }) => {
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
                 <div>
-                  {routes.length > 0 &&
+                  {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <NavLink
                         key={path}
