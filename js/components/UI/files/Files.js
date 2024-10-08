@@ -132,13 +132,13 @@ const Files = ({ fileId, path }) => {
             onClick={handleBreadcrumbClick}
           />
           <div className="flex space-x-2">
-            {/* <Button
+            <Button
               size="sm"
               className="text-white w-28"
               onClick={() => setIsCreateFolderOpen(true)}
             >
               <span className="mr-2"> + </span> New Folder
-            </Button> */}
+            </Button>
             <Button
               size="sm"
               className="text-white w-28"
