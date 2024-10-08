@@ -97,6 +97,7 @@ const ModuleDetails = ({ path, id }) => {
 
       {item && (
         <div className=" flex flex-col gap-4">
+          <div>
           <button onClick={goBack} className="text-primary dark:text-white flex items-center gap-2">
             <svg
               viewBox="0 0 1024 1024"
@@ -110,6 +111,7 @@ const ModuleDetails = ({ path, id }) => {
               Go Back
             </span>
           </button>
+          </div>
           <div className="w-full pr-4">
             <DetailsHeaderCard
               bgImageClass="bg-custom-bg"

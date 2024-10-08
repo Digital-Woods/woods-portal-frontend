@@ -30,85 +30,87 @@ const FileDetailsModal = ({ file, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] overflow-auto">
-        <div className="flex justify-between items-center border-b pb-4">
-          <h2 className="text-xl font-semibold dark:text-white">{file.data.name}</h2>
-          <button onClick={onClose} className="text-xl font-bold">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              className="fill-black dark:fill-white"
-            >
-              <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
-          </button>
-        </div>
-
-        {copyMessage && (
-          <div className="bg-green-100 text-green-700 p-2 rounded mt-4">
-            {copyMessage}
+    <div>
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[720px] min-h-[380px] max-h-[80vh] overflow-auto">
+          <div className="flex justify-between items-center border-b pb-4">
+            <h2 className="text-xl font-semibold dark:text-white">{file.data.name}</h2>
+            <button onClick={onClose} className="text-xl font-bold">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                className="fill-black dark:fill-white"
+              >
+                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </button>
           </div>
 
-        <div className="mt-4 flex flex-col items-center">
-          {file.data.url ? (
-            file.data.type === "IMG" ? (
-              <div>
-                {isImageLoading && (
-                  <div className="w-full h-48 flex items-center justify-center">
-                    <div
-                      className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-                      role="status"
-                    ></div>
-                  </div>
-                )}
+          {copyMessage && (
+            <div className="bg-green-100 text-green-700 p-2 rounded mt-4">
+              {copyMessage}
+            </div>
+          )}
+          <div className="mt-4 flex md:flex-row flex-col gap-4 h-full items-end">
+            {file.data.url ? (
+              file.data.type === "IMG" ? (
+                <div>
+                  {isImageLoading && (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div
+                        className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+                        role="status"
+                      ></div>
+                    </div>
+                  )}
 
-                <img
+                  <img
+                    src={file.data.url}
+                    alt={file.data.name}
+                    className={`max-w-full max-h-full mx-auto rounded-lg shadow-md transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
+                      }`}
+                    onLoad={() => setIsImageLoading(false)}
+                  />
+                </div>
+              ) : (
+                <iframe
                   src={file.data.url}
-                  alt={file.data.name}
-                  className={`max-w-full max-h-48 mx-auto rounded-lg shadow-md transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
-                    }`}
-                  onLoad={() => setIsImageLoading(false)}
-                />
-              </div>
-            ) : (
-              <iframe
-                src={file.data.url}
-                title={file.data.name}
-                className="w-full h-48 border-0 rounded-lg shadow-md"
-                frameBorder="0"
-                allowFullScreen
-              ></iframe>
-            )) : null}
+                  title={file.data.name}
+                  className="w-full h-[271px] border-0 rounded-lg shadow-md"
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
+              )) : null}
 
-          <div className="mt-4 w-full">
-            <table className="w-full table-auto">
-              <tbody>
-                <tr>
-                  <td className="text-gray-700 font-semibold pr-4 text-left">
-                    Type:
-                  </td>
-                  <td className="ml-10 dark:text-white" >{file.data.type}</td>
-                </tr>
-                <tr>
-                  <td className="text-gray-700 font-semibold pr-4 text-left">
-                    Size:
-                  </td>
-                  <td className="ml-10 dark:text-white" >{file.data.size} bytes</td>
-                </tr>
-                {file.data.extension &&
-                  <tr>
-                    <td className="text-gray-700 font-semibold pr-4 text-left">
-                      Extension:
-                    </td>
-                    <td className="ml-10 dark:text-white" >{file.data.extension}</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+            <div className="">
+              <div className="mt-4 w-full">
+                <table className="w-full table-auto">
+                  <tbody>
+                    <tr>
+                      <td className="text-gray-700 font-semibold pr-4 text-left">
+                        Type:
+                      </td>
+                      <td className="ml-10 dark:text-white" >{file.data.type}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-gray-700 font-semibold pr-4 text-left">
+                        Size:
+                      </td>
+                      <td className="ml-10 dark:text-white" >{file.data.size} bytes</td>
+                    </tr>
+                    {file.data.extension &&
+                      <tr>
+                        <td className="text-gray-700 font-semibold pr-4 text-left">
+                          Extension:
+                        </td>
+                        <td className="ml-10 dark:text-white" >{file.data.extension}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
 
               <div className="flex justify-end gap-x-5 mt-6 w-full">
                 <Button onClick={handleCopyLink} className="flex items-center">
@@ -141,21 +143,23 @@ const FileDetailsModal = ({ file, onClose }) => {
         </div>
       </div>
 
-      {isFullImageVisible && (
-        <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-80">
-          <button
-            onClick={closeFullImage}
-            className="absolute top-4 right-4 text-white text-xl"
-          >
-            &times;
-          </button>
-          <img
-            src={file.data.url}
-            alt={file.data.name}
-            className="max-w-full max-h-full object-contain"
-          />
-        </div>
-      )}
-    </div>
+      {
+        isFullImageVisible && (
+          <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-80">
+            <button
+              onClick={closeFullImage}
+              className="absolute top-4 right-4 text-white text-xl"
+            >
+              &times;
+            </button>
+            <img
+              src={file.data.url}
+              alt={file.data.name}
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
+        )
+      }
+    </div >
   );
 };
