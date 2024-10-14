@@ -113,7 +113,7 @@ const ModuleDetails = ({ path, id }) => {
           </button>
           </div>
           <div className="w-full pr-4">
-            <DetailsHeaderCard
+            {/* <DetailsHeaderCard
               bgImageClass="bg-custom-bg"
               plantName="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."
               date="17/01/2024"
@@ -121,7 +121,7 @@ const ModuleDetails = ({ path, id }) => {
               following="Following"
               path={path}
               item={item}
-            />
+            /> */}
 
             <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               <Tabs
@@ -180,7 +180,9 @@ const ModuleDetails = ({ path, id }) => {
                   setGalleryDialog={setGalleryDialog}
                 />
               ) : (
-                'No Photos Found...'
+                <div className="dark:text-white">
+                  No Photos Found...
+                </div>
               )
             ) : null}
 
