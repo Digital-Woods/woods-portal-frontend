@@ -24,15 +24,15 @@ const formatDateString = (date) => {
 };
 
 const formatDate = (data) => {
-  if (isDate(data)) {
-    const date = new Date(data);
-    const formatted = formatDateString(date);
-    const [datePart, timePart] = formatted.split(", ");
-    const [day, month, year] = datePart.split("/");
-    const formattedLocalDate = `${day}-${month}-${year} ${timePart.toLowerCase()}`;
-    return formattedLocalDate;
-  }
-  return data;
+  // if (isDate(data)) {
+  const date = new Date(data);
+  const formatted = formatDateString(date);
+  const [datePart, timePart] = formatted.split(", ");
+  const [day, month, year] = datePart.split("/");
+  const formattedLocalDate = `${day}-${month}-${year} ${timePart.toLowerCase()}`;
+  return formattedLocalDate;
+  // }
+  // return data;
 };
 
 function isNull(data) {
@@ -253,84 +253,101 @@ const sortData = (data) => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, itemId = null, path = null) => {
-  switch (true) {
-    case (isObject(value) && isEmptyObject(value)) || isNull(value):
-      return "-";
-
-    case isObject(value) && value.type === "link": {
-      const label = value.labels ? value.labels : value.featureName;
-      const { truncated, isTruncated } = truncateString(label.plural || "");
-
-      return isTruncated ? (
-        <Tooltip right content={label.plural}>
-          <Link
-            className="text-secondary font-bold border-input rounded-md"
-            to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-          >
-            {truncated}
-          </Link>
-        </Tooltip>
-      ) : (
-        <Link
-          className="text-secondary font-bold border-input rounded-md"
-          to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-        >
-          {label.plural}
-        </Link>
-      );
-    }
-
-    case isObject(value) && value.type === "primaryDisplayProperty": {
-      const { truncated, isTruncated } = truncateString(value.value || "");
-
-      return isTruncated ? (
-        <Tooltip content={value.value}>
-          <Link
-            className="text-secondary font-bold border-input rounded-md"
-            to={`${path}/${itemId}`}
-          >
-            {truncated}
-          </Link>
-        </Tooltip>
-      ) : (
-        <Link
-          className="text-secondary font-bold border-input rounded-md"
-          to={`${path}/${itemId}`}
-        >
-          {value.value}
-        </Link>
-      );
-    }
-
-    case isImage(value): {
-      let urlArray = typeof value === "string" ? value.split(",") : [];
-      return urlArray.length > 0 ? (
-        <img
-          src={urlArray[0]}
-          alt={urlArray[0]}
-          className="w-10 h-10 rounded"
-        />
-      ) : null;
-    }
-
-    case isDate(value):
-      return formatDate(value);
-
-    default: {
-      const cellContent = isObject(value)
-        ? JSON.stringify(value)
-        : String(value);
-      const { truncated, isTruncated } = truncateString(cellContent);
-
-      return isTruncated ? (
-        <Tooltip content={cellContent}>{truncated}</Tooltip>
-      ) : (
-        truncated
-      );
-    }
+const renderCellContent = (value, column, itemId = null, path = null) => {
+  if (column.isPrimaryDisplayProperty) {
+    return (
+      <Link
+        className="text-primary font-bold border-input rounded-md"
+        to={`${path}/${itemId}`}
+      >
+        {value}
+      </Link>
+    )
   }
-};
+  if (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate') {
+    return formatDate(value);
+  }
+  return value;
+}
+
+// const renderCellContent = (value, itemId = null, path = null) => {
+//   switch (true) {
+//     case (isObject(value) && isEmptyObject(value)) || isNull(value):
+//       return "-";
+
+//     case isObject(value) && value.type === "link": {
+//       const label = value.labels ? value.labels : value.featureName;
+//       const { truncated, isTruncated } = truncateString(label.plural || "");
+
+//       return isTruncated ? (
+//         <Tooltip right content={label.plural}>
+//           <Link
+//             className="text-secondary font-bold border-input rounded-md"
+//             to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+//           >
+//             {truncated}
+//           </Link>
+//         </Tooltip>
+//       ) : (
+//         <Link
+//           className="text-secondary font-bold border-input rounded-md"
+//           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+//         >
+//           {label.plural}
+//         </Link>
+//       );
+//     }
+
+//     case isObject(value) && value.type === "primaryDisplayProperty": {
+//       const { truncated, isTruncated } = truncateString(value.value || "");
+
+//       return isTruncated ? (
+//         <Tooltip content={value.value}>
+//           <Link
+//             className="text-secondary font-bold border-input rounded-md"
+//             to={`${path}/${itemId}`}
+//           >
+//             {truncated}
+//           </Link>
+//         </Tooltip>
+//       ) : (
+//         <Link
+//           className="text-secondary font-bold border-input rounded-md"
+//           to={`${path}/${itemId}`}
+//         >
+//           {value.value}
+//         </Link>
+//       );
+//     }
+
+//     case isImage(value): {
+//       let urlArray = typeof value === "string" ? value.split(",") : [];
+//       return urlArray.length > 0 ? (
+//         <img
+//           src={urlArray[0]}
+//           alt={urlArray[0]}
+//           className="w-10 h-10 rounded"
+//         />
+//       ) : null;
+//     }
+
+//     case isDate(value):
+//       return formatDate(value);
+
+//     default: {
+//       const cellContent = isObject(value)
+//         ? JSON.stringify(value)
+//         : String(value);
+//       const { truncated, isTruncated } = truncateString(cellContent);
+
+//       return isTruncated ? (
+//         <Tooltip content={cellContent}>{truncated}</Tooltip>
+//       ) : (
+//         truncated
+//       );
+//     }
+//   }
+// };
 
 // function setColorsFromMe() {
 //   // Default colors

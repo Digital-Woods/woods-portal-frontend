@@ -55,7 +55,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    console.log('data', data)
+    // console.log('data', data)
     const results = data.data.results.rows || [];
     const columns = data.data.results.columns || [];
 
@@ -101,7 +101,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       filterValue,
     ],
     mutationFn: async () => {
-      console.log('mutationFn', )
+      // console.log('mutationFn', )
       return await Client.objects.all({
         path,
         limit: itemsPerPage || 10,
@@ -123,7 +123,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
     },
 
     onSuccess: (data) => {
-      console.log('data', data)
+      // console.log('data', data)
       if (data.statusCode === "200") {
         mapResponseData(data);
       }
@@ -200,7 +200,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
     // } else {
     //   getData();
     // }
-    console.log('useEffect', true)
+    // console.log('useEffect', true)
     getData();
   }, []);
 
@@ -297,7 +297,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             item.id,
                             path
                           )} */}
-                          {item[column.key]}
+                          {renderCellContent(item[column.key], column, item.hs_object_id, path)}
                         </div>
                       </TableCell>
                     ))}
