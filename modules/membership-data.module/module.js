@@ -24,7 +24,7 @@
     videoData.forEach((video, index) => {
       const videoCard = document.createElement("div");
       videoCard.className =
-        "video-card flex items-center mb-4 cursor-pointer border border-gray-300 rounded-lg p-2 hover:bg-gray-100";
+        "video-card flex items-center mb-4 bg-[#fff] cursor-pointer border border-gray-300 rounded-lg p-2 hover:bg-gray-100";
 
       // Add active class to the first video card
       if (index === 0) {
