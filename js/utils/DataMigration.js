@@ -116,102 +116,142 @@ const checkEquipmentsName = (value, title) => {
   return value;
 };
 
-const sortData = (item, viewType = "list", title = "") => {
-  if (!item || !isObject(item)) return [];
+const sortData = (data) => {
+  // Sorting function
+  data.sort((a, b) => {
+    // 1. Key "hs_object_id" comes first
+    if (a.key === "hs_object_id") return -1;
+    if (b.key === "hs_object_id") return 1;
 
-  const fields = Object.keys(item);
+    // 2. "isPrimaryDisplayProperty: true" comes next
+    if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
+    if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
 
-  const imageFields = [];
-  const simpleFields = [];
-  const objectFields = [];
-  const hsFields = [];
-  const nameFields = [];
+    // 3. "isSecondaryDisplayProperty: true" comes next
+    if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty) return -1;
+    if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
 
-  fields.forEach((key) => {
-    switch (viewType) {
-      case "details":
-        if (keysToSkipDetails(key)) return;
-        break;
-      case "associations":
-        if (keysToSkipAssociations(key)) return;
-        break;
-      default:
-        if (keysToSkipList(key)) return;
-    }
+    // 4. Items where both "isPrimaryDisplayProperty" and "isSecondaryDisplayProperty" are false,
+    // excluding "hs_object_id", "hs_createdate", and "hs_lastmodifieddate"
+    const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate"];
+    const aCondition = !a.isPrimaryDisplayProperty && !a.isSecondaryDisplayProperty && !excludeKeys.includes(a.key);
+    const bCondition = !b.isPrimaryDisplayProperty && !b.isSecondaryDisplayProperty && !excludeKeys.includes(b.key);
 
-    const value = item[key];
+    if (aCondition && !bCondition) return -1;
+    if (!aCondition && bCondition) return 1;
 
-    if (
-      isObject(value) &&
-      value.associateWith &&
-      value.detailPageHidden == (viewType == "details")
-    ) {
-      return;
-    }
+    // 5. "key: hs_createdate" should come next
+    if (a.key === "hs_createdate") return -1;
+    if (b.key === "hs_createdate") return 1;
 
-    if (typeof value === "string" &&  (value, key)) {
-      imageFields.push({
-        name: key,
-        label: checkEquipments(
-          key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-          title
-        ),
-        value: value,
-      });
-    } else if (key.startsWith("hs_")) {
-      hsFields.push({
-        name: key,
-        label: key
-          .replace(/^hs_/, "Hs ")
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()),
-        value: value,
-      });
-    } else if (isObject(value) && value.associateWith) {
-      objectFields.push({
-        name: key,
-        label: checkEquipments(value.headerLabel, title),
-        value: value.headerLabel,
-      });
-    } else if (isObject(value)) {
-      // Check if it's a field with a 'name' property and push accordingly
-      if (value.key) {
-        nameFields.push({
-          name: key,
-          label: checkEquipments(
-            value.key
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (char) => char.toUpperCase()),
-            title
-          ),
-          value: value.value,
-        });
-      } else {
-        // Skip objects that don't have a 'name' or similar property
-      }
-    } else {
-      simpleFields.push({
-        name: key,
-        label: checkEquipments(
-          key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-          title
-        ),
-        value: value,
-      });
-    }
+    // 6. "key: hs_lastmodifieddate" should come last
+    if (a.key === "hs_lastmodifieddate") return -1;
+    if (b.key === "hs_lastmodifieddate") return 1;
+
+    // Maintain original order if no conditions matched
+    return 0;
   });
 
-  // Sort and concatenate
-  const sortedFields = [
-    ...imageFields,
-    ...nameFields,
-    ...simpleFields,
-    ...objectFields,
-    ...hsFields,
-  ];
+  console.log(data);
+  return data;
+}
 
-  return sortedFields;
-};
+// const sortData = (item, viewType = "list", title = "") => {
+//   if (!item || !isObject(item)) return [];
+
+//   const fields = Object.keys(item);
+
+//   const imageFields = [];
+//   const simpleFields = [];
+//   const objectFields = [];
+//   const hsFields = [];
+//   const nameFields = [];
+
+//   fields.forEach((key) => {
+//     switch (viewType) {
+//       case "details":
+//         if (keysToSkipDetails(key)) return;
+//         break;
+//       case "associations":
+//         if (keysToSkipAssociations(key)) return;
+//         break;
+//       default:
+//         if (keysToSkipList(key)) return;
+//     }
+
+//     const value = item[key];
+
+//     if (
+//       isObject(value) &&
+//       value.associateWith &&
+//       value.detailPageHidden == (viewType == "details")
+//     ) {
+//       return;
+//     }
+
+//     if (typeof value === "string" &&  (value, key)) {
+//       imageFields.push({
+//         name: key,
+//         label: checkEquipments(
+//           key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
+//           title
+//         ),
+//         value: value,
+//       });
+//     } else if (key.startsWith("hs_")) {
+//       hsFields.push({
+//         name: key,
+//         label: key
+//           .replace(/^hs_/, "Hs ")
+//           .replace(/_/g, " ")
+//           .replace(/\b\w/g, (char) => char.toUpperCase()),
+//         value: value,
+//       });
+//     } else if (isObject(value) && value.associateWith) {
+//       objectFields.push({
+//         name: key,
+//         label: checkEquipments(value.headerLabel, title),
+//         value: value.headerLabel,
+//       });
+//     } else if (isObject(value)) {
+//       // Check if it's a field with a 'name' property and push accordingly
+//       if (value.key) {
+//         nameFields.push({
+//           name: key,
+//           label: checkEquipments(
+//             value.key
+//               .replace(/_/g, " ")
+//               .replace(/\b\w/g, (char) => char.toUpperCase()),
+//             title
+//           ),
+//           value: value.value,
+//         });
+//       } else {
+//         // Skip objects that don't have a 'name' or similar property
+//       }
+//     } else {
+//       simpleFields.push({
+//         name: key,
+//         label: checkEquipments(
+//           key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
+//           title
+//         ),
+//         value: value,
+//       });
+//     }
+//   });
+
+//   // Sort and concatenate
+//   const sortedFields = [
+//     ...imageFields,
+//     ...nameFields,
+//     ...simpleFields,
+//     ...objectFields,
+//     ...hsFields,
+//   ];
+
+//   return sortedFields;
+// };
 
 const renderCellContent = (value, itemId = null, path = null) => {
   switch (true) {

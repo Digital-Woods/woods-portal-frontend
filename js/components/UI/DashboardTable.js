@@ -82,7 +82,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       //   setTableHeader([]);
       // }
     }
-    setTableHeader(columns);
+    setTableHeader(sortData(columns));
   };
   const portalId = getPortal().portalId
   const { mutate: getData, isLoading } = useMutation({
