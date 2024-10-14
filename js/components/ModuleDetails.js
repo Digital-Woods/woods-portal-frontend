@@ -8,7 +8,7 @@ const ModuleDetails = ({ path, id }) => {
   const [galleryDialog, setGalleryDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  let objList = fakeTableData.data.results || [];
+  let objList = hubSpotTableData.data.results || [];
 
   const headerPath = path.replace(/\//g, "");
 

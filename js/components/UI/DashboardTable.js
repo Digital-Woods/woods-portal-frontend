@@ -186,7 +186,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
     if (isLivePreview()) {
       mapResponseData(fakeTableData);
     } else if (env.DATA_SOURCE_SET == true) {
-      mapResponseData(fakeTableData);
+      mapResponseData(hubSpotTableData);
     } else {
       getData();
     }
