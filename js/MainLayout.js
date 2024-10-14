@@ -155,6 +155,7 @@ const MainLayout = ({ children }) => {
       }
     ]
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
+      hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
       path: `/${menuItem.name}`,
       title: menuItem.labels.plural,
       icon: menuItem.icon,
@@ -162,6 +163,7 @@ const MainLayout = ({ children }) => {
       isHeader: true,
       component: (
         <DynamicComponent
+          hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
           path={`/${menuItem.name}`}
           title={menuItem.labels.plural}
           icon={menuItem.icon}
@@ -289,6 +291,7 @@ const MainLayout = ({ children }) => {
                       icon={routes[0].icon}
                     />
                     <DynamicComponent
+                      hubspotObjectTypeId={routes[0].hubspotObjectTypeId}
                       path={routes[0].path}
                       title={routes[0].title}
                       icon={routes[0].icon}
@@ -316,7 +319,7 @@ const MainLayout = ({ children }) => {
               ))}
 
               {/* List Routs */}
-              {routes.map(({ path, title, icon }) => (
+              {routes.map(({ hubspotObjectTypeId, path, title, icon }) => (
                 <PrivateRoute
                   key={path}
                   path={path}
@@ -330,6 +333,7 @@ const MainLayout = ({ children }) => {
                       />
                       <DynamicComponent
                         {...props}
+                        hubspotObjectTypeId={hubspotObjectTypeId}
                         path={path}
                         title={`${title}`}
                         icon={icon}

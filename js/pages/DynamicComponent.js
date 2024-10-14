@@ -1,7 +1,7 @@
 const { useState, useEffect } = React;
 const { useQuery } = ReactQuery;
 
-const DynamicComponent = ({ title, path }) => {
+const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
 
@@ -107,7 +107,7 @@ const DynamicComponent = ({ title, path }) => {
           </div>
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <DashboardTable path={path} title={title} />
+          <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} />
         </div>
       ) : (
         <div className="dark:text-white text-cleanWhite">

@@ -27,7 +27,7 @@ const sortedHeaders = (headers) => {
 
 const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
 
-const DashboardTable = ({ path, inputValue, title }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -35,7 +35,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("createdAt");
+  const [sortConfig, setSortConfig] = useState("hs_createdate");
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
@@ -84,7 +84,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
     }
     setTableHeader(columns);
   };
-
+  const portalId = getPortal().portalId
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
@@ -94,11 +94,14 @@ const DashboardTable = ({ path, inputValue, title }) => {
       sortConfig,
       // inputValue,
       me,
+      portalId,
+      hubspotObjectTypeId,
       filterPropertyName,
       filterOperator,
       filterValue,
     ],
     mutationFn: async () => {
+      console.log('mutationFn', )
       return await Client.objects.all({
         path,
         limit: itemsPerPage || 10,
@@ -109,6 +112,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
           after,
         }),
         me,
+        portalId: portalId,
+        hubspotObjectTypeId: hubspotObjectTypeId,
         sort: sortConfig,
         // inputValue,
         filterPropertyName,
@@ -118,6 +123,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
     },
 
     onSuccess: (data) => {
+      console.log('data', data)
       if (data.statusCode === "200") {
         mapResponseData(data);
       }
@@ -182,18 +188,20 @@ const DashboardTable = ({ path, inputValue, title }) => {
       ));
     }
   }, [currentTableData, currentPage, itemsPerPage]);
-  useEffect(() => {
-    if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
-  }, [inputValue]);
+  // useEffect(() => {
+  //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
+  // }, [inputValue]);
 
   useEffect(() => {
-    if (isLivePreview()) {
-      mapResponseData(fakeTableData);
-    } else if (env.DATA_SOURCE_SET == true) {
-      mapResponseData(hubSpotTableData);
-    } else {
-      getData();
-    }
+    // if (isLivePreview()) {
+    //   mapResponseData(fakeTableData);
+    // } else if (env.DATA_SOURCE_SET == true) {
+    //   mapResponseData(fakeTableData);
+    // } else {
+    //   getData();
+    // }
+    console.log('useEffect', true)
+    getData();
   }, []);
 
   const setDialogData = (data) => {
