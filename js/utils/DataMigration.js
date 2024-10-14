@@ -267,7 +267,21 @@ const renderCellContent = (value, column, itemId = null, path = null) => {
   if (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate') {
     return formatDate(value);
   }
-  return value;
+  if (!value) {
+    return '--';
+  }
+  const { truncated, isTruncated } = truncateString(value || "");
+  return isTruncated ?
+    <Tooltip right content={value}>
+      <Link
+        className="text-primary font-bold border-input rounded-md"
+        to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+      >
+        {truncated}
+      </Link>
+    </Tooltip>
+    :
+    value
 }
 
 // const renderCellContent = (value, itemId = null, path = null) => {
