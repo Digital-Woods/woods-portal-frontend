@@ -16,6 +16,11 @@
   {% endif %}
   <meta name="description" content="{{ page_meta.meta_description }}" />
   {{ standard_header_includes }}
+  <style>
+    .dnd_area-row-0-vertical-alignment>.row-fluid {
+      display: block !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,7 +29,7 @@
       {% block body %}
       {% dnd_area "dnd_area" label="Main section", class="body-container body-container--home" %}
 
-      {% dnd_section background_color="#f8fafc", vertical_alignment="MIDDLE"%}
+      {% dnd_section background_color="#f8fafc", full_width=true, vertical_alignment="MIDDLE"%}
       {% dnd_module path="../../modules/membership-data.module" %}
       {% end_dnd_module %}
       {% end_dnd_section %}
@@ -32,7 +37,7 @@
       {% end_dnd_area %}
 
       <script>
-        
+
         let moduleText = testData;
         let objectList = objList;
         let userData = loggedInUserDetails;
@@ -43,7 +48,7 @@
 
         // console.log(userData, 'userData');
         // console.log(moduleText, 'moduleText');
-        console.log(objectList, 'objectList');
+        // console.log(objectList, 'objectList');
         // console.log(iframeData, 'iframeData');
         // console.log(donutChartLabel, 'donutChartLabel');
         // console.log(donutChartValue, 'donutChartValue');
