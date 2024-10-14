@@ -19,28 +19,7 @@
   "locked" : false,
   "display" : "checkbox",
   "type" : "boolean",
-  "default" : false
-}, {
-  "id" : "7376cb6f-1b17-3775-7f5c-dfc8af8f848b",
-  "name" : "contact_id",
-  "display_width" : null,
-  "label" : "Contact Id",
-  "required" : false,
-  "locked" : false,
-  "validation_regex" : "",
-  "visibility" : {
-    "controlling_field" : null,
-    "controlling_field_path" : "page_editor_preview_",
-    "controlling_value_regex" : "true",
-    "property" : null,
-    "operator" : "EQUAL",
-    "access" : null
-  },
-  "placeholder" : "Enter contact id",
-  "allow_new_line" : false,
-  "show_emoji_picker" : false,
-  "type" : "text",
-  "default" : ""
+  "default" : true
 }, {
   "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
   "name" : "hubspot_defined_object",
