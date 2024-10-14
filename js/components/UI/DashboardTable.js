@@ -55,7 +55,10 @@ const DashboardTable = ({ path, inputValue, title }) => {
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    const results = data.data.results || [];
+    console.log('data', data)
+    const results = data.data.results.rows || [];
+    const columns = data.data.results.columns || [];
+
     if (env.DATA_SOURCE_SET === true) {
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
@@ -63,22 +66,23 @@ const DashboardTable = ({ path, inputValue, title }) => {
       setCurrentTableData(foundItem.results);
       setTotalItems(foundItem.results.length || 0);
       setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
-      if (foundItem.results.length > 0) {
-        setTableHeader(sortData(foundItem.results[0], "list", title));
-      } else {
-        setTableHeader([]);
-      }
+      // if (foundItem.results.length > 0) {
+      //   setTableHeader(sortData(foundItem.results[0], "list", title));
+      // } else {
+      //   setTableHeader([]);
+      // }
     } else {
       setTableData(results);
       setTotalItems(data.data.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-      if (results.length > 0) {
-        setTableHeader(sortData(results[0], "list", title));
-      } else {
-        setTableHeader([]);
-      }
+      // if (results.length > 0) {
+      //   setTableHeader(sortData(results[0], "list", title));
+      // } else {
+      //   setTableHeader([]);
+      // }
     }
+    setTableHeader(columns);
   };
 
   const { mutate: getData, isLoading } = useMutation({
@@ -231,17 +235,17 @@ const DashboardTable = ({ path, inputValue, title }) => {
             <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  {tableHeader.map((item) => (
+                  {tableHeader.map((column) => (
                     <TableHead
-                      key={item.name}
+                      key={column.key}
                       className="whitespace-nowrap dark:text-white cursor-pointer"
-                      onClick={() => handleSort(item.name)}
+                      onClick={() => handleSort(column.key)}
                     >
-                      <div className="flex items-center">
+                      <div className="flex columns-center">
                         <span className="font-semibold text-xs">
-                          {item.label}
+                          {column.value}
                         </span>
-                        {sortConfig === item.name && (
+                        {sortConfig === column.key && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 -960 960 960"
@@ -251,7 +255,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
                             <path d="m280-400 200-200 200 200H280Z" />
                           </svg>
                         )}
-                        {sortConfig === `-${item.name}` && (
+                        {sortConfig === `-${column.key}` && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 -960 960 960"
@@ -272,19 +276,20 @@ const DashboardTable = ({ path, inputValue, title }) => {
               <TableBody>
                 {tableData.map((item) => (
                   <TableRow key={item.id}>
-                    {tableHeader.map((row) => (
+                    {tableHeader.map((column) => (
                       <TableCell
-                        key={row.name}
+                        key={column.value}
                         className="whitespace-nowrap border-b"
                       >
                         <div className="dark:text-white">
-                          {renderCellContent(
-                            row.name
+                          {/* {renderCellContent(
+                            column.value
                               .split(".")
                               .reduce((o, k) => (o || {})[k], item),
                             item.id,
                             path
-                          )}
+                          )} */}
+                          {item[column.key]}
                         </div>
                       </TableCell>
                     ))}
