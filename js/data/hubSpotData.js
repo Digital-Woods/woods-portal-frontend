@@ -1,4 +1,4 @@
-const fakeUserDetails = {
+const hubSpotUserDetails = {
   userId: userData.id || 1,
   firstName: userData.firstname || 'No firstname',
   lastName: userData.lastname || 'No lastname',
@@ -24,7 +24,7 @@ const fakeUserDetails = {
   sideMenu: moduleText,
   sideBarOptions:sidebarCtaDetails,
 };
-const fakeTableData = {
+const hubSpotTableData = {
   statusCode: "200",
   data: {
     results: objectList,

@@ -52,7 +52,7 @@ const MainLayout = ({ children }) => {
     if (isLivePreview()) {
       userDetails = fakeUserDetails;
     } else if (dataSourceSet == true) {
-      userDetails = fakeUserDetails;
+      userDetails = hubSpotUserDetails;
     } else {
       userDetails = loggedInDetails || me;
     }
