@@ -46,59 +46,132 @@ const MainLayout = ({ children }) => {
     },
   ];
 
+  // useEffect(() => {
+  //   let userDetails = null;
+
+  //   if (isLivePreview()) {
+  //     userDetails = fakeUserDetails;
+  //   } else if (dataSourceSet == true) {
+  //     userDetails = fakeUserDetails;
+  //   } else {
+  //     userDetails = loggedInDetails || me;
+  //   }
+
+  //   if (userDetails && userDetails.hubspotPortals) {
+  //     if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
+  //       const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
+  //         path: `/${menuItem.name}`,
+  //         title: menuItem.labels.plural,
+  //         icon: menuItem.icon,
+  //         isRequiredAuth: true,
+  //         isHeader: true,
+  //         component: (
+  //           <DynamicComponent
+  //             path={`/${menuItem.name}`}
+  //             title={menuItem.labels.plural}
+  //             icon={menuItem.icon}
+  //           />
+  //         ),
+  //       }));
+
+  //       setRoutes(apiRoutes);
+  //     } else {
+  //       setRoutes([
+  //         {
+  //           path: "/no-routes",
+  //           title: "No Routes Found",
+
+  //           isRequiredAuth: false,
+  //           isHeader: false,
+  //           component: (
+  //             <div className="text-center p-10">
+  //               <h2>No Navigation Available</h2>
+  //               <p>Please check back later.</p>
+  //             </div>
+  //           ),
+  //         },
+  //       ]);
+  //     }
+  //     setIsLoading(false);
+  //   } else if (userDetails && !userDetails.hubspotPortals) {
+  //     setShowPortalMessage(true);
+  //     setIsLoading(false);
+  //   }
+  // }, [loggedInDetails, me, setRoutes]);
+
   useEffect(() => {
-    let userDetails = null;
-
-    if (isLivePreview()) {
-      userDetails = fakeUserDetails;
-    } else if (dataSourceSet == true) {
-      userDetails = hubSpotUserDetails;
-      setIsLoading(false);
-    } else {
-      userDetails = loggedInDetails || me;
-    }
-
-    if (userDetails && userDetails.hubspotPortals) {
-      if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
-        const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
-          path: `/${menuItem.name}`,
-          title: menuItem.labels.plural,
-          icon: menuItem.icon,
-          isRequiredAuth: true,
-          isHeader: true,
-          component: (
-            <DynamicComponent
-              path={`/${menuItem.name}`}
-              title={menuItem.labels.plural}
-              icon={menuItem.icon}
-            />
-          ),
-        }));
-
-        setRoutes(apiRoutes);
-      } else {
-        setRoutes([
+    const sideMenu = [
+      {
+        "name": "CONTACT",
+        "labels": {
+          "singular": "Contact",
+          "plural": "Contacts"
+        },
+        "hubspotObjectId": 1,
+        "hubspotObjectTypeId": "0-1",
+        "children": [
           {
-            path: "/no-routes",
-            title: "No Routes Found",
-
-            isRequiredAuth: false,
-            isHeader: false,
-            component: (
-              <div className="text-center p-10">
-                <h2>No Navigation Available</h2>
-                <p>Please check back later.</p>
-              </div>
-            ),
+            "name": "cabins",
+            "labels": {
+              "singular": "Cabin",
+              "plural": "Cabins"
+            },
+            "hubspotObjectId": 5,
+            "hubspotObjectTypeId": "2-35357275",
+            "children": [
+              {
+                "name": "equipements",
+                "labels": {
+                  "singular": "Equipement",
+                  "plural": "Equipements"
+                },
+                "hubspotObjectId": 8,
+                "hubspotObjectTypeId": "2-35388777",
+                "children": []
+              },
+              {
+                "name": "assets",
+                "labels": {
+                  "singular": "Asset",
+                  "plural": "Assets"
+                },
+                "hubspotObjectId": 7,
+                "hubspotObjectTypeId": "2-35364163",
+                "children": []
+              }
+            ]
           },
-        ]);
+          {
+            "name": "departments",
+            "labels": {
+              "singular": "Department",
+              "plural": "Departments"
+            },
+            "hubspotObjectId": 6,
+            "hubspotObjectTypeId": "2-35357263",
+            "children": []
+          }
+        ]
       }
-      setIsLoading(false);
-    } else if (userDetails && !userDetails.hubspotPortals) {
-      setShowPortalMessage(true);
-      setIsLoading(false);
-    }
-  }, [loggedInDetails, me, setRoutes]);
+    ]
+    const apiRoutes = sideMenu[0].children.map((menuItem) => ({
+      path: `/${menuItem.name}`,
+      title: menuItem.labels.plural,
+      icon: menuItem.icon,
+      isRequiredAuth: true,
+      isHeader: true,
+      component: (
+        <DynamicComponent
+          path={`/${menuItem.name}`}
+          title={menuItem.labels.plural}
+          icon={menuItem.icon}
+        />
+      ),
+    }));
+
+    setRoutes(apiRoutes);
+    setIsLoading(false);
+  }, []);
 
   if (isLoading) {
     return (
