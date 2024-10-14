@@ -113,9 +113,12 @@ const Login = () => {
         return;
       }
 
-      if(data.data.loggedInDetails && data.data.loggedInDetails.hubspotPortals && data.data.loggedInDetails.hubspotPortals.twoFa) {
+      const currentDomain = window.location.origin;
+      const portal = data.data.loggedInDetails.portals.find(item => item.portalUrl === currentDomain);
+      setPortal(portal)
+      if(data.data.loggedInDetails && data.data.loggedInDetails.hubspot && data.data.loggedInDetails.hubspot.twoFa) {
         setLoggedInDetails(data.data)
-        setTwoFa({twoFa: data.data.loggedInDetails.hubspotPortals.twoFa})
+        setTwoFa({twoFa: data.data.loggedInDetails.hubspot.twoFa})
         window.location.hash = '/login/tow-fa';
       } else {
         await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
