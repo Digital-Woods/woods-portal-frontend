@@ -116,9 +116,12 @@ const checkEquipmentsName = (value, title) => {
   return value;
 };
 
-const sortData = (data) => {
+const sortData = (list, type = 'list') => {
+  if(type == 'list') delete list.associations;
+  let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key }))  : list
   // Sorting function
   data.sort((a, b) => {
+    // console.log(a)
     // 1. Key "hs_object_id" comes first
     if (a.key === "hs_object_id") return -1;
     if (b.key === "hs_object_id") return 1;
@@ -152,7 +155,7 @@ const sortData = (data) => {
     return 0;
   });
 
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -253,12 +256,12 @@ const sortData = (data) => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, column, itemId = null, path = null) => {
+const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId) => {
   if (column.isPrimaryDisplayProperty) {
     return (
       <Link
         className="text-primary font-bold border-input rounded-md"
-        to={`${path}/${itemId}`}
+        to={`${path}/${hubspotObjectTypeId}/${itemId}`}
       >
         {value}
       </Link>

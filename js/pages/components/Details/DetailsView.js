@@ -1,19 +1,21 @@
-const DetailsView = ({ item, sortItems }) => {
+const DetailsView = ({ item }) => {
   const [viewDialog, setViewDialog] = useState(false);
 
   return (
     <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
-      {sortItems.length > 0 &&
-        sortItems.map((value, index) => (
+      {item.length > 0 &&
+        item.map((value, index) => (
           <div
-            key={value.name}
-            className={`py-2 flex ${index === sortItems.length - 1 ? "" : ""}`}
+            key={value.key}
+            // className={`py-2 flex ${index === sortItems.length - 1 ? "" : ""}`}
+            className={`py-2 flex`}
           >
             <div className="text-sm font-semibold w-[200px]">
               {value.label}:
             </div>
             <div className="text-sm text-gray-500 ">
-              {renderCellContent(value.value)}
+              {/* {renderCellContent(value)} */}
+              {value.value}
             </div>
           </div>
         ))}

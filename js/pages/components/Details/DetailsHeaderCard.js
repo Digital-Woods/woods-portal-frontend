@@ -8,15 +8,14 @@ const DetailsHeaderCard = ({
   item,
 }) => {
   const getHeaderCardProps = (item) => {
-    let displayValue = "No PrimaryDisplayProperty";
+    let displayValue = "No Primary Display Property";
 
     if (item) {
       for (const key of Object.keys(item)) {
         const valueObject = item[key];
         if (
           valueObject &&
-          valueObject.type === "primaryDisplayProperty" &&
-          valueObject.value
+          valueObject.isPrimaryDisplayProperty
         ) {
           displayValue = valueObject.value;
           break;

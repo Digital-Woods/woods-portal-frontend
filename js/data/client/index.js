@@ -97,9 +97,10 @@ class Client {
         }
       ),
 
-    byObjectId: ({ path, objectId, me }) =>
+    byObjectId: ({ path, objectId, id, me }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
+        // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
+        `/api/1/hubspot-object-data/2-35357275/${id}`
       ),
   };
 

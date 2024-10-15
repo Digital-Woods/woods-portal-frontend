@@ -299,11 +299,12 @@ const MainLayout = ({ children }) => {
                   </React.Fragment>
                 )}
               />
+              
               {/* Details Routs */}
               {routes.map(({ path, title, icon }) => (
                 <PrivateRoute
-                  key={`${path}/:id`}
-                  path={`${path}/:id`}
+                  key={`${path}/:object_id/:id`}
+                  path={`${path}/:object_id/:id`}
                   component={(props) => (
                     <React.Fragment>
                       <HeaderLayout
@@ -312,7 +313,7 @@ const MainLayout = ({ children }) => {
                         title={`${title}`}
                         icon={icon}
                       />
-                      <Details path={path} id={props.match.params.id} />
+                      <Details path={path} objectId={props.match.params.object_id} id={props.match.params.id} />
                     </React.Fragment>
                   )}
                 />

@@ -15,9 +15,9 @@ const DetailsAssociations = ({ association, isActive }) => {
             </svg>
           </span>
           <span>
-            {association.labels.plural}
+            {association.lavels.plural}
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
-              {association.count}
+              {association.total}
             </span>
           </span>
         </div>
@@ -25,31 +25,33 @@ const DetailsAssociations = ({ association, isActive }) => {
 
       <AccordionDetails>
         <div className="flex flex-col py-2">
-          {association.count === 0 ? (
+          {association.total === 0 ? (
             <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
-              See the {association.labels.plural} associated with this record.
+              See the {association.lavels.plural} associated with this record.
             </div>
           ) : (
-            association.list &&
-            association.list.length > 0 && (
+            association.data &&
+            association.data.length > 0 && (
               <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
-                {association.list.map((item, index) => (
+                {association.data.map((item, index) => (
                   <div
                     key={index}
                     className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
                   >
-                    {sortData(item, "associations", association.label).map(
+                    {sortData(item, 'details').map(
                       (row) => (
-                        <div key={row.name} className="py-2 flex">
+                        <div key={row.label} className="py-2 flex">
                           <div className="text-xs font-semibold w-[100px]">
-                            {checkEquipmentsName(row.label, association.labels.plural)}:
+                            {/* {checkEquipmentsName(row.label, association.label)}: */}
+                            {row.label}
                           </div>
                           <div className="text-xs text-gray-500 flex-1">
-                            {renderCellContent(
-                              item[row.name],
+                            {/* {renderCellContent(
+                              item[row.value],
                               item.id,
                               `/${association.featureName}`
-                            )}
+                            )} */}
+                            {row.value}
                           </div>
                         </div>
                       )
@@ -60,6 +62,9 @@ const DetailsAssociations = ({ association, isActive }) => {
             )
           )}
         </div>
+        {association.hasMore &&
+        <div className='cursor-pointer mb-2 color-lightblue text-right text-sm font-semibold'>Show more</div>
+        }
       </AccordionDetails>
     </Accordion>
   );

@@ -297,7 +297,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             item.id,
                             path
                           )} */}
-                          {renderCellContent(item[column.key], column, item.hs_object_id, path)}
+                          {renderCellContent(item[column.key], column, item.hs_object_id, path, hubspotObjectTypeId)}
                         </div>
                       </TableCell>
                     ))}
@@ -306,7 +306,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                         <div className="flex items-center space-x-2 gap-x-5">
                           <Link
                             className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
-                            to={`${path}/${item.id}`}
+                            to={`${path}/${hubspotObjectTypeId}/${item.id}`}
                           >
                             View Details
                           </Link>

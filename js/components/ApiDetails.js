@@ -1,4 +1,4 @@
-const ApiDetails = ({ path, id }) => {
+const ApiDetails = ({ path, objectId, id }) => {
   const [item, setItems] = useState(null);
   const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
@@ -13,22 +13,28 @@ const ApiDetails = ({ path, id }) => {
     queryFn: async () =>
       await Client.objects.byObjectId({
         path,
-        objectId: id,
+        objectId: objectId,
+        id: id,
         me: me,
       }),
     onSuccess: (data) => {
-      if (data.data) {
-        const finalData = JSON.parse(
-          JSON.stringify(sortData(data.data, "details", path))
-        );
-        setSortItems(finalData);
-      }
-      if (data.data.associations) {
-        const finalData = data.data.associations;
-        setAssociations(finalData);
-      }
-      setItems(data.data);
-      getImages(data.data);
+      const sortedItems = sortData(data.data, 'details');
+      setItems(sortedItems);
+      const associations = data.data.associations
+      // console.log('associations', associations)
+      setAssociations(associations);
+      // if (data.data) {
+      //   const finalData = JSON.parse(
+      //     JSON.stringify(sortData(data.data, "details", path))
+      //   );
+      //   setSortItems(finalData);
+      // }
+      // if (data.data.associations) {
+      //   const finalData = data.data.associations;
+      //   setAssociations(finalData);
+      // }
+      // setItems(data.data);
+      // getImages(data.data);
     },
   });
 
@@ -93,16 +99,21 @@ const ApiDetails = ({ path, id }) => {
               </Tabs>
             </div>
 
-            {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
+            {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
 
-            {path === "/jobs" && (
+            {/* {path === "/jobs" && (
               <div className="col-span-4">
                 <DetailsTable item={item} path={path} />
               </div>
-            )}
-            {sortItems && activeTab === "overview" && (
+            )} */}
+            {/* {sortItems && activeTab === "overview" && (
               <DetailsView item={item} sortItems={sortItems} />
+            )} */}
+
+            {activeTab === "overview" && (
+              <DetailsView item={item}/>
             )}
+
 
             {activeTab === "files" && <Files fileId={id} path={path} />}
 
