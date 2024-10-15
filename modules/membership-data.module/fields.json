@@ -17,9 +17,29 @@
   "inline_help_text" : "Developer Parse Only",
   "required" : false,
   "locked" : false,
-  "display" : "checkbox",
+  "display" : "toggle",
   "type" : "boolean",
   "default" : true
+}, {
+  "id" : "bbc85b65-2e27-0ec1-10a5-21ceb79f51d1",
+  "name" : "see_documentation",
+  "display_width" : null,
+  "label" : "See Documentation",
+  "help_text" : "",
+  "inline_help_text" : "",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "page_editor_preview_",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : false
 }, {
   "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
   "name" : "hubspot_defined_object",
