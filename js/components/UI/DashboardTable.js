@@ -218,14 +218,14 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-secondary text-2xl dark:text-gray-300">
+          <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
         </div>
       )}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 pt-3 text-sm">
-          <p className="text-secondary leading-5 text-sm dark:text-gray-300">
+          <p className="text-primary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
           <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
@@ -233,7 +233,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
           </span>
           <span>/</span>
           <span className="rounded-md font-medium">{totalItems}</span>
-          <p className="text-secondary font-normal text-sm dark:text-gray-300">
+          <p className="text-primary font-normal text-sm dark:text-gray-300">
             Results
           </p>
         </div>

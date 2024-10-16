@@ -64,12 +64,12 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
             )
           )}
         </div>
-        {console.log('path', `${'cabins'}?objectTypeId=${association.objectTypeId}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`)}
+        {console.log('path', association)}
         {association.hasMore &&
           <div className="text-right mb-2">
             <Link
               className="text-lightblue font-bold border-input rounded-md"
-              to={`/${'association'}?objectTypeId=${association.objectTypeId}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
+              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
             >
               Show more
             </Link>
