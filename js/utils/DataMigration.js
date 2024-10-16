@@ -116,9 +116,21 @@ const checkEquipmentsName = (value, title) => {
   return value;
 };
 
+const filterAssociationsData = (obj) => {
+  const filtered = Object.fromEntries(
+    Object.entries(obj).filter(([key, value]) =>
+      value.isPrimaryDisplayProperty === true || value.isSecondaryDisplayProperty === true
+    )
+  );
+  return filtered;
+};
+
 const sortData = (list, type = 'list') => {
-  if(type == 'list') delete list.associations;
-  let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key }))  : list
+  console.log('list', list)
+  if (type == 'list' || type == 'details') delete list.associations
+  if (type == 'associations') list = filterAssociationsData(list)
+  let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key })) : list
+
   // Sorting function
   data.sort((a, b) => {
     // console.log(a)
@@ -256,8 +268,8 @@ const sortData = (list, type = 'list') => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, details = false) => {
-  if (!details && column && column.isPrimaryDisplayProperty) {
+const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list') => {
+  if (type != 'details' && column && column.isPrimaryDisplayProperty) {
     return (
       <Link
         className="text-primary font-bold border-input rounded-md"
@@ -274,7 +286,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
     return '--';
   }
   const { truncated, isTruncated } = truncateString(value || "");
-  return !details && isTruncated ?
+  return type != 'details' && isTruncated ?
     <Tooltip right content={value}>
       <Link
         className="text-primary"

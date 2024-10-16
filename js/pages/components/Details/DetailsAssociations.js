@@ -40,7 +40,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                     key={index}
                     className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
                   >
-                    {sortData(item, 'details').map(
+                    {sortData(item, 'associations').map(
                       (row) => (
                         <div key={row.label} className="py-2 flex">
                           <div className="text-xs font-semibold w-[100px]">
@@ -53,7 +53,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                               item.id,
                               `/${association.featureName}`
                             )} */}
-                            {row.value}
+                            {renderCellContent(row.value, row)}
                           </div>
                         </div>
                       )

@@ -18,11 +18,13 @@ const ApiDetails = ({ path, objectId, id }) => {
         me: me,
       }),
     onSuccess: (data) => {
-      const sortedItems = sortData(data.data, 'details');
-      setItems(sortedItems);
       const associations = data.data.associations
       // console.log('associations', associations)
       setAssociations(associations);
+      const details = data.data;
+      const sortedItems = sortData(details, 'details');
+      setItems(sortedItems);
+
       // if (data.data) {
       //   const finalData = JSON.parse(
       //     JSON.stringify(sortData(data.data, "details", path))
