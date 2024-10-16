@@ -24,7 +24,7 @@
   "id" : "bbc85b65-2e27-0ec1-10a5-21ceb79f51d1",
   "name" : "see_documentation",
   "display_width" : null,
-  "label" : "See Documentation",
+  "label" : "View Quickstart Guide",
   "help_text" : "",
   "inline_help_text" : "",
   "required" : false,

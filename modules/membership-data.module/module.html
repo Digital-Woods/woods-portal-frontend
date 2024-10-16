@@ -1,4 +1,4 @@
- <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 {% if request_contact.is_logged_in %}
 
 {% set contact_id = request.contact.contact_vid %}
@@ -89,6 +89,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
 {% if module.page_editor_preview_ %}
 
+<div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
+  <p>
+    You’re in the Membership Module editor preview. Before publishing, ensure
+    that the Preview Membership Dashboard is disabled.
+  </p>
+</div>
+
 {% if module.see_documentation == "false" %}
 
 {% set contact_id = '56942039428' %}
@@ -175,12 +182,6 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
 {% else %}
 
-<div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
-  <p>
-    You’re in the Membership Module editor preview. Before publishing, ensure
-    that the Preview Membership Dashboard is disabled.
-  </p>
-</div>
 <div class="max-w-screen-xl mx-auto flex gap-[5rem] bg-[#fff] px-5 py-12">
   <div class="flex-1">
     <div class="flex gap-4 items-center mb-10">
@@ -541,7 +542,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
     </div>
 
     <div class="flex justify-between gap-5">
-      <button id="seePreview" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
+      <button id="showPreviewButton" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
         Preview
       </button>
       <button class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
@@ -576,7 +577,6 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 {% endif %}
 {% endif %}
 {% endif %}
-
 
 
 <script>
