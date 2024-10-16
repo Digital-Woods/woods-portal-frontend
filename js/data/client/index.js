@@ -31,7 +31,8 @@ class Client {
 
   static files = {
     all: (me, fileId, path) => {
-      const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-files/2-35357275/16377859870`;
       return HttpClient.get(url);
     },
     create: (me, fileId, path, fileData) => {
@@ -54,7 +55,8 @@ class Client {
 
   static notes = {
     all: (me, fileId, path, limit = 5, page) => {
-      const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-notes/2-35357275/16377859870`;
       return HttpClient.get(url, {
         limit,
         page: page,

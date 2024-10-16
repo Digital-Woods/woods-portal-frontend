@@ -1,6 +1,4 @@
-const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, parentObjectRowId }) => {
-  { console.log('key', key) }
-
+const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, parentObjectRowId, parentObjectTypeName }) => {
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -43,7 +41,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                     {sortData(item, 'associations').map(
                       (row) => (
                         <div key={row.label} className="py-2 flex">
-                          <div className="text-xs font-semibold w-[100px]">
+                          <div className="text-xs font-semibold w-[100px] pr-2">
                             {/* {checkEquipmentsName(row.label, association.label)}: */}
                             {row.label}
                           </div>
@@ -64,14 +62,13 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
             )
           )}
         </div>
-        {console.log('path', association)}
         {association.hasMore &&
           <div className="text-right mb-2">
             <Link
-              className="text-lightblue font-bold border-input rounded-md"
-              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
+              className="text-lightblue font-bold border-input rounded-md text-xs whitespace-nowrap"
+              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
             >
-              Show more
+              Show more {association.labels.plural}
             </Link>
           </div>
         }

@@ -63,9 +63,17 @@ const Notes = ({ fileId, path }) => {
   const limit = 5;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", fileId, page],
-    queryFn: async () => {
-      return await Client.notes.all(me, fileId, path, limit, page);
-    },
+    queryFn: async () =>
+      await Client.notes.all({
+        me: me,
+        fileId: fileId,
+        path: path,
+        limit: limit,
+        page: page,
+      }),
+    // queryFn: async () => {
+    //   return await Client.notes.all(me, fileId, path, limit, page);
+    // },
   });
   const createNoteMutation = useMutation(
     async (newNote) => {
@@ -99,7 +107,8 @@ const Notes = ({ fileId, path }) => {
     createNoteMutation.mutate(payload);
   };
   useEffect(() => {
-    IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    // IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    IMAGE_URL = ``;
     // test_payload = "test_payload";
     if (showDialog && editorRef.current) {
       window.ClassicEditor.create(editorRef.current, {
@@ -155,9 +164,9 @@ const Notes = ({ fileId, path }) => {
           <span className="mr-2"> + </span> New Note
         </Button>
       </div>
-      {results && results.length > 0 ? (
-        results.map((note) => (
-          <div key={note.id} className="mt-5">
+      {results && results.rows.length > 0 ? (
+        results.rows.map((note) => (
+          <div key={note.hs_object_id} className="mt-5">
             {/* <p className="text-xs font-semibold">
               {formatDate(note.createdAt)}
             </p> */}
@@ -181,13 +190,13 @@ const Notes = ({ fileId, path }) => {
                 </div>
                 <div>
                   <p className="text-gray-400 text-xs">
-                    <span className="mr-1"> {formatDate(note.createdAt)} </span>
-                    {formatTime(note.createdAt)}
+                    <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
+                    {formatTime(note.hs_createdate)}
                   </p>
                 </div>
               </div>
               <div>
-                {ReactHtmlParser.default(DOMPurify.sanitize(note.noteBody))}
+                {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
               </div>
               <div className="flex justify-end items-center">
                 <div className="flex gap-x-2">

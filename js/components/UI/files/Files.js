@@ -20,22 +20,29 @@ const Files = ({ fileId, path }) => {
 
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
-    queryFn: async () => {
-      if (me && me.hubspotPortals && fileId && path) {
-        console.log(
-          "Fetching files with:",
-          me.hubspotPortals.templateName,
-          fileId,
-          path
-        );
-        return await Client.files.all(me, fileId, path);
-      } else {
-        throw new Error("Missing data for fetching files");
-      }
-    },
+    queryFn: async () =>
+      await Client.files.all({
+        me: me,
+        fileId: fileId,
+        path: path,
+      }),
+    // queryFn: async () => {
+    //   if (me && me.hubspotPortals && fileId && path) {
+    //     // console.log(
+    //     //   "Fetching files with:",
+    //     //   me.hubspotPortals.templateName,
+    //     //   fileId,
+    //     //   path
+    //     // );
+    //     return await Client.files.all(me, fileId, path);
+    //   } else {
+    //     throw new Error("Missing data for fetching files");
+    //   }
+    // },
   });
 
   useEffect(() => {
+    console.log('data', data)
     if (data && data.data) {
       setCurrentFiles(data.data);
       setFolderStack([data.data]);
@@ -153,18 +160,18 @@ const Files = ({ fileId, path }) => {
           {currentFiles && currentFiles.name ? currentFiles.name : "Root"}
         </h1>
 
-        {/* <FileTable
+        <FileTable
           fileId={fileId}
           path={path}
           files={paginatedFiles} // Use paginatedFiles which is based on filteredFiles
           toggleFolder={toggleFolder}
           refetch={refetch}
-        /> */}
-        <ModuleFileTable/>
+        />
+        {/* <ModuleFileTable/> */}
 
         <div className="flex justify-between items-center px-4">
           <div className="flex items-center gap-x-2 pt-3 text-sm">
-            <p className="text-secondary leading-5 text-sm dark:text-gray-300">
+            <p className="text-primary leading-5 text-sm dark:text-gray-300">
               Showing
             </p>
             <span className="border border-2 dark:text-white border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">

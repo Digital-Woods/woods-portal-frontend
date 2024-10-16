@@ -1,6 +1,11 @@
 const { useState, useEffect } = React;
 const { useQuery } = ReactQuery;
 
+const BackIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
+);
+
+
 const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
@@ -23,18 +28,27 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
       .slice(1)
       .toLowerCase();
 
+  const objectTypeName = getParam("objectTypeName")
   const tableTitle = () => {
-    const objectTypeName = getParam("objectTypeName")
     return objectTypeName ? objectTypeName : title
+  }
+
+  const back = () => {
+    window.location.hash = `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRowId")}`;
   }
 
   return (
     <div className="dark:bg-dark-200  dark:text-white p-6">
       <div className="flex justify-between items-center relative">
-        <div>
-          <h1 className="text-xl font-semibold mb-2 text-primary dark:text-white">
+        <div className="flex items-center">
+          {objectTypeName &&
+            <div className="pr-2 cursor-pointer" onClick={() => back()}>
+              <BackIcon />
+            </div>
+          }
+          <span className="text-xl font-semibold text-primary dark:text-white">
             {tableTitle()}
-          </h1>
+          </span>
           <p className="text-secondary  dark:text-white leading-5 text-sm">
             {viewText}
           </p>

@@ -3,7 +3,6 @@ const DetailsView = ({ item }) => {
 
   return (
     <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
-      {console.log('item', item)}
       <table>
         {item.length > 0 &&
           item.map((value, index) => (

@@ -126,14 +126,12 @@ const filterAssociationsData = (obj) => {
 };
 
 const sortData = (list, type = 'list') => {
-  console.log('list', list)
   if (type == 'list' || type == 'details') delete list.associations
   if (type == 'associations') list = filterAssociationsData(list)
   let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key })) : list
 
   // Sorting function
   data.sort((a, b) => {
-    // console.log(a)
     // 1. Key "hs_object_id" comes first
     if (a.key === "hs_object_id") return -1;
     if (b.key === "hs_object_id") return 1;
@@ -167,7 +165,6 @@ const sortData = (list, type = 'list') => {
     return 0;
   });
 
-  // console.log(data);
   return data;
 }
 
