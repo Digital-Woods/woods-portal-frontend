@@ -1,26 +1,35 @@
 const DetailsView = ({ item }) => {
-  const [viewDialog, setViewDialog] = useState(false);
+  // const [viewDialog, setViewDialog] = useState(false);
 
   return (
     <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
-      {item.length > 0 &&
+      {console.log('item', item)}
+      <table>
+        {item.length > 0 &&
+          item.map((value, index) => (
+            <tr key={value.key}>
+              <td className="py-2 pr-1 text-sm font-semibold whitespace-nowrap">{value.label}:</td>
+              <td className="py-2 pl-1 text-sm text-gray-500">{renderCellContent(value.value, value, null, null, null, true)}</td>
+            </tr>
+          ))}
+      </table>
+
+      {/* {item.length > 0 &&
         item.map((value, index) => (
           <div
             key={value.key}
-            // className={`py-2 flex ${index === sortItems.length - 1 ? "" : ""}`}
-            className={`py-2 flex`}
+            className={`py-2 flex ${index === sortItems.length - 1 ? "" : ""}`}
           >
             <div className="text-sm font-semibold w-[200px]">
               {value.label}:
             </div>
             <div className="text-sm text-gray-500 ">
-              {/* {renderCellContent(value)} */}
-              {value.value}
+              {renderCellContent(value)}
             </div>
           </div>
-        ))}
+        ))} */}
 
-      {item.iframe_url && (
+      {/* {item.iframe_url && (
         <div className={`py-2 flex`}>
           <div className="text-sm font-semibold w-[200px]">Document:</div>
           <div className="text-sm text-gray-500 ">
@@ -36,11 +45,10 @@ const DetailsView = ({ item }) => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
-      <Dialog open={viewDialog}>
+      {/* <Dialog open={viewDialog}>
         <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center inline-flex w-[90vw] h-[90vh]">
-          {/* <div className='w-[100%] h-[100%]'> */}
           <div className="flex justify-end w-[100%]">
             <div
               className="cursor-pointer"
@@ -63,9 +71,8 @@ const DetailsView = ({ item }) => {
             width="100%"
             height="100%"
           ></iframe>
-          {/* </div> */}
         </div>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

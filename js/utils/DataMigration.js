@@ -256,8 +256,8 @@ const sortData = (list, type = 'list') => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId) => {
-  if (column.isPrimaryDisplayProperty) {
+const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, details = false) => {
+  if (!details && column && column.isPrimaryDisplayProperty) {
     return (
       <Link
         className="text-primary font-bold border-input rounded-md"
@@ -267,17 +267,17 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
       </Link>
     )
   }
-  if (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate') {
+  if (column && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
     return formatDate(value);
   }
   if (!value) {
     return '--';
   }
   const { truncated, isTruncated } = truncateString(value || "");
-  return isTruncated ?
+  return !details && isTruncated ?
     <Tooltip right content={value}>
       <Link
-        className="text-primary font-bold border-input rounded-md"
+        className="text-primary"
         to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
       >
         {truncated}
