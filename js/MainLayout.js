@@ -299,7 +299,7 @@ const MainLayout = ({ children }) => {
                   </React.Fragment>
                 )}
               />
-              
+
               {/* Details Routs */}
               {routes.map(({ path, title, icon }) => (
                 <PrivateRoute
@@ -313,11 +313,32 @@ const MainLayout = ({ children }) => {
                         title={`${title}`}
                         icon={icon}
                       />
+                      {console.log('props', props.match.params.object_id)}
                       <Details path={path} objectId={props.match.params.object_id} id={props.match.params.id} />
                     </React.Fragment>
                   )}
                 />
               ))}
+
+              {/* Association Routs */}
+              <PrivateRoute
+                key={`association`}
+                path={`/association`}
+                component={(props) => (
+                  <React.Fragment>
+                    <HeaderLayout
+                      {...props}
+                      path={`/association`}
+                      title={`Association`}
+                    />
+                    <DynamicComponent
+                      {...props}
+                      path={`/association`}
+                      title={`Association`}
+                    />
+                  </React.Fragment>
+                )}
+              />
 
               {/* List Routs */}
               {routes.map(({ hubspotObjectTypeId, path, title, icon }) => (

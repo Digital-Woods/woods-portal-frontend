@@ -84,6 +84,9 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
     }
     setTableHeader(sortData(columns));
   };
+  
+  const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
+
   const portalId = getPortal().portalId
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
@@ -113,7 +116,8 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         }),
         me,
         portalId: portalId,
-        hubspotObjectTypeId: hubspotObjectTypeId,
+        hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+        param: param,
         sort: sortConfig,
         // inputValue,
         filterPropertyName,

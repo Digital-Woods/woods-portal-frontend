@@ -7,7 +7,7 @@ const ApiDetails = ({ path, objectId, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const [galleryDialog, setGalleryDialog] = useState(false);
-
+  console.log('ApiDetails_objectId', objectId)
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
     queryFn: async () =>
@@ -129,6 +129,7 @@ const ApiDetails = ({ path, objectId, id }) => {
 
           <div className="w-[350px]">
             <div className="max-h-[calc(100vh_-120px)] scrollbox pr-2 fixed w-[350px]">
+              {/* {console.log(path, objectId, id)} */}
               {associations &&
                 Object.entries(associations).map(
                   ([key, association], index) => (
@@ -136,6 +137,8 @@ const ApiDetails = ({ path, objectId, id }) => {
                       key={key}
                       association={association}
                       isActive={index == 0 ? true : false}
+                      parentObjectTypeId={objectId}
+                      parentObjectRowId={id}
                     />
                   )
                 )}

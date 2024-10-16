@@ -1,4 +1,6 @@
-const DetailsAssociations = ({ association, isActive }) => {
+const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, parentObjectRowId }) => {
+  { console.log('key', key) }
+
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -15,7 +17,7 @@ const DetailsAssociations = ({ association, isActive }) => {
             </svg>
           </span>
           <span>
-            {association.lavels.plural}
+            {association.labels.plural}
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
               {association.total}
             </span>
@@ -27,7 +29,7 @@ const DetailsAssociations = ({ association, isActive }) => {
         <div className="flex flex-col py-2">
           {association.total === 0 ? (
             <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
-              See the {association.lavels.plural} associated with this record.
+              See the {association.labels.plural} associated with this record.
             </div>
           ) : (
             association.data &&
@@ -62,8 +64,16 @@ const DetailsAssociations = ({ association, isActive }) => {
             )
           )}
         </div>
+        {console.log('path', `${'cabins'}?objectTypeId=${association.objectTypeId}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`)}
         {association.hasMore &&
-        <div className='cursor-pointer mb-2 color-lightblue text-right text-sm font-semibold'>Show more</div>
+          <div className="text-right mb-2">
+            <Link
+              className="text-lightblue font-bold border-input rounded-md"
+              to={`/${'association'}?objectTypeId=${association.objectTypeId}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
+            >
+              Show more
+            </Link>
+          </div>
         }
       </AccordionDetails>
     </Accordion>

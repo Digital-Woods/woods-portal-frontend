@@ -82,10 +82,11 @@ class Client {
       me,
       portalId,
       hubspotObjectTypeId,
+      param,
       ...query
     }) =>
       HttpClient.get(
-        `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}`,
+        `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
         // `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
         {
           limit,
@@ -100,7 +101,7 @@ class Client {
     byObjectId: ({ path, objectId, id, me }) =>
       HttpClient.get(
         // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
-        `/api/1/hubspot-object-data/2-35357275/${id}`
+        `/api/1/hubspot-object-data/${objectId}/${id}`
       ),
   };
 
