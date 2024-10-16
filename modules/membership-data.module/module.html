@@ -1,3 +1,4 @@
+<script src="https://cdn.tailwindcss.com"></script>
 {% if request_contact.is_logged_in %}
 
 {% set contact_id = request.contact.contact_vid %}
@@ -88,18 +89,104 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
 {% if module.page_editor_preview_ %}
 
-
 <div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
   <p>
     You’re in the Membership Module editor preview. Before publishing, ensure
     that the Preview Membership Dashboard is disabled.
   </p>
 </div>
+
+{% if module.see_documentation == "false" %}
+
+{% set contact_id = '56942039428' %}
+{% set loggedInUser = crm_object('contact', contact_id,"firstname,lastname,email,phone,file_name,file_url,chart_value,chart_label,music_player,line_chart" ) %}
+{% set fileNames = loggedInUser.file_name | split(",")%}
+{% set fileURL = loggedInUser.file_url | split(",")%}
+{% set podCasts = loggedInUser.music_player %}
+{% set lineChart = loggedInUser.line_chart %}
+
+{% set chartLabels = loggedInUser.chart_label | split(",")%}
+{% set chartValues = loggedInUser.chart_value | split(",")%}
+
+{% set iframeDatas = [] %}
+
+{% for i in range(fileNames|length) %}
+{% set name = fileNames[i] %}
+{% set url = fileURL[i] %}
+{% do iframeDatas.append({'name': name, 'url': url}) %}
+{% endfor %}
+
+
+{% set dynamicRouteList = [] %}
+
+{% if module.hubspot_defined_object %}
+{% for item in module.objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+name: item.list_object_name,
+labels:{
+singular: objName | capitalize | replace("_"," "),
+plural: objName | capitalize | replace("_"," "),
+},
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+associateObjectTypeId: item.association_object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
+{% if module.hubspot_custom_object %}
+{% for item in module.hubspot_custom_objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% set svgIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M4 6H20M4 12H14M4 18H9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>' %}
+{% do dynamicRouteList.append({
+name: item.list_object_name,
+labels:{
+singular: objName | capitalize| replace("_"," "),
+plural: objName | capitalize | replace("_"," "),
+},
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+associateObjectTypeId: item.association_object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "USER_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
+
+
+{% set objectList = [] %}
+{# routelist loop #}
+
+{% for route in dynamicRouteList %}
+
+{% set objList = crm_associations(contact_id, route.objectType, route.associateObjectTypeId, "limit=100",
+route.listObjectProperties) %}
+{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.associateObjectTypeId, assoc_objectType:
+route.objectType, assoc_properties: route.associateObjectProperties, results: objList.results}) %}
+
+{% endfor %}
+
+{% else %}
+
 <div class="max-w-screen-xl mx-auto flex gap-[5rem] bg-[#fff] px-5 py-12">
   <div class="flex-1">
     <div class="flex gap-4 items-center mb-10">
       <div class="max-w-[150px]">
-        <img class="w-full" src="{{ get_asset_url('/membership-customer-portal/images/documentation-png.png') }}" />
+        <img class="w-full" src="{{ get_asset_url('../../images/documentation-png.png') }}" />
       </div>
       <div>
         <h1 class="text-3xl font-bold mb-2">Documentation</h1>
@@ -427,10 +514,10 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
         <h3 class="text-lg font-bold mb-5">
           Popular Articles <span class="text-[#006AF5]">★</span>
         </h3>
-        <a herf="!#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           How to set up Membership Portal
         </a>
-        <a herf="!#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           How to set up Membership Portal
         </a>
       </div>
@@ -439,13 +526,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
         <h3 class="text-lg font-bold mb-5">
           New Articles
         </h3>
-        <a herf="!#" class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <a href="#" class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           How to set up Membership Portal
           <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
             New
           </span>
         </a>
-        <a herf="!#" class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <a href="#" class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           How to set up Membership Portal
           <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
             New
@@ -455,7 +542,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
     </div>
 
     <div class="flex justify-between gap-5">
-      <button class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
+      <button id="showPreviewButton" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
         Preview
       </button>
       <button class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
@@ -485,11 +572,11 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
     </div>
   </div>
 </div>
+
+
 {% endif %}
 {% endif %}
-
-
-
+{% endif %}
 
 
 <script>
