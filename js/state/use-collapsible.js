@@ -1,5 +1,5 @@
 
-const { atom, useRecoilState } = Recoil;
+const { atom } = Recoil;
 
 const isCollapsibleState = atom({
   key: "isCollapsibleState",
@@ -12,8 +12,8 @@ const isOpenState = atom({
 });
 
 function useCollapsible() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(isCollapsibleState);
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(isOpenState);
+  const [sidebarCollapsed, setSidebarCollapsed] = Recoil.useRecoilState(isCollapsibleState);
+  const [sidebarOpen, setSidebarOpen] = Recoil.useRecoilState(isOpenState);
 
   return {
     sidebarCollapsed,

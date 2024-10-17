@@ -1,6 +1,4 @@
-const { useState, useEffect, useRef } = React;
-
-const NavLink = ({ to, className, activeClassName, children }) => {
+const NavLinkHeader = ({ to, className, activeClassName, children }) => {
   return (
     <a
       href={to}
@@ -15,9 +13,9 @@ const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
-  const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
+  const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const [personalInfo, setPersonalInfo] = Recoil.useRecoilState(profileState);
 
   const { me, getMe } = useMe();
   const loggedInDetails = useRecoilValue(userDetailsAtom);
@@ -189,7 +187,7 @@ const HeaderLayout = ({ title, path }) => {
             <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col gap-y-1  p-2">
               { env.DATA_SOURCE_SET === false && 
-                <NavLink
+                <NavLinkHeader
                   to="/profile"
                   className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                   activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
@@ -213,7 +211,7 @@ const HeaderLayout = ({ title, path }) => {
                       My Profile
                     </p>
                   </div>
-                </NavLink>
+                </NavLinkHeader>
               }
               {/* 
               <NavLink

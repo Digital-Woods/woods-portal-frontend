@@ -1,5 +1,3 @@
-const { useState, useRef, useEffect } = React;
-
 const Accordion = ({ children, className, isActive }) => {
   const [active, setActive] = useState(null);
 

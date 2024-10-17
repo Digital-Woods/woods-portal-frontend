@@ -1,5 +1,3 @@
-const { useQuery } = ReactQuery;
-
 const Recoiljs = () => {
   const { yourName, setYourName } = useName();
   const onChange = (event) => {

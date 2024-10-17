@@ -19,7 +19,7 @@ function useMe() {
     const { isAuthorized } = useAuth();
     let response = null;
 
-    const { data, isLoading, error, refetch } = useQuery({
+    const { data, isLoading, error, refetch } = ReactQuery.useQuery({
       queryKey: ["me_data"],
       queryFn: Client.users.me,
       staleTime: 10000,
@@ -54,10 +54,10 @@ function useMe() {
 
 
 function useLogout() {
-  const setAuthorization = useSetRecoilState(authorizationAtom);
-  const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
+  const setAuthorization = Recoil.useSetRecoilState(authorizationAtom);
+  const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
 
-  const mutation = useMutation({
+  const mutation = ReactQuery.useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
       removeAllCookies();

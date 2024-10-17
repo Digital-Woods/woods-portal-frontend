@@ -1,8 +1,4 @@
-const { useMutation } = ReactQuery;
-const { useForm } = ReactHookForm;
-const { z } = Zod;
-
-const NavLink = ({ to, className, activeClassName, children }) => (
+const NavLinkForgetPassword = ({ to, className, activeClassName, children }) => (
   <a
     href={to}
     className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
@@ -36,6 +32,7 @@ const passwordIcon = () => (
 );
 
 const ForgetPassword = () => {
+  const { z } = Zod;
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const resetPasswordValidationSchema = z.object({
@@ -125,11 +122,11 @@ const ForgetPassword = () => {
                 </FormItem>
                 <div className="flex justify-end items-center">
                   <div>
-                    <NavLink to="/login">
+                    <NavLinkForgetPassword to="/login">
                       <p className="text-black text-xs dark:text-gray-300">
                         Back to Login?
                       </p>
-                    </NavLink>
+                    </NavLinkForgetPassword>
                   </div>
                 </div>
 

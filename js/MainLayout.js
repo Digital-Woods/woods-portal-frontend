@@ -1,13 +1,13 @@
-const { useSetRecoilState } = Recoil;
+const { useState, useEffect, useRef } = React;
+const { useMutation, useQuery } = ReactQuery;
 
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
-  const { me, getMe } = useMe();
-  const [showPortalMessage, setShowPortalMessage] = useState(false);
+  const [showPortalMessage, setShowPortalMessage] = React.useState(false);
   const loggedInDetails = useRecoilValue(userDetailsAtom);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
   useSetColors();
 

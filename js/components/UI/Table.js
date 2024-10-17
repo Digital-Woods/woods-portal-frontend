@@ -1,6 +1,3 @@
-const classNames = window.classNames;
-
-
 const Table = React.forwardRef(
   ({ className, ...props }, ref) => (
     <div className="">

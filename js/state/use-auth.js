@@ -1,12 +1,12 @@
-const { atom, useRecoilState } = Recoil;
+// const { atom } = Recoil;
 
-const authorizationAtom = atom({
+const authorizationAtom = Recoil.atom({
   key: "authorizationAtom",
   default: checkHasAuthToken(),
 });
 
 function useAuth() {
-  const [isAuthorized, setAuthorized] = useRecoilState(authorizationAtom);
+  const [isAuthorized, setAuthorized] = Recoil.useRecoilState(authorizationAtom);
 
   return {
     setToken: setAuthToken,

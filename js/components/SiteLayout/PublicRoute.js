@@ -1,6 +1,6 @@
-const { Switch, Route, Redirect } = ReactRouterDOM;
-
 const PublicRoute = ({ component: Component, restricted = true, ...rest }) => {
+  const { Switch, Route, Redirect } = ReactRouterDOM;
+
   return (
     <Route
       {...rest}

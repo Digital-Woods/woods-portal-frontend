@@ -1,13 +1,13 @@
 
-const { atom, useRecoilState } = Recoil;
+// const { atom } = Recoil;
 
-const nameState = atom({
+const nameState = Recoil.atom({
   key: "nameState",
   default: "",
 });
 
 function useName() {
-  const [yourName, setYourName] = useRecoilState(nameState);
+  const [yourName, setYourName] = Recoil.useRecoilState(nameState);
 
   return {
     yourName,

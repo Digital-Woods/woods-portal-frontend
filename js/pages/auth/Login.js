@@ -1,4 +1,3 @@
-const { useSetRecoilState } = Recoil;
 const CopyIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -72,6 +71,7 @@ const EyeOffIcon = () => (
 );
 
 const Login = () => {
+  const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const [showPassword, setShowPassword] = useState(false);

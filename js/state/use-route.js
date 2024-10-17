@@ -1,12 +1,12 @@
-const { atom, useRecoilState } = Recoil;
+// const { atom } = Recoil;
 
-const routeState = atom({
+const routeState = Recoil.atom({
   key: "routeState",
   default: [],
 });
 
 function useRoute() {
-  const [routes, setRoutes] = useRecoilState(routeState);
+  const [routes, setRoutes] = Recoil.useRecoilState(routeState);
 
   return {
     routes,

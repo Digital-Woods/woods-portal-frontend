@@ -1,5 +1,3 @@
-const { useState } = React;
-
 const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
 

@@ -25,9 +25,8 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
-
 const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
+  const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);

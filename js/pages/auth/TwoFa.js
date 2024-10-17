@@ -1,6 +1,5 @@
-const { useSetRecoilState } = Recoil;
-
 const TwoFa = () => {
+  const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
