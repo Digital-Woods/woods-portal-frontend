@@ -106,6 +106,20 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
     setAlert((prev) => ({ ...prev, show: false }));
   };
 
+  const dropdownRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const renderFiles = (files) => {
     if (!files || files.length === 0) {
       return (
@@ -148,13 +162,14 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                 Actions
               </button>
               {activeDropdown === index && (
-                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50" ref={dropdownRef}>
                   {file.type === "folder" ? (
                     <button
                       className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleFolder(file);
+                        setActiveDropdown(null);
                       }}
                     >
                       Open
@@ -167,19 +182,20 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                           e.stopPropagation();
                           setSelectedFileId(file.id);
                           toggleDropdown(index);
+                          setActiveDropdown(null);
                         }}
                       >
                         Details
                       </button>
                       <button
                         className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
-                        onClick={(e) => handleDownload(file, e)}
+                        onClick={(e) => { handleDownload(file, e); setActiveDropdown(null) }}
                       >
                         Download
                       </button>
                     </div>
                   )}
-                  <button
+                  {/* <button
                     className="block w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
                     onClick={(e) => handleTrash(file, e)}
                     disabled={loadingFileId === file.id}
@@ -208,7 +224,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                     ) : (
                       "Delete"
                     )}
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>
