@@ -199,12 +199,12 @@ const Notes = ({ fileId, path }) => {
                 {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
               </div>
               <div className="flex justify-end items-center">
-                <div className="flex gap-x-2">
+                {/* <div className="flex gap-x-2">
                   <PinIcon />
                   <CopyIcon />
                   <DeleteIcon />
                   <ThreeDotIcon />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
