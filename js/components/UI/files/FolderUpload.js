@@ -4,15 +4,23 @@ const FolderUpload = ({
   refetch,
   folderId,
   fileId,
-  path,
   setAlert,
+  objectId, 
+  id
 }) => {
   const { me } = useMe();
   const [newFolderName, setNewFolderName] = useState("");
 
+  const portalId = getPortal().portalId
+
   const createFolderMutation = useMutation({
     mutationFn: async (payload) => {
-      await Client.files.createAfolder(me, fileId, path, payload);
+      await Client.files.createAfolder({
+        objectId: objectId,
+        id: id,
+        portalId: portalId,
+        fileData: payload
+      });
     },
     onSuccess: () => {
       setAlert({
@@ -48,7 +56,7 @@ const FolderUpload = ({
 
     const parentFolder = fileId === folderId ? "obj-root" : folderId;
     const payload = {
-      parentFolder,
+      parentFolderId: parentFolder,
       folderName: newFolderName,
     };
 

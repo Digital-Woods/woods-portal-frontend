@@ -1,4 +1,4 @@
-const Files = ({ fileId, path }) => {
+const Files = ({ fileId, path, objectId, id  }) => {
   const [currentFiles, setCurrentFiles] = useState({ child: [] });
   const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -18,13 +18,18 @@ const Files = ({ fileId, path }) => {
     setAlert({ message: "", type: "", show: false });
   };
 
+  const portalId = getPortal().portalId
+  // console.log('portalId', portalId)
+  // console.log('objectId', objectId)
+  // console.log('id', id)
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () =>
       await Client.files.all({
-        me: me,
-        fileId: fileId,
-        path: path,
+        objectId: objectId,
+        id: id,
+        portalId: portalId,
+
       }),
     // queryFn: async () => {
     //   if (me && me.hubspotPortals && fileId && path) {
@@ -202,9 +207,10 @@ const Files = ({ fileId, path }) => {
         setNewFolderName={setNewFolderName}
         folderId={getCurrentFolderId()}
         fileId={fileId}
-        path={path}
         refetch={refetch}
         setAlert={setAlert}
+        objectId={objectId} 
+        id={id}
       />
       {alert.show && (
         <Alert

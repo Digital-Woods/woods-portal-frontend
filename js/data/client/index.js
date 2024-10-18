@@ -30,9 +30,12 @@ class Client {
   };
 
   static files = {
-    all: (me, fileId, path) => {
+    all: ({objectId, id, portalId}) => {
+      console.log('portalId', portalId)
+      console.log('objectId', objectId)
+      console.log('id', id)
       // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/1/hubspot-object-files/2-35357275/16377859870`;
+      const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}`;
       return HttpClient.get(url);
     },
     create: (me, fileId, path, fileData) => {
@@ -47,8 +50,9 @@ class Client {
       const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
       return HttpClient.delete(url);
     },
-    createAfolder: (me, fileId, path, fileData) => {
-      const url = `${API_ENDPOINTS.FOLDER_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    createAfolder: ({objectId, id, portalId, fileData}) => {
+      // const url = `${API_ENDPOINTS.FOLDER_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/${portalId}/hubspot-object-folders/${objectId}/${id}`;
       return HttpClient.post(url, fileData);
     },
   };

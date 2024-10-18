@@ -115,9 +115,9 @@ const ApiDetails = ({ path, objectId, id }) => {
             )}
 
 
-            {activeTab === "files" && <Files fileId={id} path={path} />}
+            {activeTab === "files" && <Files fileId={id} path={path} objectId={objectId} id={id} />}
 
-            {activeTab === "notes" && <Notes />}
+            {activeTab === "notes" && <Notes objectId={objectId} path={path} id={id} />}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
