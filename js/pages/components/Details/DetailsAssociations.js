@@ -45,7 +45,6 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                         {item &&
                           sortData(item, 'associations').map((value, index) => (
                             <tr key={value.key}>
-                              {console.log('value', value)}
                               <td className="pr-1 text-sm whitespace-nowrap align-top">{value.label}:</td>
                               <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, item.hs_object_id.value, `/${association.labels.plural}`, association.objectTypeId, 'associations')}</td>
                             </tr>

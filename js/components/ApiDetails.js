@@ -63,7 +63,6 @@ const ApiDetails = ({ path, objectId, id }) => {
           <div className="w-[calc(100%_-350px)] pr-4">
             <DetailsHeaderCard
               bgImageClass="bg-custom-bg"
-              plantName="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."
               date="17/01/2024"
               serviceName="AquaFlow Service"
               following="Following"

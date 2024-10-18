@@ -313,7 +313,6 @@ const MainLayout = ({ children }) => {
                         title={`${title}`}
                         icon={icon}
                       />
-                      {console.log('props', props.match.params.object_id)}
                       <Details path={path} objectId={props.match.params.object_id} id={props.match.params.id} />
                     </React.Fragment>
                   )}
