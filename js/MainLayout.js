@@ -175,6 +175,14 @@ const MainLayout = ({ children }) => {
     setIsLoading(false);
   }, []);
 
+  // const getRouteDetails = (path) => {
+  //   console.log('route', routes)
+  //   console.log('path', path)
+  //   const result = routes.find(item => item.path === `/${path}`);
+  //   console.log('result', result)
+  //   return result
+  // }
+
   if (isLoading) {
     return (
       <div className="text-center p-10 w-full h-screen flex items-center justify-center">
@@ -301,7 +309,7 @@ const MainLayout = ({ children }) => {
               />
 
               {/* Details Routs */}
-              {routes.map(({ path, title, icon }) => (
+              {/* {routes.map(({ path, title, icon }) => (
                 <PrivateRoute
                   key={`${path}/:object_id/:id`}
                   path={`${path}/:object_id/:id`}
@@ -317,7 +325,22 @@ const MainLayout = ({ children }) => {
                     </React.Fragment>
                   )}
                 />
-              ))}
+              ))} */}
+              <PrivateRoute
+                path={`/:path/:object_id/:id`}
+                component={(props) => (
+                  <React.Fragment>
+                    {/* {console.log('props', props.match.params.path)} */}
+                    <HeaderLayout
+                      {...props}
+                      path={`/${props.match.params.path}`}
+                      title={props.match.params.path}
+                      icon={``}
+                    />
+                    <Details path={props.match.params.path} objectId={props.match.params.object_id} id={props.match.params.id} />
+                  </React.Fragment>
+                )}
+              />
 
               {/* Association Routs */}
               <PrivateRoute
@@ -363,6 +386,26 @@ const MainLayout = ({ children }) => {
                   )}
                 />
               ))}
+
+              {/* <PrivateRoute
+                path={`/:path`}
+                component={(props) => (
+                  <React.Fragment>
+                    <HeaderLayout
+                      {...props}
+                      path={`/${props.match.params.path}`}
+                      title={getRouteDetails(props.match.params.path).title}
+                    />
+                    {console.log('props', props.match.params.path)}
+                    <DynamicComponent
+                      {...props}
+                      hubspotObjectTypeId={getRouteDetails(props.match.params.path).hubspotObjectTypeId}
+                      path={`/${props.match.params.path}`}
+                      title={getRouteDetails(props.match.params.path).title}
+                    />
+                  </React.Fragment>
+                )}
+              /> */}
 
               <Redirect to="/login" />
             </Switch>
