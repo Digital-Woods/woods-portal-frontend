@@ -43,8 +43,9 @@ class Client {
       const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}`;
       return HttpClient.post(url, fileData);
     },
-    getDetails: (me, path, fileId, postId) => {
-      const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+    getDetails: ({objectId, id, portalId, rowId}) => {
+      // const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+      const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}/${rowId}`;
       return HttpClient.get(url);
     },
     deleteafile: (me, path, fileId, postId) => {

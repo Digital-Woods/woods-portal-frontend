@@ -172,6 +172,8 @@ const Files = ({ fileId, path, objectId, id  }) => {
           files={paginatedFiles} // Use paginatedFiles which is based on filteredFiles
           toggleFolder={toggleFolder}
           refetch={refetch}
+          objectId={objectId} 
+          id={id}
         />
         {/* <ModuleFileTable/> */}
 
