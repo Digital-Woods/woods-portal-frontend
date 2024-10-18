@@ -1,14 +1,3 @@
-const NavLinkHeader = ({ to, className, activeClassName, children }) => {
-  return (
-    <a
-      href={to}
-      className={`block hover:bg-primary p-3 hover:text-cleanWhite rounded-md no-underline ${className}`}
-    >
-      {children}
-    </a>
-  );
-};
-
 const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -187,7 +176,7 @@ const HeaderLayout = ({ title, path }) => {
             <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col gap-y-1  p-2">
               { env.DATA_SOURCE_SET === false && 
-                <NavLinkHeader
+                <NavLink
                   to="/profile"
                   className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                   activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
@@ -211,7 +200,7 @@ const HeaderLayout = ({ title, path }) => {
                       My Profile
                     </p>
                   </div>
-                </NavLinkHeader>
+                </NavLink>
               }
               {/* 
               <NavLink

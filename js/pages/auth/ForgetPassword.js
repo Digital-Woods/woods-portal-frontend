@@ -1,12 +1,3 @@
-const NavLinkForgetPassword = ({ to, className, activeClassName, children }) => (
-  <a
-    href={to}
-    className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
-  >
-    {children}
-  </a>
-);
-
 const emailIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -122,11 +113,11 @@ const ForgetPassword = () => {
                 </FormItem>
                 <div className="flex justify-end items-center">
                   <div>
-                    <NavLinkForgetPassword to="/login">
+                    <NavLink to="/login">
                       <p className="text-black text-xs dark:text-gray-300">
                         Back to Login?
                       </p>
-                    </NavLinkForgetPassword>
+                    </NavLink>
                   </div>
                 </div>
 
