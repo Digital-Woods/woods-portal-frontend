@@ -10,13 +10,12 @@ const CloseIcon = () => (
   </svg>
 );
 
-const FileUpload = ({ fileId, path, refetch, folderId, onClose, setAlert }) => {
+const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
+  id }) => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const { me } = useMe();
-
-  console.log(folderId);
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -59,17 +58,23 @@ const FileUpload = ({ fileId, path, refetch, folderId, onClose, setAlert }) => {
     }
   };
 
+  const portalId = getPortal().portalId
   const uploadFileMutation = useMutation({
     mutationFn: async (fileData) => {
       const parentFolder = folderId === fileId ? "obj-root" : folderId;
 
       const payload = {
-        parentFolder,
+        parentFolderId: parentFolder,
         fileName: fileData.fileName,
         fileData: fileData.fileData,
       };
 
-      await Client.files.create(me, fileId, path, payload);
+      await Client.files.uploadFile({
+        objectId: objectId,
+        id: id,
+        portalId: portalId,
+        fileData: payload
+      });
     },
     onSuccess: () => {
       setFiles((prevValue) => [...prevValue, ...selectedFile]);

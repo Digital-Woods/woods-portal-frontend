@@ -225,10 +225,11 @@ const Files = ({ fileId, path, objectId, id  }) => {
           <FileUpload
             folderId={getCurrentFolderId()}
             fileId={fileId}
-            path={path}
             refetch={refetch}
             onClose={closeDialog}
             setAlert={setAlert}
+            objectId={objectId} 
+            id={id}
           />
         </div>
       </Dialog>
