@@ -76,7 +76,9 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     e.stopPropagation();
     // Fetch file details
     Client.files
-      .getDetails(me, path, file.id, fileId)
+      .getDetails({
+        objectId, id, portalId, rowId: file.id
+      })
       .then((fileDetails) => {
         const downloadUrl = fileDetails.data.url; // Get the download URL
         window.open(downloadUrl, "_blank"); // Open the URL in a new tab
