@@ -45,7 +45,7 @@ class MyUploadAdapter {
     );
   }
 
-  abort() {}
+  abort() { }
 }
 
 function MyCustomUploadAdapterPlugin(editor) {
@@ -53,6 +53,67 @@ function MyCustomUploadAdapterPlugin(editor) {
     return new MyUploadAdapter(loader);
   };
 }
+
+const NoteCard = ({note}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString();
+  };
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+  const CloseIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
+  );
+  const OpenIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" /></svg>
+  );
+
+  return (
+    <div key={note.hs_object_id} className="mt-5">
+      <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+        <div className="flex justify-between items-center mb-4">
+          <div className="w-[40px] flex gap-x-2 items-center">
+            <div>
+              {isOpen ?
+                <OpenIcon />
+                :
+                <CloseIcon />
+              }
+            </div>
+            <p className="text-sm font-semibold whitespace-nowrap">
+              Note
+            </p>
+          </div>
+          <div>
+            <p className="text-gray-400 text-xs">
+              <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
+              {formatTime(note.hs_createdate)}
+            </p>
+          </div>
+        </div>
+        <div className={!isOpen && 'overflow-hidden whitespace-nowrap text-ellipsis relative'}>
+          <span>
+            {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
+          </span>
+          <div size="32" opacity="1"
+            class="text-shadow"></div>
+        </div>
+        <div className="flex justify-end items-center">
+          {/* <div className="flex gap-x-2">
+          <PinIcon />
+          <CopyIcon />
+          <DeleteIcon />
+          <ThreeDotIcon />
+        </div> */}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const Notes = ({ fileId, path }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
@@ -132,14 +193,7 @@ const Notes = ({ fileId, path }) => {
       };
     }
   }, [showDialog]);
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString();
-  };
-  const formatTime = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -166,48 +220,7 @@ const Notes = ({ fileId, path }) => {
       </div>
       {results && results.rows.length > 0 ? (
         results.rows.map((note) => (
-          <div key={note.hs_object_id} className="mt-5">
-            {/* <p className="text-xs font-semibold">
-              {formatDate(note.createdAt)}
-            </p> */}
-            <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm">
-              <div className="flex justify-between items-center mb-4">
-                <div className="w-[40px] flex gap-x-2 items-center">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="20px"
-                      viewBox="0 -960 960 960"
-                      width="20px"
-                      className="fill-primary dark:fill-white"
-                    >
-                      <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60Zm-77.69 310Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z" />
-                    </svg>
-                  </div>
-                  <p className="text-sm font-semibold whitespace-nowrap">
-                    Note
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-400 text-xs">
-                    <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
-                    {formatTime(note.hs_createdate)}
-                  </p>
-                </div>
-              </div>
-              <div>
-                {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
-              </div>
-              <div className="flex justify-end items-center">
-                {/* <div className="flex gap-x-2">
-                  <PinIcon />
-                  <CopyIcon />
-                  <DeleteIcon />
-                  <ThreeDotIcon />
-                </div> */}
-              </div>
-            </div>
-          </div>
+          <NoteCard note={note} />
         ))
       ) : (
         <div>No notes available.</div>
@@ -221,7 +234,7 @@ const Notes = ({ fileId, path }) => {
       )}
       <Dialog
         open={showDialog}
-        onClose={() => {}}
+        onClose={() => { }}
         // onClose={setShowDialog}
         className=" relative mx-auto bg-white overflow-y-auto"
       >
