@@ -135,7 +135,7 @@ const ApiDetails = ({ path, objectId, id }) => {
                     <DetailsAssociations
                       key={key}
                       association={association}
-                      isActive={index == 0 ? true : false}
+                      isActive={true}
                       parentObjectTypeName={path}
                       parentObjectTypeId={objectId}
                       parentObjectRowId={id}

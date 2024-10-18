@@ -7,8 +7,8 @@ const DetailsView = ({ item }) => {
         {item.length > 0 &&
           item.map((value, index) => (
             <tr key={value.key}>
-              <td className="py-2 pr-1 text-sm font-semibold whitespace-nowrap">{value.label}:</td>
-              <td className="py-2 pl-1 text-sm text-gray-500">{renderCellContent(value.value, value, null, null, null, 'details')}</td>
+              <td className="py-2 pr-1 text-sm font-semibold whitespace-nowrap align-top">{value.label}:</td>
+              <td className="py-2 pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, null, null, null, 'details')}</td>
             </tr>
           ))}
       </table>
