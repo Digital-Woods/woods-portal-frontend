@@ -41,24 +41,17 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                     <div
                       className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
                     >
-                      {sortData(item, 'associations').map(
-                        (row) => (
-                          <div key={row.label} className="py-2 flex">
-                            <div className="text-xs font-semibold w-[100px] pr-2">
-                              {/* {checkEquipmentsName(row.label, association.label)}: */}
-                              {row.label}
-                            </div>
-                            <div className="text-xs text-gray-500 flex-1">
-                              {/* {renderCellContent(
-                              item[row.value],
-                              item.id,
-                              `/${association.featureName}`
-                            )} */}
-                              {renderCellContent(row.value, row)}
-                            </div>
-                          </div>
-                        )
-                      )}
+                      <table>
+                        {item &&
+                          sortData(item, 'associations').map((value, index) => (
+                            <tr key={value.key}>
+                              {console.log('value', value)}
+                              <td className="pr-1 text-sm whitespace-nowrap align-top">{value.label}:</td>
+                              <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, item.hs_object_id.value, `/${association.labels.plural}`, association.objectTypeId, 'associations')}</td>
+                            </tr>
+                          ))}
+                      </table>
+
                     </div>
                   </div>
                 ))}

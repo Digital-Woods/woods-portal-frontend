@@ -282,12 +282,13 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   if (!value) {
     return '--';
   }
+  if(isObject(value)) return '-------';
+
   const { truncated, isTruncated } = truncateString(value || "");
-  return type != 'details' && isTruncated ?
+  return  type == 'list' && isTruncated ?
     <Tooltip right content={value}>
       <Link
         className="text-primary"
-        to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
       >
         {truncated}
       </Link>
