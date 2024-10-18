@@ -8,7 +8,7 @@ const Files = ({ fileId, path, objectId, id  }) => {
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const { me } = useMe();
 
