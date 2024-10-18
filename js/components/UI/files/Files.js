@@ -140,6 +140,7 @@ const Files = ({ fileId, path, objectId, id  }) => {
 
         <div className="flex justify-between items-center">
           <Breadcrumb
+            id={id}
             folderStack={folderStack}
             onClick={handleBreadcrumbClick}
           />
@@ -162,7 +163,7 @@ const Files = ({ fileId, path, objectId, id  }) => {
         </div>
 
         <h1 className="text-xl font-semibold mb-4 dark:text-white">
-          {currentFiles && currentFiles.name ? currentFiles.name : "Root"}
+          {currentFiles && currentFiles.name != id ? currentFiles.name : "Home"}
         </h1>
 
         <FileTable

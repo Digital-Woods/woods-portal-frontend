@@ -1,4 +1,4 @@
-const Breadcrumb = ({ folderStack, onClick }) => (
+const Breadcrumb = ({ id, folderStack, onClick }) => (
   <nav className="text-xs">
     <ol className="flex space-x-2">
       {folderStack && folderStack.length > 0 ? (
@@ -10,7 +10,7 @@ const Breadcrumb = ({ folderStack, onClick }) => (
                   className="text-primary cursor-pointer"
                   onClick={() => onClick(index)}
                 >
-                  {folder.name}
+                  {folder.name != id ? folder.name : 'Home'}
                 </span>
                 {index < folderStack.length - 1 && (
                   <span className="mx-1"> / </span>
