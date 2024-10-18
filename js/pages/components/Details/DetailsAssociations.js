@@ -26,36 +26,40 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
       <AccordionDetails>
         <div className="flex flex-col py-2">
           {association.total === 0 ? (
-            <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
+            <div className="p-2 dark:bg-dark-300 rounded-md text-xs font-semibold dark:text-white">
               See the {association.labels.plural} associated with this record.
             </div>
           ) : (
             association.data &&
             association.data.length > 0 && (
-              <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
+              <div className="dark:bg-dark-300 rounded-md dark:text-white">
                 {association.data.map((item, index) => (
                   <div
                     key={index}
-                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
+                    className="mb-2"
                   >
-                    {sortData(item, 'associations').map(
-                      (row) => (
-                        <div key={row.label} className="py-2 flex">
-                          <div className="text-xs font-semibold w-[100px] pr-2">
-                            {/* {checkEquipmentsName(row.label, association.label)}: */}
-                            {row.label}
-                          </div>
-                          <div className="text-xs text-gray-500 flex-1">
-                            {/* {renderCellContent(
+                    <div
+                      className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
+                    >
+                      {sortData(item, 'associations').map(
+                        (row) => (
+                          <div key={row.label} className="py-2 flex">
+                            <div className="text-xs font-semibold w-[100px] pr-2">
+                              {/* {checkEquipmentsName(row.label, association.label)}: */}
+                              {row.label}
+                            </div>
+                            <div className="text-xs text-gray-500 flex-1">
+                              {/* {renderCellContent(
                               item[row.value],
                               item.id,
                               `/${association.featureName}`
                             )} */}
-                            {renderCellContent(row.value, row)}
+                              {renderCellContent(row.value, row)}
+                            </div>
                           </div>
-                        </div>
-                      )
-                    )}
+                        )
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
