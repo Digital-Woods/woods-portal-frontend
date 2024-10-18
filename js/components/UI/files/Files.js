@@ -10,8 +10,6 @@ const Files = ({ fileId, path, objectId, id  }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const { me } = useMe();
-
   const [alert, setAlert] = useState({ message: "", type: "", show: false });
 
   const handleCloseAlert = () => {
@@ -19,9 +17,6 @@ const Files = ({ fileId, path, objectId, id  }) => {
   };
 
   const portalId = getPortal().portalId
-  // console.log('portalId', portalId)
-  // console.log('objectId', objectId)
-  // console.log('id', id)
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () =>
@@ -47,7 +42,6 @@ const Files = ({ fileId, path, objectId, id  }) => {
   });
 
   useEffect(() => {
-    console.log('data', data)
     if (data && data.data) {
       setCurrentFiles(data.data);
       setFolderStack([data.data]);
