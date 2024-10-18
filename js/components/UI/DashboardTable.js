@@ -82,7 +82,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
     }
     setTableHeader(sortData(columns));
   };
-  
+
   const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
 
   const portalId = getPortal().portalId
@@ -296,7 +296,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             item.id,
                             path
                           )} */}
-                          {renderCellContent(item[column.key], column, item.hs_object_id, path, hubspotObjectTypeId)}
+                          {renderCellContent(item[column.key], column, item.hs_object_id, path == '/association' ? `/${getParam('objectTypeName')}` : path, path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId)}
                         </div>
                       </TableCell>
                     ))}
