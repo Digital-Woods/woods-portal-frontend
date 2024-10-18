@@ -99,7 +99,7 @@ const NoteCard = ({note}) => {
             {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
           </span>
           <div size="32" opacity="1"
-            class="text-shadow"></div>
+            class={!isOpen && 'text-shadow'}></div>
         </div>
         <div className="flex justify-end items-center">
           {/* <div className="flex gap-x-2">
