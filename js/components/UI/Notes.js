@@ -59,7 +59,7 @@ function MyCustomUploadAdapterPlugin(editor) {
 }
 
 
-const CKEditorComponent = ({ initialData }) => {
+const CKEditorComponent = ({ initialData, setEditorContentUpdate }) => {
   const editorRef = useRef(null); // To store the editor instance
   const editorContainerRef = useRef(null); // Ref to the container div
 
@@ -76,6 +76,9 @@ const CKEditorComponent = ({ initialData }) => {
         if (initialData) {
           editor.setData(initialData);
         }
+        editor.model.document.on("change:data", () => {
+          setEditorContentUpdate(editor.getData());
+        });
       })
       .catch((error) => {
         console.error('Error initializing CKEditor:', error);
@@ -103,10 +106,10 @@ const CKEditorComponent = ({ initialData }) => {
 
 
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note, objectId, id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
-  const editorRef = useRef(null);
+  const [editorContentUpdate, setEditorContentUpdate] = useState("");
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -126,6 +129,43 @@ const NoteCard = ({ note }) => {
   const openEditor = () => {
 
   }
+
+  const updateNoteMutation = useMutation(
+    async (newNote) => {
+      return await Client.notes.updateNote({
+        objectId: objectId,
+        id: id,
+        note: newNote,
+        note_id: note.hs_object_id,
+      });
+    },
+
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["data"]);
+        refetch();
+        setShowDialog(false);
+        setAlert({
+          message: "Note updated successfully!",
+          type: "success",
+        });
+      },
+      onError: (error) => {
+        console.error("Error creating note:", error);
+        setAlert({
+          message: "Failed to upload the note.",
+          type: "error",
+        });
+      },
+    }
+  );
+  const { isLoading: isLoadingUpdate } = updateNoteMutation;
+  const handleUpdateNote = () => {
+    const payload = {
+      noteBody: editorContentUpdate,
+    };
+    updateNoteMutation.mutate(payload);
+  };
 
   return (
     <div key={note.hs_object_id} className="mt-5">
@@ -166,7 +206,7 @@ const NoteCard = ({ note }) => {
                 }
               }}
             >
-              <div className={!isOpen ? 'relative line-clamp-1' : ''}>
+              <div className={!isOpen ? 'relative line-clamp-2' : ''}>
                 <span>
                   {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
                 </span>
@@ -184,13 +224,16 @@ const NoteCard = ({ note }) => {
             <div className="p-[24px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
-              <CKEditorComponent initialData={note.hs_note_body} />
+              <CKEditorComponent initialData={note.hs_note_body} setEditorContentUpdate={setEditorContentUpdate} />
               <div className="flex gap-x-2 mt-2">
+
                 <Button
+                  disabled={isLoadingUpdate}
+                  onClick={handleUpdateNote}
                   className="text-white"
                   size="sm"
                 >
-                  Save
+                  {isLoadingUpdate ? "Updating..." : "Save"}
                 </Button>
                 <Button
                   size="sm"
@@ -210,7 +253,7 @@ const NoteCard = ({ note }) => {
   )
 }
 
-const Notes = ({ fileId, path }) => {
+const Notes = ({ path, objectId, id }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
@@ -219,12 +262,11 @@ const Notes = ({ fileId, path }) => {
   const [alert, setAlert] = useState(null);
   const limit = 5;
   const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ["data", fileId, page],
+    queryKey: ["data", page],
     queryFn: async () =>
       await Client.notes.all({
-        me: me,
-        fileId: fileId,
-        path: path,
+        objectId: objectId,
+        id: id,
         limit: limit,
         page: page,
       }),
@@ -234,16 +276,20 @@ const Notes = ({ fileId, path }) => {
   });
   const createNoteMutation = useMutation(
     async (newNote) => {
-      return await Client.notes.createnote(me, fileId, path, newNote);
+      return await Client.notes.createnote({
+        objectId: objectId,
+        id: id,
+        note: newNote
+      });
     },
 
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["data", fileId]);
+        queryClient.invalidateQueries(["data"]);
         refetch();
         setShowDialog(false);
         setAlert({
-          message: "Note uploaded successfully!",
+          message: "Note added successfully!",
           type: "success",
         });
       },
@@ -263,6 +309,7 @@ const Notes = ({ fileId, path }) => {
     };
     createNoteMutation.mutate(payload);
   };
+
   useEffect(() => {
     // IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
     IMAGE_URL = ``;
@@ -316,7 +363,7 @@ const Notes = ({ fileId, path }) => {
       </div>
       {results && results.rows.length > 0 ? (
         results.rows.map((note) => (
-          <NoteCard note={note} />
+          <NoteCard note={note} objectId={objectId} id={id}  />
         ))
       ) : (
         <div>No notes available.</div>

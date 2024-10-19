@@ -60,19 +60,24 @@ class Client {
   };
 
   static notes = {
-    all: (me, fileId, path, limit = 5, page) => {
+    all: ({objectId, id, limit = 5, page}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/1/hubspot-object-notes/2-35357275/16377859870`;
+      const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
       return HttpClient.get(url, {
         limit,
         page: page,
       });
     },
-    createnote: (me, fileId, path, data) => {
-      const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      return HttpClient.post(url, data);
+    createnote: ({objectId, id, note}) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
+      return HttpClient.post(url, note);
     },
-
+    updateNote: ({objectId, id, note, note_id}) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-notes/${note_id}/${objectId}/${id}`;
+      return HttpClient.put(url, note);
+    },
     imageUpload: (me, fileId, path, data) => {
       const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       return HttpClient.post(url, data);
