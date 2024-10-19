@@ -54,7 +54,7 @@ function MyCustomUploadAdapterPlugin(editor) {
   };
 }
 
-const NoteCard = ({note}) => {
+const NoteCard = ({ note }) => {
   const [isOpen, setIsOpen] = useState(false);
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -74,40 +74,34 @@ const NoteCard = ({note}) => {
   return (
     <div key={note.hs_object_id} className="mt-5">
       <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-        <div className="flex justify-between items-center mb-4">
-          <div className="w-[40px] flex gap-x-2 items-center">
-            <div>
-              {isOpen ?
-                <OpenIcon />
-                :
-                <CloseIcon />
-              }
-            </div>
-            <p className="text-sm font-semibold whitespace-nowrap">
-              Note
-            </p>
-          </div>
+        <div className="flex">
           <div>
-            <p className="text-gray-400 text-xs">
-              <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
-              {formatTime(note.hs_createdate)}
-            </p>
+            {isOpen ?
+              <OpenIcon />
+              :
+              <CloseIcon />
+            }
           </div>
-        </div>
-        <div className={!isOpen && 'overflow-hidden whitespace-nowrap text-ellipsis relative'}>
-          <span>
-            {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
-          </span>
-          <div size="32" opacity="1"
-            class={!isOpen && 'text-shadow'}></div>
-        </div>
-        <div className="flex justify-end items-center">
-          {/* <div className="flex gap-x-2">
-          <PinIcon />
-          <CopyIcon />
-          <DeleteIcon />
-          <ThreeDotIcon />
-        </div> */}
+          <div className="w-full">
+            <div className="flex justify-between items-center mb-4">
+              <p className="text-sm font-semibold whitespace-nowrap">
+                Note
+              </p>
+              <div>
+                <p className="text-gray-400 text-xs">
+                  <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
+                  {formatTime(note.hs_createdate)}
+                </p>
+              </div>
+            </div>
+            <div className={!isOpen && 'relative line-clamp-1'}>
+              <span>
+                {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
+              </span>
+              <div size="32" opacity="1"
+                class={!isOpen && 'text-shadow'}></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
