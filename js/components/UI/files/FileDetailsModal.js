@@ -34,7 +34,7 @@ const FileDetailsModal = ({ file, onClose }) => {
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
         <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[720px] min-h-[380px] max-h-[80vh] overflow-auto">
           <div className="flex justify-between items-center border-b pb-4">
-            <h2 className="text-xl font-semibold dark:text-white">{file.data.name}</h2>
+            <h2 className="font-semibold dark:text-white">{file.data.name}</h2>
             <button onClick={onClose} className="text-xl font-bold">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,23 +89,23 @@ const FileDetailsModal = ({ file, onClose }) => {
                 <table className="w-full table-auto">
                   <tbody>
                     <tr>
-                      <td className="text-gray-700 font-semibold pr-4 text-left">
+                      <td className="pr-1 text-sm whitespace-nowrap align-top">
                         Type:
                       </td>
-                      <td className="ml-10 dark:text-white" >{file.data.type}</td>
+                      <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.type}</td>
                     </tr>
                     <tr>
-                      <td className="text-gray-700 font-semibold pr-4 text-left">
+                      <td className="pr-1 text-sm whitespace-nowrap align-top">
                         Size:
                       </td>
-                      <td className="ml-10 dark:text-white" >{file.data.size} bytes</td>
+                      <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.size}</td>
                     </tr>
                     {file.data.extension &&
                       <tr>
-                        <td className="text-gray-700 font-semibold pr-4 text-left">
+                        <td className="pr-1 text-sm whitespace-nowrap align-top">
                           Extension:
                         </td>
-                        <td className="ml-10 dark:text-white" >{file.data.extension}</td>
+                        <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.extension}</td>
                       </tr>
                     }
                   </tbody>
@@ -113,7 +113,7 @@ const FileDetailsModal = ({ file, onClose }) => {
               </div>
 
               <div className="flex justify-end gap-x-5 mt-6 w-full">
-                <Button onClick={handleCopyLink} className="flex items-center">
+                <Button onClick={handleCopyLink} className="flex items-center"   size="sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="20px"
@@ -125,7 +125,7 @@ const FileDetailsModal = ({ file, onClose }) => {
                   </svg>
                   Copy Link
                 </Button>
-                <Button onClick={handleDownload} className="flex items-center">
+                <Button onClick={handleDownload} className="flex items-center"   size="sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="20px"

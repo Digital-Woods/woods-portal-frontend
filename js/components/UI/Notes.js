@@ -185,16 +185,16 @@ const NoteCard = ({ note }) => {
               onClick={(e) => e.stopPropagation()}
             >
               <CKEditorComponent initialData={note.hs_note_body} />
-              <div className="mt-4 text-start">
+              <div className="flex gap-x-2 mt-2">
                 <Button
-                  className="text-white mr-2"
+                  className="text-white"
                   size="sm"
                 >
                   Save
                 </Button>
                 <Button
-                  className="text-white"
                   size="sm"
+                  variant="outline"
                   onClick={() => {
                     setIsOpenEditor(false);
                   }}
