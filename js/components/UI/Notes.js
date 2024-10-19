@@ -156,7 +156,7 @@ const NoteCard = ({ note }) => {
             </div>
           </div>
           {!isOpenEditor ?
-            <div className={`p-[24px] ${!isOpen ? '' : 'border border-white hover:border-blue-500 hover:bg-gray-100 rounded-md relative group'}`}
+            <div className={`p-[24px] ${!isOpen ? '' : 'border border-[#fff] hover:border-blue-500 hover:bg-gray-100 rounded-md relative group cursor-text'}`}
               onClick={(e) => {
 
                 if (isOpen) {
@@ -181,7 +181,7 @@ const NoteCard = ({ note }) => {
               </div>
             </div>
             :
-            <div className="p-[24px]"
+            <div className="p-[24px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
               <CKEditorComponent initialData={note.hs_note_body} />
