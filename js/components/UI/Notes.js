@@ -1,5 +1,9 @@
 let IMAGE_URL = "";
 
+const EditIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
+);
+
 class MyUploadAdapter {
   constructor(loader) {
     this.loader = loader;
@@ -54,8 +58,56 @@ function MyCustomUploadAdapterPlugin(editor) {
   };
 }
 
+
+const CKEditorComponent = ({ initialData }) => {
+  const editorRef = useRef(null); // To store the editor instance
+  const editorContainerRef = useRef(null); // Ref to the container div
+
+  useEffect(() => {
+    // Initialize the CKEditor instance
+    ClassicEditor.create(editorContainerRef.current, {
+      extraPlugins: [MyCustomUploadAdapterPlugin],
+      toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
+      placeholder: "Add new note...",
+    })
+      .then((editor) => {
+        editorRef.current = editor;
+        // Preload initial data into the editor
+        if (initialData) {
+          editor.setData(initialData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error initializing CKEditor:', error);
+      });
+
+    // Cleanup the CKEditor instance on component unmount
+    return () => {
+      if (editorRef.current) {
+        editorRef.current.destroy()
+          .then(() => {
+            console.log('CKEditor destroyed successfully.');
+            editorRef.current = null;
+          })
+          .catch((error) => {
+            console.error('Error destroying CKEditor:', error);
+          });
+      }
+    };
+  }, []);
+
+  return (
+    <div id="editor" ref={editorContainerRef}></div>
+  );
+};
+
+
+
 const NoteCard = ({ note }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
+  const editorRef = useRef(null);
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString();
@@ -71,19 +123,27 @@ const NoteCard = ({ note }) => {
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" /></svg>
   );
 
+  const openEditor = () => {
+
+  }
+
   return (
     <div key={note.hs_object_id} className="mt-5">
-      <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-        <div className="flex">
-          <div>
-            {isOpen ?
-              <OpenIcon />
-              :
-              <CloseIcon />
-            }
-          </div>
-          <div className="w-full">
-            <div className="flex justify-between items-center mb-4">
+      <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => {
+        setIsOpen(!isOpen);
+        setIsOpenEditor(false)
+      }
+      }>
+        <div >
+          <div className="flex items-center">
+            <div>
+              {isOpen ?
+                <OpenIcon />
+                :
+                <CloseIcon />
+              }
+            </div>
+            <div className="flex justify-between items-center w-full">
               <p className="text-sm font-semibold whitespace-nowrap">
                 Note
               </p>
@@ -94,14 +154,56 @@ const NoteCard = ({ note }) => {
                 </p>
               </div>
             </div>
-            <div className={!isOpen && 'relative line-clamp-1'}>
-              <span>
-                {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
-              </span>
-              <div size="32" opacity="1"
-                class={!isOpen && 'text-shadow'}></div>
-            </div>
           </div>
+          {!isOpenEditor ?
+            <div className={`p-[24px] ${!isOpen ? '' : 'border border-white hover:border-blue-500 hover:bg-gray-100 rounded-md relative group'}`}
+              onClick={(e) => {
+
+                if (isOpen) {
+                  e.stopPropagation();
+                  setIsOpenEditor(true);
+                  openEditor()
+                }
+              }}
+            >
+              <div className={!isOpen ? 'relative line-clamp-1' : ''}>
+                <span>
+                  {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
+                </span>
+                <div
+                  size="32"
+                  opacity="1"
+                  className={!isOpen ? 'text-shadow' : ''}
+                ></div>
+              </div>
+              <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <EditIcon />
+              </div>
+            </div>
+            :
+            <div className="p-[24px]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CKEditorComponent initialData={note.hs_note_body} />
+              <div className="mt-4 text-start">
+                <Button
+                  className="text-white mr-2"
+                  size="sm"
+                >
+                  Save
+                </Button>
+                <Button
+                  className="text-white"
+                  size="sm"
+                  onClick={() => {
+                    setIsOpenEditor(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </div>
