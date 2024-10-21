@@ -355,3 +355,10 @@ body {
   left: 0px;
   right: 0px;
 }
+
+.ck.ck-editor {
+  display: flex;
+  flex-direction: column-reverse;
+  border-top: none;
+  border-bottom: 1px solid #ddd;
+}
