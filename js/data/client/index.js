@@ -75,7 +75,7 @@ class Client {
     },
     updateNote: ({objectId, id, note, note_id}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/1/hubspot-object-notes/${note_id}/${objectId}/${id}`;
+      const url = `/api/1/hubspot-object-notes/${objectId}/${id}/${note_id}`;
       return HttpClient.put(url, note);
     },
     imageUpload: (me, fileId, path, data) => {

@@ -359,6 +359,9 @@ body {
 .ck.ck-editor {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.ck-toolbar  {
   border-top: none;
   border-bottom: 1px solid #ddd;
 }

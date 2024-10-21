@@ -59,48 +59,81 @@ function MyCustomUploadAdapterPlugin(editor) {
 }
 
 
-const CKEditorComponent = ({ initialData, setEditorContentUpdate }) => {
-  const editorRef = useRef(null); // To store the editor instance
-  const editorContainerRef = useRef(null); // Ref to the container div
+const CKEditorComponent = ({ initialData = "", setEditorContent, id }) => {
+  const editorRef = useRef(id);
 
   useEffect(() => {
-    // Initialize the CKEditor instance
-    ClassicEditor.create(editorContainerRef.current, {
-      extraPlugins: [MyCustomUploadAdapterPlugin],
-      toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
-      placeholder: "Add new note...",
-    })
-      .then((editor) => {
-        editorRef.current = editor;
-        // Preload initial data into the editor
-        if (initialData) {
-          editor.setData(initialData);
-        }
-        editor.model.document.on("change:data", () => {
-          setEditorContentUpdate(editor.getData());
-        });
-      })
-      .catch((error) => {
-        console.error('Error initializing CKEditor:', error);
-      });
+    // Dynamically load CKEditor
+    const loadCkEditor = () => {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.async = true;
+      const onDataChange = (data) => {
+        setEditorContent(data);
+      };
+      script.innerHTML = `
+                import {
+                    ClassicEditor,
+                    Essentials,
+                    Paragraph,
+                    Bold,
+                    Italic,
+                    Underline,
+                    BlockQuote,
+                    List,
+                    Alignment,
+                    RemoveFormat,
+                    Link,
+                    Font
+                } from 'ckeditor5';
 
-    // Cleanup the CKEditor instance on component unmount
+                ClassicEditor
+                    .create(document.querySelector('#${id}'), {
+                      plugins: [Essentials, Paragraph, Bold, Italic, Underline, BlockQuote, List, Alignment, RemoveFormat, Link, Font],
+                      toolbar: [
+                        "bold", "italic", "underline", "removeFormat", "|",
+                        {
+                          name: "moreFormatting",
+                          items: [
+                            "fontFamily", "fontSize", "fontColor", "fontBackgroundColor",
+                            "blockquote", "bulletedList", "numberedList", "alignment"
+                          ]
+                        },
+                        "|", 
+                        "link", "uploadImage", "insertImage", "insertSvg", "|"
+                      ],
+                    })
+                    .then(editor => {
+                        window.editor = editor;
+                        if (${initialData ? `'${initialData}'` : 'null'}) {
+                          editor.setData(${initialData ? `'${initialData}'` : 'null'});
+                        }
+                        editor.model.document.on("change:data", () => {
+                          const data = editor.getData();
+                          console.log(data);
+                          window.onDataChange(data);
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            `;
+      window.onDataChange = onDataChange;
+      document.head.appendChild(script);
+    };
+
+    loadCkEditor(); // Invoke the dynamic loading of CKEditor when the component is mounted
+
     return () => {
-      if (editorRef.current) {
-        editorRef.current.destroy()
-          .then(() => {
-            console.log('CKEditor destroyed successfully.');
-            editorRef.current = null;
-          })
-          .catch((error) => {
-            console.error('Error destroying CKEditor:', error);
-          });
+      if (window.editor) {
+        window.editor.destroy().catch((error) => console.error('Failed to destroy CKEditor:', error));
       }
     };
   }, []);
 
   return (
-    <div id="editor" ref={editorContainerRef}></div>
+    <div id={id} ref={editorRef}>
+    </div>
   );
 };
 
@@ -109,7 +142,7 @@ const CKEditorComponent = ({ initialData, setEditorContentUpdate }) => {
 const NoteCard = ({ note, objectId, id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
-  const [editorContentUpdate, setEditorContentUpdate] = useState("");
+  const [editorContent, setEditorContent] = useState("");
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -162,7 +195,7 @@ const NoteCard = ({ note, objectId, id }) => {
   const { isLoading: isLoadingUpdate } = updateNoteMutation;
   const handleUpdateNote = () => {
     const payload = {
-      noteBody: editorContentUpdate,
+      noteBody: editorContent,
     };
     updateNoteMutation.mutate(payload);
   };
@@ -224,7 +257,7 @@ const NoteCard = ({ note, objectId, id }) => {
             <div className="p-[24px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
-              <CKEditorComponent initialData={note.hs_note_body} setEditorContentUpdate={setEditorContentUpdate} />
+              <CKEditorComponent initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} />
               <div className="flex gap-x-2 mt-2">
 
                 <Button
@@ -257,7 +290,7 @@ const Notes = ({ path, objectId, id }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
-  const editorRef = useRef(null);
+  // const editorRef = useRef(null);
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
   const limit = 5;
@@ -310,32 +343,32 @@ const Notes = ({ path, objectId, id }) => {
     createNoteMutation.mutate(payload);
   };
 
-  useEffect(() => {
-    // IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-    IMAGE_URL = ``;
-    // test_payload = "test_payload";
-    if (showDialog && editorRef.current) {
-      window.ClassicEditor.create(editorRef.current, {
-        extraPlugins: [MyCustomUploadAdapterPlugin],
-        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
-        placeholder: "Add new note...",
-      })
-        .then((editor) => {
-          editor.ui.view.editable.element.style.minHeight = "200px";
-          editor.model.document.on("change:data", () => {
-            setEditorContent(editor.getData());
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      return () => {
-        if (editorRef.current && editorRef.current.editor) {
-          editorRef.current.editor.destroy();
-        }
-      };
-    }
-  }, [showDialog]);
+  // useEffect(() => {
+  //   // IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+  //   IMAGE_URL = ``;
+  //   // test_payload = "test_payload";
+  //   if (showDialog && editorRef.current) {
+  //     window.ClassicEditor.create(editorRef.current, {
+  //       extraPlugins: [MyCustomUploadAdapterPlugin],
+  //       toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
+  //       placeholder: "Add new note...",
+  //     })
+  //       .then((editor) => {
+  //         editor.ui.view.editable.element.style.minHeight = "200px";
+  //         editor.model.document.on("change:data", () => {
+  //           setEditorContent(editor.getData());
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //     return () => {
+  //       if (editorRef.current && editorRef.current.editor) {
+  //         editorRef.current.editor.destroy();
+  //       }
+  //     };
+  //   }
+  // }, [showDialog]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -363,7 +396,7 @@ const Notes = ({ path, objectId, id }) => {
       </div>
       {results && results.rows.length > 0 ? (
         results.rows.map((note) => (
-          <NoteCard note={note} objectId={objectId} id={id}  />
+          <NoteCard note={note} objectId={objectId} id={id} />
         ))
       ) : (
         <div>No notes available.</div>
@@ -393,7 +426,8 @@ const Notes = ({ path, objectId, id }) => {
             {me.firstName}
           </p>
         </div>
-        <div ref={editorRef} className="editor-container"></div>
+        {/* <div ref={editorRef} className="editor-container"></div> */}
+        <CKEditorComponent setEditorContent={setEditorContent} />
         <div className="mt-4 text-start">
           <Button
             disabled={isPosting || editorContent.trim() === ""}
