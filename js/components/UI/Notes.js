@@ -168,7 +168,7 @@ const NoteCard = ({ note, objectId, id }) => {
   };
 
   return (
-    <div key={note.hs_object_id} className="mt-5">
+    <div key={note.hs_object_id} className="mt-2">
       <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => {
         setIsOpen(!isOpen);
         setIsOpenEditor(false)
