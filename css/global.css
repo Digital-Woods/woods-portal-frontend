@@ -165,8 +165,8 @@ body {
 }
 
 .ck-editor {
-  min-width: 700px !important;
-  max-width: 700px !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
 }
 
 .ck-editor__editable_inline {
@@ -196,6 +196,11 @@ body {
   font-style: italic;
   border-left: 2px solid #ccc;
   padding-left: 10px;
+}
+
+.ck-editor__main {
+  border: 1px solid rgb(59 130 246);
+  border-radius: 4px;
 }
 
 /* Fileupload styles  */
@@ -354,14 +359,4 @@ body {
   bottom: 0px;
   left: 0px;
   right: 0px;
-}
-
-.ck.ck-editor {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.ck-toolbar  {
-  border-top: none;
-  border-bottom: 1px solid #ddd;
 }

@@ -59,7 +59,7 @@ function MyCustomUploadAdapterPlugin(editor) {
 }
 
 
-const CKEditorComponent = ({ initialData = "", setEditorContent, id }) => {
+const CKEditorComponent = ({ initialData = "", setEditorContent, id = 'new' }) => {
   const editorRef = useRef(id);
 
   useEffect(() => {
@@ -113,6 +113,11 @@ const CKEditorComponent = ({ initialData = "", setEditorContent, id }) => {
                           console.log(data);
                           window.onDataChange(data);
                         });
+
+                        // Move toolbar to the bottom
+                        const toolbarElement = editor.ui.view.toolbar.element;
+                        const editableElement = editor.ui.view.editable.element;
+                        editableElement.parentNode.insertBefore(toolbarElement, editableElement.nextSibling);
                     })
                     .catch(error => {
                         console.error(error);
