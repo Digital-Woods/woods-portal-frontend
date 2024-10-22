@@ -1,4 +1,62 @@
+let IMAGE_UPLOAD_URL = ''
+class CustomUploadAdapter {
+    constructor(loader) {
+      this.loader = loader;
+    }
+  
+    upload() {
+      return this.loader.file.then(
+        (file) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+  
+            reader.onloadend = () => {
+              const base64data = reader.result.split(",")[1]; // Get base64 part
+              const payload = {
+                fileName: file.name,
+                fileData: base64data,
+              };
+              const token = getAuthToken();
+  
+              fetch(IMAGE_UPLOAD_URL, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json", // Send as JSON
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(payload), // Convert payload to JSON string
+              })
+                .then((response) => response.json())
+                .then((result) => {
+                  resolve({ default: result.data.url });
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            };
+  
+            reader.onerror = (error) => {
+              reject(error);
+            };
+  
+            reader.readAsDataURL(file); // Convert file to Base64
+          })
+      );
+    }
+  
+    abort() { }
+  }
+
+// A custom plugin to register the custom upload adapter.
+function CustomUploadAdapterPlugin( editor ) {
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+        return new CustomUploadAdapter( loader );
+    };
+}
+
+
 const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
+    IMAGE_UPLOAD_URL = api
     const editorRef = useRef(id);
     
     useEffect(() => {
@@ -28,8 +86,7 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                       Font,
                       Image, 
                       ImageToolbar, 
-                      ImageUpload, 
-                      SimpleUploadAdapter
+                      ImageUpload
                   } from 'ckeditor5';
   
                   ClassicEditor
@@ -49,7 +106,7 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                           Image,
                           ImageToolbar,
                           ImageUpload,
-                          SimpleUploadAdapter
+                          CustomUploadAdapterPlugin
                         ],
                         toolbar: [
                           "bold", "italic", "underline", "removeFormat", "|",
@@ -65,13 +122,6 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                         ],
                         image: {
                           toolbar: [ 'imageTextAlternative', 'toggleImageCaption', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side' ]
-                        },
-                        simpleUpload: {
-                          uploadUrl: '${api}',
-                          headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: 'Bearer ${token}'
-                          }
                         }
                       })
                       .then(editor => {
