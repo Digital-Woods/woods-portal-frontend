@@ -68,7 +68,6 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
             const onDataChange = (data) => {
                 setEditorContent(data);
             };
-            const token = getAuthToken();
 
             script.innerHTML = `
                   import {
