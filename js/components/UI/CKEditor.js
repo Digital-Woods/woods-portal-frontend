@@ -85,7 +85,8 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                       Font,
                       Image, 
                       ImageToolbar, 
-                      ImageUpload
+                      ImageUpload,
+                      GeneralHtmlSupport
                   } from 'ckeditor5';
   
                   ClassicEditor
@@ -105,7 +106,8 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                           Image,
                           ImageToolbar,
                           ImageUpload,
-                          CustomUploadAdapterPlugin
+                          CustomUploadAdapterPlugin,
+                          GeneralHtmlSupport
                         ],
                         toolbar: [
                           "bold", "italic", "underline", "removeFormat", "|",
@@ -121,6 +123,14 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                         ],
                         image: {
                           toolbar: [ 'imageTextAlternative', 'toggleImageCaption', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side' ]
+                        },
+                        htmlSupport: {
+                            allow: [
+                                {
+                                    name: 'div',
+                                    classes: true
+                                }
+                            ]
                         }
                       })
                       .then(editor => {
