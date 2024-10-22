@@ -4,145 +4,59 @@ const EditIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
 );
 
-class MyUploadAdapter {
-  constructor(loader) {
-    this.loader = loader;
-  }
+// class MyUploadAdapter {
+//   constructor(loader) {
+//     this.loader = loader;
+//   }
 
-  upload() {
-    return this.loader.file.then(
-      (file) =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
+//   upload() {
+//     return this.loader.file.then(
+//       (file) =>
+//         new Promise((resolve, reject) => {
+//           const reader = new FileReader();
 
-          reader.onloadend = () => {
-            const base64data = reader.result.split(",")[1]; // Get base64 part
-            const payload = {
-              fileName: file.name,
-              fileData: base64data,
-            };
-            const token = getAuthToken();
+//           reader.onloadend = () => {
+//             const base64data = reader.result.split(",")[1]; // Get base64 part
+//             const payload = {
+//               fileName: file.name,
+//               fileData: base64data,
+//             };
+//             const token = getAuthToken();
 
-            fetch(IMAGE_URL, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json", // Send as JSON
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(payload), // Convert payload to JSON string
-            })
-              .then((response) => response.json())
-              .then((result) => {
-                resolve({ default: result.data.url });
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          };
+//             fetch(IMAGE_URL, {
+//               method: "POST",
+//               headers: {
+//                 "Content-Type": "application/json", // Send as JSON
+//                 Authorization: `Bearer ${token}`,
+//               },
+//               body: JSON.stringify(payload), // Convert payload to JSON string
+//             })
+//               .then((response) => response.json())
+//               .then((result) => {
+//                 resolve({ default: result.data.url });
+//               })
+//               .catch((error) => {
+//                 reject(error);
+//               });
+//           };
 
-          reader.onerror = (error) => {
-            reject(error);
-          };
+//           reader.onerror = (error) => {
+//             reject(error);
+//           };
 
-          reader.readAsDataURL(file); // Convert file to Base64
-        })
-    );
-  }
+//           reader.readAsDataURL(file); // Convert file to Base64
+//         })
+//     );
+//   }
 
-  abort() { }
-}
+//   abort() { }
+// }
 
-function MyCustomUploadAdapterPlugin(editor) {
-  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-    return new MyUploadAdapter(loader);
-  };
-}
-
-
-const CKEditorComponent = ({ initialData = "", setEditorContent, id = 'new' }) => {
-  const editorRef = useRef(id);
-
-  useEffect(() => {
-    // Dynamically load CKEditor
-    const loadCkEditor = () => {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.async = true;
-      const onDataChange = (data) => {
-        setEditorContent(data);
-      };
-      script.innerHTML = `
-                import {
-                    ClassicEditor,
-                    Essentials,
-                    Paragraph,
-                    Bold,
-                    Italic,
-                    Underline,
-                    BlockQuote,
-                    List,
-                    Alignment,
-                    RemoveFormat,
-                    Link,
-                    Font
-                } from 'ckeditor5';
-
-                ClassicEditor
-                    .create(document.querySelector('#${id}'), {
-                      plugins: [Essentials, Paragraph, Bold, Italic, Underline, BlockQuote, List, Alignment, RemoveFormat, Link, Font],
-                      toolbar: [
-                        "bold", "italic", "underline", "removeFormat", "|",
-                        {
-                          name: "moreFormatting",
-                          items: [
-                            "fontFamily", "fontSize", "fontColor", "fontBackgroundColor",
-                            "blockquote", "bulletedList", "numberedList", "alignment"
-                          ]
-                        },
-                        "|", 
-                        "link", "uploadImage", "|"
-                      ],
-                    })
-                    .then(editor => {
-                        window.editor = editor;
-                        if (${initialData ? `'${initialData}'` : 'null'}) {
-                          editor.setData(${initialData ? `'${initialData}'` : 'null'});
-                        }
-                        editor.model.document.on("change:data", () => {
-                          const data = editor.getData();
-                          console.log(data);
-                          window.onDataChange(data);
-                        });
-
-                        // Move toolbar to the bottom
-                        const toolbarElement = editor.ui.view.toolbar.element;
-                        const editableElement = editor.ui.view.editable.element;
-                        editableElement.parentNode.insertBefore(toolbarElement, editableElement.nextSibling);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            `;
-      window.onDataChange = onDataChange;
-      document.head.appendChild(script);
-    };
-
-    loadCkEditor(); // Invoke the dynamic loading of CKEditor when the component is mounted
-
-    return () => {
-      if (window.editor) {
-        window.editor.destroy().catch((error) => console.error('Failed to destroy CKEditor:', error));
-      }
-    };
-  }, []);
-
-  return (
-    <div id={id} ref={editorRef}>
-    </div>
-  );
-};
-
-
+// function MyCustomUploadAdapterPlugin(editor) {
+//   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+//     return new MyUploadAdapter(loader);
+//   };
+// }
 
 const NoteCard = ({ note, objectId, id }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -262,7 +176,7 @@ const NoteCard = ({ note, objectId, id }) => {
             <div className="p-[24px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
-              <CKEditorComponent initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} />
+              <CKEditor initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} api='asdasdad' />
               <div className="flex gap-x-2 mt-2">
 
                 <Button
@@ -295,6 +209,7 @@ const Notes = ({ path, objectId, id }) => {
   const [showDialog, setShowDialog] = useState(false);
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
+  const [imageUploadUrl, setImageUploadUrl] = useState("");
   // const editorRef = useRef(null);
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
@@ -348,6 +263,11 @@ const Notes = ({ path, objectId, id }) => {
     createNoteMutation.mutate(payload);
   };
 
+  useEffect(() => {
+    const portalId = getPortal().portalId
+    setImageUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/images/${objectId}/${id}`)
+  }, []);
+
   // useEffect(() => {
   //   // IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
   //   IMAGE_URL = ``;
@@ -374,6 +294,7 @@ const Notes = ({ path, objectId, id }) => {
   //     };
   //   }
   // }, [showDialog]);
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -432,7 +353,7 @@ const Notes = ({ path, objectId, id }) => {
           </p>
         </div>
         {/* <div ref={editorRef} className="editor-container"></div> */}
-        <CKEditorComponent setEditorContent={setEditorContent} />
+        <CKEditor setEditorContent={setEditorContent} api={imageUploadUrl} />
         <div className="mt-4 text-start">
           <Button
             disabled={isPosting || editorContent.trim() === ""}
