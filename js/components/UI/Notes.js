@@ -338,7 +338,7 @@ const Notes = ({ path, objectId, id }) => {
         open={showDialog}
         onClose={() => { }}
         // onClose={setShowDialog}
-        className=" relative mx-auto bg-white overflow-y-auto"
+        className=" relative mx-auto bg-white overflow-y-auto w-[50%]"
       >
         <div
           className="absolute right-3 top-2 cursor-pointer"
