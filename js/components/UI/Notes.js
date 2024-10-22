@@ -100,7 +100,7 @@ const CKEditorComponent = ({ initialData = "", setEditorContent, id = 'new' }) =
                           ]
                         },
                         "|", 
-                        "link", "uploadImage", "insertImage", "insertSvg", "|"
+                        "link", "uploadImage", "|"
                       ],
                     })
                     .then(editor => {
