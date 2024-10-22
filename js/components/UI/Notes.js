@@ -213,7 +213,7 @@ const Notes = ({ path, objectId, id }) => {
   // const editorRef = useRef(null);
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
-  const limit = 5;
+  const limit = 20;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", page],
     queryFn: async () =>
