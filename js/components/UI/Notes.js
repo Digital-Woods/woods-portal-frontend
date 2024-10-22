@@ -1,62 +1,6 @@
-let IMAGE_URL = "";
-
 const EditIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
 );
-
-// class MyUploadAdapter {
-//   constructor(loader) {
-//     this.loader = loader;
-//   }
-
-//   upload() {
-//     return this.loader.file.then(
-//       (file) =>
-//         new Promise((resolve, reject) => {
-//           const reader = new FileReader();
-
-//           reader.onloadend = () => {
-//             const base64data = reader.result.split(",")[1]; // Get base64 part
-//             const payload = {
-//               fileName: file.name,
-//               fileData: base64data,
-//             };
-//             const token = getAuthToken();
-
-//             fetch(IMAGE_URL, {
-//               method: "POST",
-//               headers: {
-//                 "Content-Type": "application/json", // Send as JSON
-//                 Authorization: `Bearer ${token}`,
-//               },
-//               body: JSON.stringify(payload), // Convert payload to JSON string
-//             })
-//               .then((response) => response.json())
-//               .then((result) => {
-//                 resolve({ default: result.data.url });
-//               })
-//               .catch((error) => {
-//                 reject(error);
-//               });
-//           };
-
-//           reader.onerror = (error) => {
-//             reject(error);
-//           };
-
-//           reader.readAsDataURL(file); // Convert file to Base64
-//         })
-//     );
-//   }
-
-//   abort() { }
-// }
-
-// function MyCustomUploadAdapterPlugin(editor) {
-//   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-//     return new MyUploadAdapter(loader);
-//   };
-// }
 
 const NoteCard = ({ note, objectId, id, api, refetch, setAlert }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -210,7 +154,6 @@ const Notes = ({ path, objectId, id }) => {
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
   const [imageUploadUrl, setImageUploadUrl] = useState("");
-  // const editorRef = useRef(null);
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
   const limit = 20;
@@ -223,9 +166,6 @@ const Notes = ({ path, objectId, id }) => {
         limit: limit,
         page: page,
       }),
-    // queryFn: async () => {
-    //   return await Client.notes.all(me, fileId, path, limit, page);
-    // },
   });
   const createNoteMutation = useMutation(
     async (newNote) => {
@@ -268,34 +208,6 @@ const Notes = ({ path, objectId, id }) => {
     setImageUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/images/${objectId}/${id}`)
   }, []);
 
-  // useEffect(() => {
-  //   // IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-  //   IMAGE_URL = ``;
-  //   // test_payload = "test_payload";
-  //   if (showDialog && editorRef.current) {
-  //     window.ClassicEditor.create(editorRef.current, {
-  //       extraPlugins: [MyCustomUploadAdapterPlugin],
-  //       toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
-  //       placeholder: "Add new note...",
-  //     })
-  //       .then((editor) => {
-  //         editor.ui.view.editable.element.style.minHeight = "200px";
-  //         editor.model.document.on("change:data", () => {
-  //           setEditorContent(editor.getData());
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //     return () => {
-  //       if (editorRef.current && editorRef.current.editor) {
-  //         editorRef.current.editor.destroy();
-  //       }
-  //     };
-  //   }
-  // }, [showDialog]);
-
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -315,7 +227,6 @@ const Notes = ({ path, objectId, id }) => {
         />
       )}
       <div className="flex justify-end mt-2 mb-6 items-center">
-        {/* <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} /> */}
         <Button className="text-white" onClick={() => setShowDialog(true)}>
           <span className="mr-2"> + </span> New Note
         </Button>
@@ -337,7 +248,6 @@ const Notes = ({ path, objectId, id }) => {
       <Dialog
         open={showDialog}
         onClose={() => { }}
-        // onClose={setShowDialog}
         className=" relative mx-auto bg-white overflow-y-auto w-[50%]"
       >
         <div
@@ -352,7 +262,6 @@ const Notes = ({ path, objectId, id }) => {
             {me.firstName}
           </p>
         </div>
-        {/* <div ref={editorRef} className="editor-container"></div> */}
         <CKEditor setEditorContent={setEditorContent} api={imageUploadUrl} />
         <div className="mt-4 text-start">
           <Button

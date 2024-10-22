@@ -47,7 +47,7 @@ const DetailsHeaderCard = ({
       {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
 
       <div className="relative flex flex-col justify-center px-4 text-white z-10">
-        <p className="text-xs font-normal text-flatGray">{displayValueSecondary}</p>
+        <p className="text-xs font-normal text-flatGray line-clamp-2">{displayValueSecondary}</p>
         <p className="text-2xl font-semibold mt-1">{clarifierName}</p>
         {showDate && <p className="text-xs text-flatGray mt-1">{date}</p>}
 
