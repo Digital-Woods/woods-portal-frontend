@@ -23,7 +23,6 @@ const DetailsHeaderCard = ({
           valueObject &&
           valueObject.isSecondaryDisplayProperty
         ) {
-          console.log('asdasdasdasd')
           displayValue2 = valueObject.value;
         }
       }

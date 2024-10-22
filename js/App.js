@@ -1,7 +1,5 @@
 const { BrowserRouter, Route, Link, HashRouter, NavLink, Switch, Redirect, useParams } = ReactRouterDOM;
 
-console.log('ReactRouterDOM', ReactRouterDOM)
-
 const queryClient = new ReactQuery.QueryClient({
   defaultOptions: {
     queries: {

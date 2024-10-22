@@ -131,7 +131,6 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                           }
                           editor.model.document.on("change:data", () => {
                             const data = editor.getData();
-                            console.log(data);
                             window.onDataChange(data);
                           });
   

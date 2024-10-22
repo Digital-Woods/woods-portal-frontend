@@ -58,7 +58,7 @@ const EditIcon = () => (
 //   };
 // }
 
-const NoteCard = ({ note, objectId, id, api }) => {
+const NoteCard = ({ note, objectId, id, api, refetch, setAlert }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState("");
@@ -93,14 +93,14 @@ const NoteCard = ({ note, objectId, id, api }) => {
     },
 
     {
-      onSuccess: () => {
+      onSuccess: (res) => {
         queryClient.invalidateQueries(["data"]);
         refetch();
-        setShowDialog(false);
         setAlert({
-          message: "Note updated successfully!",
+          message: res.statusMsg,
           type: "success",
         });
+        setIsOpenEditor(false);
       },
       onError: (error) => {
         console.error("Error creating note:", error);
@@ -237,12 +237,12 @@ const Notes = ({ path, objectId, id }) => {
     },
 
     {
-      onSuccess: () => {
+      onSuccess: (res) => {
         queryClient.invalidateQueries(["data"]);
         refetch();
         setShowDialog(false);
         setAlert({
-          message: "Note added successfully!",
+          message: res.statusMsg,
           type: "success",
         });
       },
@@ -322,7 +322,7 @@ const Notes = ({ path, objectId, id }) => {
       </div>
       {results && results.rows.length > 0 ? (
         results.rows.map((note) => (
-          <NoteCard note={note} objectId={objectId} id={id} api={imageUploadUrl} />
+          <NoteCard note={note} objectId={objectId} id={id} api={imageUploadUrl} refetch={refetch} setAlert={setAlert} />
         ))
       ) : (
         <div>No notes available.</div>
