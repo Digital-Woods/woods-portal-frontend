@@ -58,7 +58,7 @@ const EditIcon = () => (
 //   };
 // }
 
-const NoteCard = ({ note, objectId, id }) => {
+const NoteCard = ({ note, objectId, id, api }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState("");
@@ -176,7 +176,7 @@ const NoteCard = ({ note, objectId, id }) => {
             <div className="p-[24px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
-              <CKEditor initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} api='asdasdad' />
+              <CKEditor initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} api={api} />
               <div className="flex gap-x-2 mt-2">
 
                 <Button
@@ -322,7 +322,7 @@ const Notes = ({ path, objectId, id }) => {
       </div>
       {results && results.rows.length > 0 ? (
         results.rows.map((note) => (
-          <NoteCard note={note} objectId={objectId} id={id} />
+          <NoteCard note={note} objectId={objectId} id={id} api={imageUploadUrl} />
         ))
       ) : (
         <div>No notes available.</div>
