@@ -1,5 +1,3 @@
-const classNames = window.classNames;
-
 const Timeline = ({}) => {
   return (
     <ol className="relative border-s border-gray-200 dark:border-gray-700">

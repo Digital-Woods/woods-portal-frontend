@@ -1,4 +1,3 @@
-const { useMutation } = ReactQuery;
 const { z } = Zod;
 
 const registerUserValidationSchema = z.object({

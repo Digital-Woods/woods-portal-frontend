@@ -1,6 +1,3 @@
-const { useState, useRef, useEffect } = React;
-const classNames = window.classNames;
-
 const Select = ({ children, buttonText, spanText, showSpan }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);

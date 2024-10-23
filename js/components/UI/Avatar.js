@@ -1,5 +1,3 @@
-const classNames = window.classNames;
-
 const Avatar = ({ src, type='rounded-full', className }, ref) => {
 
   const avatarType = () => {

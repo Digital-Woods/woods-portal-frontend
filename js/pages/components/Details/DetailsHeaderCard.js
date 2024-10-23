@@ -1,6 +1,5 @@
 const DetailsHeaderCard = ({
   bgImageClass,
-  plantName,
   date,
   serviceName,
   following,
@@ -8,18 +7,23 @@ const DetailsHeaderCard = ({
   item,
 }) => {
   const getHeaderCardProps = (item) => {
-    let displayValue = "No PrimaryDisplayProperty";
+    let displayValue = "";
+    let displayValue2 = "";
 
     if (item) {
       for (const key of Object.keys(item)) {
         const valueObject = item[key];
         if (
           valueObject &&
-          valueObject.type === "primaryDisplayProperty" &&
-          valueObject.value
+          valueObject.isPrimaryDisplayProperty
         ) {
           displayValue = valueObject.value;
-          break;
+        }
+        if (
+          valueObject &&
+          valueObject.isSecondaryDisplayProperty
+        ) {
+          displayValue2 = valueObject.value;
         }
       }
     }
@@ -29,10 +33,11 @@ const DetailsHeaderCard = ({
       showFollowing: false,
       showServiceName: false,
       clarifierName: displayValue,
+      displayValueSecondary: displayValue2,
     };
   };
 
-  const { showDate, showFollowing, showServiceName, clarifierName } =
+  const { showDate, showFollowing, showServiceName, clarifierName, displayValueSecondary } =
     getHeaderCardProps(item);
 
   return (
@@ -42,7 +47,7 @@ const DetailsHeaderCard = ({
       {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
 
       <div className="relative flex flex-col justify-center px-4 text-white z-10">
-        <p className="text-xs font-normal text-flatGray">{plantName}</p>
+        <p className="text-xs font-normal text-flatGray line-clamp-2">{displayValueSecondary}</p>
         <p className="text-2xl font-semibold mt-1">{clarifierName}</p>
         {showDate && <p className="text-xs text-flatGray mt-1">{date}</p>}
 

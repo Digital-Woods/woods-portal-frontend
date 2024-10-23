@@ -1,4 +1,4 @@
-const ApiDetails = ({ path, id }) => {
+const ApiDetails = ({ path, objectId, id }) => {
   const [item, setItems] = useState(null);
   const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
@@ -7,28 +7,34 @@ const ApiDetails = ({ path, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const [galleryDialog, setGalleryDialog] = useState(false);
-
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
     queryFn: async () =>
       await Client.objects.byObjectId({
         path,
-        objectId: id,
+        objectId: objectId,
+        id: id,
         me: me,
       }),
     onSuccess: (data) => {
-      if (data.data) {
-        const finalData = JSON.parse(
-          JSON.stringify(sortData(data.data, "details", path))
-        );
-        setSortItems(finalData);
-      }
-      if (data.data.associations) {
-        const finalData = data.data.associations;
-        setAssociations(finalData);
-      }
-      setItems(data.data);
-      getImages(data.data);
+      const associations = data.data.associations
+      setAssociations(associations);
+      const details = data.data;
+      const sortedItems = sortData(details, 'details');
+      setItems(sortedItems);
+
+      // if (data.data) {
+      //   const finalData = JSON.parse(
+      //     JSON.stringify(sortData(data.data, "details", path))
+      //   );
+      //   setSortItems(finalData);
+      // }
+      // if (data.data.associations) {
+      //   const finalData = data.data.associations;
+      //   setAssociations(finalData);
+      // }
+      // setItems(data.data);
+      // getImages(data.data);
     },
   });
 
@@ -57,7 +63,6 @@ const ApiDetails = ({ path, id }) => {
           <div className="w-[calc(100%_-350px)] pr-4">
             <DetailsHeaderCard
               bgImageClass="bg-custom-bg"
-              plantName="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."
               date="17/01/2024"
               serviceName="AquaFlow Service"
               following="Following"
@@ -81,32 +86,37 @@ const ApiDetails = ({ path, id }) => {
                   <TabsTrigger value="notes">
                     <p className="text-black dark:text-white">Notes</p>
                   </TabsTrigger>
-                  <TabsTrigger value="photos">
+                  {/* <TabsTrigger value="photos">
                     <p className="text-black dark:text-white">Photos</p>
-                  </TabsTrigger>
+                  </TabsTrigger> */}
                 </TabsList>
 
                 <TabsContent value="overview"></TabsContent>
                 <TabsContent value="files"></TabsContent>
                 <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
-                <TabsContent value="photos"></TabsContent>
+                {/* <TabsContent value="photos"></TabsContent> */}
               </Tabs>
             </div>
 
-            {(path === "/sites" || path === "/assets") && <DetailsMapsCard />}
+            {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
 
-            {path === "/jobs" && (
+            {/* {path === "/jobs" && (
               <div className="col-span-4">
                 <DetailsTable item={item} path={path} />
               </div>
-            )}
-            {sortItems && activeTab === "overview" && (
+            )} */}
+            {/* {sortItems && activeTab === "overview" && (
               <DetailsView item={item} sortItems={sortItems} />
+            )} */}
+
+            {activeTab === "overview" && (
+              <DetailsView item={item}/>
             )}
 
-            {activeTab === "files" && <Files fileId={id} path={path} />}
 
-            {activeTab === "notes" && <Notes />}
+            {activeTab === "files" && <Files fileId={id} path={path} objectId={objectId} id={id} />}
+
+            {activeTab === "notes" && <Notes path={path} objectId={objectId} id={id} />}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
@@ -117,14 +127,17 @@ const ApiDetails = ({ path, id }) => {
           </div>
 
           <div className="w-[350px]">
-            <div className="max-h-[calc(100vh_-120px)] scrollbox pr-2 fixed w-[350px]">
+            <div className="max-h-[calc(100vh_-150px)] scrollbox pr-2 fixed w-[350px]">
               {associations &&
                 Object.entries(associations).map(
                   ([key, association], index) => (
                     <DetailsAssociations
                       key={key}
                       association={association}
-                      isActive={index == 0 ? true : false}
+                      isActive={true}
+                      parentObjectTypeName={path}
+                      parentObjectTypeId={objectId}
+                      parentObjectRowId={id}
                     />
                   )
                 )}

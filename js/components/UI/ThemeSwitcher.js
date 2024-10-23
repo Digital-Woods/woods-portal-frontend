@@ -1,5 +1,3 @@
-const { useState, useEffect } = React;
-
 const ThemeSwitcher = () => {
   const [theme, setTheme] = useState(() => {
     const urlTheme = getParam("theme");

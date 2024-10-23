@@ -30,41 +30,54 @@ class Client {
   };
 
   static files = {
-    all: (me, fileId, path) => {
-      const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    all: ({objectId, id, portalId}) => {
+      console.log('portalId', portalId)
+      console.log('objectId', objectId)
+      console.log('id', id)
+      // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}`;
       return HttpClient.get(url);
     },
-    create: (me, fileId, path, fileData) => {
-      const url = `${API_ENDPOINTS.FILE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    uploadFile: ({objectId, id, portalId, fileData}) => {
+      // const url = `${API_ENDPOINTS.FILE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}`;
       return HttpClient.post(url, fileData);
     },
-    getDetails: (me, path, fileId, postId) => {
-      const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+    getDetails: ({objectId, id, portalId, rowId}) => {
+      // const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+      const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}/${rowId}`;
       return HttpClient.get(url);
     },
     deleteafile: (me, path, fileId, postId) => {
       const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
       return HttpClient.delete(url);
     },
-    createAfolder: (me, fileId, path, fileData) => {
-      const url = `${API_ENDPOINTS.FOLDER_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    createAfolder: ({objectId, id, portalId, fileData}) => {
+      // const url = `${API_ENDPOINTS.FOLDER_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/${portalId}/hubspot-object-folders/${objectId}/${id}`;
       return HttpClient.post(url, fileData);
     },
   };
 
   static notes = {
-    all: (me, fileId, path, limit = 5, page) => {
-      const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    all: ({objectId, id, limit = 5, page}) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
       return HttpClient.get(url, {
         limit,
         page: page,
       });
     },
-    createnote: (me, fileId, path, data) => {
-      const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      return HttpClient.post(url, data);
+    createnote: ({objectId, id, note}) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
+      return HttpClient.post(url, note);
     },
-
+    updateNote: ({objectId, id, note, note_id}) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/1/hubspot-object-notes/${objectId}/${id}/${note_id}`;
+      return HttpClient.put(url, note);
+    },
     imageUpload: (me, fileId, path, data) => {
       const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       return HttpClient.post(url, data);
@@ -80,10 +93,14 @@ class Client {
       inputValue,
       page,
       me,
+      portalId,
+      hubspotObjectTypeId,
+      param,
       ...query
     }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
+        `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+        // `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
         {
           limit,
           sort,
@@ -94,9 +111,10 @@ class Client {
         }
       ),
 
-    byObjectId: ({ path, objectId, me }) =>
+    byObjectId: ({ path, objectId, id, me }) =>
       HttpClient.get(
-        `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
+        // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
+        `/api/1/hubspot-object-data/${objectId}/${id}`
       ),
   };
 

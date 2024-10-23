@@ -1,6 +1,6 @@
-const { atom, useRecoilState } = Recoil;
+// const { atom } = Recoil;
 
-const profileState = atom({
+const profileState = Recoil.atom({
   key: "profileState",
   default: {
     firstName: "",

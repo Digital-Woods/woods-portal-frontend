@@ -1,10 +1,6 @@
-const { useMutation } = ReactQuery;
-const { useForm } = ReactHookForm;
-const { z } = Zod;
-
 const Profile = ({ title, path }) => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const [personalInfo, setPersonalInfo] = Recoil.useRecoilState(profileState);
 
   const handlePersonalInfoChange = (e) => {
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });

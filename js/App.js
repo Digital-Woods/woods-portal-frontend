@@ -1,8 +1,6 @@
-const { BrowserRouter, Route, Link, HashRouter, NavLink } = ReactRouterDOM;
-const { RecoilRoot } = Recoil;
-const { QueryClientProvider, QueryClient } = ReactQuery;
+const { BrowserRouter, Route, Link, HashRouter, NavLink, Switch, Redirect, useParams } = ReactRouterDOM;
 
-const queryClient = new QueryClient({
+const queryClient = new ReactQuery.QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
@@ -12,6 +10,8 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const { RecoilRoot } = Recoil;
+  const { QueryClientProvider } = ReactQuery;
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>

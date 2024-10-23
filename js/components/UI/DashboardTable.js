@@ -25,9 +25,8 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
-
-const DashboardTable = ({ path, inputValue, title }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
+  const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -35,7 +34,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("createdAt");
+  const [sortConfig, setSortConfig] = useState("hs_createdate");
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
@@ -55,7 +54,9 @@ const DashboardTable = ({ path, inputValue, title }) => {
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    const results = data.data.results || [];
+    const results = data.data.results.rows || [];
+    const columns = data.data.results.columns || [];
+
     if (env.DATA_SOURCE_SET === true) {
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
@@ -63,24 +64,28 @@ const DashboardTable = ({ path, inputValue, title }) => {
       setCurrentTableData(foundItem.results);
       setTotalItems(foundItem.results.length || 0);
       setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
-      if (foundItem.results.length > 0) {
-        setTableHeader(sortData(foundItem.results[0], "list", title));
-      } else {
-        setTableHeader([]);
-      }
+      // if (foundItem.results.length > 0) {
+      //   setTableHeader(sortData(foundItem.results[0], "list", title));
+      // } else {
+      //   setTableHeader([]);
+      // }
     } else {
       setTableData(results);
       setTotalItems(data.data.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
-      if (results.length > 0) {
-        setTableHeader(sortData(results[0], "list", title));
-      } else {
-        setTableHeader([]);
-      }
+      // if (results.length > 0) {
+      //   setTableHeader(sortData(results[0], "list", title));
+      // } else {
+      //   setTableHeader([]);
+      // }
     }
+    setTableHeader(sortData(columns));
   };
 
+  const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
+
+  const portalId = getPortal().portalId
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
@@ -90,6 +95,8 @@ const DashboardTable = ({ path, inputValue, title }) => {
       sortConfig,
       // inputValue,
       me,
+      portalId,
+      hubspotObjectTypeId,
       filterPropertyName,
       filterOperator,
       filterValue,
@@ -105,6 +112,9 @@ const DashboardTable = ({ path, inputValue, title }) => {
           after,
         }),
         me,
+        portalId: portalId,
+        hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+        param: param,
         sort: sortConfig,
         // inputValue,
         filterPropertyName,
@@ -178,18 +188,19 @@ const DashboardTable = ({ path, inputValue, title }) => {
       ));
     }
   }, [currentTableData, currentPage, itemsPerPage]);
-  useEffect(() => {
-    if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
-  }, [inputValue]);
+  // useEffect(() => {
+  //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
+  // }, [inputValue]);
 
   useEffect(() => {
-    if (isLivePreview()) {
-      mapResponseData(fakeTableData);
-    } else if (env.DATA_SOURCE_SET == true) {
-      mapResponseData(hubSpotTableData);
-    } else {
-      getData();
-    }
+    // if (isLivePreview()) {
+    //   mapResponseData(fakeTableData);
+    // } else if (env.DATA_SOURCE_SET == true) {
+    //   mapResponseData(fakeTableData);
+    // } else {
+    //   getData();
+    // }
+    getData();
   }, []);
 
   const setDialogData = (data) => {
@@ -202,14 +213,14 @@ const DashboardTable = ({ path, inputValue, title }) => {
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-secondary text-2xl dark:text-gray-300">
+          <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
         </div>
       )}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 pt-3 text-sm">
-          <p className="text-secondary leading-5 text-sm dark:text-gray-300">
+          <p className="text-primary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
           <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
@@ -217,7 +228,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
           </span>
           <span>/</span>
           <span className="rounded-md font-medium">{totalItems}</span>
-          <p className="text-secondary font-normal text-sm dark:text-gray-300">
+          <p className="text-primary font-normal text-sm dark:text-gray-300">
             Results
           </p>
         </div>
@@ -231,17 +242,17 @@ const DashboardTable = ({ path, inputValue, title }) => {
             <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  {tableHeader.map((item) => (
+                  {tableHeader.map((column) => (
                     <TableHead
-                      key={item.name}
+                      key={column.key}
                       className="whitespace-nowrap dark:text-white cursor-pointer"
-                      onClick={() => handleSort(item.name)}
+                      onClick={() => handleSort(column.key)}
                     >
-                      <div className="flex items-center">
+                      <div className="flex columns-center">
                         <span className="font-semibold text-xs">
-                          {item.label}
+                          {column.value}
                         </span>
-                        {sortConfig === item.name && (
+                        {sortConfig === column.key && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 -960 960 960"
@@ -251,7 +262,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
                             <path d="m280-400 200-200 200 200H280Z" />
                           </svg>
                         )}
-                        {sortConfig === `-${item.name}` && (
+                        {sortConfig === `-${column.key}` && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 -960 960 960"
@@ -272,19 +283,20 @@ const DashboardTable = ({ path, inputValue, title }) => {
               <TableBody>
                 {tableData.map((item) => (
                   <TableRow key={item.id}>
-                    {tableHeader.map((row) => (
+                    {tableHeader.map((column) => (
                       <TableCell
-                        key={row.name}
+                        key={column.value}
                         className="whitespace-nowrap border-b"
                       >
                         <div className="dark:text-white">
-                          {renderCellContent(
-                            row.name
+                          {/* {renderCellContent(
+                            column.value
                               .split(".")
                               .reduce((o, k) => (o || {})[k], item),
                             item.id,
                             path
-                          )}
+                          )} */}
+                          {renderCellContent(item[column.key], column, item.hs_object_id, path == '/association' ? `/${getParam('objectTypeName')}` : path, path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId)}
                         </div>
                       </TableCell>
                     ))}
@@ -293,7 +305,7 @@ const DashboardTable = ({ path, inputValue, title }) => {
                         <div className="flex items-center space-x-2 gap-x-5">
                           <Link
                             className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
-                            to={`${path}/${item.id}`}
+                            to={`${path}/${hubspotObjectTypeId}/${item.id}`}
                           >
                             View Details
                           </Link>

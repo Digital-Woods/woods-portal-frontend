@@ -1,11 +1,11 @@
-const Details = ({ path, id }) => {
+const Details = ({ path, objectId, id }) => {
 
   return (
     <div>
       {env.DATA_SOURCE_SET !== true ? (
-        <ApiDetails path={path} id={id} />
+        <ApiDetails objectId={objectId} path={path} id={id} />
       ) : (
-        <ModuleDetails path={path} id={id} />
+        <ModuleDetails objectId={objectId} path={path} id={id} />
       )
       }
     </div>

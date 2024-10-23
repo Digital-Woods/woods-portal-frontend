@@ -1,23 +1,10 @@
-const { useState, useEffect, useRef } = React;
-
-const NavLink = ({ to, className, activeClassName, children }) => {
-  return (
-    <a
-      href={to}
-      className={`block hover:bg-primary p-3 hover:text-cleanWhite rounded-md no-underline ${className}`}
-    >
-      {children}
-    </a>
-  );
-};
-
 const HeaderLayout = ({ title, path }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
-  const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
+  const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
+  const [personalInfo, setPersonalInfo] = Recoil.useRecoilState(profileState);
 
   const { me, getMe } = useMe();
   const loggedInDetails = useRecoilValue(userDetailsAtom);

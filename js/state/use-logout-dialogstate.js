@@ -1,6 +1,6 @@
-const { atom, useRecoilState } = Recoil;
+// const { atom } = Recoil;
 
-const logoutDialogState = atom({
+const logoutDialogState = Recoil.atom({
   key: "logoutDialogState",
   default: false,
 });

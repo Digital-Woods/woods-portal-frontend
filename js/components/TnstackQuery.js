@@ -1,5 +1,3 @@
-const { useQuery } = ReactQuery;
-
 const TnstackQuery = () => {
   const { error, data, isLoading } = useQuery({
     queryKey: ["userData"],

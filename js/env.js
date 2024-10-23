@@ -4,6 +4,7 @@ const env = {
   // API_BASE_URL: "https://dev.digitalwoods.io",
   LOGIN_DETAILS: "testLogin",
   TWO_FA: "testTWOFA",
+  PORTAL: "portal",
   AUTH_TOKEN_KEY: "testToken",
   AUTH_USER_KEY: "testUser",
   AUTH_PORTAL_KEY: "portalSettings",

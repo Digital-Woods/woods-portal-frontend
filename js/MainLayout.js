@@ -1,13 +1,13 @@
-const { useSetRecoilState } = Recoil;
+const { useState, useEffect, useRef } = React;
+const { useMutation, useQuery } = ReactQuery;
 
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
-  const { me, getMe } = useMe();
-  const [showPortalMessage, setShowPortalMessage] = useState(false);
+  const [showPortalMessage, setShowPortalMessage] = React.useState(false);
   const loggedInDetails = useRecoilValue(userDetailsAtom);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
   useSetColors();
 
@@ -46,59 +46,142 @@ const MainLayout = ({ children }) => {
     },
   ];
 
+  // useEffect(() => {
+  //   let userDetails = null;
+
+  //   if (isLivePreview()) {
+  //     userDetails = fakeUserDetails;
+  //   } else if (dataSourceSet == true) {
+  //     userDetails = fakeUserDetails;
+  //   } else {
+  //     userDetails = loggedInDetails || me;
+  //   }
+
+  //   if (userDetails && userDetails.hubspotPortals) {
+  //     if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
+  //       const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
+  //         path: `/${menuItem.name}`,
+  //         title: menuItem.labels.plural,
+  //         icon: menuItem.icon,
+  //         isRequiredAuth: true,
+  //         isHeader: true,
+  //         component: (
+  //           <DynamicComponent
+  //             path={`/${menuItem.name}`}
+  //             title={menuItem.labels.plural}
+  //             icon={menuItem.icon}
+  //           />
+  //         ),
+  //       }));
+
+  //       setRoutes(apiRoutes);
+  //     } else {
+  //       setRoutes([
+  //         {
+  //           path: "/no-routes",
+  //           title: "No Routes Found",
+
+  //           isRequiredAuth: false,
+  //           isHeader: false,
+  //           component: (
+  //             <div className="text-center p-10">
+  //               <h2>No Navigation Available</h2>
+  //               <p>Please check back later.</p>
+  //             </div>
+  //           ),
+  //         },
+  //       ]);
+  //     }
+  //     setIsLoading(false);
+  //   } else if (userDetails && !userDetails.hubspotPortals) {
+  //     setShowPortalMessage(true);
+  //     setIsLoading(false);
+  //   }
+  // }, [loggedInDetails, me, setRoutes]);
+
   useEffect(() => {
-    let userDetails = null;
-
-    if (isLivePreview()) {
-      userDetails = fakeUserDetails;
-    } else if (dataSourceSet == true) {
-      userDetails = hubSpotUserDetails;
-      setIsLoading(false);
-    } else {
-      userDetails = loggedInDetails || me;
-    }
-
-    if (userDetails && userDetails.hubspotPortals) {
-      if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
-        const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
-          path: `/${menuItem.name}`,
-          title: menuItem.labels.plural,
-          icon: menuItem.icon,
-          isRequiredAuth: true,
-          isHeader: true,
-          component: (
-            <DynamicComponent
-              path={`/${menuItem.name}`}
-              title={menuItem.labels.plural}
-              icon={menuItem.icon}
-            />
-          ),
-        }));
-
-        setRoutes(apiRoutes);
-      } else {
-        setRoutes([
+    const sideMenu = [
+      {
+        "name": "CONTACT",
+        "labels": {
+          "singular": "Contact",
+          "plural": "Contacts"
+        },
+        "hubspotObjectId": 1,
+        "hubspotObjectTypeId": "0-1",
+        "children": [
           {
-            path: "/no-routes",
-            title: "No Routes Found",
-
-            isRequiredAuth: false,
-            isHeader: false,
-            component: (
-              <div className="text-center p-10">
-                <h2>No Navigation Available</h2>
-                <p>Please check back later.</p>
-              </div>
-            ),
+            "name": "cabins",
+            "labels": {
+              "singular": "Cabin",
+              "plural": "Cabins"
+            },
+            "hubspotObjectId": 5,
+            "hubspotObjectTypeId": "2-35357275",
+            "children": [
+              {
+                "name": "equipements",
+                "labels": {
+                  "singular": "Equipement",
+                  "plural": "Equipements"
+                },
+                "hubspotObjectId": 8,
+                "hubspotObjectTypeId": "2-35388777",
+                "children": []
+              },
+              {
+                "name": "assets",
+                "labels": {
+                  "singular": "Asset",
+                  "plural": "Assets"
+                },
+                "hubspotObjectId": 7,
+                "hubspotObjectTypeId": "2-35364163",
+                "children": []
+              }
+            ]
           },
-        ]);
+          {
+            "name": "departments",
+            "labels": {
+              "singular": "Department",
+              "plural": "Departments"
+            },
+            "hubspotObjectId": 6,
+            "hubspotObjectTypeId": "2-35357263",
+            "children": []
+          }
+        ]
       }
-      setIsLoading(false);
-    } else if (userDetails && !userDetails.hubspotPortals) {
-      setShowPortalMessage(true);
-      setIsLoading(false);
-    }
-  }, [loggedInDetails, me, setRoutes]);
+    ]
+    const apiRoutes = sideMenu[0].children.map((menuItem) => ({
+      hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
+      path: `/${menuItem.name}`,
+      title: menuItem.labels.plural,
+      icon: menuItem.icon,
+      isRequiredAuth: true,
+      isHeader: true,
+      component: (
+        <DynamicComponent
+          hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
+          path={`/${menuItem.name}`}
+          title={menuItem.labels.plural}
+          icon={menuItem.icon}
+        />
+      ),
+    }));
+
+    setRoutes(apiRoutes);
+    setIsLoading(false);
+  }, []);
+
+  // const getRouteDetails = (path) => {
+  //   console.log('route', routes)
+  //   console.log('path', path)
+  //   const result = routes.find(item => item.path === `/${path}`);
+  //   console.log('result', result)
+  //   return result
+  // }
 
   if (isLoading) {
     return (
@@ -216,6 +299,7 @@ const MainLayout = ({ children }) => {
                       icon={routes[0].icon}
                     />
                     <DynamicComponent
+                      hubspotObjectTypeId={routes[0].hubspotObjectTypeId}
                       path={routes[0].path}
                       title={routes[0].title}
                       icon={routes[0].icon}
@@ -223,11 +307,12 @@ const MainLayout = ({ children }) => {
                   </React.Fragment>
                 )}
               />
+
               {/* Details Routs */}
-              {routes.map(({ path, title, icon }) => (
+              {/* {routes.map(({ path, title, icon }) => (
                 <PrivateRoute
-                  key={`${path}/:id`}
-                  path={`${path}/:id`}
+                  key={`${path}/:object_id/:id`}
+                  path={`${path}/:object_id/:id`}
                   component={(props) => (
                     <React.Fragment>
                       <HeaderLayout
@@ -236,14 +321,49 @@ const MainLayout = ({ children }) => {
                         title={`${title}`}
                         icon={icon}
                       />
-                      <Details path={path} id={props.match.params.id} />
+                      <Details path={path} objectId={props.match.params.object_id} id={props.match.params.id} />
                     </React.Fragment>
                   )}
                 />
-              ))}
+              ))} */}
+              <PrivateRoute
+                path={`/:path/:object_id/:id`}
+                component={(props) => (
+                  <React.Fragment>
+                    {/* {console.log('props', props.match.params.path)} */}
+                    <HeaderLayout
+                      {...props}
+                      path={`/${props.match.params.path}`}
+                      title={props.match.params.path}
+                      icon={``}
+                    />
+                    <Details path={props.match.params.path} objectId={props.match.params.object_id} id={props.match.params.id} />
+                  </React.Fragment>
+                )}
+              />
+
+              {/* Association Routs */}
+              <PrivateRoute
+                key={`association`}
+                path={`/association`}
+                component={(props) => (
+                  <React.Fragment>
+                    <HeaderLayout
+                      {...props}
+                      path={`/association`}
+                      title={`Association`}
+                    />
+                    <DynamicComponent
+                      {...props}
+                      path={`/association`}
+                      title={`Association`}
+                    />
+                  </React.Fragment>
+                )}
+              />
 
               {/* List Routs */}
-              {routes.map(({ path, title, icon }) => (
+              {routes.map(({ hubspotObjectTypeId, path, title, icon }) => (
                 <PrivateRoute
                   key={path}
                   path={path}
@@ -257,6 +377,7 @@ const MainLayout = ({ children }) => {
                       />
                       <DynamicComponent
                         {...props}
+                        hubspotObjectTypeId={hubspotObjectTypeId}
                         path={path}
                         title={`${title}`}
                         icon={icon}
@@ -265,6 +386,26 @@ const MainLayout = ({ children }) => {
                   )}
                 />
               ))}
+
+              {/* <PrivateRoute
+                path={`/:path`}
+                component={(props) => (
+                  <React.Fragment>
+                    <HeaderLayout
+                      {...props}
+                      path={`/${props.match.params.path}`}
+                      title={getRouteDetails(props.match.params.path).title}
+                    />
+                    {console.log('props', props.match.params.path)}
+                    <DynamicComponent
+                      {...props}
+                      hubspotObjectTypeId={getRouteDetails(props.match.params.path).hubspotObjectTypeId}
+                      path={`/${props.match.params.path}`}
+                      title={getRouteDetails(props.match.params.path).title}
+                    />
+                  </React.Fragment>
+                )}
+              /> */}
 
               <Redirect to="/login" />
             </Switch>

@@ -20,6 +20,13 @@ const setTwoFa = async (data, days = env.COOKIE_EXPIRE) => {
   });
 };
 
+const setPortal = async (data, days = env.COOKIE_EXPIRE) => {
+  return new Promise((resolve) => {
+    setCookie(env.PORTAL, JSON.stringify(data), days);
+    resolve();
+  });
+};
+
 // Get
 const getAuthCredentials = () => {
   return JSON.parse(getCookie(env.AUTH_TOKEN_KEY));
@@ -31,6 +38,10 @@ const getLoggedInDetails = () => {
 
 const getTwoFa = () => {
   return JSON.parse(getCookie(env.TWO_FA));
+};
+
+const getPortal = () => {
+  return JSON.parse(getCookie(env.PORTAL));
 };
 
 // Reuse functions

@@ -1,16 +1,3 @@
-const { useMutation } = ReactQuery;
-const { useForm } = ReactHookForm;
-const { z } = Zod;
-
-const NavLink = ({ to, className, activeClassName, children }) => (
-  <a
-    href={to}
-    className={`block hover:bg-primary p-3 hover:text-white rounded-md no-underline ${className}`}
-  >
-    {children}
-  </a>
-);
-
 const emailIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -36,6 +23,7 @@ const passwordIcon = () => (
 );
 
 const ForgetPassword = () => {
+  const { z } = Zod;
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const resetPasswordValidationSchema = z.object({

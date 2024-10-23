@@ -1,84 +1,188 @@
-let IMAGE_URL = "";
+const EditIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
+);
 
-class MyUploadAdapter {
-  constructor(loader) {
-    this.loader = loader;
-  }
-
-  upload() {
-    return this.loader.file.then(
-      (file) =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
-
-          reader.onloadend = () => {
-            const base64data = reader.result.split(",")[1]; // Get base64 part
-            const payload = {
-              fileName: file.name,
-              fileData: base64data,
-            };
-            const token = getAuthToken();
-
-            fetch(IMAGE_URL, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json", // Send as JSON
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(payload), // Convert payload to JSON string
-            })
-              .then((response) => response.json())
-              .then((result) => {
-                resolve({ default: result.data.url });
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          };
-
-          reader.onerror = (error) => {
-            reject(error);
-          };
-
-          reader.readAsDataURL(file); // Convert file to Base64
-        })
-    );
-  }
-
-  abort() {}
-}
-
-function MyCustomUploadAdapterPlugin(editor) {
-  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-    return new MyUploadAdapter(loader);
-  };
-}
-const Notes = ({ fileId, path }) => {
-  const [showDialog, setShowDialog] = useState(false);
-  const { me } = useMe();
+const NoteCard = ({ note, objectId, id, api, refetch, setAlert }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState("");
-  const editorRef = useRef(null);
-  const [page, setPage] = useState(1);
-  const [alert, setAlert] = useState(null);
-  const limit = 5;
-  const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ["data", fileId, page],
-    queryFn: async () => {
-      return await Client.notes.all(me, fileId, path, limit, page);
-    },
-  });
-  const createNoteMutation = useMutation(
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString();
+  };
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+  const CloseIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
+  );
+  const OpenIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" /></svg>
+  );
+
+  const openEditor = () => {
+
+  }
+
+  const updateNoteMutation = useMutation(
     async (newNote) => {
-      return await Client.notes.createnote(me, fileId, path, newNote);
+      return await Client.notes.updateNote({
+        objectId: objectId,
+        id: id,
+        note: newNote,
+        note_id: note.hs_object_id,
+      });
     },
 
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["data", fileId]);
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["data"]);
+        refetch();
+        setAlert({
+          message: res.statusMsg,
+          type: "success",
+        });
+        setIsOpenEditor(false);
+      },
+      onError: (error) => {
+        console.error("Error creating note:", error);
+        setAlert({
+          message: "Failed to upload the note.",
+          type: "error",
+        });
+      },
+    }
+  );
+  const { isLoading: isLoadingUpdate } = updateNoteMutation;
+  const handleUpdateNote = () => {
+    const payload = {
+      noteBody: editorContent,
+    };
+    updateNoteMutation.mutate(payload);
+  };
+
+  return (
+    <div key={note.hs_object_id} className="mt-2">
+      <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => {
+        setIsOpen(!isOpen);
+        setIsOpenEditor(false)
+      }
+      }>
+        <div >
+          <div className="flex items-center">
+            <div>
+              {isOpen ?
+                <OpenIcon />
+                :
+                <CloseIcon />
+              }
+            </div>
+            <div className="flex justify-between items-center w-full">
+              <p className="text-sm font-semibold whitespace-nowrap">
+                Note
+              </p>
+              <div>
+                <p className="text-gray-400 text-xs">
+                  <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
+                  {formatTime(note.hs_createdate)}
+                </p>
+              </div>
+            </div>
+          </div>
+          {!isOpenEditor ?
+            <div className={`p-[24px] ${!isOpen ? '' : 'border border-[#fff] hover:border-blue-500 hover:bg-gray-100 rounded-md relative group cursor-text'}`}
+              onClick={(e) => {
+
+                if (isOpen) {
+                  e.stopPropagation();
+                  setIsOpenEditor(true);
+                  openEditor()
+                }
+              }}
+            >
+              <div className={!isOpen ? 'relative line-clamp-2' : ''}>
+                <span>
+                  {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
+                </span>
+                <div
+                  size="32"
+                  opacity="1"
+                  className={!isOpen ? 'text-shadow' : ''}
+                ></div>
+              </div>
+              <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <EditIcon />
+              </div>
+            </div>
+            :
+            <div className="p-[24px] cursor-text"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CKEditor initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} api={api} />
+              <div className="flex gap-x-2 mt-2">
+
+                <Button
+                  disabled={isLoadingUpdate}
+                  onClick={handleUpdateNote}
+                  className="text-white"
+                  size="sm"
+                >
+                  {isLoadingUpdate ? "Updating..." : "Save"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setIsOpenEditor(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const Notes = ({ path, objectId, id }) => {
+  const [showDialog, setShowDialog] = useState(false);
+  const { me } = useMe();
+  const [editorContent, setEditorContent] = useState("");
+  const [imageUploadUrl, setImageUploadUrl] = useState("");
+  const [page, setPage] = useState(1);
+  const [alert, setAlert] = useState(null);
+  const limit = 20;
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ["data", page],
+    queryFn: async () =>
+      await Client.notes.all({
+        objectId: objectId,
+        id: id,
+        limit: limit,
+        page: page,
+      }),
+  });
+  const createNoteMutation = useMutation(
+    async (newNote) => {
+      return await Client.notes.createnote({
+        objectId: objectId,
+        id: id,
+        note: newNote
+      });
+    },
+
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["data"]);
         refetch();
         setShowDialog(false);
         setAlert({
-          message: "Note uploaded successfully!",
+          message: res.statusMsg,
           type: "success",
         });
       },
@@ -98,39 +202,12 @@ const Notes = ({ fileId, path }) => {
     };
     createNoteMutation.mutate(payload);
   };
+
   useEffect(() => {
-    IMAGE_URL = `${env.API_BASE_URL}${API_ENDPOINTS.IMAGE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-    // test_payload = "test_payload";
-    if (showDialog && editorRef.current) {
-      window.ClassicEditor.create(editorRef.current, {
-        extraPlugins: [MyCustomUploadAdapterPlugin],
-        toolbar: ["heading", "|", "bold", "italic", "|", "uploadImage"],
-        placeholder: "Add new note...",
-      })
-        .then((editor) => {
-          editor.ui.view.editable.element.style.minHeight = "200px";
-          editor.model.document.on("change:data", () => {
-            setEditorContent(editor.getData());
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      return () => {
-        if (editorRef.current && editorRef.current.editor) {
-          editorRef.current.editor.destroy();
-        }
-      };
-    }
-  }, [showDialog]);
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString();
-  };
-  const formatTime = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
+    const portalId = getPortal().portalId
+    setImageUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/images/${objectId}/${id}`)
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -150,55 +227,13 @@ const Notes = ({ fileId, path }) => {
         />
       )}
       <div className="flex justify-end mt-2 mb-6 items-center">
-        {/* <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} /> */}
         <Button className="text-white" onClick={() => setShowDialog(true)}>
           <span className="mr-2"> + </span> New Note
         </Button>
       </div>
-      {results && results.length > 0 ? (
-        results.map((note) => (
-          <div key={note.id} className="mt-5">
-            {/* <p className="text-xs font-semibold">
-              {formatDate(note.createdAt)}
-            </p> */}
-            <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm">
-              <div className="flex justify-between items-center mb-4">
-                <div className="w-[40px] flex gap-x-2 items-center">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="20px"
-                      viewBox="0 -960 960 960"
-                      width="20px"
-                      className="fill-primary dark:fill-white"
-                    >
-                      <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60Zm-77.69 310Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z" />
-                    </svg>
-                  </div>
-                  <p className="text-sm font-semibold whitespace-nowrap">
-                    Note
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-400 text-xs">
-                    <span className="mr-1"> {formatDate(note.createdAt)} </span>
-                    {formatTime(note.createdAt)}
-                  </p>
-                </div>
-              </div>
-              <div>
-                {ReactHtmlParser.default(DOMPurify.sanitize(note.noteBody))}
-              </div>
-              <div className="flex justify-end items-center">
-                <div className="flex gap-x-2">
-                  <PinIcon />
-                  <CopyIcon />
-                  <DeleteIcon />
-                  <ThreeDotIcon />
-                </div>
-              </div>
-            </div>
-          </div>
+      {results && results.rows.length > 0 ? (
+        results.rows.map((note) => (
+          <NoteCard note={note} objectId={objectId} id={id} api={imageUploadUrl} refetch={refetch} setAlert={setAlert} />
         ))
       ) : (
         <div>No notes available.</div>
@@ -212,9 +247,8 @@ const Notes = ({ fileId, path }) => {
       )}
       <Dialog
         open={showDialog}
-        onClose={() => {}}
-        // onClose={setShowDialog}
-        className=" relative mx-auto bg-white overflow-y-auto"
+        onClose={() => { }}
+        className=" relative mx-auto bg-white overflow-y-auto w-[50%]"
       >
         <div
           className="absolute right-3 top-2 cursor-pointer"
@@ -228,7 +262,7 @@ const Notes = ({ fileId, path }) => {
             {me.firstName}
           </p>
         </div>
-        <div ref={editorRef} className="editor-container"></div>
+        <CKEditor setEditorContent={setEditorContent} api={imageUploadUrl} />
         <div className="mt-4 text-start">
           <Button
             disabled={isPosting || editorContent.trim() === ""}

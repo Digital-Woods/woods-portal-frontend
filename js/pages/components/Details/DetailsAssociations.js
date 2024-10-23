@@ -1,4 +1,4 @@
-const DetailsAssociations = ({ association, isActive }) => {
+const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, parentObjectRowId, parentObjectTypeName }) => {
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -17,7 +17,7 @@ const DetailsAssociations = ({ association, isActive }) => {
           <span>
             {association.labels.plural}
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
-              {association.count}
+              {association.total}
             </span>
           </span>
         </div>
@@ -25,41 +25,49 @@ const DetailsAssociations = ({ association, isActive }) => {
 
       <AccordionDetails>
         <div className="flex flex-col py-2">
-          {association.count === 0 ? (
-            <div className="p-2 dark:bg-dark-300 bg-white rounded-md text-xs font-semibold dark:text-white">
+          {association.total === 0 ? (
+            <div className="p-2 dark:bg-dark-300 rounded-md text-xs font-semibold dark:text-white">
               See the {association.labels.plural} associated with this record.
             </div>
           ) : (
-            association.list &&
-            association.list.length > 0 && (
-              <div className="px-2 dark:bg-dark-300 bg-white rounded-md dark:text-white">
-                {association.list.map((item, index) => (
+            association.data &&
+            association.data.length > 0 && (
+              <div className="dark:bg-dark-300 rounded-md dark:text-white">
+                {association.data.map((item, index) => (
                   <div
                     key={index}
-                    className="mb-2 border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
+                    className="mb-2"
                   >
-                    {sortData(item, "associations", association.label).map(
-                      (row) => (
-                        <div key={row.name} className="py-2 flex">
-                          <div className="text-xs font-semibold w-[100px]">
-                            {checkEquipmentsName(row.label, association.labels.plural)}:
-                          </div>
-                          <div className="text-xs text-gray-500 flex-1">
-                            {renderCellContent(
-                              item[row.name],
-                              item.id,
-                              `/${association.featureName}`
-                            )}
-                          </div>
-                        </div>
-                      )
-                    )}
+                    <div
+                      className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
+                    >
+                      <table>
+                        {item &&
+                          sortData(item, 'associations').map((value, index) => (
+                            <tr key={value.key}>
+                              <td className="pr-1 text-sm whitespace-nowrap align-top">{value.label}:</td>
+                              <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, item.hs_object_id.value, `/${association.labels.plural}`, association.objectTypeId, 'associations')}</td>
+                            </tr>
+                          ))}
+                      </table>
+
+                    </div>
                   </div>
                 ))}
               </div>
             )
           )}
         </div>
+        {association.hasMore &&
+          <div className="text-right mb-2">
+            <Link
+              className="text-lightblue font-bold border-input rounded-md text-xs whitespace-nowrap"
+              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
+            >
+              Show more {association.labels.plural}
+            </Link>
+          </div>
+        }
       </AccordionDetails>
     </Accordion>
   );

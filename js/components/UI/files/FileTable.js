@@ -1,4 +1,4 @@
-const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
+const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id }) => {
   const [selectedFileId, setSelectedFileId] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [alert, setAlert] = useState({ message: "", type: "", show: false });
@@ -9,13 +9,16 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
 
   const { me } = useMe();
 
+  const portalId = getPortal().portalId
   const {
     data: fileDetails,
     isLoading,
     isError,
   } = useQuery(
     ["fileDetails", selectedFileId, path, me],
-    () => Client.files.getDetails(me, path, selectedFileId, fileId),
+    () => Client.files.getDetails({
+      objectId, id, portalId, rowId: selectedFileId
+    }),
     {
       enabled: !!selectedFileId,
       onSuccess: (data) => {
@@ -27,35 +30,35 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
     }
   );
 
-  const deleteFileMutation = useMutation(
-    (file) => Client.files.deleteafile(me, path, file.id, fileId),
-    {
-      onMutate: (file) => {
-        setLoadingFileId(file.id);
-        setAlert({ message: "Deleting file...", type: "info", show: true });
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries(["fileDetails"]);
-        console.log("File deleted successfully");
-        refetch();
-        setAlert({
-          message: "File deleted successfully!",
-          type: "success",
-          show: true,
-        });
-        setLoadingFileId(null);
-      },
-      onError: (error) => {
-        console.error("Error deleting file:", error);
-        setAlert({
-          message: "Error deleting file!",
-          type: "error",
-          show: true,
-        });
-        setLoadingFileId(null);
-      },
-    }
-  );
+  // const deleteFileMutation = useMutation(
+  //   (file) => Client.files.deleteafile(me, path, file.id, fileId),
+  //   {
+  //     onMutate: (file) => {
+  //       setLoadingFileId(file.id);
+  //       setAlert({ message: "Deleting file...", type: "info", show: true });
+  //     },
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries(["fileDetails"]);
+  //       console.log("File deleted successfully");
+  //       refetch();
+  //       setAlert({
+  //         message: "File deleted successfully!",
+  //         type: "success",
+  //         show: true,
+  //       });
+  //       setLoadingFileId(null);
+  //     },
+  //     onError: (error) => {
+  //       console.error("Error deleting file:", error);
+  //       setAlert({
+  //         message: "Error deleting file!",
+  //         type: "error",
+  //         show: true,
+  //       });
+  //       setLoadingFileId(null);
+  //     },
+  //   }
+  // );
 
   const handleRowClick = (file) => {
     if (file.type === "folder") {
@@ -73,7 +76,9 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
     e.stopPropagation();
     // Fetch file details
     Client.files
-      .getDetails(me, path, file.id, fileId)
+      .getDetails({
+        objectId, id, portalId, rowId: file.id
+      })
       .then((fileDetails) => {
         const downloadUrl = fileDetails.data.url; // Get the download URL
         window.open(downloadUrl, "_blank"); // Open the URL in a new tab
@@ -105,6 +110,20 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
   const closeAlert = () => {
     setAlert((prev) => ({ ...prev, show: false }));
   };
+
+  const dropdownRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const renderFiles = (files) => {
     if (!files || files.length === 0) {
@@ -148,13 +167,14 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                 Actions
               </button>
               {activeDropdown === index && (
-                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50" ref={dropdownRef}>
                   {file.type === "folder" ? (
                     <button
                       className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleFolder(file);
+                        setActiveDropdown(null);
                       }}
                     >
                       Open
@@ -167,19 +187,20 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                           e.stopPropagation();
                           setSelectedFileId(file.id);
                           toggleDropdown(index);
+                          setActiveDropdown(null);
                         }}
                       >
                         Details
                       </button>
                       <button
                         className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
-                        onClick={(e) => handleDownload(file, e)}
+                        onClick={(e) => { handleDownload(file, e); setActiveDropdown(null) }}
                       >
                         Download
                       </button>
                     </div>
                   )}
-                  <button
+                  {/* <button
                     className="block w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
                     onClick={(e) => handleTrash(file, e)}
                     disabled={loadingFileId === file.id}
@@ -208,7 +229,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
                     ) : (
                       "Delete"
                     )}
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>
@@ -250,7 +271,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
         />
       )}
 
-      <Dialog
+      {/* <Dialog
         open={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         className="w-full max-w-lg"
@@ -282,7 +303,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch }) => {
             </Button>
           </div>
         </div>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

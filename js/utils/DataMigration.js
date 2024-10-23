@@ -24,15 +24,15 @@ const formatDateString = (date) => {
 };
 
 const formatDate = (data) => {
-  if (isDate(data)) {
-    const date = new Date(data);
-    const formatted = formatDateString(date);
-    const [datePart, timePart] = formatted.split(", ");
-    const [day, month, year] = datePart.split("/");
-    const formattedLocalDate = `${day}-${month}-${year} ${timePart.toLowerCase()}`;
-    return formattedLocalDate;
-  }
-  return data;
+  // if (isDate(data)) {
+  const date = new Date(data);
+  const formatted = formatDateString(date);
+  const [datePart, timePart] = formatted.split(", ");
+  const [day, month, year] = datePart.split("/");
+  const formattedLocalDate = `${day}-${month}-${year} ${timePart.toLowerCase()}`;
+  return formattedLocalDate;
+  // }
+  // return data;
 };
 
 function isNull(data) {
@@ -116,181 +116,265 @@ const checkEquipmentsName = (value, title) => {
   return value;
 };
 
-const sortData = (item, viewType = "list", title = "") => {
-  if (!item || !isObject(item)) return [];
+const filterAssociationsData = (obj) => {
+  const filtered = Object.fromEntries(
+    Object.entries(obj).filter(([key, value]) =>
+      value.isPrimaryDisplayProperty === true || value.isSecondaryDisplayProperty === true
+    )
+  );
+  return filtered;
+};
 
-  const fields = Object.keys(item);
+const sortData = (list, type = 'list') => {
+  if (type == 'list' || type == 'details') delete list.associations
+  if (type == 'associations') list = filterAssociationsData(list)
+  let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key })) : list
 
-  const imageFields = [];
-  const simpleFields = [];
-  const objectFields = [];
-  const hsFields = [];
-  const nameFields = [];
+  // Sorting function
+  data.sort((a, b) => {
+    // 1. Key "hs_object_id" comes first
+    if (a.key === "hs_object_id") return -1;
+    if (b.key === "hs_object_id") return 1;
 
-  fields.forEach((key) => {
-    switch (viewType) {
-      case "details":
-        if (keysToSkipDetails(key)) return;
-        break;
-      case "associations":
-        if (keysToSkipAssociations(key)) return;
-        break;
-      default:
-        if (keysToSkipList(key)) return;
-    }
+    // 2. "isPrimaryDisplayProperty: true" comes next
+    if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
+    if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
 
-    const value = item[key];
+    // 3. "isSecondaryDisplayProperty: true" comes next
+    if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty) return -1;
+    if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
 
-    if (
-      isObject(value) &&
-      value.associateWith &&
-      value.detailPageHidden == (viewType == "details")
-    ) {
-      return;
-    }
+    // 4. Items where both "isPrimaryDisplayProperty" and "isSecondaryDisplayProperty" are false,
+    // excluding "hs_object_id", "hs_createdate", and "hs_lastmodifieddate"
+    const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate"];
+    const aCondition = !a.isPrimaryDisplayProperty && !a.isSecondaryDisplayProperty && !excludeKeys.includes(a.key);
+    const bCondition = !b.isPrimaryDisplayProperty && !b.isSecondaryDisplayProperty && !excludeKeys.includes(b.key);
 
-    if (typeof value === "string" &&  (value, key)) {
-      imageFields.push({
-        name: key,
-        label: checkEquipments(
-          key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-          title
-        ),
-        value: value,
-      });
-    } else if (key.startsWith("hs_")) {
-      hsFields.push({
-        name: key,
-        label: key
-          .replace(/^hs_/, "Hs ")
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()),
-        value: value,
-      });
-    } else if (isObject(value) && value.associateWith) {
-      objectFields.push({
-        name: key,
-        label: checkEquipments(value.headerLabel, title),
-        value: value.headerLabel,
-      });
-    } else if (isObject(value)) {
-      // Check if it's a field with a 'name' property and push accordingly
-      if (value.key) {
-        nameFields.push({
-          name: key,
-          label: checkEquipments(
-            value.key
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (char) => char.toUpperCase()),
-            title
-          ),
-          value: value.value,
-        });
-      } else {
-        // Skip objects that don't have a 'name' or similar property
-      }
-    } else {
-      simpleFields.push({
-        name: key,
-        label: checkEquipments(
-          key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-          title
-        ),
-        value: value,
-      });
-    }
+    if (aCondition && !bCondition) return -1;
+    if (!aCondition && bCondition) return 1;
+
+    // 5. "key: hs_createdate" should come next
+    if (a.key === "hs_createdate") return -1;
+    if (b.key === "hs_createdate") return 1;
+
+    // 6. "key: hs_lastmodifieddate" should come last
+    if (a.key === "hs_lastmodifieddate") return -1;
+    if (b.key === "hs_lastmodifieddate") return 1;
+
+    // Maintain original order if no conditions matched
+    return 0;
   });
 
-  // Sort and concatenate
-  const sortedFields = [
-    ...imageFields,
-    ...nameFields,
-    ...simpleFields,
-    ...objectFields,
-    ...hsFields,
-  ];
+  return data;
+}
 
-  return sortedFields;
-};
+// const sortData = (item, viewType = "list", title = "") => {
+//   if (!item || !isObject(item)) return [];
 
-const renderCellContent = (value, itemId = null, path = null) => {
-  switch (true) {
-    case (isObject(value) && isEmptyObject(value)) || isNull(value):
-      return "-";
+//   const fields = Object.keys(item);
 
-    case isObject(value) && value.type === "link": {
-      const label = value.labels ? value.labels : value.featureName;
-      const { truncated, isTruncated } = truncateString(label.plural || "");
+//   const imageFields = [];
+//   const simpleFields = [];
+//   const objectFields = [];
+//   const hsFields = [];
+//   const nameFields = [];
 
-      return isTruncated ? (
-        <Tooltip right content={label.plural}>
-          <Link
-            className="text-secondary font-bold border-input rounded-md"
-            to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-          >
-            {truncated}
-          </Link>
-        </Tooltip>
-      ) : (
-        <Link
-          className="text-secondary font-bold border-input rounded-md"
-          to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-        >
-          {label.plural}
-        </Link>
-      );
-    }
+//   fields.forEach((key) => {
+//     switch (viewType) {
+//       case "details":
+//         if (keysToSkipDetails(key)) return;
+//         break;
+//       case "associations":
+//         if (keysToSkipAssociations(key)) return;
+//         break;
+//       default:
+//         if (keysToSkipList(key)) return;
+//     }
 
-    case isObject(value) && value.type === "primaryDisplayProperty": {
-      const { truncated, isTruncated } = truncateString(value.value || "");
+//     const value = item[key];
 
-      return isTruncated ? (
-        <Tooltip content={value.value}>
-          <Link
-            className="text-secondary font-bold border-input rounded-md"
-            to={`${path}/${itemId}`}
-          >
-            {truncated}
-          </Link>
-        </Tooltip>
-      ) : (
-        <Link
-          className="text-secondary font-bold border-input rounded-md"
-          to={`${path}/${itemId}`}
-        >
-          {value.value}
-        </Link>
-      );
-    }
+//     if (
+//       isObject(value) &&
+//       value.associateWith &&
+//       value.detailPageHidden == (viewType == "details")
+//     ) {
+//       return;
+//     }
 
-    case isImage(value): {
-      let urlArray = typeof value === "string" ? value.split(",") : [];
-      return urlArray.length > 0 ? (
-        <img
-          src={urlArray[0]}
-          alt={urlArray[0]}
-          className="w-10 h-10 rounded"
-        />
-      ) : null;
-    }
+//     if (typeof value === "string" &&  (value, key)) {
+//       imageFields.push({
+//         name: key,
+//         label: checkEquipments(
+//           key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
+//           title
+//         ),
+//         value: value,
+//       });
+//     } else if (key.startsWith("hs_")) {
+//       hsFields.push({
+//         name: key,
+//         label: key
+//           .replace(/^hs_/, "Hs ")
+//           .replace(/_/g, " ")
+//           .replace(/\b\w/g, (char) => char.toUpperCase()),
+//         value: value,
+//       });
+//     } else if (isObject(value) && value.associateWith) {
+//       objectFields.push({
+//         name: key,
+//         label: checkEquipments(value.headerLabel, title),
+//         value: value.headerLabel,
+//       });
+//     } else if (isObject(value)) {
+//       // Check if it's a field with a 'name' property and push accordingly
+//       if (value.key) {
+//         nameFields.push({
+//           name: key,
+//           label: checkEquipments(
+//             value.key
+//               .replace(/_/g, " ")
+//               .replace(/\b\w/g, (char) => char.toUpperCase()),
+//             title
+//           ),
+//           value: value.value,
+//         });
+//       } else {
+//         // Skip objects that don't have a 'name' or similar property
+//       }
+//     } else {
+//       simpleFields.push({
+//         name: key,
+//         label: checkEquipments(
+//           key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
+//           title
+//         ),
+//         value: value,
+//       });
+//     }
+//   });
 
-    case isDate(value):
-      return formatDate(value);
+//   // Sort and concatenate
+//   const sortedFields = [
+//     ...imageFields,
+//     ...nameFields,
+//     ...simpleFields,
+//     ...objectFields,
+//     ...hsFields,
+//   ];
 
-    default: {
-      const cellContent = isObject(value)
-        ? JSON.stringify(value)
-        : String(value);
-      const { truncated, isTruncated } = truncateString(cellContent);
+//   return sortedFields;
+// };
 
-      return isTruncated ? (
-        <Tooltip content={cellContent}>{truncated}</Tooltip>
-      ) : (
-        truncated
-      );
-    }
+const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list') => {
+  if (type != 'details' && column && column.isPrimaryDisplayProperty) {
+    return (
+      <Link
+        className="text-primary font-bold border-input rounded-md"
+        to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+      >
+        {value}
+      </Link>
+    )
   }
-};
+  if (column && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
+    return formatDate(value);
+  }
+  if (!value) {
+    return '--';
+  }
+  if(isObject(value)) return '-------';
+
+  const { truncated, isTruncated } = truncateString(value || "");
+  return  type == 'list' && isTruncated ?
+    <Tooltip right content={value}>
+      <Link
+        className="text-primary"
+      >
+        {truncated}
+      </Link>
+    </Tooltip>
+    :
+    value
+}
+
+// const renderCellContent = (value, itemId = null, path = null) => {
+//   switch (true) {
+//     case (isObject(value) && isEmptyObject(value)) || isNull(value):
+//       return "-";
+
+//     case isObject(value) && value.type === "link": {
+//       const label = value.labels ? value.labels : value.featureName;
+//       const { truncated, isTruncated } = truncateString(label.plural || "");
+
+//       return isTruncated ? (
+//         <Tooltip right content={label.plural}>
+//           <Link
+//             className="text-secondary font-bold border-input rounded-md"
+//             to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+//           >
+//             {truncated}
+//           </Link>
+//         </Tooltip>
+//       ) : (
+//         <Link
+//           className="text-secondary font-bold border-input rounded-md"
+//           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
+//         >
+//           {label.plural}
+//         </Link>
+//       );
+//     }
+
+//     case isObject(value) && value.type === "primaryDisplayProperty": {
+//       const { truncated, isTruncated } = truncateString(value.value || "");
+
+//       return isTruncated ? (
+//         <Tooltip content={value.value}>
+//           <Link
+//             className="text-secondary font-bold border-input rounded-md"
+//             to={`${path}/${itemId}`}
+//           >
+//             {truncated}
+//           </Link>
+//         </Tooltip>
+//       ) : (
+//         <Link
+//           className="text-secondary font-bold border-input rounded-md"
+//           to={`${path}/${itemId}`}
+//         >
+//           {value.value}
+//         </Link>
+//       );
+//     }
+
+//     case isImage(value): {
+//       let urlArray = typeof value === "string" ? value.split(",") : [];
+//       return urlArray.length > 0 ? (
+//         <img
+//           src={urlArray[0]}
+//           alt={urlArray[0]}
+//           className="w-10 h-10 rounded"
+//         />
+//       ) : null;
+//     }
+
+//     case isDate(value):
+//       return formatDate(value);
+
+//     default: {
+//       const cellContent = isObject(value)
+//         ? JSON.stringify(value)
+//         : String(value);
+//       const { truncated, isTruncated } = truncateString(cellContent);
+
+//       return isTruncated ? (
+//         <Tooltip content={cellContent}>{truncated}</Tooltip>
+//       ) : (
+//         truncated
+//       );
+//     }
+//   }
+// };
 
 // function setColorsFromMe() {
 //   // Default colors
