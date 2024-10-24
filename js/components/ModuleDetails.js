@@ -14,7 +14,7 @@ const ModuleDetails = ({ path, id }) => {
 
   const result = objList.find((item) => item.name === headerPath);
 
-  let listData = result ? result.results : [];
+  let listData = result ? result.results.rows : [];
 
   useEffect(() => {
     if (Array.isArray(objList) && objList.length > 0) {
@@ -46,7 +46,6 @@ const ModuleDetails = ({ path, id }) => {
   const getImages = (data) => {
     if (data && data.images) {
       let urlArray = data.images.split(",");
-      console.log(urlArray, 'urlArray');
       setImages(urlArray);
     } else {
       setImages([]);
@@ -56,7 +55,6 @@ const ModuleDetails = ({ path, id }) => {
   const getFilesUrl = (data) => {
     if (data && data.files) {
       let urlArray = data.files.split(",");
-      console.log(urlArray, 'urlArray');
       setFilesUrl(urlArray);
     } else {
       setFilesUrl([]);

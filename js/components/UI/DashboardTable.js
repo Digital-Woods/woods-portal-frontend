@@ -54,22 +54,31 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    const results = data.data.results.rows || [];
-    const columns = data.data.results.columns || [];
+console.log(data,'data');
+    // const results = data.data.results.rows || [];
+    // const columns = data.data.results.columns || [];
+
 
     if (env.DATA_SOURCE_SET === true) {
+      const results = data.data.results || [];
+
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
       });
-      setCurrentTableData(foundItem.results);
-      setTotalItems(foundItem.results.length || 0);
-      setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
-      // if (foundItem.results.length > 0) {
-      //   setTableHeader(sortData(foundItem.results[0], "list", title));
-      // } else {
-      //   setTableHeader([]);
-      // }
+console.log(foundItem,'foundItem hello');
+
+      setCurrentTableData(foundItem.results.rows);
+      setTotalItems(foundItem.results.rows.length || 0);
+      setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
+      if (foundItem.results.rows.length > 0) {
+        setTableHeader(sortData(foundItem.results.columns));
+      } else {
+        setTableHeader([]);
+      }
+
     } else {
+      const results = data.data.results.rows || [];
+      const columns = data.data.results.columns || [];
       setTableData(results);
       setTotalItems(data.data.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
@@ -79,13 +88,16 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       // } else {
       //   setTableHeader([]);
       // }
+      setTableHeader(sortData(columns));
     }
-    setTableHeader(sortData(columns));
   };
 
   const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
-
-  const portalId = getPortal().portalId
+  console.log(env.DATA_SOURCE_SET, 'env.DATA_SOURCE_SET');
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
@@ -93,7 +105,6 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       itemsPerPage,
       after,
       sortConfig,
-      // inputValue,
       me,
       portalId,
       hubspotObjectTypeId,
@@ -106,17 +117,12 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         path,
         limit: itemsPerPage || 10,
         page: currentPage,
-        // after,
-        ...(after &&
-          after.length > 0 && {
-          after,
-        }),
+        ...(after && after.length > 0 && { after }),
         me,
-        portalId: portalId,
-        hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+        portalId,
+        hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         param: param,
         sort: sortConfig,
-        // inputValue,
         filterPropertyName,
         filterOperator,
         filterValue,
@@ -132,6 +138,9 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       setTableData([]);
     },
   });
+
+
+
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
@@ -193,14 +202,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   // }, [inputValue]);
 
   useEffect(() => {
-    // if (isLivePreview()) {
-    //   mapResponseData(fakeTableData);
-    // } else if (env.DATA_SOURCE_SET == true) {
-    //   mapResponseData(fakeTableData);
-    // } else {
-    //   getData();
-    // }
-    getData();
+    if (env.DATA_SOURCE_SET != true) {
+      getData();
+    }else{
+      mapResponseData(hubSpotTableData);
+    }
   }, []);
 
   const setDialogData = (data) => {
@@ -210,14 +216,14 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
 
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
-      {isLoading && <div className="loader-line"></div>}
+      {/* {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
         </div>
-      )}
+      )} */}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 pt-3 text-sm">
           <p className="text-primary leading-5 text-sm dark:text-gray-300">

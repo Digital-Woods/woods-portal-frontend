@@ -1,4 +1,3 @@
-<script src="https://cdn.tailwindcss.com"></script>
 {% if request_contact.is_logged_in %}
 
 {% set contact_id = request.contact.contact_vid %}
@@ -6,13 +5,6 @@
 "firstname,lastname,email,phone,file_name,file_url,chart_value,chart_label,music_player,line_chart" ) %}
 {% set fileNames = loggedInUser.file_name | split(",")%}
 {% set fileURL = loggedInUser.file_url | split(",")%}
-{% set podCasts = loggedInUser.music_player %}
-{% set lineChart = loggedInUser.line_chart %}
-
-{% set chartLabels = loggedInUser.chart_label | split(",")%}
-{% set chartValues = loggedInUser.chart_value | split(",")%}
-
-{% set iframeDatas = [] %}
 
 {% for i in range(fileNames|length) %}
 {% set name = fileNames[i] %}
@@ -28,16 +20,12 @@
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
-name: item.list_object_name,
-labels:{
-singular: objName | capitalize | replace("_"," "),
-plural: objName | capitalize | replace("_"," "),
-},
+label: item.list_object_name,
 icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-associateObjectTypeId: item.association_object_type_id,
+hubspotObjectTypeId: item.association_object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "HUBSPOT_DEFINED",
 }) %}
@@ -53,16 +41,12 @@ objectType: "HUBSPOT_DEFINED",
   <path d="M4 6H20M4 12H14M4 18H9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 </svg>' %}
 {% do dynamicRouteList.append({
-name: item.list_object_name,
-labels:{
-singular: objName | capitalize| replace("_"," "),
-plural: objName | capitalize | replace("_"," "),
-},
+label: item.list_object_name,
 icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-associateObjectTypeId: item.association_object_type_id,
+hubspotObjectTypeId: item.association_object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "USER_DEFINED",
 }) %}
@@ -73,16 +57,42 @@ objectType: "USER_DEFINED",
 
 
 {% set objectList = [] %}
-{# routelist loop #}
 
-{% for route in dynamicRouteList %}
-
-{% set objList = crm_associations(contact_id, route.objectType, route.associateObjectTypeId, "limit=100",
-route.listObjectProperties) %}
-{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.associateObjectTypeId, assoc_objectType:
-route.objectType, assoc_properties: route.associateObjectProperties, results: objList.results}) %}
-
-{% endfor %}
+  {# Routelist loop #}
+  {% for route in dynamicRouteList %}
+  
+      {# Get the associated CRM objects #}
+      {% set objList = crm_associations(contact_id, route.objectType, route.hubspotObjectTypeId, "limit=100", route.listObjectProperties) %}
+  
+        {% set objColumns = [] %}
+          {# Loop through the results of objList #}
+          {% for item in objList.results %}
+          
+              {# Loop through each key-value pair in the item, ensuring the key exists and is not null #}
+              {% for key, val in item.items() %}
+                  {# Check if the key is not already in objColumns #}
+                  {% if not objColumns | selectattr("key", "equalto", key) | list %}
+                      {% do objColumns.append({
+                      "key": key,
+                      "value": key | title,
+                      "isPrimaryDisplayProperty": false,
+                      "isSecondaryDisplayProperty": false
+                      }) %}
+                  {% endif %}
+              {% endfor %}
+          {% endfor %}
+  
+      {# Append the data to objectList with objColumns and objList #}
+      {% do objectList.append({
+          "name": route.listObjectName,
+          "assoc_objectTypeId": route.hubspotObjectTypeId,
+          "assoc_objectType": route.objectType,
+          "assoc_properties": route.associateObjectProperties,
+          "results": {columns: objColumns, rows: objList.results}
+      }) %}
+  
+  {% endfor %}
+  
 
 
 {% else %}
@@ -91,80 +101,104 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
 <div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
   <p>
-    You’re in the Membership Module editor preview. Before publishing, ensure
-    that the Preview Membership Dashboard is disabled.
+    Please disable the preview and complete the setup before publishing.
   </p>
 </div>
 
 {% if module.see_documentation == "false" %}
-
-{% set contact_id = '56942039428' %}
-{% set loggedInUser = crm_object('contact', contact_id,"firstname,lastname,email,phone,file_name,file_url,chart_value,chart_label,music_player,line_chart" ) %}
+{% set id_contact = module.contact_id.contact_id %}
+{% set contact_id = id_contact|string %}
+{% set loggedInUser = {
+  "firstname": "John",
+  "id": 42416077044,
+  "email": "example@demo.net",
+  "lastname": "Doe"
+}
+ %}
 {% set fileNames = loggedInUser.file_name | split(",")%}
 {% set fileURL = loggedInUser.file_url | split(",")%}
-{% set podCasts = loggedInUser.music_player %}
-{% set lineChart = loggedInUser.line_chart %}
+{% set dynamicRouteList = [
+  {
+    "label": "contact",
+    "icon": "",
+    "listObjectName": "contact",
+    "listObjectProperties": [
+      "firstname",
+      "lastname",
+      "email",
+      "phone",
+      "chart_value",
+      "images",
+      "files"
+    ],
+    "associateObjectName": null,
+    "hubspotObjectTypeId": 449,
+    "associateObjectProperties": null,
+    "objectType": "HUBSPOT_DEFINED"
+  },
+  {
+    "label": "deals",
+    "icon": "",
+    "listObjectName": "deals",
+    "listObjectProperties": [
+      "dealname",
+      "dealstage",
+      "amount",
+      "closedate",
+      "hubspot_owner_id"
+    ],
+    "associateObjectName": null,
+    "hubspotObjectTypeId": 4,
+    "associateObjectProperties": null,
+    "objectType": "HUBSPOT_DEFINED"
+  },
+  {
+    "label": "company",
+    "icon": "",
+    "listObjectName": "company",
+    "listObjectProperties": [
+      "name",
+      "state",
+      "address",
+      "domain",
+      "hubspot_owner_id",
+      "description",
+      "industry"
+    ],
+    "associateObjectName": null,
+    "hubspotObjectTypeId": 279,
+    "associateObjectProperties": null,
+    "objectType": "HUBSPOT_DEFINED"
+  },
+  {
+    "label": "ticket",
+    "icon": "",
+    "listObjectName": "ticket",
+    "listObjectProperties": [
+      "subject",
+      "hs_pipeline"
+    ],
+    "associateObjectName": null,
+    "hubspotObjectTypeId": 15,
+    "associateObjectProperties": null,
+    "objectType": "HUBSPOT_DEFINED"
+  },
+  {
+    "label": "p_custom_objects",
+    "icon": "",
+    "listObjectName": "p_custom_objects",
+    "listObjectProperties": [
+      "object_name",
+      "object_created_by"
+    ],
+    "associateObjectName": null,
+    "hubspotObjectTypeId": 20,
+    "associateObjectProperties": null,
+    "objectType": "HUBSPOT_DEFINED"
+  }
+]
 
-{% set chartLabels = loggedInUser.chart_label | split(",")%}
-{% set chartValues = loggedInUser.chart_value | split(",")%}
-
-{% set iframeDatas = [] %}
-
-{% for i in range(fileNames|length) %}
-{% set name = fileNames[i] %}
-{% set url = fileURL[i] %}
-{% do iframeDatas.append({'name': name, 'url': url}) %}
-{% endfor %}
-
-
-{% set dynamicRouteList = [] %}
-
-{% if module.hubspot_defined_object %}
-{% for item in module.objects %}
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicRouteList.append({
-name: item.list_object_name,
-labels:{
-singular: objName | capitalize | replace("_"," "),
-plural: objName | capitalize | replace("_"," "),
-},
-icon: item.icon_svg_code,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-associateObjectTypeId: item.association_object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "HUBSPOT_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-
-{% if module.hubspot_custom_object %}
-{% for item in module.hubspot_custom_objects %}
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% set svgIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M4 6H20M4 12H14M4 18H9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-</svg>' %}
-{% do dynamicRouteList.append({
-name: item.list_object_name,
-labels:{
-singular: objName | capitalize| replace("_"," "),
-plural: objName | capitalize | replace("_"," "),
-},
-icon: item.icon_svg_code,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-associateObjectTypeId: item.association_object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "USER_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
+ %}
 
 
 
@@ -173,9 +207,46 @@ objectType: "USER_DEFINED",
 
 {% for route in dynamicRouteList %}
 
-{% set objList = crm_associations(contact_id, route.objectType, route.associateObjectTypeId, "limit=100",
-route.listObjectProperties) %}
-{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.associateObjectTypeId, assoc_objectType:
+{% set objList = {
+  "has_more": false,
+  "offset": 5,
+  "total": 5,
+  "results": [
+    {
+      "firstname": "Alice",
+      "id": 12345678901,
+      "email": "alice@example.com"
+    },
+    {
+      "firstname": "Bob",
+      "id": 23456789012,
+      "email": "bob@example.com"
+    },
+    {
+      "firstname": "Charlie",
+      "id": 34567890123,
+      "email": "charlie@example.com"
+    },
+    {
+      "firstname": "David",
+      "id": 45678901234,
+      "email": "david@example.com"
+    },
+    {
+      "firstname": "Eve",
+      "id": 56789012345,
+      "email": "eve@example.com"
+    }
+  ]
+},
+{
+  "has_more": false,
+  "offset": 0,
+  "total": 0,
+  "results": []
+}
+%}
+{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.hubspotObjectTypeId, assoc_objectType:
 route.objectType, assoc_properties: route.associateObjectProperties, results: objList.results}) %}
 
 {% endfor %}
@@ -183,7 +254,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 {% else %}
 
 <div class="max-w-screen-xl mx-auto flex gap-[5rem] bg-[#fff] px-5 py-12">
-  <div class="flex-1">
+  <div class="w-2/3 mx-auto">
     <div class="flex gap-4 items-center mb-10">
       <div class="max-w-[150px]">
         <img class="w-full" src="{{ get_asset_url('../../images/documentation-png.png') }}" />
@@ -193,7 +264,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
         <p class="text-gray-600">
           Here you will find all the information you need regarding our CRM and you
           can also ask for
-          <a href="#" class="text-[#006AF5] hover:underline text-sm">support</a>
+          <button onclick='openLink("support@digitalwoods.io")' class="text-[#006AF5] hover:underline text-sm">support@digitalwoods.io</button>
         </p>
       </div>
     </div>
@@ -224,9 +295,9 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
             </p>
           </div>
           <ul class="list-none p-0">
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <li class="flex items-start gap-2">
+              <span class="mt-[5px]">
+                <svg width="16" height="18" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
                     fill="#A5B3D9" />
@@ -238,11 +309,11 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
                     fill="#A5B3D9" />
                 </svg>
               </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Funnels</a>
+              <button onclick='openLink("https://digitalwoods.io/blog/step-by-step-guide-to-building-a-hubspot-membership-site")' class="text-[#006AF5] hover:underline text-start text-base">How to Build a HubSpot Membership Site</button>
             </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <li class="flex items-start gap-2">
+              <span class="mt-[5px]">
+                <svg width="16" height="18" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
                     fill="#A5B3D9" />
@@ -254,29 +325,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
                     fill="#A5B3D9" />
                 </svg>
               </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Tracking Software</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Clients</a>
+              <button onclick='openLink("https://digitalwoods.io/blog/building-your-hubspot-membership-portal-step-by-step-guide-to-module-setup")' class="text-[#006AF5] text-start hover:underline text-base">Setting Up Your HubSpot Membership Portal: A Step-by-Step Guide</button>
             </li>
           </ul>
         </div>
       </div>
 
-      <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
+      <!-- <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
         <div>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -350,10 +405,10 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
 
-    <div class="grid grid-cols-2 gap-5 mb-10">
+    <!-- <div class="grid grid-cols-2 gap-5 mb-10">
       <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
         <div>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -506,52 +561,54 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
     <div class="flex justify-between gap-5 mb-10">
       <div class="w-1/2">
         <h3 class="text-lg font-bold mb-5">
-          Popular Articles <span class="text-[#006AF5]">★</span>
+          How to set up Membership Portal?<span class="text-[#006AF5]">★</span>
         </h3>
-        <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <button onclick='openLink("https://digitalwoods.net/meetings/saurav4/website")' class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+          Book a Meeting
+        </button>
+        <!-- <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           How to set up Membership Portal
-        </a>
-        <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
-          How to set up Membership Portal
-        </a>
+        </a> -->
       </div>
 
       <div class="w-1/2">
         <h3 class="text-lg font-bold mb-5">
-          New Articles
+          Our other Applications
         </h3>
-        <a href="#" class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <button onclick='openLink("https://hub.digitalwoods.io")' 
+          class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+          Find latest Apps,Themes nad Modules
+          <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
+            New
+          </span>
+        </button>
+        <!-- <a href="#"
+          class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           How to set up Membership Portal
           <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
             New
           </span>
-        </a>
-        <a href="#" class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
-          How to set up Membership Portal
-          <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
-            New
-          </span>
-        </a>
+        </a> -->
       </div>
     </div>
 
-    <div class="flex justify-between gap-5">
-      <button id="showPreviewButton" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
+    <div class="flex justify-end gap-5">
+      <!-- <button id="showPreviewButton" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
         Preview
-      </button>
-      <button class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
+      </button> -->
+      <button onclick='openLink("https://app.dev.one.digitalwoods.io/login")' class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
         Switch to Woods Portal
       </button>
     </div>
   </div>
 
-  <div class="w-1/3 p-4 rounded-lg bg-[#FBFBFB]">
+  <!-- <div class="w-1/3 p-4 rounded-lg bg-[#FBFBFB]">
     <h2 class="text-2xl font-bold mb-4">How to set up Membership Portal</h2>
     <div id="video-dis" class="bg-black rounded-lg overflow-hidden shadow-lg mb-5">
       <iframe id="display-frame" src="" title="YouTube video player" frameborder="0"
@@ -570,7 +627,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
       <div id="vli-videos"></div>
     </div>
-  </div>
+  </div> -->
 </div>
 
 
@@ -580,6 +637,14 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
 
 <script>
+
+function openLink(target) {
+    if (target.includes("@")) {
+      window.location.href = `mailto:${target}`;
+    } else {
+      window.open(target, "_blank");
+    }
+  }
 
   let testData = {{ dynamicRouteList | tojson | safe }};
   let sidebarCta = {
@@ -613,4 +678,6 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
   let PodCastsEpisodes = {{ podCasts | safe || [] }};
   let lineChartDatas = {{ lineChart | safe || [] }};
   let dataSource = {{ module.hubspot_data_source }};
+
+  console.log(objList,'objList');
 </script>
