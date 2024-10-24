@@ -54,7 +54,6 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   }, [location.search]);
 
   const mapResponseData = (data) => {
-console.log(data,'data');
     // const results = data.data.results.rows || [];
     // const columns = data.data.results.columns || [];
 
@@ -65,8 +64,6 @@ console.log(data,'data');
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
       });
-console.log(foundItem,'foundItem hello');
-
       setCurrentTableData(foundItem.results.rows);
       setTotalItems(foundItem.results.rows.length || 0);
       setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);

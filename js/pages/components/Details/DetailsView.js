@@ -1,6 +1,6 @@
 const DetailsView = ({ item }) => {
   // const [viewDialog, setViewDialog] = useState(false);
-
+console.log(item,'DetailsView item');
   return (
     <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table>
@@ -8,7 +8,7 @@ const DetailsView = ({ item }) => {
           item.map((value, index) => (
             <tr key={value.key}>
               <td className="py-2 pr-1 text-sm font-semibold whitespace-nowrap align-top">{value.label}:</td>
-              <td className="py-2 pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, null, null, null, 'details')}</td>
+              <td className="py-2 pl-1 text-sm text-gray-500 dark:text-white align-top">{renderCellContent(value.value, value, null, null, null, 'details')}</td>
             </tr>
           ))}
       </table>

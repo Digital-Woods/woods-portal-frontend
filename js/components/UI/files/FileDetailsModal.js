@@ -18,16 +18,6 @@ const FileDetailsModal = ({ file, onClose }) => {
   };
 
   const handleDownload = () => {
-    // if (file.data.type == "IMG") {
-    //   const link = document.createElement('a'); // Create an anchor element
-    //   link.href = "https://cdn.britannica.com/22/187222-050-07B17FB6/apples-on-a-tree-branch.jpg"; // Set the href to the image URL
-    //   link.setAttribute('download', "apples-on-a-tree-branch.jpg"); // Set the download attribute with the desired filename
-    //   document.body.appendChild(link); // Append the link to the body
-    //   link.click(); // Trigger the download
-    //   document.body.removeChild(link); // Remove the link from the body
-    // } else {
-    //   window.open(file.data.url, "_blank");
-    // }
     window.open(file.data.url, "_blank");
   };
 
@@ -86,7 +76,7 @@ const FileDetailsModal = ({ file, onClose }) => {
                 </div>
               ) : (
                 <iframe
-                  src={file.data.url}
+                  src={`${file.data.url}#toolbar=0`}
                   title={file.data.name}
                   className="w-full h-[271px] border-0 rounded-lg shadow-md"
                   frameBorder="0"
@@ -99,39 +89,39 @@ const FileDetailsModal = ({ file, onClose }) => {
                 <table className="w-full table-auto">
                   <tbody>
                     <tr>
-                      <td className="pr-1 text-sm whitespace-nowrap align-top">
+                      <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
                         Type:
                       </td>
-                      <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.type}</td>
+                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.type}</td>
                     </tr>
                     <tr>
-                      <td className="pr-1 text-sm whitespace-nowrap align-top">
+                      <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
                         Size:
                       </td>
-                      <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.size}</td>
+                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.size}</td>
                     </tr>
                     {file.data.width &&
                       <tr>
-                        <td className="pr-1 text-sm whitespace-nowrap align-top">
+                        <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
                           Width:
                         </td>
-                        <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.width}</td>
+                        <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.width}</td>
                       </tr>
                     }
                     {file.data.height &&
                       <tr>
-                        <td className="pr-1 text-sm whitespace-nowrap align-top">
+                        <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
                           Height:
                         </td>
-                        <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.height}</td>
+                        <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.height}</td>
                       </tr>
                     }
                     {file.data.extension &&
                       <tr>
-                        <td className="pr-1 text-sm whitespace-nowrap align-top">
+                        <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
                           Extension:
                         </td>
-                        <td className="pl-1 text-sm text-gray-500 align-top" >{file.data.extension}</td>
+                        <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.extension}</td>
                       </tr>
                     }
                   </tbody>
