@@ -54,22 +54,28 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    const results = data.data.results.rows || [];
-    const columns = data.data.results.columns || [];
+    // const results = data.data.results.rows || [];
+    // const columns = data.data.results.columns || [];
+
 
     if (env.DATA_SOURCE_SET === true) {
+      const results = data.data.results || [];
+
       const foundItem = results.find((item) => {
         return item.name === path.replace("/", "");
       });
-      setCurrentTableData(foundItem.results);
-      setTotalItems(foundItem.results.length || 0);
-      setItemsPerPage(foundItem.results.length > 0 ? itemsPerPage : 0);
-      // if (foundItem.results.length > 0) {
-      //   setTableHeader(sortData(foundItem.results[0], "list", title));
-      // } else {
-      //   setTableHeader([]);
-      // }
+      setCurrentTableData(foundItem.results.rows);
+      setTotalItems(foundItem.results.rows.length || 0);
+      setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
+      if (foundItem.results.rows.length > 0) {
+        setTableHeader(sortData(foundItem.results.columns));
+      } else {
+        setTableHeader([]);
+      }
+
     } else {
+      const results = data.data.results.rows || [];
+      const columns = data.data.results.columns || [];
       setTableData(results);
       setTotalItems(data.data.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
@@ -79,13 +85,17 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       // } else {
       //   setTableHeader([]);
       // }
+      setTableHeader(sortData(columns));
     }
-    setTableHeader(sortData(columns));
   };
 
   const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
+  // const portalId = getPortal().portalId
 
-  const portalId = getPortal().portalId
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
@@ -93,7 +103,6 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       itemsPerPage,
       after,
       sortConfig,
-      // inputValue,
       me,
       portalId,
       hubspotObjectTypeId,
@@ -106,17 +115,12 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         path,
         limit: itemsPerPage || 10,
         page: currentPage,
-        // after,
-        ...(after &&
-          after.length > 0 && {
-          after,
-        }),
+        ...(after && after.length > 0 && { after }),
         me,
-        portalId: portalId,
-        hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+        portalId,
+        hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         param: param,
         sort: sortConfig,
-        // inputValue,
         filterPropertyName,
         filterOperator,
         filterValue,
@@ -132,6 +136,9 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       setTableData([]);
     },
   });
+
+
+
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
@@ -159,7 +166,6 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         currentPage * itemsPerPage
       ));
     } else {
-      // Fetch new sorted data from API if `env.DATA_SOURCE_SET !== true`
       getData();
     }
   };
@@ -193,14 +199,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   // }, [inputValue]);
 
   useEffect(() => {
-    // if (isLivePreview()) {
-    //   mapResponseData(fakeTableData);
-    // } else if (env.DATA_SOURCE_SET == true) {
-    //   mapResponseData(fakeTableData);
-    // } else {
-    //   getData();
-    // }
-    getData();
+    if (env.DATA_SOURCE_SET != true) {
+      getData();
+    }else{
+      mapResponseData(hubSpotTableData);
+    }
   }, []);
 
   const setDialogData = (data) => {

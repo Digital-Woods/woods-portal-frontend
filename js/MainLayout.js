@@ -10,7 +10,9 @@ const MainLayout = ({ children }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
   useSetColors();
-
+  const formatPath = (key) => {
+    return key.replace(/\s+/g, '-').replace(/\b\w/g, (l) => l.toLowerCase());
+  };
   const defaultRoutes = [
     {
       path: `/login`,
@@ -98,7 +100,6 @@ const MainLayout = ({ children }) => {
   //     setIsLoading(false);
   //   }
   // }, [loggedInDetails, me, setRoutes]);
-
   useEffect(() => {
     const sideMenu = [
       {
@@ -109,63 +110,66 @@ const MainLayout = ({ children }) => {
         },
         "hubspotObjectId": 1,
         "hubspotObjectTypeId": "0-1",
-        "children": [
-          {
-            "name": "cabins",
-            "labels": {
-              "singular": "Cabin",
-              "plural": "Cabins"
-            },
-            "hubspotObjectId": 5,
-            "hubspotObjectTypeId": "2-35357275",
-            "children": [
-              {
-                "name": "equipements",
-                "labels": {
-                  "singular": "Equipement",
-                  "plural": "Equipements"
-                },
-                "hubspotObjectId": 8,
-                "hubspotObjectTypeId": "2-35388777",
-                "children": []
-              },
-              {
-                "name": "assets",
-                "labels": {
-                  "singular": "Asset",
-                  "plural": "Assets"
-                },
-                "hubspotObjectId": 7,
-                "hubspotObjectTypeId": "2-35364163",
-                "children": []
-              }
-            ]
-          },
-          {
-            "name": "departments",
-            "labels": {
-              "singular": "Department",
-              "plural": "Departments"
-            },
-            "hubspotObjectId": 6,
-            "hubspotObjectTypeId": "2-35357263",
-            "children": []
-          }
-        ]
+        "children": hubSpotUserDetails.sideMenu,
+        // "children": [
+        //   {
+        //     "name": "cabins",
+        //     "labels": {
+        //       "singular": "Cabin",
+        //       "plural": "Cabins"
+        //     },
+        //     "hubspotObjectId": 5,
+        //     "hubspotObjectTypeId": "2-35357275",
+        //     "children": [
+        //       {
+        //         "name": "equipements",
+        //         "labels": {
+        //           "singular": "Equipement",
+        //           "plural": "Equipements"
+        //         },
+        //         "hubspotObjectId": 8,
+        //         "hubspotObjectTypeId": "2-35388777",
+        //         "children": []
+        //       },
+        //       {
+        //         "name": "assets",
+        //         "labels": {
+        //           "singular": "Asset",
+        //           "plural": "Assets"
+        //         },
+        //         "hubspotObjectId": 7,
+        //         "hubspotObjectTypeId": "2-35364163",
+        //         "children": []
+        //       }
+        //     ]
+        //   },
+        //   {
+        //     "name": "departments",
+        //     "labels": {
+        //       "singular": "Department",
+        //       "plural": "Departments"
+        //     },
+        //     "hubspotObjectId": 6,
+        //     "hubspotObjectTypeId": "2-35357263",
+        //     "children": []
+        //   }
+        // ]
       }
     ]
+
+    console.log(sideMenu, 'Sidebar menus');
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
-      path: `/${menuItem.name}`,
-      title: menuItem.labels.plural,
+      path: `/${formatPath(menuItem.label)}`,
+      title: menuItem.label,
       icon: menuItem.icon,
       isRequiredAuth: true,
       isHeader: true,
       component: (
         <DynamicComponent
           hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
-          path={`/${menuItem.name}`}
-          title={menuItem.labels.plural}
+          path={`/${formatPath(menuItem.label)}`}
+          title={menuItem.label}
           icon={menuItem.icon}
         />
       ),

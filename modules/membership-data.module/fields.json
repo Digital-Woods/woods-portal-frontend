@@ -12,9 +12,9 @@
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
   "display_width" : null,
-  "label" : "Preview Membership Dashboard",
-  "help_text" : "If you are in the page editor, you can enable the preview to see the design. Once all edits are complete, please ensure the preview is disabled.",
-  "inline_help_text" : "Developer Parse Only",
+  "label" : "Enable Dashboard Preview",
+  "help_text" : "",
+  "inline_help_text" : "Please disable the preview before Publishing",
   "required" : false,
   "locked" : false,
   "display" : "toggle",
@@ -263,20 +263,6 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "default" : "ACME"
-    }, {
-      "id" : "018763ff-debd-a572-574e-3788c17396a7",
-      "name" : "logo_url",
-      "display_width" : null,
-      "label" : "Logo URL",
-      "required" : false,
-      "locked" : false,
-      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "CALL_TO_ACTION" ],
-      "type" : "url",
-      "default" : {
-        "content_id" : null,
-        "href" : "",
-        "type" : "EXTERNAL"
-      }
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -293,12 +279,7 @@
         "max_width" : 500,
         "max_height" : 500
       },
-      "company_name" : "ACME",
-      "logo_url" : {
-        "content_id" : null,
-        "href" : "",
-        "type" : "EXTERNAL"
-      }
+      "company_name" : "ACME"
     }
   }, {
     "id" : "809b00e0-388d-cb9b-8a22-5b931af517ca",
@@ -318,7 +299,7 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "default" : "Get the best Maintenance Service"
+      "default" : "Get early access to our best apps, themes, and modules"
     }, {
       "id" : "0e035591-23c0-76b2-d948-257ecad27e28",
       "name" : "button_text",
@@ -376,12 +357,7 @@
         "max_width" : 500,
         "max_height" : 500
       },
-      "company_name" : "ACME",
-      "logo_url" : {
-        "content_id" : null,
-        "href" : "",
-        "type" : "EXTERNAL"
-      }
+      "company_name" : "ACME"
     },
     "sidebar_cta_details" : {
       "title" : "Get the best Maintenance Service",

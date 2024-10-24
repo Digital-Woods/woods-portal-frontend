@@ -14,23 +14,36 @@ const ModuleDetails = ({ path, id }) => {
 
   const result = objList.find((item) => item.name === headerPath);
 
-  let listData = result ? result.results : [];
+  let listData = result ? result.results.rows : [];
 
   useEffect(() => {
     if (Array.isArray(objList) && objList.length > 0) {
 
       const idStr = String(id);
       let data = listData.find((item) => String(item.id) === idStr);
-
       if (data) {
 
         data = { data, statusCode: 200 };
 
+        const structuredData = Object.keys(data.data).reduce((acc, key) => {
+          if (key === 'files' || key === 'images') {
+            return acc;
+          }
+          acc[key] = {
+            isSecondaryDisplayProperty: false,
+            label: formatLabel(key),
+            value: data.data[key],
+            isPrimaryDisplayProperty: false
+          };
+          return acc;
+        }, {});
+
+        
         const finalData = JSON.parse(
-          JSON.stringify(sortData(data.data, "details"))
+          JSON.stringify(sortData(structuredData, "details")) 
         );
         setSortItems(finalData);
-        setItems(data.data);
+        setItems(finalData);
         getImages(data.data);
         getFilesUrl(data.data);
       } else {
@@ -43,10 +56,13 @@ const ModuleDetails = ({ path, id }) => {
     setIsLoading(false);
   }, [objList, id]);
 
+  const formatLabel = (key) => {
+    return key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()); // Capitalizes and removes underscores
+  };
+
   const getImages = (data) => {
     if (data && data.images) {
       let urlArray = data.images.split(",");
-      console.log(urlArray, 'urlArray');
       setImages(urlArray);
     } else {
       setImages([]);
@@ -56,7 +72,6 @@ const ModuleDetails = ({ path, id }) => {
   const getFilesUrl = (data) => {
     if (data && data.files) {
       let urlArray = data.files.split(",");
-      console.log(urlArray, 'urlArray');
       setFilesUrl(urlArray);
     } else {
       setFilesUrl([]);
@@ -98,19 +113,19 @@ const ModuleDetails = ({ path, id }) => {
       {item && (
         <div className=" flex flex-col gap-4">
           <div>
-          <button onClick={goBack} className="text-primary dark:text-white flex items-center gap-2">
-            <svg
-              viewBox="0 0 1024 1024"
-              fill="currentColor"
-              height="1rem"
-              width="1rem"
-            >
-              <path d="M793 242H366v-74c0-6.7-7.7-10.4-12.9-6.3l-142 112a8 8 0 000 12.6l142 112c5.2 4.1 12.9.4 12.9-6.3v-74h415v470H175c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h618c35.3 0 64-28.7 64-64V306c0-35.3-28.7-64-64-64z" />
-            </svg>
-            <span className="text-sm font-semibold">
-              Go Back
-            </span>
-          </button>
+            <button onClick={goBack} className="text-primary dark:text-white flex items-center gap-2">
+              <svg
+                viewBox="0 0 1024 1024"
+                fill="currentColor"
+                height="1rem"
+                width="1rem"
+              >
+                <path d="M793 242H366v-74c0-6.7-7.7-10.4-12.9-6.3l-142 112a8 8 0 000 12.6l142 112c5.2 4.1 12.9.4 12.9-6.3v-74h415v470H175c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h618c35.3 0 64-28.7 64-64V306c0-35.3-28.7-64-64-64z" />
+              </svg>
+              <span className="text-sm font-semibold">
+                Go Back
+              </span>
+            </button>
           </div>
           <div className="w-full pr-4">
             {/* <DetailsHeaderCard
