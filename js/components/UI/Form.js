@@ -81,7 +81,7 @@ const Input = React.forwardRef(
       type = "text",
       placeholder = "Search",
       height = "medium",
-      icon: Icon = DefaultIcon,
+      icon: Icon = '',
       ...props
     },
     ref
@@ -95,14 +95,17 @@ const Input = React.forwardRef(
 
     return (
       <div className="relative dark:bg-dark-300 flex items-center">
-        <div className="absolute left-3 top-3 h-4 w-4 text-gray-500 top-2">
-          <Icon />
-        </div>
+        {Icon &&
+          <div className="absolute left-3 top-3 h-4 w-4 text-gray-500 top-2">
+            <Icon />
+          </div>
+        }
         <input
           type={type}
           placeholder={placeholder}
           className={classNames(
-            "w-full rounded-md bg-cleanWhite pl-10 px-5 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400",
+            "w-full rounded-md bg-cleanWhite px-5 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400",
+            Icon && "pl-10",
             heightClasses[height],
             className
           )}
@@ -112,24 +115,6 @@ const Input = React.forwardRef(
       </div>
     );
   }
-);
-
-const DefaultIcon = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    width="20px"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
 );
 
 const Textarea = React.forwardRef(

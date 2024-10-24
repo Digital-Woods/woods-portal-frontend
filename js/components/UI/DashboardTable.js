@@ -26,6 +26,7 @@ const sortedHeaders = (headers) => {
 };
 
 const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
   const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
@@ -237,6 +238,9 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         </div>
 
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
+        <Button className="text-white" onClick={() => setShowAddDialog(true)}>
+          <span className="mr-2"> + </span> Add {title}
+        </Button>
       </div>
 
       {tableData.length > 0 && (
@@ -368,6 +372,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
           </div>
         </Dialog>
       }
+      { showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog}/> }
     </div >
   );
 };
