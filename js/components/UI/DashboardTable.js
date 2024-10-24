@@ -90,11 +90,12 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   };
 
   const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
-  console.log(env.DATA_SOURCE_SET, 'env.DATA_SOURCE_SET');
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
   }
+  // const portalId = getPortal().portalId
+
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
@@ -165,7 +166,6 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         currentPage * itemsPerPage
       ));
     } else {
-      // Fetch new sorted data from API if `env.DATA_SOURCE_SET !== true`
       getData();
     }
   };
@@ -213,14 +213,14 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
 
   return (
     <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
-      {/* {isLoading && <div className="loader-line"></div>}
+      {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
         </div>
-      )} */}
+      )}
       <div className="flex justify-between items-center px-6 py-5">
         <div className="flex items-center gap-x-2 pt-3 text-sm">
           <p className="text-primary leading-5 text-sm dark:text-gray-300">

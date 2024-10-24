@@ -37,9 +37,6 @@ objectType: "HUBSPOT_DEFINED",
 {% for item in module.hubspot_custom_objects %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
-{% set svgIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M4 6H20M4 12H14M4 18H9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-</svg>' %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
@@ -58,44 +55,82 @@ objectType: "USER_DEFINED",
 
 {% set objectList = [] %}
 
-  {# Routelist loop #}
-  {% for route in dynamicRouteList %}
-  
-      {# Get the associated CRM objects #}
-      {% set objList = crm_associations(contact_id, route.objectType, route.hubspotObjectTypeId, "limit=100", route.listObjectProperties) %}
-  
-        {% set objColumns = [] %}
-          {# Loop through the results of objList #}
-          {% for item in objList.results %}
-          
-              {# Loop through each key-value pair in the item, ensuring the key exists and is not null #}
-              {% for key, val in item.items() %}
-                  {# Check if the key is not already in objColumns #}
-                  {% if not objColumns | selectattr("key", "equalto", key) | list %}
-                      {% do objColumns.append({
-                      "key": key,
-                      "value": key | title,
-                      "isPrimaryDisplayProperty": false,
-                      "isSecondaryDisplayProperty": false
-                      }) %}
-                  {% endif %}
-              {% endfor %}
-          {% endfor %}
-  
-      {# Append the data to objectList with objColumns and objList #}
-      {% do objectList.append({
-          "name": route.listObjectName,
-          "assoc_objectTypeId": route.hubspotObjectTypeId,
-          "assoc_objectType": route.objectType,
-          "assoc_properties": route.associateObjectProperties,
-          "results": {columns: objColumns, rows: objList.results}
-      }) %}
-  
-  {% endfor %}
-  
+{# Routelist loop #}
+{% for route in dynamicRouteList %}
+
+{# Get the associated CRM objects #}
+{% set objList = crm_associations(contact_id, route.objectType, route.hubspotObjectTypeId, "limit=100",
+route.listObjectProperties) %}
+
+{% set objColumns = [] %}
+{# Loop through the results of objList #}
+{% for item in objList.results %}
+
+{# Loop through each key-value pair in the item, ensuring the key exists and is not null #}
+{% for key, val in item.items() %}
+{# Check if the key is not already in objColumns #}
+{% if not objColumns | selectattr("key", "equalto", key) | list %}
+{% do objColumns.append({
+"key": key,
+"value": key | title,
+"isPrimaryDisplayProperty": false,
+"isSecondaryDisplayProperty": false
+}) %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{# Append the data to objectList with objColumns and objList #}
+{% do objectList.append({
+"name": route.listObjectName,
+"assoc_objectTypeId": route.hubspotObjectTypeId,
+"assoc_objectType": route.objectType,
+"assoc_properties": route.associateObjectProperties,
+"results": {columns: objColumns, rows: objList.results}
+}) %}
+{% endfor %}
+
 
 
 {% else %}
+
+{% set dynamicRouteList = [] %}
+
+{% if module.hubspot_defined_object %}
+{% for item in module.objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectTypeId: item.association_object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
+{% if module.hubspot_custom_object %}
+{% for item in module.hubspot_custom_objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectTypeId: item.association_object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "USER_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
 
 {% if module.page_editor_preview_ %}
 
@@ -109,96 +144,52 @@ objectType: "USER_DEFINED",
 {% set id_contact = module.contact_id.contact_id %}
 {% set contact_id = id_contact|string %}
 {% set loggedInUser = {
-  "firstname": "John",
-  "id": 42416077044,
-  "email": "example@demo.net",
-  "lastname": "Doe"
+"firstname": "John",
+"id": 42416077044,
+"email": "example@demo.net",
+"lastname": "Doe"
 }
- %}
+%}
 {% set fileNames = loggedInUser.file_name | split(",")%}
 {% set fileURL = loggedInUser.file_url | split(",")%}
-{% set dynamicRouteList = [
-  {
-    "label": "contact",
-    "icon": "",
-    "listObjectName": "contact",
-    "listObjectProperties": [
-      "firstname",
-      "lastname",
-      "email",
-      "phone",
-      "chart_value",
-      "images",
-      "files"
-    ],
-    "associateObjectName": null,
-    "hubspotObjectTypeId": 449,
-    "associateObjectProperties": null,
-    "objectType": "HUBSPOT_DEFINED"
-  },
-  {
-    "label": "deals",
-    "icon": "",
-    "listObjectName": "deals",
-    "listObjectProperties": [
-      "dealname",
-      "dealstage",
-      "amount",
-      "closedate",
-      "hubspot_owner_id"
-    ],
-    "associateObjectName": null,
-    "hubspotObjectTypeId": 4,
-    "associateObjectProperties": null,
-    "objectType": "HUBSPOT_DEFINED"
-  },
-  {
-    "label": "company",
-    "icon": "",
-    "listObjectName": "company",
-    "listObjectProperties": [
-      "name",
-      "state",
-      "address",
-      "domain",
-      "hubspot_owner_id",
-      "description",
-      "industry"
-    ],
-    "associateObjectName": null,
-    "hubspotObjectTypeId": 279,
-    "associateObjectProperties": null,
-    "objectType": "HUBSPOT_DEFINED"
-  },
-  {
-    "label": "ticket",
-    "icon": "",
-    "listObjectName": "ticket",
-    "listObjectProperties": [
-      "subject",
-      "hs_pipeline"
-    ],
-    "associateObjectName": null,
-    "hubspotObjectTypeId": 15,
-    "associateObjectProperties": null,
-    "objectType": "HUBSPOT_DEFINED"
-  },
-  {
-    "label": "p_custom_objects",
-    "icon": "",
-    "listObjectName": "p_custom_objects",
-    "listObjectProperties": [
-      "object_name",
-      "object_created_by"
-    ],
-    "associateObjectName": null,
-    "hubspotObjectTypeId": 20,
-    "associateObjectProperties": null,
-    "objectType": "HUBSPOT_DEFINED"
-  }
-]
 
- %}
+{% set dynamicRouteList = [] %}
+
+{% if module.hubspot_defined_object %}
+{% for item in module.objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectTypeId: item.association_object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
+{% if module.hubspot_custom_object %}
+{% for item in module.hubspot_custom_objects %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectTypeId: item.association_object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "USER_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
 
 
 
@@ -208,46 +199,102 @@ objectType: "USER_DEFINED",
 {% for route in dynamicRouteList %}
 
 {% set objList = {
-  "has_more": false,
-  "offset": 5,
-  "total": 5,
-  "results": [
-    {
-      "firstname": "Alice",
-      "id": 12345678901,
-      "email": "alice@example.com"
-    },
-    {
-      "firstname": "Bob",
-      "id": 23456789012,
-      "email": "bob@example.com"
-    },
-    {
-      "firstname": "Charlie",
-      "id": 34567890123,
-      "email": "charlie@example.com"
-    },
-    {
-      "firstname": "David",
-      "id": 45678901234,
-      "email": "david@example.com"
-    },
-    {
-      "firstname": "Eve",
-      "id": 56789012345,
-      "email": "eve@example.com"
-    }
-  ]
-},
-{
-  "has_more": false,
-  "offset": 0,
-  "total": 0,
-  "results": []
+  "name": "contact",
+  "assoc_objectTypeId": 449,
+  "assoc_objectType": "HUBSPOT_DEFINED",
+  "assoc_properties": null,
+  "results": {
+      "columns": [
+          {
+              "key": "firstname",
+              "value": "Firstname",
+              "isPrimaryDisplayProperty": false,
+              "isSecondaryDisplayProperty": false
+          },
+          {
+              "key": "id",
+              "value": "Id",
+              "isPrimaryDisplayProperty": false,
+              "isSecondaryDisplayProperty": false
+          },
+          {
+              "key": "email",
+              "value": "Email",
+              "isPrimaryDisplayProperty": false,
+              "isSecondaryDisplayProperty": false
+          },
+          {
+              "key": "lastname",
+              "value": "Lastname",
+              "isPrimaryDisplayProperty": false,
+              "isSecondaryDisplayProperty": false
+          },
+          {
+              "key": "images",
+              "value": "Images",
+              "isPrimaryDisplayProperty": false,
+              "isSecondaryDisplayProperty": false
+          },
+          {
+              "key": "files",
+              "value": "Files",
+              "isPrimaryDisplayProperty": false,
+              "isSecondaryDisplayProperty": false
+          }
+      ],
+      "rows": [
+          {
+              "firstname": "Anna",
+              "id": 101,
+              "email": "anna.miller@example.com",
+              "lastname": "Miller"
+          },
+          {
+              "firstname": "James",
+              "id": 102,
+              "email": "james.anderson@example.com",
+              "lastname": "Anderson"
+          },
+          {
+              "firstname": "Lucas",
+              "id": 103,
+              "email": "lucas.taylor@fakedomain.com",
+              "lastname": "Taylor"
+          },
+          {
+              "id": 104,
+              "email": "noah.jones@fakedomain.com"
+          },
+          {
+              "firstname": "Olivia",
+              "id": 105,
+              "email": "olivia.brown@example.com",
+              "lastname": "Brown"
+          },
+          {
+              "firstname": "Emma",
+              "images": "https://example.com/image1.jpg,https://example.com/image2.jpg",
+              "files": "https://example.com/file1.pdf,https://example.com/file2.pdf",
+              "id": 106,
+              "email": "emma.wilson@fakedomain.com",
+              "lastname": "Wilson"
+          },
+          {
+              "id": 107,
+              "email": "william.davis@example.org"
+          },
+          {
+              "images": "https://example.com/image3.jpg,https://example.com/image4.jpg",
+              "files": "https://example.com/file3.pdf,https://example.com/file4.pdf",
+              "id": 108,
+              "email": "isabella.martin@example.com"
+          }
+      ]
+  }
 }
 %}
 {% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.hubspotObjectTypeId, assoc_objectType:
-route.objectType, assoc_properties: route.associateObjectProperties, results: objList.results}) %}
+route.objectType, assoc_properties: route.associateObjectProperties, "results": {columns: objList.results.columns, rows: objList.results.rows}}) %}
 
 {% endfor %}
 
@@ -264,7 +311,8 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
         <p class="text-gray-600">
           Here you will find all the information you need regarding our CRM and you
           can also ask for
-          <button onclick='openLink("support@digitalwoods.io")' class="text-[#006AF5] hover:underline text-sm">support@digitalwoods.io</button>
+          <button onclick='openLink("support@digitalwoods.io")'
+            class="text-[#006AF5] hover:underline text-sm">support@digitalwoods.io</button>
         </p>
       </div>
     </div>
@@ -309,7 +357,10 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
                     fill="#A5B3D9" />
                 </svg>
               </span>
-              <button onclick='openLink("https://digitalwoods.io/blog/step-by-step-guide-to-building-a-hubspot-membership-site")' class="text-[#006AF5] hover:underline text-start text-base">How to Build a HubSpot Membership Site</button>
+              <button
+                onclick='openLink("https://digitalwoods.io/blog/step-by-step-guide-to-building-a-hubspot-membership-site")'
+                class="text-[#006AF5] hover:underline text-start text-base">How to Build a HubSpot Membership
+                Site</button>
             </li>
             <li class="flex items-start gap-2">
               <span class="mt-[5px]">
@@ -325,7 +376,10 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
                     fill="#A5B3D9" />
                 </svg>
               </span>
-              <button onclick='openLink("https://digitalwoods.io/blog/building-your-hubspot-membership-portal-step-by-step-guide-to-module-setup")' class="text-[#006AF5] text-start hover:underline text-base">Setting Up Your HubSpot Membership Portal: A Step-by-Step Guide</button>
+              <button
+                onclick='openLink("https://digitalwoods.io/blog/building-your-hubspot-membership-portal-step-by-step-guide-to-module-setup")'
+                class="text-[#006AF5] text-start hover:underline text-base">Setting Up Your HubSpot Membership Portal: A
+                Step-by-Step Guide</button>
             </li>
           </ul>
         </div>
@@ -569,7 +623,8 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
         <h3 class="text-lg font-bold mb-5">
           How to set up Membership Portal?<span class="text-[#006AF5]">★</span>
         </h3>
-        <button onclick='openLink("https://digitalwoods.net/meetings/saurav4/website")' class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
+        <button onclick='openLink("https://digitalwoods.net/meetings/saurav4/website")'
+          class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           Book a Meeting
         </button>
         <!-- <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
@@ -581,7 +636,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
         <h3 class="text-lg font-bold mb-5">
           Our other Applications
         </h3>
-        <button onclick='openLink("https://hub.digitalwoods.io")' 
+        <button onclick='openLink("https://hub.digitalwoods.io")'
           class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
           Find latest Apps,Themes nad Modules
           <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
@@ -602,7 +657,8 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
       <!-- <button id="showPreviewButton" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
         Preview
       </button> -->
-      <button onclick='openLink("https://app.dev.one.digitalwoods.io/login")' class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
+      <button onclick='openLink("https://app.dev.one.digitalwoods.io/login")'
+        class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
         Switch to Woods Portal
       </button>
     </div>
@@ -630,7 +686,6 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
   </div> -->
 </div>
 
-
 {% endif %}
 {% endif %}
 {% endif %}
@@ -638,14 +693,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, results: ob
 
 <script>
 
-function openLink(target) {
+  function openLink(target) {
     if (target.includes("@")) {
       window.location.href = `mailto:${target}`;
     } else {
       window.open(target, "_blank");
     }
   }
-
   let testData = {{ dynamicRouteList | tojson | safe }};
   let sidebarCta = {
     title: "{{ module.other_options.sidebar_cta_details.title }}",
@@ -678,6 +732,4 @@ function openLink(target) {
   let PodCastsEpisodes = {{ podCasts | safe || [] }};
   let lineChartDatas = {{ lineChart | safe || [] }};
   let dataSource = {{ module.hubspot_data_source }};
-
-  console.log(objList,'objList');
 </script>

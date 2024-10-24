@@ -42,7 +42,6 @@ const ModuleDetails = ({ path, id }) => {
         const finalData = JSON.parse(
           JSON.stringify(sortData(structuredData, "details")) 
         );
-        console.log(finalData,'structuredData');
         setSortItems(finalData);
         setItems(finalData);
         getImages(data.data);
