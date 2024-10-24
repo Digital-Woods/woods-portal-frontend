@@ -1,5 +1,73 @@
-const DashboardTableForm = ({ openModal, setOpenModal }) => {
-  const data = [
+const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
+  const apiData = [
+    {
+      "hubspotObjectPropertyId": 5,
+      "name": "asset_address",
+      "customLabel": "Asset Address",
+      "label": "Asset Address",
+      "type": "string",
+      "activeStatus": true,
+      "hidden": false,
+      "fieldType": "text",
+      "formField": false,
+      "showCurrencySymbol": false,
+      "hubspotDefined": false,
+      "createdUserId": "60906700",
+      "updatedUserId": "60906700",
+      "calculationFormula": null,
+      "groupName": "assets_information",
+      "description": "",
+      "displayOrder": 0,
+      "hasUniqueValue": false,
+      "archived": false,
+      "calculated": false,
+      "externalOptions": false,
+      "primaryProperty": false,
+      "dataSensitivity": "non_sensitive",
+      "modificationMetadata": {
+        "archivable": true,
+        "readOnlyValue": false,
+        "readOnlyDefinition": false
+      },
+      "options": [],
+      "isPrimaryDisplayProperty": false,
+      "isSecondaryDisplayProperty": true,
+      "required": true,
+    },
+    {
+      "hubspotObjectPropertyId": 5,
+      "name": "asset_details",
+      "customLabel": "Asset Details",
+      "label": "Asset Details",
+      "type": "string",
+      "activeStatus": true,
+      "hidden": false,
+      "fieldType": "text",
+      "formField": false,
+      "showCurrencySymbol": false,
+      "hubspotDefined": false,
+      "createdUserId": "60906700",
+      "updatedUserId": "60906700",
+      "calculationFormula": null,
+      "groupName": "assets_information",
+      "description": "",
+      "displayOrder": 0,
+      "hasUniqueValue": false,
+      "archived": false,
+      "calculated": false,
+      "externalOptions": false,
+      "primaryProperty": false,
+      "dataSensitivity": "non_sensitive",
+      "modificationMetadata": {
+        "archivable": true,
+        "readOnlyValue": false,
+        "readOnlyDefinition": false
+      },
+      "options": [],
+      "isPrimaryDisplayProperty": false,
+      "isSecondaryDisplayProperty": false,
+      "required": false,
+    },
     {
       "hubspotObjectPropertyId": 5,
       "name": "asset_name",
@@ -29,9 +97,21 @@ const DashboardTableForm = ({ openModal, setOpenModal }) => {
         "readOnlyValue": false,
         "readOnlyDefinition": false
       },
-      "options": []
-    }
+      "options": [],
+      "isPrimaryDisplayProperty": true,
+      "isSecondaryDisplayProperty": false,
+      "required": true,
+    },
+    
   ]
+
+  const data = apiData.sort((a, b) => {
+    if (a.isPrimaryDisplayProperty) return -1;
+    if (b.isPrimaryDisplayProperty) return 1;
+    if (a.isSecondaryDisplayProperty) return -1;
+    if (b.isSecondaryDisplayProperty) return 1;
+    return 0;
+  });
 
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
@@ -41,7 +121,7 @@ const DashboardTableForm = ({ openModal, setOpenModal }) => {
     const schemaShape = {};
 
     data.forEach((field) => {
-      if (field.type === 'string') {
+      if (field.required && field.type === 'string') {
         // Add validation for required fields based on your criteria
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
@@ -109,10 +189,10 @@ const DashboardTableForm = ({ openModal, setOpenModal }) => {
       <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[430px]">
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-start text-xl font-semibold">
-            Add new data
+            Add new {title}
           </h3>
 
-          <div className="w-full">
+          <div className="w-full text-left">
             <Form
               onSubmit={onSubmit}
               validationSchema={validationSchema}
