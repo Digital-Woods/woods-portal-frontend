@@ -338,6 +338,7 @@ const MainLayout = ({ children }) => {
                     <HeaderLayout
                       {...props}
                       path={`/${props.match.params.path}`}
+                      id={`/${props.match.params.id}`}
                       title={props.match.params.path}
                       icon={``}
                     />

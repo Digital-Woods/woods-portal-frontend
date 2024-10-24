@@ -1,60 +1,84 @@
 let IMAGE_UPLOAD_URL = ''
+let ATTACHMENT_UPLOAD_URL = ''
+
 class CustomUploadAdapter {
     constructor(loader) {
-      this.loader = loader;
+        this.loader = loader;
     }
-  
+
     upload() {
-      return this.loader.file.then(
-        (file) =>
-          new Promise((resolve, reject) => {
-            const reader = new FileReader();
-  
-            reader.onloadend = () => {
-              const base64data = reader.result.split(",")[1]; // Get base64 part
-              const payload = {
-                fileName: file.name,
-                fileData: base64data,
-              };
-              const token = getAuthToken();
-  
-              fetch(IMAGE_UPLOAD_URL, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(payload),
-              })
-                .then((response) => response.json())
-                .then((result) => {
-                  resolve({ default: result.data.url });
+        return this.loader.file.then(
+            (file) =>
+                new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+
+                    reader.onloadend = () => {
+                        const base64data = reader.result.split(",")[1]; // Get base64 part
+                        const payload = {
+                            fileName: file.name,
+                            fileData: base64data,
+                        };
+                        const token = getAuthToken();
+
+                        fetch(IMAGE_UPLOAD_URL, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify(payload),
+                        })
+                            .then((response) => response.json())
+                            .then((result) => {
+                                resolve({ default: result.data.url });
+                            })
+                            .catch((error) => {
+                                reject(error);
+                            });
+                    };
+
+                    reader.onerror = (error) => {
+                        reject(error);
+                    };
+
+                    reader.readAsDataURL(file);
                 })
-                .catch((error) => {
-                  reject(error);
-                });
-            };
-  
-            reader.onerror = (error) => {
-              reject(error);
-            };
-  
-            reader.readAsDataURL(file);
-          })
-      );
+        );
     }
-  
+
     abort() { }
 }
 
-function CustomUploadAdapterPlugin( editor ) {
-    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-        return new CustomUploadAdapter( loader );
+function CustomUploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return new CustomUploadAdapter(loader);
     };
 }
 
-const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
-    IMAGE_UPLOAD_URL = api
+const uoloadAttachment = (payload) => {
+    const token = getAuthToken();
+
+    fetch(ATTACHMENT_UPLOAD_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            resolve({ default: result.data.url });
+        })
+        .catch((error) => {
+            reject(error);
+        });
+}
+
+const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl }) => {
+    IMAGE_UPLOAD_URL = imageUploadUrl
+    ATTACHMENT_UPLOAD_URL = attachmentUploadUrl
+
     const editorRef = useRef(id);
     const attachmentIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-370h80v370q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-390h80v390Z"/></svg>`
 
@@ -65,6 +89,10 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
             script.async = true;
             const onDataChange = (data) => {
                 setEditorContent(data);
+            };
+
+            const onAttachmentUpload = (data) => {
+                uoloadAttachment(data);
             };
 
             script.innerHTML = `
@@ -105,19 +133,33 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                                 } );
 
                                 // Handle the button click event
-                                view.on( 'execute', () => {
-                                    const input = document.createElement( 'input' );
+                                view.on('execute', () => {
+                                    const input = document.createElement('input');
                                     input.type = 'file';
-                                    input.accept = '*/*';
+                                    input.accept = '*/*'; // Accept any file type
 
                                     input.onchange = () => {
                                         const file = input.files[0];
                                         if (file) {
-                                            alert(12121);
+                                            const reader = new FileReader();
+
+                                            reader.onloadend = () => {
+                                                const payload = {
+                                                    fileName: file.name,
+                                                    fileData: base64data,
+                                                };
+                                                window.onAttachmentUpload(payload);
+                                            };
+
+                                            reader.onerror = (error) => {
+                                                console.error('Error reading file:', error);
+                                            };
+
+                                            reader.readAsDataURL(file); // Convert file to Base64
                                         }
                                     };
 
-                                    input.click();
+                                    input.click(); // Trigger the file input dialog
                                 });
 
                                 return view;
@@ -191,6 +233,7 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', api }) => {
                     });
               `;
             window.onDataChange = onDataChange;
+            window.onAttachmentUpload = onAttachmentUpload;
             document.head.appendChild(script);
         };
 

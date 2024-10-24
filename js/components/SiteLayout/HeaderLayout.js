@@ -1,4 +1,4 @@
-const HeaderLayout = ({ title, path }) => {
+const HeaderLayout = ({ title, path, id = null }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
@@ -62,21 +62,33 @@ const HeaderLayout = ({ title, path }) => {
     <div className="flex justify-between items-center p-6 dark:bg-dark-200">
       <div className="hidden lg:block">
         <div className="text-primary font-medium text-sm flex items-center dark:text-white">
-          <p>Home </p>
 
-          <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="18px"
-              className="dark:fill-white"
+          {!id ?
+            <p className="capitalize"> {title} </p>
+            :
+            <Link
+              className="capitalize"
+              to={path}
             >
-              <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-            </svg>
-          </div>
+              {title}
+            </Link>
+          }
 
-          <p> {title} </p>
+          {id && (
+            <div className="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="18px"
+                viewBox="0 -960 960 960"
+                width="18px"
+                className="dark:fill-white"
+              >
+                <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+              </svg>
+              <p>{id.replace("/", "")}</p>
+            </div>
+          )}
+
         </div>
       </div>
 
@@ -175,7 +187,7 @@ const HeaderLayout = ({ title, path }) => {
             </div>
             <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col gap-y-1  p-2">
-              { env.DATA_SOURCE_SET === false && 
+              { env.DATA_SOURCE_SET === false &&
                 <NavLink
                   to="/profile"
                   className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
