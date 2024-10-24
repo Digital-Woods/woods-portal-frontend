@@ -25,7 +25,8 @@ icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-hubspotObjectTypeId: item.association_object_type_id,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "HUBSPOT_DEFINED",
 }) %}
@@ -43,7 +44,8 @@ icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-hubspotObjectTypeId: item.association_object_type_id,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "USER_DEFINED",
 }) %}
@@ -59,7 +61,7 @@ objectType: "USER_DEFINED",
 {% for route in dynamicRouteList %}
 
 {# Get the associated CRM objects #}
-{% set objList = crm_associations(contact_id, route.objectType, route.hubspotObjectTypeId, "limit=100",
+{% set objList = crm_associations(contact_id, route.objectType, route.hubspotObjectId, "limit=100",
 route.listObjectProperties) %}
 
 {% set objColumns = [] %}
@@ -83,14 +85,12 @@ route.listObjectProperties) %}
 {# Append the data to objectList with objColumns and objList #}
 {% do objectList.append({
 "name": route.listObjectName,
-"assoc_objectTypeId": route.hubspotObjectTypeId,
+"assoc_objectTypeId": route.hubspotObjectId,
 "assoc_objectType": route.objectType,
 "assoc_properties": route.associateObjectProperties,
 "results": {columns: objColumns, rows: objList.results}
 }) %}
 {% endfor %}
-
-
 
 {% else %}
 
@@ -106,7 +106,8 @@ icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-hubspotObjectTypeId: item.association_object_type_id,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "HUBSPOT_DEFINED",
 }) %}
@@ -124,7 +125,8 @@ icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-hubspotObjectTypeId: item.association_object_type_id,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "USER_DEFINED",
 }) %}
@@ -165,7 +167,7 @@ icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-hubspotObjectTypeId: item.association_object_type_id,
+hubspotObjectId: item.association_object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "HUBSPOT_DEFINED",
 }) %}
@@ -183,7 +185,7 @@ icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
-hubspotObjectTypeId: item.association_object_type_id,
+hubspotObjectId: item.association_object_type_id,
 associateObjectProperties: item.association_object_properties,
 objectType: "USER_DEFINED",
 }) %}
@@ -293,7 +295,7 @@ objectType: "USER_DEFINED",
   }
 }
 %}
-{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.hubspotObjectTypeId, assoc_objectType:
+{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.hubspotObjectId, assoc_objectType:
 route.objectType, assoc_properties: route.associateObjectProperties, "results": {columns: objList.results.columns, rows: objList.results.rows}}) %}
 
 {% endfor %}

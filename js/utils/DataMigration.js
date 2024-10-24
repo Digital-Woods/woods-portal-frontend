@@ -650,28 +650,63 @@ const getIconType = (filename) => {
 const getFileDetails = async (urlArray) => {
   const fileDetails = await Promise.all(urlArray.map(async (url) => {
     const name = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1));
-    const type = name.substring(name.lastIndexOf(".") + 1);
+    const type = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
 
-    try {
-      const response = await fetch(url, { method: 'HEAD' });
-      const fileSize = response.headers.get('content-length');
-
+    // Check for known document services and handle accordingly
+    if (url.includes('docs.google.com')) {
       return {
         url,
-        name,
-        type,
-        size: fileSize ? `${(fileSize / 1024).toFixed(2)} KB` : 'Unknown size'
+        name: 'Google Docs',
+        type: 'Google Docs',
+        size: 'N/A'
       };
-    } catch (error) {
-      console.error(`Error fetching file details for ${url}:`, error);
+    } else if (url.includes('drive.google.com')) {
       return {
         url,
-        name,
-        type,
-        size: 'Error fetching file size'
+        name: 'Google Drive File',
+        type: 'Google Drive File',
+        size: 'N/A'
+      };
+    } else if (url.includes('dropbox.com')) {
+      // Dropbox share links need modification for direct download
+      const directUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+      return await fetchFileSize(directUrl, name, type);
+    } else if (url.includes('onedrive.live.com')) {
+      return {
+        url,
+        name: 'OneDrive File',
+        type: 'OneDrive File',
+        size: 'N/A'
       };
     }
+
+    // Default case: Attempt to get file size with a HEAD request
+    return await fetchFileSize(url, name, type);
   }));
 
   return fileDetails;
 };
+
+// Helper function to fetch file size using HEAD request
+const fetchFileSize = async (url, name, type) => {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    const fileSize = response.headers.get('content-length');
+
+    return {
+      url,
+      name,
+      type,
+      size: fileSize ? `${(fileSize / 1024).toFixed(2)} KB` : 'Unknown size'
+    };
+  } catch (error) {
+    console.error(`Error fetching file details for ${url}:`, error);
+    return {
+      url,
+      name,
+      type,
+      size: 'Error fetching file size'
+    };
+  }
+};
+

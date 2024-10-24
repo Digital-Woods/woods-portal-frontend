@@ -99,13 +99,40 @@
     "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
     "name" : "association_object_type_id",
     "display_width" : null,
-    "label" : "Object Type Id",
+    "label" : "Associated Object Type Id",
     "required" : false,
     "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
     "display" : "text",
     "step" : 1,
     "type" : "number",
     "default" : 4
+  }, {
+    "id" : "7c126648-95fd-7a87-3fb9-fe5deaf04aee",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text"
   }, {
     "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
     "name" : "icon_svg_code",
@@ -188,12 +215,39 @@
     "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
     "name" : "association_object_type_id",
     "display_width" : null,
-    "label" : "Object Type Id",
+    "label" : "Associated Object Type Id",
     "required" : false,
     "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
     "display" : "text",
     "step" : 1,
     "type" : "number"
+  }, {
+    "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text"
   }, {
     "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
     "name" : "icon_svg_code",
@@ -332,7 +386,7 @@
     "group_occurrence_meta" : null,
     "type" : "group",
     "default" : {
-      "title" : "Get the best Maintenance Service",
+      "title" : "Get early access to our best apps, themes, and modules",
       "button_text" : "Click Me",
       "button_url" : {
         "content_id" : null,
@@ -360,7 +414,7 @@
       "company_name" : "ACME"
     },
     "sidebar_cta_details" : {
-      "title" : "Get the best Maintenance Service",
+      "title" : "Get early access to our best apps, themes, and modules",
       "button_text" : "Click Me",
       "button_url" : {
         "content_id" : null,
