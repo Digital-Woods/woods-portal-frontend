@@ -710,3 +710,20 @@ const fetchFileSize = async (url, name, type) => {
   }
 };
 
+// format path 
+
+const formatPath = (key) => {
+  return key.replace(/\s+/g, '-').replace(/\b\w/g, (l) => l.toLowerCase());
+};
+
+// format custom object name 
+
+function formatCustomObjectLabel(label) {
+  return label.replace(/^p_/, '').replace(/_$/, '').replace(/_/g, ' ');
+}
+
+// format column labels 
+
+function formatColumnLabel(label) {
+  return label.replace(/_/g, ' ');
+}

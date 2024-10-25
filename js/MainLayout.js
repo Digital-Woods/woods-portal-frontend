@@ -10,9 +10,7 @@ const MainLayout = ({ children }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
   useSetColors();
-  const formatPath = (key) => {
-    return key.replace(/\s+/g, '-').replace(/\b\w/g, (l) => l.toLowerCase());
-  };
+
   const defaultRoutes = [
     {
       path: `/login`,
@@ -47,7 +45,6 @@ const MainLayout = ({ children }) => {
       component: <Profile />,
     },
   ];
-
   // useEffect(() => {
   //   let userDetails = null;
 
@@ -156,11 +153,12 @@ const MainLayout = ({ children }) => {
         // ]
       }
     ]
+    // console.log(sideMenu,'sideMenu');
 
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
       path: `/${formatPath(menuItem.label)}`,
-      title: menuItem.label,
+      title: formatCustomObjectLabel(menuItem.label),
       icon: menuItem.icon,
       isRequiredAuth: true,
       isHeader: true,
@@ -168,7 +166,7 @@ const MainLayout = ({ children }) => {
         <DynamicComponent
           hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
           path={`/${formatPath(menuItem.label)}`}
-          title={menuItem.label}
+          title={formatCustomObjectLabel(menuItem.label)}
           icon={menuItem.icon}
         />
       ),

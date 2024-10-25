@@ -70,7 +70,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
               className="capitalize"
               to={path}
             >
-              {title}
+              {formatCustomObjectLabel(title)}
             </Link>
           }
 

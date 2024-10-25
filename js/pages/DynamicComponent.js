@@ -35,7 +35,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200  dark:text-white p-6">
+    <div className="dark:bg-dark-200  dark:text-white px-6 pb-6">
       <div className="flex justify-between items-center relative">
         <div className="flex items-start flex-col gap-2">
           {objectTypeName &&
