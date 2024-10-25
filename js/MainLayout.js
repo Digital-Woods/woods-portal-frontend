@@ -157,7 +157,6 @@ const MainLayout = ({ children }) => {
       }
     ]
 
-    console.log(sideMenu, 'Sidebar menus');
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
       path: `/${formatPath(menuItem.label)}`,

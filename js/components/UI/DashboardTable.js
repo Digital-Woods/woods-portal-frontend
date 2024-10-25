@@ -202,7 +202,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true) {
       getData();
-    }else{
+    } else {
       mapResponseData(hubSpotTableData);
     }
   }, []);
@@ -238,9 +238,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         </div>
 
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
-        <Button className="text-white" onClick={() => setShowAddDialog(true)}>
-          <span className="mr-2"> + </span> Add {title}
-        </Button>
+        {env.DATA_SOURCE_SET != true &&
+          <Button className="text-white" onClick={() => setShowAddDialog(true)}>
+            <span className="mr-2"> + </span> Add {title}
+          </Button>
+        }
       </div>
 
       {tableData.length > 0 && (
@@ -372,7 +374,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
           </div>
         </Dialog>
       }
-      { showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title}/> }
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} />}
     </div >
   );
 };

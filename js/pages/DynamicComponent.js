@@ -37,13 +37,13 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   return (
     <div className="dark:bg-dark-200  dark:text-white p-6">
       <div className="flex justify-between items-center relative">
-        <div className="flex items-center">
+        <div className="flex items-start flex-col gap-2">
           {objectTypeName &&
             <div className="pr-2 cursor-pointer" onClick={() => back()}>
               <BackIcon />
             </div>
           }
-          <span className="text-xl font-semibold text-primary dark:text-white">
+          <span className="text-xl font-semibold text-primary capitalize dark:text-white">
             {tableTitle()}
           </span>
           <p className="text-secondary  dark:text-white leading-5 text-sm">
