@@ -44,6 +44,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   const { me } = useMe();
+
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
@@ -202,7 +203,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true) {
       getData();
-    }else{
+    } else {
       mapResponseData(hubSpotTableData);
     }
   }, []);
@@ -238,9 +239,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         </div>
 
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
-        <Button className="text-white" onClick={() => setShowAddDialog(true)}>
-          <span className="mr-2"> + </span> Add {title}
-        </Button>
+        {env.DATA_SOURCE_SET != true &&
+          <Button className="text-white" onClick={() => setShowAddDialog(true)}>
+            <span className="mr-2"> + </span> Add {title}
+          </Button>
+        }
       </div>
 
       {tableData.length > 0 && (
@@ -257,7 +260,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                     >
                       <div className="flex columns-center">
                         <span className="font-semibold text-xs">
-                          {column.value}
+                          {formatColumnLabel(column.value)}
                         </span>
                         {sortConfig === column.key && (
                           <svg
@@ -372,7 +375,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
           </div>
         </Dialog>
       }
-      { showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title}/> }
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} />}
     </div >
   );
 };

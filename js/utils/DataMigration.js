@@ -47,7 +47,7 @@ function isEmptyObject(data) {
   return Object.keys(data).length === 0;
 }
 
-const truncateString = (str, MAX_LENGTH = 50) => {
+const truncateString = (str, MAX_LENGTH = 40) => {
   if (str.length > MAX_LENGTH) {
     return {
       truncated: str.substring(0, MAX_LENGTH) + "...",
@@ -288,7 +288,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   return  type == 'list' && isTruncated ?
     <Tooltip right content={value}>
       <Link
-        className="text-primary"
+        className="text-primary dark:text-white"
       >
         {truncated}
       </Link>
@@ -710,3 +710,20 @@ const fetchFileSize = async (url, name, type) => {
   }
 };
 
+// format path 
+
+const formatPath = (key) => {
+  return key.replace(/\s+/g, '-').replace(/\b\w/g, (l) => l.toLowerCase());
+};
+
+// format custom object name 
+
+function formatCustomObjectLabel(label) {
+  return label.replace(/^p_/, '').replace(/_$/, '').replace(/_/g, ' ');
+}
+
+// format column labels 
+
+function formatColumnLabel(label) {
+  return label.replace(/_/g, ' ');
+}
