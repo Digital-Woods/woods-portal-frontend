@@ -186,7 +186,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[430px]">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px]">
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-start text-xl font-semibold">
             Add new {title}
@@ -200,9 +200,10 @@ const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
               className="dark:bg-gray-900"
             >
               {({ register, formState: { errors } }) => (
-                <div className="text-gray-800 dark:text-gray-200">
+                <div className="text-gray-800 dark:text-gray-200 grid gap-4 grid-cols-2">
                   {data.map((filled) => (
-                    <FormItem>
+                    <div className="">
+                    <FormItem className="mb-0">
                       <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                         {filled.customLabel}
                       </FormLabel>
@@ -222,6 +223,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
                         </FormMessage>
                       )}
                     </FormItem>
+                    </div>
                   ))}
 
                   <div className="mt-4 flex justify-end items-end gap-1">
