@@ -258,7 +258,7 @@ const Notes = ({ path, objectId, id }) => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loader-line"></div>;
   }
   if (error) {
     return <div>Error fetching notes: {error.message}</div>;

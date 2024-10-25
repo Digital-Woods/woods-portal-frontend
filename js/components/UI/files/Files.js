@@ -680,7 +680,7 @@ const Files = ({ fileId, path, objectId, id }) => {
   // console.log('folderStack', folderStack)
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loader-line"></div>;
   }
 
   if (error) {

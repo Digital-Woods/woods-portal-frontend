@@ -110,7 +110,7 @@ const Notes = ({ fileId, path }) => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loader-line"></div>;
   }
 
   if (error) {
