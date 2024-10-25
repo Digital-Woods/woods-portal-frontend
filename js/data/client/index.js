@@ -68,10 +68,10 @@ class Client {
         page: page,
       });
     },
-    createnote: ({objectId, id, note}) => {
+    createnote: ({objectId, id, noteBody, attachmentId}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
-      return HttpClient.post(url, note);
+      return HttpClient.post(url, {noteBody: noteBody, attachmentId: attachmentId});
     },
     updateNote: ({objectId, id, note, note_id}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
