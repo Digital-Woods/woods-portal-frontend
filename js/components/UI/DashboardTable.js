@@ -375,7 +375,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
           </div>
         </Dialog>
       }
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} />}
     </div >
   );
 };

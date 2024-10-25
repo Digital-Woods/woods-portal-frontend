@@ -1,117 +1,39 @@
-const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
-  const apiData = [
-    {
-      "hubspotObjectPropertyId": 5,
-      "name": "asset_address",
-      "customLabel": "Asset Address",
-      "label": "Asset Address",
-      "type": "string",
-      "activeStatus": true,
-      "hidden": false,
-      "fieldType": "text",
-      "formField": false,
-      "showCurrencySymbol": false,
-      "hubspotDefined": false,
-      "createdUserId": "60906700",
-      "updatedUserId": "60906700",
-      "calculationFormula": null,
-      "groupName": "assets_information",
-      "description": "",
-      "displayOrder": 0,
-      "hasUniqueValue": false,
-      "archived": false,
-      "calculated": false,
-      "externalOptions": false,
-      "primaryProperty": false,
-      "dataSensitivity": "non_sensitive",
-      "modificationMetadata": {
-        "archivable": true,
-        "readOnlyValue": false,
-        "readOnlyDefinition": false
-      },
-      "options": [],
-      "isPrimaryDisplayProperty": false,
-      "isSecondaryDisplayProperty": true,
-      "required": true,
-    },
-    {
-      "hubspotObjectPropertyId": 5,
-      "name": "asset_details",
-      "customLabel": "Asset Details",
-      "label": "Asset Details",
-      "type": "string",
-      "activeStatus": true,
-      "hidden": false,
-      "fieldType": "text",
-      "formField": false,
-      "showCurrencySymbol": false,
-      "hubspotDefined": false,
-      "createdUserId": "60906700",
-      "updatedUserId": "60906700",
-      "calculationFormula": null,
-      "groupName": "assets_information",
-      "description": "",
-      "displayOrder": 0,
-      "hasUniqueValue": false,
-      "archived": false,
-      "calculated": false,
-      "externalOptions": false,
-      "primaryProperty": false,
-      "dataSensitivity": "non_sensitive",
-      "modificationMetadata": {
-        "archivable": true,
-        "readOnlyValue": false,
-        "readOnlyDefinition": false
-      },
-      "options": [],
-      "isPrimaryDisplayProperty": false,
-      "isSecondaryDisplayProperty": false,
-      "required": false,
-    },
-    {
-      "hubspotObjectPropertyId": 5,
-      "name": "asset_name",
-      "customLabel": "New Asset Name",
-      "label": "Asset Name",
-      "type": "string",
-      "activeStatus": true,
-      "hidden": false,
-      "fieldType": "text",
-      "formField": false,
-      "showCurrencySymbol": false,
-      "hubspotDefined": false,
-      "createdUserId": "60906700",
-      "updatedUserId": "60906700",
-      "calculationFormula": null,
-      "groupName": "assets_information",
-      "description": "",
-      "displayOrder": 0,
-      "hasUniqueValue": false,
-      "archived": false,
-      "calculated": false,
-      "externalOptions": false,
-      "primaryProperty": false,
-      "dataSensitivity": "non_sensitive",
-      "modificationMetadata": {
-        "archivable": true,
-        "readOnlyValue": false,
-        "readOnlyDefinition": false
-      },
-      "options": [],
-      "isPrimaryDisplayProperty": true,
-      "isSecondaryDisplayProperty": false,
-      "required": true,
-    },
-    
-  ]
+const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId }) => {
 
-  const data = apiData.sort((a, b) => {
-    if (a.isPrimaryDisplayProperty) return -1;
-    if (b.isPrimaryDisplayProperty) return 1;
-    if (a.isSecondaryDisplayProperty) return -1;
-    if (b.isSecondaryDisplayProperty) return 1;
-    return 0;
+  const [data, setData] = useState([]);
+
+  const { mutate: getData, isLoading } = useMutation({
+    mutationKey: [
+      "TableFormData"
+    ],
+    mutationFn: async () => {
+      return await Client.form.fields({
+        portalId,
+        hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+      });
+    },
+
+    onSuccess: (response) => {
+      if (response.statusCode === "200") {
+        setData(
+          response.data.sort((a, b) => {
+            if (a.primaryDisplayProperty) return -1;
+            if (b.primaryDisplayProperty) return 1;
+            if (a.secondaryDisplayProperty) return -1;
+            if (b.secondaryDisplayProperty) return 1;
+            return 0;
+          })
+        )
+      }
+    },
+    onError: () => {
+      setData([]);
+    },
   });
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
@@ -121,7 +43,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
     const schemaShape = {};
 
     data.forEach((field) => {
-      if (field.required && field.type === 'string') {
+      if (field.requiredProperty && field.type === 'string') {
         // Add validation for required fields based on your criteria
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
@@ -141,7 +63,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
 
   const validationSchema = createValidationSchema(data);
 
-  const { mutate: login, isLoading } = useMutation({
+  const { mutate: login, isLoading: submitLoading } = useMutation({
     mutationKey: ["loginUser"],
     mutationFn: async (input) => {
       try {
@@ -191,59 +113,63 @@ const DashboardTableForm = ({ openModal, setOpenModal, title }) => {
           <h3 className="text-start text-xl font-semibold">
             Add new {title}
           </h3>
-
-          <div className="w-full text-left">
-            <Form
-              onSubmit={onSubmit}
-              validationSchema={validationSchema}
-              serverError={serverError}
-              className="dark:bg-gray-900"
-            >
-              {({ register, formState: { errors } }) => (
-                <div className="text-gray-800 dark:text-gray-200 grid gap-4 grid-cols-2">
-                  {data.map((filled) => (
-                    <div className="">
-                    <FormItem className="mb-0">
-                      <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                        {filled.customLabel}
-                      </FormLabel>
-                      <FormControl>
+          {isLoading ?
+            <div className="loader-line"></div>
+            :
+            <div className="w-full text-left">
+              <Form
+                onSubmit={onSubmit}
+                validationSchema={validationSchema}
+                serverError={serverError}
+                className="dark:bg-gray-900"
+              >
+                {({ register, formState: { errors } }) => (
+                  <div>
+                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2">
+                      {data.map((filled) => (
                         <div>
-                          <Input
-                            height="medium"
-                            placeholder={filled.customLabel}
-                            className=""
-                            {...register(filled.name)}
-                          />
+                          <FormItem className="mb-0">
+                            <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                              {filled.customLabel}
+                            </FormLabel>
+                            <FormControl>
+                              <div>
+                                <Input
+                                  height="medium"
+                                  placeholder={filled.customLabel}
+                                  className=""
+                                  {...register(filled.name)}
+                                />
+                              </div>
+                            </FormControl>
+                            {errors[filled.name] && (
+                              <FormMessage className="text-red-600 dark:text-red-400">
+                                {errors[filled.name].message}
+                              </FormMessage>
+                            )}
+                          </FormItem>
                         </div>
-                      </FormControl>
-                      {errors[filled.name] && (
-                        <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors[filled.name].message}
-                        </FormMessage>
-                      )}
-                    </FormItem>
+                      ))}
                     </div>
-                  ))}
-
-                  <div className="mt-4 flex justify-end items-end gap-1">
-                    <Button
-                      variant="outline"
-                      onClick={() => setOpenModal(false)}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      className="!bg-defaultPrimary"
-                      isLoading={isLoading}
-                    >
-                      Create
-                    </Button>
+                    <div className="mt-4 flex justify-end items-end gap-1">
+                      <Button
+                        variant="outline"
+                        onClick={() => setOpenModal(false)}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        className="!bg-defaultPrimary"
+                        isLoading={submitLoading}
+                      >
+                        Create
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </Form>
-          </div>
+                )}
+              </Form>
+            </div>
+          }
         </div>
       </Dialog>
     </div>

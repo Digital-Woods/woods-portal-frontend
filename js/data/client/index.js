@@ -138,4 +138,9 @@ class Client {
       }),
     store: (data) => HttpClient.post(API_ENDPOINTS.PRODUCTS, data),
   };
+
+  static form = {
+    fields: ({ portalId, hubspotObjectTypeId }) =>
+      HttpClient.get(`/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}/forms`)
+  };
 }
