@@ -44,6 +44,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
 
   const { me } = useMe();
+
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
     const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
@@ -259,7 +260,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                     >
                       <div className="flex columns-center">
                         <span className="font-semibold text-xs">
-                          {column.value}
+                          {formatColumnLabel(column.value)}
                         </span>
                         {sortConfig === column.key && (
                           <svg
