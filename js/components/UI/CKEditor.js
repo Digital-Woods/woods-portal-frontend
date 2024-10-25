@@ -55,11 +55,10 @@ function CustomUploadAdapterPlugin(editor) {
     };
 }
 
-const uoloadAttachment = (payload) => {
+const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedAttachments) => {
     const token = getAuthToken();
-
     fetch(ATTACHMENT_UPLOAD_URL, {
-        method: "POST",
+        method: attachmentUploadMethod,
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -68,6 +67,8 @@ const uoloadAttachment = (payload) => {
     })
         .then((response) => response.json())
         .then((result) => {
+            setUploadedAttachments((prevAttachments) => [...prevAttachments, result.data]);
+            if(refetch) refetch()
             resolve({ default: result.data.url });
         })
         .catch((error) => {
@@ -75,7 +76,8 @@ const uoloadAttachment = (payload) => {
         });
 }
 
-const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl }) => {
+const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl, attachmentUploadMethod = "POST", refetch = null }) => {
+    const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
     IMAGE_UPLOAD_URL = imageUploadUrl
     ATTACHMENT_UPLOAD_URL = attachmentUploadUrl
 
@@ -92,7 +94,7 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadU
             };
 
             const onAttachmentUpload = (data) => {
-                uoloadAttachment(data);
+                uoloadAttachment(attachmentUploadMethod, data, refetch, setUploadedAttachments);
             };
 
             script.innerHTML = `
@@ -142,8 +144,8 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadU
                                         const file = input.files[0];
                                         if (file) {
                                             const reader = new FileReader();
-
                                             reader.onloadend = () => {
+                                                const base64data = reader.result.split(',')[1];
                                                 const payload = {
                                                     fileName: file.name,
                                                     fileData: base64data,
@@ -247,7 +249,11 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadU
     }, []);
 
     return (
-        <div id={id} ref={editorRef}>
+        <div>
+            <div id={id} ref={editorRef}>
+            </div>
+            <Attachments attachments={uploadedAttachments} />
         </div>
+
     );
 };
