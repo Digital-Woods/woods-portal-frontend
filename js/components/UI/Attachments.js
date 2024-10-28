@@ -10,7 +10,7 @@ const Attachments = ({ attachments = [] }) => {
                     <li className="p-2 bg-slate-200 border border-slate-300 rounded-sm mt-2 flex gap-1 text-sm flex items-center">
                         <FileIcon />
                         <div class="flex gap-1">
-                            <a href={attachment.defaultHostingUrl} class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{attachment.name}</a>
+                            <a href={attachment.url} class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{attachment.name}</a>
                             <span>({attachment.size})</span>
                         </div>
                     </li>
