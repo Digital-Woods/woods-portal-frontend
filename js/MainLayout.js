@@ -187,7 +187,7 @@ const MainLayout = ({ children }) => {
   if (isLoading) {
     return (
       <div className="text-center p-10 w-full h-screen flex items-center justify-center">
-        <div className="loader">Loading...</div>
+        <div className="loader"><div className="loader-line"></div></div>
       </div>
     );
   }

@@ -55,11 +55,10 @@ function CustomUploadAdapterPlugin(editor) {
     };
 }
 
-const uoloadAttachment = (payload) => {
+const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedAttachments) => {
     const token = getAuthToken();
-
     fetch(ATTACHMENT_UPLOAD_URL, {
-        method: "POST",
+        method: attachmentUploadMethod,
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -68,6 +67,8 @@ const uoloadAttachment = (payload) => {
     })
         .then((response) => response.json())
         .then((result) => {
+            setUploadedAttachments((prevAttachments) => [...prevAttachments, result.data]);
+            if(refetch) refetch()
             resolve({ default: result.data.url });
         })
         .catch((error) => {
@@ -75,9 +76,14 @@ const uoloadAttachment = (payload) => {
         });
 }
 
-const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl }) => {
+const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl, attachmentUploadMethod = "POST", setAttachmentId = null, refetch = null }) => {
+    const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
     IMAGE_UPLOAD_URL = imageUploadUrl
     ATTACHMENT_UPLOAD_URL = attachmentUploadUrl
+
+    useEffect(() => {
+        setAttachmentId(uploadedAttachments.map(item => item.id).join(';'));
+    }, [uploadedAttachments]);
 
     const editorRef = useRef(id);
     const attachmentIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-370h80v370q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-390h80v390Z"/></svg>`
@@ -92,7 +98,7 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadU
             };
 
             const onAttachmentUpload = (data) => {
-                uoloadAttachment(data);
+                uoloadAttachment(attachmentUploadMethod, data, refetch, setUploadedAttachments);
             };
 
             script.innerHTML = `
@@ -142,8 +148,8 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadU
                                         const file = input.files[0];
                                         if (file) {
                                             const reader = new FileReader();
-
                                             reader.onloadend = () => {
+                                                const base64data = reader.result.split(',')[1];
                                                 const payload = {
                                                     fileName: file.name,
                                                     fileData: base64data,
@@ -247,7 +253,11 @@ const CKEditor = ({ initialData = "", setEditorContent, id = 'new', imageUploadU
     }, []);
 
     return (
-        <div id={id} ref={editorRef}>
+        <div>
+            <div id={id} ref={editorRef}>
+            </div>
+            <Attachments attachments={uploadedAttachments} />
         </div>
+
     );
 };

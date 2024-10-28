@@ -6,15 +6,18 @@ const ApiDetails = ({ path, objectId, id }) => {
   const { me } = useMe();
   const [activeTab, setActiveTab] = useState("overview");
 
+  const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
+  const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+
   const [galleryDialog, setGalleryDialog] = useState(false);
   const { error, isLoading } = useQuery({
     queryKey: ["DetailsData", path, id],
     queryFn: async () =>
       await Client.objects.byObjectId({
-        path,
         objectId: objectId,
         id: id,
-        me: me,
+        mediatorObjectTypeId,
+        mediatorObjectRecordId
       }),
     onSuccess: (data) => {
       const associations = data.data.associations

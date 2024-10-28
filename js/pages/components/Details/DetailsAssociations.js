@@ -1,4 +1,6 @@
 const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, parentObjectRowId, parentObjectTypeName }) => {
+  const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
+  const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -46,7 +48,14 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                           sortData(item, 'associations').map((value, index) => (
                             <tr key={value.key}>
                               <td className="pr-1 text-sm whitespace-nowrap align-top">{value.label}:</td>
-                              <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, item.hs_object_id.value, `/${association.labels.plural}`, association.objectTypeId, 'associations')}</td>
+                              <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(
+                                value.value, 
+                                value, 
+                                item.hs_object_id.value, 
+                                `/${association.labels.plural}`, 
+                                association.objectTypeId, 'associations', 
+                                `/${association.labels.plural}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
+                              </td>
                             </tr>
                           ))}
                       </table>
@@ -62,7 +71,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
           <div className="text-right mb-2">
             <Link
               className="text-lightblue font-bold border-input rounded-md text-xs whitespace-nowrap"
-              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&parentObjectTypeId=${parentObjectTypeId}&parentObjectRowId=${parentObjectRowId}`}
+              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`}
             >
               Show more {association.labels.plural}
             </Link>

@@ -106,6 +106,9 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
                 <span>
                   {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
                 </span>
+                {isOpen &&
+                  <Attachments attachments={note.hs_attachment_ids || []} />
+                }
                 <div
                   size="32"
                   opacity="1"
@@ -120,7 +123,16 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
             <div className="p-[24px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
-              <CKEditor initialData={note.hs_note_body} setEditorContent={setEditorContent} id={`editor-${note.hs_object_id}`} imageUploadUrl={imageUploadUrl} attachmentUploadUrl={attachmentUploadUrl} />
+              <CKEditor
+                initialData={note.hs_note_body}
+                attachments={note.hs_attachment_ids || []}
+                setEditorContent={setEditorContent}
+                id={`editor-${note.hs_object_id}`}
+                imageUploadUrl={imageUploadUrl}
+                attachmentUploadUrl={`${attachmentUploadUrl}/${note.hs_object_id}`}
+                attachmentUploadMethod={'PUT'}
+                refetch={refetch}
+              />
               <div className="flex gap-x-2 mt-2">
 
                 <Button
@@ -157,6 +169,8 @@ const Notes = ({ path, objectId, id }) => {
   const [attachmentUploadUrl, setAttachmentUploadUrl] = useState("");
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
+  const [attachmentId, setAttachmentId] = useState("");
+
   const limit = 20;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", page],
@@ -168,50 +182,83 @@ const Notes = ({ path, objectId, id }) => {
         page: page,
       }),
   });
-  const createNoteMutation = useMutation(
-    async (newNote) => {
+  // const createNoteMutation = useMutation(
+  //   async (newNote) => {
+  //     return await Client.notes.createnote({
+  //       objectId: objectId,
+  //       id: id,
+  //       noteBody: newNote,
+  //       attachmentId: attachmentId
+  //     });
+  //   },
+
+  //   {
+  //     onSuccess: (res) => {
+  //       queryClient.invalidateQueries(["data"]);
+  //       refetch();
+  //       setShowDialog(false);
+  //       setAlert({
+  //         message: res.statusMsg,
+  //         type: "success",
+  //       });
+  //     },
+  //     onError: (error) => {
+  //       console.error("Error creating note:", error);
+  //       setAlert({
+  //         message: "Failed to upload the note.",
+  //         type: "error",
+  //       });
+  //     },
+  //   }
+  // );
+  // const { isLoading: isPosting } = createNoteMutation;
+  // const handleSaveNote = () => {
+  //   const payload = {
+  //     noteBody: editorContent,
+  //   };
+  //   createNoteMutation.mutate();
+  // };
+
+  const { mutate: handleSaveNote, isPosting } = useMutation({
+    mutationKey: [
+      "TableFormData"
+    ],
+    mutationFn: async () => {
       return await Client.notes.createnote({
         objectId: objectId,
         id: id,
-        note: newNote
+        noteBody: editorContent,
+        attachmentId: attachmentId
       });
     },
 
-    {
-      onSuccess: (res) => {
-        queryClient.invalidateQueries(["data"]);
+    onSuccess: (response) => {
+      if (response.statusCode === "200") {
         refetch();
         setShowDialog(false);
         setAlert({
-          message: res.statusMsg,
+          message: response.statusMsg,
           type: "success",
         });
-      },
-      onError: (error) => {
-        console.error("Error creating note:", error);
-        setAlert({
-          message: "Failed to upload the note.",
-          type: "error",
-        });
-      },
-    }
-  );
-  const { isLoading: isPosting } = createNoteMutation;
-  const handleSaveNote = () => {
-    const payload = {
-      noteBody: editorContent,
-    };
-    createNoteMutation.mutate(payload);
-  };
+      }
+    },
+    onError: (error) => {
+      console.error("Error creating note:", error);
+      setAlert({
+        message: "Failed to upload the note.",
+        type: "error",
+      });
+    },
+  });
 
   useEffect(() => {
     const portalId = getPortal().portalId
     setImageUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/images/${objectId}/${id}`)
-    setAttachmentUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}/{noteId}`)
+    setAttachmentUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`)
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loader-line"></div>;
   }
   if (error) {
     return <div>Error fetching notes: {error.message}</div>;
@@ -233,7 +280,7 @@ const Notes = ({ path, objectId, id }) => {
           <span className="mr-2"> + </span> New Note
         </Button>
       </div>
-      {results && results.rows.length > 0 ? (
+      {results && results.rows && results.rows.length > 0 ? (
         results.rows.map((note) => (
           <NoteCard note={note} objectId={objectId} id={id} imageUploadUrl={imageUploadUrl} attachmentUploadUrl={attachmentUploadUrl} refetch={refetch} setAlert={setAlert} />
         ))
@@ -264,8 +311,16 @@ const Notes = ({ path, objectId, id }) => {
             {me.firstName}
           </p>
         </div>
-        <CKEditor setEditorContent={setEditorContent} imageUploadUrl={imageUploadUrl} attachmentUploadUrl={attachmentUploadUrl} />
-        <div className="mt-4 text-start">
+        <CKEditor
+          attachments={[]}
+          setEditorContent={setEditorContent}
+          imageUploadUrl={imageUploadUrl}
+          attachmentUploadUrl={attachmentUploadUrl}
+          attachmentUploadMethod={'POST'}
+          setAttachmentId={setAttachmentId}
+          refetch={refetch}
+        />
+        <div className="mt-4 flex justify-end">
           <Button
             disabled={isPosting || editorContent.trim() === ""}
             onClick={handleSaveNote}
