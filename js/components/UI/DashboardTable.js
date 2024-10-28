@@ -312,7 +312,6 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             item.id,
                             path
                           )} */}
-                          {console.log('item', item)}
                           {renderCellContent(
                             item[column.key], 
                             column, 
