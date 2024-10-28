@@ -266,7 +266,7 @@ const sortData = (list, type = 'list') => {
 // };
 
 const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '') => {
-  if (type == 'associations' && column && column.isPrimaryDisplayProperty && associationPath) {
+  if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath) {
     return (
       <Link
         className="text-primary font-bold border-input rounded-md"
@@ -276,7 +276,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
       </Link>
     )
   }
-  if (type != 'details' && column && column.isPrimaryDisplayProperty) {
+  if (type == 'list' && column && column.isPrimaryDisplayProperty) {
     return (
       <Link
         className="text-primary font-bold border-input rounded-md"

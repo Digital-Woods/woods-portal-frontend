@@ -14,7 +14,6 @@ const ApiDetails = ({ path, objectId, id }) => {
     queryKey: ["DetailsData", path, id],
     queryFn: async () =>
       await Client.objects.byObjectId({
-        path,
         objectId: objectId,
         id: id,
         mediatorObjectTypeId,

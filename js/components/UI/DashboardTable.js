@@ -91,7 +91,13 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
     }
   };
 
-  const param = path == '/association' ? `?parentObjectTypeId=${getParam('parentObjectTypeId')}&parentObjectRowId=${getParam('parentObjectRowId')}` : ''
+  const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
+  const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+  const parentObjectTypeName = getParam("parentObjectTypeName")
+  const objectTypeId = getParam("objectTypeId")
+  const objectTypeName = getParam("objectTypeName")
+
+  const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
@@ -306,7 +312,16 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             item.id,
                             path
                           )} */}
-                          {renderCellContent(item[column.key], column, item.hs_object_id, path == '/association' ? `/${getParam('objectTypeName')}` : path, path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId)}
+                          {console.log('item', item)}
+                          {renderCellContent(
+                            item[column.key], 
+                            column, 
+                            item.hs_object_id, 
+                            path == '/association' ? `/${getParam('objectTypeName')}` : path, 
+                            path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                            'list',
+                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+                          )}
                         </div>
                       </TableCell>
                     ))}
