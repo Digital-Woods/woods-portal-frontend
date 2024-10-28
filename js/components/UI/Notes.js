@@ -280,7 +280,7 @@ const Notes = ({ path, objectId, id }) => {
           <span className="mr-2"> + </span> New Note
         </Button>
       </div>
-      {results && results.rows.length > 0 ? (
+      {results && results.rows && results.rows.length > 0 ? (
         results.rows.map((note) => (
           <NoteCard note={note} objectId={objectId} id={id} imageUploadUrl={imageUploadUrl} attachmentUploadUrl={attachmentUploadUrl} refetch={refetch} setAlert={setAlert} />
         ))
