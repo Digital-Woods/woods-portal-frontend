@@ -111,10 +111,10 @@ class Client {
         }
       ),
 
-    byObjectId: ({ path, objectId, id, me }) =>
+    byObjectId: ({ path, objectId, id, mediatorObjectTypeId, mediatorObjectRecordId }) =>
       HttpClient.get(
         // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
-        `/api/1/hubspot-object-data/${objectId}/${id}`
+        `/api/1/hubspot-object-data/${objectId}/${id}${mediatorObjectTypeId && mediatorObjectRecordId ? '?mediatorObjectTypeId='+mediatorObjectTypeId+'&mediatorObjectRecordId='+mediatorObjectRecordId : ''}`
       ),
   };
 

@@ -46,7 +46,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                           sortData(item, 'associations').map((value, index) => (
                             <tr key={value.key}>
                               <td className="pr-1 text-sm whitespace-nowrap align-top">{value.label}:</td>
-                              <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, item.hs_object_id.value, `/${association.labels.plural}`, association.objectTypeId, 'associations')}</td>
+                              <td className="pl-1 text-sm text-gray-500 align-top">{renderCellContent(value.value, value, item.hs_object_id.value, `/${association.labels.plural}`, association.objectTypeId, 'associations', `/${association.labels.plural}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${parentObjectTypeId}&mediatorObjectRecordId=${parentObjectRowId}`)}</td>
                             </tr>
                           ))}
                       </table>

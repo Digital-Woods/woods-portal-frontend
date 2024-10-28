@@ -265,7 +265,17 @@ const sortData = (list, type = 'list') => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list') => {
+const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '') => {
+  if (type == 'associations' && column && column.isPrimaryDisplayProperty && associationPath) {
+    return (
+      <Link
+        className="text-primary font-bold border-input rounded-md"
+        to={associationPath}
+      >
+        {value}
+      </Link>
+    )
+  }
   if (type != 'details' && column && column.isPrimaryDisplayProperty) {
     return (
       <Link
