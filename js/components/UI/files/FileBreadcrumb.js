@@ -1,4 +1,4 @@
-const Breadcrumb = ({ id, folderStack, onClick }) => (
+const FileBreadcrumb = ({ id, folderStack, onClick }) => (
 
   <nav className="text-xs">
     <ol className="flex flex-wrap">

@@ -764,7 +764,7 @@ const Files = ({ fileId, path, objectId, id }) => {
         </div>
 
         <div className="flex justify-between items-center">
-          <Breadcrumb
+          <FileBreadcrumb
             id={id}
             folderStack={folderStack}
             onClick={handleBreadcrumbClick}
