@@ -82,7 +82,7 @@ const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = '
     ATTACHMENT_UPLOAD_URL = attachmentUploadUrl
 
     useEffect(() => {
-        setAttachmentId(uploadedAttachments.map(item => item.id).join(';'));
+        if(setAttachmentId) setAttachmentId(uploadedAttachments.map(item => item.id).join(';'));
     }, [uploadedAttachments]);
 
     const editorRef = useRef(id);

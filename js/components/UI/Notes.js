@@ -5,7 +5,7 @@ const EditIcon = () => (
 const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, refetch, setAlert }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
-  const [editorContent, setEditorContent] = useState("");
+  const [editorContent, setEditorContent] = useState(note.hs_note_body);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -49,7 +49,7 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
       onError: (error) => {
         console.error("Error creating note:", error);
         setAlert({
-          message: "Failed to upload the note.",
+          message: error.response.data.errorMessage,
           type: "error",
         });
       },
@@ -131,12 +131,12 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
                 imageUploadUrl={imageUploadUrl}
                 attachmentUploadUrl={`${attachmentUploadUrl}/${note.hs_object_id}`}
                 attachmentUploadMethod={'PUT'}
+                setAttachmentId={null}
                 refetch={refetch}
               />
               <div className="flex gap-x-2 mt-2">
-
                 <Button
-                  disabled={isLoadingUpdate}
+                  disabled={isLoadingUpdate || editorContent === ""}
                   onClick={handleUpdateNote}
                   className="text-white"
                   size="sm"
@@ -181,6 +181,7 @@ const Notes = ({ path, objectId, id }) => {
         limit: limit,
         page: page,
       }),
+      refetchInterval: env.NOTE_INTERVAL_TIME,
   });
   // const createNoteMutation = useMutation(
   //   async (newNote) => {
@@ -219,7 +220,7 @@ const Notes = ({ path, objectId, id }) => {
   //   createNoteMutation.mutate();
   // };
 
-  const { mutate: handleSaveNote, isPosting } = useMutation({
+  const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
     mutationKey: [
       "TableFormData"
     ],
@@ -245,7 +246,7 @@ const Notes = ({ path, objectId, id }) => {
     onError: (error) => {
       console.error("Error creating note:", error);
       setAlert({
-        message: "Failed to upload the note.",
+        message: error.response.data.errorMessage,
         type: "error",
       });
     },
