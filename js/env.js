@@ -10,4 +10,5 @@ const env = {
   AUTH_PORTAL_KEY: "portalSettings",
   COOKIE_EXPIRE: 7,
   DATA_SOURCE_SET:dataSource || false,
+  NOTE_INTERVAL_TIME: 10000
 };

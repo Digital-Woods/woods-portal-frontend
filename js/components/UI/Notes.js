@@ -181,6 +181,7 @@ const Notes = ({ path, objectId, id }) => {
         limit: limit,
         page: page,
       }),
+      refetchInterval: env.NOTE_INTERVAL_TIME,
   });
   // const createNoteMutation = useMutation(
   //   async (newNote) => {
