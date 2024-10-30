@@ -68,7 +68,7 @@ const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedA
         .then((response) => response.json())
         .then((result) => {
             setUploadedAttachments((prevAttachments) => [...prevAttachments, result.data]);
-            if(refetch) refetch()
+            if (refetch) refetch()
             resolve({ default: result.data.url });
         })
         .catch((error) => {
@@ -76,13 +76,13 @@ const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedA
         });
 }
 
-const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl, attachmentUploadMethod = "POST", setAttachmentId = null, refetch = null }) => {
+const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl, attachmentUploadMethod = "POST", setAttachmentId = null, refetch = null, objectId, mainRowId }) => {
     const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
     IMAGE_UPLOAD_URL = imageUploadUrl
     ATTACHMENT_UPLOAD_URL = attachmentUploadUrl
 
     useEffect(() => {
-        if(setAttachmentId) setAttachmentId(uploadedAttachments.map(item => item.id).join(';'));
+        if (setAttachmentId) setAttachmentId(uploadedAttachments.map(item => item.id).join(';'));
     }, [uploadedAttachments]);
 
     const editorRef = useRef(id);
@@ -256,7 +256,7 @@ const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = '
         <div>
             <div id={id} ref={editorRef}>
             </div>
-            <Attachments attachments={uploadedAttachments} />
+            <Attachments attachments={uploadedAttachments} objectId={objectId} id={id} />
         </div>
 
     );

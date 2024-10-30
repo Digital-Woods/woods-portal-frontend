@@ -133,6 +133,8 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
                 attachmentUploadMethod={'PUT'}
                 setAttachmentId={null}
                 refetch={refetch}
+                objectId={objectId} 
+                mainRowId={id}
               />
               <div className="flex gap-x-2 mt-2">
                 <Button
@@ -320,6 +322,8 @@ const Notes = ({ path, objectId, id }) => {
           attachmentUploadMethod={'POST'}
           setAttachmentId={setAttachmentId}
           refetch={refetch}
+          objectId={objectId} 
+          mainRowId={id}
         />
         <div className="mt-4 flex justify-end">
           <Button
