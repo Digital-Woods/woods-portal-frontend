@@ -54,7 +54,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                                 item.hs_object_id.value, 
                                 `/${association.labels.plural}`, 
                                 association.objectTypeId, 'associations', 
-                                `/${value.value}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
+                                `/${association.labels.plural}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
                               </td>
                             </tr>
                           ))}
