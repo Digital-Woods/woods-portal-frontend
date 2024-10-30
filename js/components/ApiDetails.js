@@ -1,5 +1,5 @@
 const ApiDetails = ({ path, objectId, id }) => {
-  const [item, setItems] = useState(null);
+  const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
@@ -49,6 +49,14 @@ const ApiDetails = ({ path, objectId, id }) => {
     // setImages([]);
   };
 
+  const back = () => {
+    let breadcrumbItems = JSON.parse(localStorage.getItem('breadcrumbItems')) || [];
+    let path = breadcrumbItems[breadcrumbItems.length - 1]
+    console.log("breadcrumbItems", breadcrumbItems)
+    console.log("path", path)
+    return path.path;
+  }
+
   if (error) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center text-white bg-lightblue text-2xl font-semibold">
@@ -57,11 +65,17 @@ const ApiDetails = ({ path, objectId, id }) => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="loader-line"></div>
+    );
+  }
+
   return (
     <div className="h-full dark:bg-dark-200 w-[100%] p-6">
-      {isLoading && !item && <div className="loader-line"></div>}
+      {/* {isLoading && !item && } */}
 
-      {item && (
+      {item.length > 0 ? (
         <div className=" flex ">
           <div className="w-[calc(100%_-350px)] pr-4">
             <DetailsHeaderCard
@@ -113,7 +127,7 @@ const ApiDetails = ({ path, objectId, id }) => {
             )} */}
 
             {activeTab === "overview" && (
-              <DetailsView item={item}/>
+              <DetailsView item={item} />
             )}
 
 
@@ -166,7 +180,20 @@ const ApiDetails = ({ path, objectId, id }) => {
             </div>
           </Dialog>
         </div>
-      )}
+      )
+        :
+        <div className="h-[calc(100vh_-136px)] flex flex-col justify-center items-center">
+          <span>See the Jobs associated with this record.</span>
+          {/* <Link
+            className="capitalize"
+            to={back}
+          >
+            Back
+          </Link> */}
+          
+        </div>
+      }
+
     </div>
   );
 };
