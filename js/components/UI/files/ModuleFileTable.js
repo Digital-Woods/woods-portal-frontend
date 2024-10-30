@@ -96,7 +96,7 @@ const ModuleFileTable = ({ files }) => {
 
   return (
     <div className="table-container">
-      <table className="table-auto w-full mb-6">
+      <table className=" dark:bg-[#2a2a2a]  table-auto w-full mb-6">
         <thead className="bg-gray-100 text-left dark:bg-dark-200">
           <tr>
             <th className="px-4 py-2 text-xs dark:text-white"></th>

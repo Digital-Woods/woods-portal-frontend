@@ -13,14 +13,14 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
 
   const viewText =
     (activeTab === "account"
-      ? `Table view of ${title}`
-      : `List view of ${title}`
+      ? `List of ${title}s`
+      : `List of ${title}s`
     )
       .charAt(0)
       .toUpperCase() +
     (activeTab === "account"
-      ? `Table view of ${title}`
-      : `List view of ${title}`
+      ? `List of ${title}s`
+      : `List of ${title}s`
     )
       .slice(1)
       .toLowerCase();

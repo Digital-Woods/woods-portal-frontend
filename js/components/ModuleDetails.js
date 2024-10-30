@@ -195,8 +195,8 @@ const ModuleDetails = ({ path, id }) => {
                   setGalleryDialog={setGalleryDialog}
                 />
               ) : (
-                <div className="dark:text-white">
-                  No Photos Found...
+                <div className="dark:text-white h-[60vh] flex items-center justify-center">
+                  No Photos Found
                 </div>
               )
             ) : null}

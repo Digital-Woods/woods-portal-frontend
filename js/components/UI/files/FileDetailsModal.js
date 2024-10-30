@@ -86,7 +86,7 @@ const FileDetailsModal = ({ file, onClose }) => {
 
             <div className="">
               <div className="mt-4 w-full">
-                <table className="w-full table-auto">
+                <table className=" dark:bg-[#2a2a2a] w-full table-auto">
                   <tbody>
                     <tr>
                       <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">

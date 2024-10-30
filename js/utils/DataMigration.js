@@ -298,7 +298,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   return  type == 'list' && isTruncated ?
     <Tooltip right content={value}>
       <Link
-        className="text-primary dark:text-white"
+        className="dark:text-white"
       >
         {truncated}
       </Link>
