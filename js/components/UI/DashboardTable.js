@@ -291,9 +291,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                       </div>
                     </TableHead>
                   ))}
-                  {/* <TableHead className="font-semibold text-xs">
-                  Actions
-                </TableHead> */}
+                  {env.DATA_SOURCE_SET === true &&
+                    <TableHead className="font-semibold text-xs test-center">
+                      Action
+                    </TableHead>
+                  }
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -302,7 +304,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                     {tableHeader.map((column) => (
                       <TableCell
                         key={column.value}
-                        className="whitespace-nowrap border-b"
+                        className="whitespace-nowrap"
                       >
                         <div className="dark:text-white">
                           {/* {renderCellContent(
@@ -313,10 +315,10 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             path
                           )} */}
                           {renderCellContent(
-                            item[column.key], 
-                            column, 
-                            item.hs_object_id, 
-                            path == '/association' ? `/${getParam('objectTypeName')}` : path, 
+                            item[column.key],
+                            column,
+                            item.hs_object_id,
+                            path == '/association' ? `/${getParam('objectTypeName')}` : path,
                             path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                             'list',
                             path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
@@ -328,7 +330,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                       <TableCell>
                         <div className="flex items-center space-x-2 gap-x-5">
                           <Link
-                            className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
+                            className="text-xs px-2 py-1 border border-input rounded-md dark:text-white whitespace-nowrap "
                             to={`${path}/${hubspotObjectTypeId}/${item.id}`}
                           >
                             View Details
@@ -371,7 +373,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                     </div>
                   ) : key === 'iframe_file' ? (
                     <div>
-                      Hello {modalData[key].replace(";", ',')}
+                      \{modalData[key].replace(";", ',')}
                     </div>
                   ) : (
                     ''

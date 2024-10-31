@@ -3,7 +3,7 @@ const Table = React.forwardRef(
     <div className="">
       <table
         ref={ref}
-        className={classNames("caption-bottom text-sm", className)}
+        className={classNames("caption-bottom dark:bg-[#2a2a2a] text-sm", className)}
         {...props}
       />
     </div>

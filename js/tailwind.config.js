@@ -47,7 +47,7 @@ tailwind.config = {
         graySecondary: "#F2F2F2",
         richRed: "#FF0000",
         lightblue: "#005fad",
-        defaultPrimary: "#0e1111",
+        defaultPrimary: "var(--primary-color)",
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey

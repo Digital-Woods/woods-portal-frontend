@@ -309,7 +309,7 @@ const Drawer = ({ className }) => {
           </div>
 
           <div className="flex-col justify-start items-start gap-1 flex">
-            <div className="text-[#2F2E33] dark:text-white text-base font-semibold font-['Inter'] leading-snug">
+            <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
               Log out of your account?
             </div>
           </div>
