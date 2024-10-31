@@ -291,9 +291,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                       </div>
                     </TableHead>
                   ))}
-                  {/* <TableHead className="font-semibold text-xs">
-                  Actions
-                </TableHead> */}
+                  {env.DATA_SOURCE_SET === true &&
+                    <TableHead className="font-semibold text-xs">
+                      
+                    </TableHead>
+                  }
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -314,10 +316,10 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                           )} */}
                           {/* {console.log('item', item)} */}
                           {renderCellContent(
-                            item[column.key], 
-                            column, 
-                            item.hs_object_id, 
-                            path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key], 
+                            item[column.key],
+                            column,
+                            item.hs_object_id,
+                            path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                             path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                             'list',
                             path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''

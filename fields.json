@@ -20,7 +20,7 @@
           }
         },
         "default": {
-          "color": "#494A52"
+          "color": "#212121"
         }
       },
       {
@@ -39,7 +39,7 @@
           }
         },
         "default": {
-          "color": "#F8FAFC"
+          "color": "#212121"
         }
       }
     ]
@@ -67,7 +67,7 @@
         },
         "default": {
           "fallback": "sans-serif",
-          "font": "Lato",
+          "font": "Jost",
           "font_set": "GOOGLE"
         }
       },
@@ -88,8 +88,8 @@
           }
         },
         "default": {
-          "fallback": "serif",
-          "font": "Merriweather",
+          "fallback": "sans-serif",
+          "font": "Jost",
           "font_set": "GOOGLE"
         }
       }
@@ -145,7 +145,7 @@
               }
             },
             "default": {
-              "size": 50,
+              "size": 46,
               "size_unit": "px",
               "styles": {
                 "text-decoration": "none"
@@ -186,7 +186,7 @@
               }
             },
             "default": {
-              "size": 38,
+              "size": 26,
               "size_unit": "px",
               "styles": {
                 "text-decoration": "none"
@@ -227,7 +227,7 @@
               }
             },
             "default": {
-              "size": 30,
+              "size": 22,
               "size_unit": "px",
               "styles": {
                 "text-decoration": "none"
@@ -268,7 +268,7 @@
               }
             },
             "default": {
-              "size": 24,
+              "size": 20,
               "size_unit": "px",
               "styles": {
                 "text-decoration": "none"
@@ -394,7 +394,7 @@
               }
             },
             "default": {
-              "size": 24,
+              "size": 16,
               "size_unit": "px"
             }
           }
@@ -422,7 +422,7 @@
               }
             },
             "default": {
-              "color": "#0270E0",
+              "color": "#212121",
               "styles": {
                 "text-decoration": "underline"
               }
@@ -454,8 +454,8 @@
               }
             },
             "default": {
-              "color": "#FFFFFF",
-              "size": 22,
+              "color": "#212121",
+              "size": 16,
               "size_unit": "px"
             }
           },
@@ -565,7 +565,7 @@
             "max": 100,
             "step": 1,
             "suffix": "px",
-            "default": 6
+            "default": 4
           }
         ]
       },
@@ -590,7 +590,7 @@
                   "units": "px"
                 },
                 "right": {
-                  "value": 53,
+                  "value": 35,
                   "units": "px"
                 },
                 "bottom": {
@@ -598,7 +598,7 @@
                   "units": "px"
                 },
                 "left": {
-                  "value": 53,
+                  "value": 35,
                   "units": "px"
                 }
               }
@@ -706,7 +706,7 @@
                 "max": 100,
                 "step": 1,
                 "suffix": "px",
-                "default": 6
+                "default": 4
               }
             ]
           }
@@ -1131,8 +1131,8 @@
                 "placeholder": "",
                 "validation_regex": "",
                 "default": {
-                  "color": "#FFFFFF",
-                  "size": 22,
+                  "color": "#212121",
+                  "size": 16,
                   "size_unit": "px"
                 }
               }
@@ -1687,19 +1687,19 @@
                 "default": {
                   "padding": {
                     "top": {
-                      "value": 18,
+                      "value": 12,
                       "units": "px"
                     },
                     "right": {
-                      "value": 18,
+                      "value": 12,
                       "units": "px"
                     },
                     "bottom": {
-                      "value": 18,
+                      "value": 12,
                       "units": "px"
                     },
                     "left": {
-                      "value": 18,
+                      "value": 12,
                       "units": "px"
                     }
                   }
@@ -1727,7 +1727,7 @@
                 "default": {
                   "top": {
                     "width": {
-                      "value": 1,
+                      "value": 0,
                       "units": "px"
                     },
                     "opacity": 100,
@@ -1736,7 +1736,7 @@
                   },
                   "right": {
                     "width": {
-                      "value": 1,
+                      "value": 0,
                       "units": "px"
                     },
                     "opacity": 100,
@@ -1745,7 +1745,7 @@
                   },
                   "bottom": {
                     "width": {
-                      "value": 1,
+                      "value": 0,
                       "units": "px"
                     },
                     "opacity": 100,
@@ -1754,13 +1754,14 @@
                   },
                   "left": {
                     "width": {
-                      "value": 1,
+                      "value": 0,
                       "units": "px"
                     },
                     "opacity": 100,
                     "style": "solid",
                     "color": "#494A52"
                   }
+
                 }
               }
             ]
