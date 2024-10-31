@@ -59,38 +59,8 @@ const HeaderLayout = ({ title, path, id = null }) => {
   }, []);
 
   return (
-    <div className="flex justify-between items-center p-6 dark:bg-dark-200">
-      <div className="hidden lg:block">
-        <div className="text-primary font-medium text-sm flex items-center dark:text-white">
-
-          {!id ?
-            <p className="capitalize"> {title} </p>
-            :
-            <Link
-              className="capitalize"
-              to={path}
-            >
-              {formatCustomObjectLabel(title)}
-            </Link>
-          }
-
-          {id && (
-            <div className="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="18px"
-                viewBox="0 -960 960 960"
-                width="18px"
-                className="dark:fill-white"
-              >
-                <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-              </svg>
-              <p>{id.replace("/", "")}</p>
-            </div>
-          )}
-
-        </div>
-      </div>
+    <nav className="flex justify-between items-center p-6 dark:bg-dark-200">
+      <Breadcrumb id={id} title={title} path={path}/>
 
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
@@ -297,6 +267,6 @@ const HeaderLayout = ({ title, path, id = null }) => {
           </div>
         )}
       </div>
-    </div>
+    </nav>
   );
 };

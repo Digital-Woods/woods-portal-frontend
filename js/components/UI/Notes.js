@@ -92,32 +92,37 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
             </div>
           </div>
           {!isOpenEditor ?
-            <div className={`p-[24px] ${!isOpen ? '' : 'border border-[#fff] hover:border-blue-500 hover:bg-gray-100 rounded-md relative group cursor-text'}`}
-              onClick={(e) => {
+            <div>
+              <div className={`p-[24px] ${!isOpen ? '' : 'border border-[#fff] hover:border-blue-500 hover:bg-gray-100 rounded-md relative group cursor-text'}`}
+                onClick={(e) => {
 
-                if (isOpen) {
-                  e.stopPropagation();
-                  setIsOpenEditor(true);
-                  openEditor()
-                }
-              }}
-            >
-              <div className={!isOpen ? 'relative line-clamp-2' : ''}>
-                <span>
-                  {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
-                </span>
-                {isOpen &&
+                  if (isOpen) {
+                    e.stopPropagation();
+                    setIsOpenEditor(true);
+                    openEditor()
+                  }
+                }}
+              >
+                <div className={!isOpen ? 'relative line-clamp-2' : ''}>
+                  <span>
+                    {ReactHtmlParser.default(DOMPurify.sanitize(note.hs_note_body))}
+                  </span>
+
+                  <div
+                    size="32"
+                    opacity="1"
+                    className={!isOpen ? 'text-shadow' : ''}
+                  ></div>
+                </div>
+                <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <EditIcon />
+                </div>
+              </div>
+              {isOpen &&
+                <div onClick={(e) => e.stopPropagation()}>
                   <Attachments attachments={note.hs_attachment_ids || []} />
-                }
-                <div
-                  size="32"
-                  opacity="1"
-                  className={!isOpen ? 'text-shadow' : ''}
-                ></div>
-              </div>
-              <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <EditIcon />
-              </div>
+                </div>
+              }
             </div>
             :
             <div className="p-[24px] cursor-text"
@@ -133,6 +138,8 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
                 attachmentUploadMethod={'PUT'}
                 setAttachmentId={null}
                 refetch={refetch}
+                objectId={objectId}
+                mainRowId={id}
               />
               <div className="flex gap-x-2 mt-2">
                 <Button
@@ -181,7 +188,7 @@ const Notes = ({ path, objectId, id }) => {
         limit: limit,
         page: page,
       }),
-      refetchInterval: env.NOTE_INTERVAL_TIME,
+    refetchInterval: env.NOTE_INTERVAL_TIME,
   });
   // const createNoteMutation = useMutation(
   //   async (newNote) => {
@@ -320,6 +327,8 @@ const Notes = ({ path, objectId, id }) => {
           attachmentUploadMethod={'POST'}
           setAttachmentId={setAttachmentId}
           refetch={refetch}
+          objectId={objectId}
+          mainRowId={id}
         />
         <div className="mt-4 flex justify-end">
           <Button
