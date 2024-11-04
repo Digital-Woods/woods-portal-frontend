@@ -32,7 +32,7 @@ const Breadcrumb = ({ id, title, path }) => {
 
   return (
     <div className="text-xs">
-      <ol className="flex flex-wrap">
+      <ol className="flex dark:text-white flex-wrap">
         {breadcrumbs.map((breadcrumb, index) => {
           return (
             <li key={index} className="flex items-center">
@@ -40,7 +40,7 @@ const Breadcrumb = ({ id, title, path }) => {
                 className="capitalize"
                 to={breadcrumb.path}
               >
-                {breadcrumb.name}
+                {formatCustomObjectLabel(breadcrumb.name)}
               </Link>
               {index < breadcrumbs.length - 1 && (
                 <span className="mx-1">/</span>

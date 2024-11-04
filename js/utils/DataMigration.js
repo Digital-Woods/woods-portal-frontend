@@ -269,7 +269,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath) {
     return (
       <Link
-        className="text-primary font-bold border-input rounded-md"
+        className="text-primary dark:text-white font-semibold border-input rounded-md"
         to={associationPath}
       >
         {value}
@@ -279,7 +279,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   if (type == 'list' && column && column.isPrimaryDisplayProperty) {
     return (
       <Link
-        className="text-primary font-bold border-input rounded-md"
+        className="text-primary dark:text-white font-semibold border-input rounded-md"
         to={`${path}/${hubspotObjectTypeId}/${itemId}`}
       >
         {value}

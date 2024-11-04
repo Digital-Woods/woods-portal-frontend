@@ -13,14 +13,14 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
 
   const viewText =
     (activeTab === "account"
-      ? `List of ${title}s`
-      : `List of ${title}s`
+      ? `List of ${title}`
+      : `List of ${title}`
     )
       .charAt(0)
       .toUpperCase() +
     (activeTab === "account"
-      ? `List of ${title}s`
-      : `List of ${title}s`
+      ? `List of ${title}`
+      : `List of ${title}`
     )
       .slice(1)
       .toLowerCase();
@@ -47,7 +47,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
             {tableTitle()}
           </span>
           <p className="text-secondary  dark:text-white leading-5 text-sm">
-            {viewText}
+            {env.DATA_SOURCE_SET !== true ? viewText : viewText + 's' }
           </p>
         </div>
 
