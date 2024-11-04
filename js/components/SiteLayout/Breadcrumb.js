@@ -61,7 +61,7 @@ const Breadcrumb = ({ id, title, path }) => {
                 className="capitalize"
                 to={breadcrumb.path}
               >
-                {formatCustomObjectLabel(breadcrumb.name)}
+                {getParamHash(formatCustomObjectLabel(breadcrumb.name))}
               </Link>
               {index < breadcrumbs.length - 1 && (
                 <span className="mx-1">/</span>

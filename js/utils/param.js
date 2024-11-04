@@ -23,9 +23,6 @@ const setParam = (paramName, paramValue) => {
 
     // Update the browser’s address bar without reloading the page
     window.history.replaceState({}, "", currentUrl);
-
-    console.log(currentUrl.toString()); // Outputs: "https://demo.digitalwoods.io/#/sites?paramName=paramValue"
-
 }
 
 const getParam = (key) => {
@@ -45,4 +42,14 @@ const getParam = (key) => {
     const value = searchParams.get(key);
 
     return value
+}
+
+const getParamHash = (string) => {
+    const result = string.replace(/%23/g, '#');
+    return result;
+}
+
+const setParamHash = (string) => {
+    const result = string.replace(/#/g, '%23');
+    return result;
 }
