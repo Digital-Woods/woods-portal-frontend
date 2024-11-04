@@ -10,9 +10,9 @@ const ApiDetails = ({ path, objectId, id }) => {
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
 
   const [galleryDialog, setGalleryDialog] = useState(false);
-  const { error, isLoading } = useQuery({
-    queryKey: ["DetailsData", path, id],
-    queryFn: async () =>
+  const { mutate: getData, error, isLoading } = useMutation({
+    mutationKey: ["DetailsData", path, id],
+    mutationFn: async () =>
       await Client.objects.byObjectId({
         objectId: objectId,
         id: id,
@@ -40,6 +40,10 @@ const ApiDetails = ({ path, objectId, id }) => {
       // getImages(data.data);
     },
   });
+
+  useEffect(() => {
+    getData()
+  }, []);
 
   const getImages = (data) => {
     if (data && data.image) {
