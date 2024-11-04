@@ -331,7 +331,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                       <TableCell>
                         <div className="flex items-center space-x-2 gap-x-5">
                           <Link
-                            className="text-xs px-2 py-1 border border-input rounded-md whitespace-nowrap "
+                            className="text-xs px-2 py-1 border border-input dark:text-white rounded-md whitespace-nowrap "
                             to={`${path}/${hubspotObjectTypeId}/${item.id}`}
                           >
                             View Details

@@ -110,7 +110,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       )}
       <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px]">
         <div className="rounded-md flex-col gap-6 flex">
-          <h3 className="text-start text-xl font-semibold">
+          <h3 className="text-start text-xl dark:text-white font-semibold">
             Add new {title}
           </h3>
           {isLoading ?
@@ -121,7 +121,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
                 serverError={serverError}
-                className="dark:bg-gray-900"
+                className="dark:bg-[#181818]"
               >
                 {({ register, formState: { errors } }) => (
                   <div>

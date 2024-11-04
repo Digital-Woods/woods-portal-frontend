@@ -14,9 +14,9 @@ const ModuleFileTable = ({ files }) => {
   };
 
   const handleDownload = (file, e) => {
+    console.log(file);
     e.stopPropagation();
-    console.log("Downloading:", file);
-    setActiveDropdown(false);
+    window.open(file.url, "_blank");
   };
 
   const toggleDropdown = (index) => {

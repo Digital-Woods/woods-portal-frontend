@@ -129,7 +129,7 @@ const ChangePassword = () => {
         {({ register, formState: { errors } }) => (
           <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
             <div className="flex justify-between">
-              <h1 className="text-xl font-semibold pb-4">
+              <h1 className="text-xl font-semibold dark:text-white pb-4">
                 Password Information
               </h1>
               <Button
