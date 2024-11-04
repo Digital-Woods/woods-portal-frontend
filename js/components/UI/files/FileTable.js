@@ -129,7 +129,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     if (!files || files.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={5} className="text-center text-gray-500">
+          <TableCell colSpan={5} className="text-center dark:text-white text-gray-500">
             No files available
           </TableCell>
         </TableRow>
@@ -142,17 +142,17 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
           className={`border-t relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
           onClick={() => handleRowClick(file)} // This will still allow row clicking for folders
         >
-          <TableCell className="px-4 py-2 text-xs">
+          <TableCell className="px-4 py-2 text-xs dark:text-white">
             <div>{getIcon(file.name)}</div>
           </TableCell>
 
-          <TableCell className="px-4 py-2 text-xs">
+          <TableCell className="px-4 py-2 text-xs dark:text-white">
             <div className="dark:text-white">{file.name}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 text-left text-xs w-[100px]">
+          <TableCell className="px-4 py-2 text-left text-xs dark:text-white w-[100px]">
             <div>{file.type}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 text-left text-xs w-[100px]">
+          <TableCell className="px-4 py-2 text-left text-xs dark:text-white w-[100px]">
             <div>{file.size}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-right relative">

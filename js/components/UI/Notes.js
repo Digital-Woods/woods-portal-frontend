@@ -65,7 +65,7 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
 
   return (
     <div key={note.hs_object_id} className="mt-2">
-      <div className="border border-gray-200 shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => {
+      <div className="border border-gray-200 bg-white shadow-md rounded-md mt-1 p-2 text-sm cursor-pointer" onClick={() => {
         setIsOpen(!isOpen);
         setIsOpenEditor(false)
       }
@@ -80,11 +80,11 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
               }
             </div>
             <div className="flex justify-between items-center w-full">
-              <p className="text-sm font-semibold whitespace-nowrap">
+              <p className="text-sm font-semibold  whitespace-nowrap">
                 Note
               </p>
               <div>
-                <p className="text-gray-400 text-xs">
+                <p className="text-gray-400 text-xs ">
                   <span className="mr-1"> {formatDate(note.hs_createdate)} </span>
                   {formatTime(note.hs_createdate)}
                 </p>
@@ -275,7 +275,7 @@ const Notes = ({ path, objectId, id }) => {
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
   return (
-    <div className="rounded-lg mt-2 bg-cleanWhite p-4">
+    <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-[#212121] p-4">
       {alert && (
         <Alert
           message={alert.message}
@@ -315,7 +315,7 @@ const Notes = ({ path, objectId, id }) => {
         </div>
         <div className="flex items-center mb-3">
           <p className="text-gray-600 text-xs">For</p>
-          <p className="border rounded-full px-2 py-1 text-xs ml-2">
+          <p className="border rounded-full dark:text-white px-2 py-1 text-xs ml-2">
             {me.firstName}
           </p>
         </div>
