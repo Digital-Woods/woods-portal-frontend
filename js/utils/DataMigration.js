@@ -265,8 +265,8 @@ const sortData = (list, type = 'list') => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '') => {
-  if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath) {
+const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '', detailsView = true) => {
+  if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath && detailsView) {
     return (
       <Link
         className="text-primary dark:text-white font-semibold border-input rounded-md"
@@ -276,7 +276,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
       </Link>
     )
   }
-  if (type == 'list' && column && column.isPrimaryDisplayProperty) {
+  if (type == 'list' && column && column.isPrimaryDisplayProperty && detailsView) {
     return (
       <Link
         className="text-primary dark:text-white font-semibold border-input rounded-md"
@@ -286,13 +286,14 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
       </Link>
     )
   }
-  if (column && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
+  if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
     return formatDate(value);
   }
   if (!value) {
     return '--';
   }
-  if(isObject(value)) return '-------';
+  if(isObject(value)) console.log('value', value)
+  if(isObject(value)) return value.label || '--';
 
   const { truncated, isTruncated } = truncateString(value || "");
   return  type == 'list' && isTruncated ?

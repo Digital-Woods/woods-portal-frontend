@@ -25,7 +25,7 @@ const Breadcrumb = ({ id, title, path }) => {
 
     if (cPath.length == 2) localStorage.clear();
 
-    let breadcrumb = getParam("breadcrumb")
+    let breadcrumb = getParam("b")
 
     let breadcrumbItems = breadcrumb ? JSON.parse(decodeToBase64(breadcrumb)) : breadcrumbs;
 
@@ -42,11 +42,11 @@ const Breadcrumb = ({ id, title, path }) => {
 
     if(mainPath === routeName) {
       const base64 = convertToBase64(JSON.stringify(item))
-      setParam("breadcrumb", base64)
+      setParam("b", base64)
       setBreadcrumbs(item)
     } else {
       const base64 = convertToBase64(JSON.stringify(updatedBreadcrumbs))
-      setParam("breadcrumb", base64)
+      setParam("b", base64)
       setBreadcrumbs(updatedBreadcrumbs)
     }
   }, []);
@@ -58,7 +58,7 @@ const Breadcrumb = ({ id, title, path }) => {
           return (
             <li key={index} className="flex items-center">
               <Link
-                className="capitalize"
+                className="capitalize hover:text-secondary"
                 to={breadcrumb.path}
               >
                 {getParamHash(formatCustomObjectLabel(breadcrumb.name))}

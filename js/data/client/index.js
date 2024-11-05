@@ -93,13 +93,15 @@ class Client {
       inputValue,
       page,
       me,
-      portalId,
-      hubspotObjectTypeId,
-      param,
+      // portalId,
+      // hubspotObjectTypeId,
+      API_ENDPOINT,
+      // param,
       ...query
     }) =>
       HttpClient.get(
-        `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+        // `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+        API_ENDPOINT,
         // `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
         {
           limit,

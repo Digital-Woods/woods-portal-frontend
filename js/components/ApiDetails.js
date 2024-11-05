@@ -4,12 +4,21 @@ const ApiDetails = ({ path, objectId, id }) => {
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
-  const [activeTab, setActiveTab] = useState("overview");
+
+  const param = getParam("t")
+  const [activeTab, setActiveTab] = useState(param || "overview");
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
 
   const [galleryDialog, setGalleryDialog] = useState(false);
+
+  const setActiveTabFucntion = (active) => {
+    console.log('setActiveTabFucntion2', true)
+    setParam("t", active)
+    setActiveTab(active)
+  }
+
   const { mutate: getData, error, isLoading } = useMutation({
     mutationKey: ["DetailsData", path, id],
     mutationFn: async () =>
@@ -94,7 +103,7 @@ const ApiDetails = ({ path, objectId, id }) => {
             <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               <Tabs
                 activeTab={activeTab}
-                setActiveTab={setActiveTab}
+                setActiveTab={setActiveTabFucntion}
                 className="rounded-md "
               >
                 <TabsList>
@@ -106,6 +115,9 @@ const ApiDetails = ({ path, objectId, id }) => {
                   </TabsTrigger>
                   <TabsTrigger value="notes">
                     <p className="text-black dark:text-white">Notes</p>
+                  </TabsTrigger>
+                  <TabsTrigger value="tickets">
+                    <p className="text-black dark:text-white">Tickets</p>
                   </TabsTrigger>
                   {/* <TabsTrigger value="photos">
                     <p className="text-black dark:text-white">Photos</p>
@@ -138,6 +150,8 @@ const ApiDetails = ({ path, objectId, id }) => {
             {activeTab === "files" && <Files fileId={id} path={path} objectId={objectId} id={id} />}
 
             {activeTab === "notes" && <Notes path={path} objectId={objectId} id={id} />}
+
+            {activeTab === "tickets" && <Tickets path={path} objectId={objectId} id={id} />}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
