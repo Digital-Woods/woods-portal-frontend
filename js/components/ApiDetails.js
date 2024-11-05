@@ -107,6 +107,9 @@ const ApiDetails = ({ path, objectId, id }) => {
                   <TabsTrigger value="notes">
                     <p className="text-black dark:text-white">Notes</p>
                   </TabsTrigger>
+                  <TabsTrigger value="tickets">
+                    <p className="text-black dark:text-white">Tickets</p>
+                  </TabsTrigger>
                   {/* <TabsTrigger value="photos">
                     <p className="text-black dark:text-white">Photos</p>
                   </TabsTrigger> */}
@@ -138,6 +141,8 @@ const ApiDetails = ({ path, objectId, id }) => {
             {activeTab === "files" && <Files fileId={id} path={path} objectId={objectId} id={id} />}
 
             {activeTab === "notes" && <Notes path={path} objectId={objectId} id={id} />}
+
+            {activeTab === "tickets" && <Tickets path={path} objectId={objectId} id={id} />}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery

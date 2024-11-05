@@ -7,6 +7,19 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
 
+  const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
+  const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param =  mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
+  const API_ENDPOINT = `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`
+
+  console.log('API_ENDPOINT', API_ENDPOINT)
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -123,7 +136,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
           </div>
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} />
+          <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} API_ENDPOINT={API_ENDPOINT} />
         </div>
       ) : (
         <div className="dark:text-white text-cleanWhite">

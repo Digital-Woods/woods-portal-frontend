@@ -25,7 +25,7 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDPOINT, detailsView = true }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
@@ -97,11 +97,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
 
-  const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  let portalId;
-  if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId
-  }
+  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  // let portalId;
+  // if (env.DATA_SOURCE_SET != true) {
+  //   portalId = getPortal().portalId
+  // }
   // const portalId = getPortal().portalId
 
   const { mutate: getData, isLoading } = useMutation({
@@ -112,8 +112,9 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
       after,
       sortConfig,
       me,
-      portalId,
-      hubspotObjectTypeId,
+      // portalId,
+      // hubspotObjectTypeId,
+      API_ENDPOINT,
       filterPropertyName,
       filterOperator,
       filterValue,
@@ -125,9 +126,10 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
         page: currentPage,
         ...(after && after.length > 0 && { after }),
         me,
-        portalId,
-        hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-        param: param,
+        // portalId,
+        // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+        // param: param,
+        API_ENDPOINT,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -322,7 +324,8 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title }) => {
                             path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                             path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                             'list',
-                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                            detailsView
                           )}
                         </div>
                       </TableCell>
