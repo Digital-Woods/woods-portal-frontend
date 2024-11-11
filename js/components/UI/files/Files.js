@@ -6,6 +6,7 @@ const Files = ({ fileId, path, objectId, id }) => {
   const [rightClickedFolder, setRightClickedFolder] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const { sync, setSync } = useSync();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -46,9 +47,10 @@ const Files = ({ fileId, path, objectId, id }) => {
         objectId: objectId,
         id: id,
         portalId: portalId,
-
+        cache: sync ? false : true
       }),
     onSuccess: (data) => {
+      setSync(false)
       if(data && data.data) {
         if (folderStack.length > 0 && currentFiles.name != id) {
           const foundObject = findObjectById(data.data, currentFiles.id);
@@ -60,6 +62,7 @@ const Files = ({ fileId, path, objectId, id }) => {
       }
     },
     onError: (error) => {
+      setSync(false)
       console.error("Error fetching file details:", error);
     },
     // queryFn: async () => {
@@ -85,6 +88,10 @@ const Files = ({ fileId, path, objectId, id }) => {
   //     // setFolderStack(testData123);
   //   }
   // }, [data]);
+
+  useEffect(() => {
+    if (sync == true) refetch()
+  }, [sync]);
 
   // console.log('folderStack', folderStack)
 

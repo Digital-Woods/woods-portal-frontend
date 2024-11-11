@@ -10,9 +10,9 @@ const syncLoadingState = Recoil.atom({
 
 function useSync() {
   const [sync, setSyncStatus] = Recoil.useRecoilState(syncState);
-  const [isLoading, setLoader] = Recoil.useRecoilState(syncLoadingState);
+  const [isSyncLoading, setLoader] = Recoil.useRecoilState(syncLoadingState);
 
-  const setIsLoading = (status) => {
+  const setIsSyncLoading = (status) => {
     console.log("setIsLoading", status)
     setLoader(status)
     setSyncStatus(status)
@@ -27,7 +27,7 @@ function useSync() {
   return {
     sync,
     setSync,
-    isLoading,
-    setIsLoading,
+    isSyncLoading,
+    setIsSyncLoading,
   };
 }

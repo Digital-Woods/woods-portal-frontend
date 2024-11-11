@@ -30,13 +30,15 @@ class Client {
   };
 
   static files = {
-    all: ({objectId, id, portalId}) => {
-      console.log('portalId', portalId)
-      console.log('objectId', objectId)
-      console.log('id', id)
+    all: ({objectId, id, portalId, cache, ...query}) => {
       // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       const url = `/api/${portalId}/hubspot-object-files/${objectId}/${id}`;
-      return HttpClient.get(url);
+      return HttpClient.get(url,
+        {
+          cache: !!cache,
+          ...query,
+        }
+      );
     },
     uploadFile: ({objectId, id, portalId, fileData}) => {
       // const url = `${API_ENDPOINTS.FILE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
@@ -60,12 +62,14 @@ class Client {
   };
 
   static notes = {
-    all: ({objectId, id, limit = 5, page, portalId}) => {
+    all: ({objectId, id, limit = 5, page, portalId, cache, ...query}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       const url = `/api/${portalId}/hubspot-object-notes/${objectId}/${id}`;
       return HttpClient.get(url, {
         limit,
         page: page,
+        cache: !!cache,
+        ...query,
       });
     },
     createnote: ({objectId, id, noteBody, attachmentId, portalId}) => {
@@ -96,6 +100,7 @@ class Client {
       // portalId,
       // hubspotObjectTypeId,
       API_ENDPOINT,
+      cache,
       // param,
       ...query
     }) =>
@@ -109,14 +114,22 @@ class Client {
           after,
           page: page,
           search: inputValue,
+          cache: !!cache,
           ...query,
         }
       ),
 
-    byObjectId: ({ path, objectId, id, mediatorObjectTypeId, mediatorObjectRecordId, portalId }) =>
+    byObjectId: ({ path, objectId, id, mediatorObjectTypeId, mediatorObjectRecordId, portalId, cache, ...query }) =>
       HttpClient.get(
         // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
-        `/api/${portalId}/hubspot-object-data/${objectId}/${id}${mediatorObjectTypeId && mediatorObjectRecordId ? '?mediatorObjectTypeId='+mediatorObjectTypeId+'&mediatorObjectRecordId='+mediatorObjectRecordId : ''}`
+        // `/api/${portalId}/hubspot-object-data/${objectId}/${id}${mediatorObjectTypeId && mediatorObjectRecordId ? '?mediatorObjectTypeId='+mediatorObjectTypeId+'&mediatorObjectRecordId='+mediatorObjectRecordId : ''}`
+        `/api/${portalId}/hubspot-object-data/${objectId}/${id}`,
+        {
+          mediatorObjectTypeId,
+          mediatorObjectRecordId,
+          cache: !!cache,
+          ...query,
+        }
       ),
   };
 

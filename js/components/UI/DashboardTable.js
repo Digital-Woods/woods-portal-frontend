@@ -42,6 +42,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
+  const { sync, setSync } = useSync();
 
   const { me } = useMe();
 
@@ -134,15 +135,18 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
         filterPropertyName,
         filterOperator,
         filterValue,
+        cache: sync ? false : true
       });
     },
 
     onSuccess: (data) => {
+      setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
       }
     },
     onError: () => {
+      setSync(false)
       setTableData([]);
     },
   });
@@ -215,6 +219,12 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
       mapResponseData(hubSpotTableData);
     }
   }, []);
+
+  useEffect(() => {
+    if (env.DATA_SOURCE_SET != true && sync === true) {
+      getData();
+    }
+  }, [sync]);
 
   const setDialogData = (data) => {
     setModalData(data);
@@ -295,7 +305,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
                   ))}
                   {env.DATA_SOURCE_SET === true &&
                     <TableHead className="font-semibold text-xs">
-                      
+
                     </TableHead>
                   }
                 </TableRow>

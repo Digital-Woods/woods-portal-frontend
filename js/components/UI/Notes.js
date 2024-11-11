@@ -183,6 +183,7 @@ const Notes = ({ path, objectId, id }) => {
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
   const [attachmentId, setAttachmentId] = useState("");
+  const { sync, setSync } = useSync();
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -198,8 +199,16 @@ const Notes = ({ path, objectId, id }) => {
         id: id,
         limit: limit,
         page: page,
-        portalId: portalId
+        portalId: portalId,
+        cache: sync ? false : true
       }),
+      onSuccess: (data) => {
+        setSync(false)
+      },
+      onError: (error) => {
+        setSync(false)
+        console.error("Error fetching file details:", error);
+      },
     refetchInterval: env.NOTE_INTERVAL_TIME,
   });
   // const createNoteMutation = useMutation(
@@ -238,6 +247,10 @@ const Notes = ({ path, objectId, id }) => {
   //   };
   //   createNoteMutation.mutate();
   // };
+  
+  useEffect(() => {
+    if (sync == true) refetch()
+  }, [sync]);
 
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
     mutationKey: [

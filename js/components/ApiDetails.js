@@ -13,6 +13,8 @@ const ApiDetails = ({ path, objectId, id }) => {
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
+  const { sync, setSync } = useSync();
+
   const setActiveTabFucntion = (active) => {
     setParam("t", active)
     setActiveTab(active)
@@ -30,9 +32,11 @@ const ApiDetails = ({ path, objectId, id }) => {
         id: id,
         mediatorObjectTypeId,
         mediatorObjectRecordId,
-        portalId
+        portalId,
+        cache: sync ? false : true
       }),
     onSuccess: (data) => {
+      setSync(false)
       const associations = data.data.associations
       setAssociations(associations);
       const details = data.data;
@@ -52,11 +56,19 @@ const ApiDetails = ({ path, objectId, id }) => {
       // setItems(data.data);
       // getImages(data.data);
     },
+    onError: (error) => {
+      setSync(false)
+      console.error("Error fetching file details:", error);
+    },
   });
 
   useEffect(() => {
     getData()
   }, []);
+
+  useEffect(() => {
+    if(sync) getData()
+  }, [sync]);
 
   const getImages = (data) => {
     if (data && data.image) {

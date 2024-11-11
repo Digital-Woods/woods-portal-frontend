@@ -18,8 +18,6 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   }
   const API_ENDPOINT = `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`
 
-  console.log('API_ENDPOINT', API_ENDPOINT)
-
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
