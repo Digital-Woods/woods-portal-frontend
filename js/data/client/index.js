@@ -60,22 +60,22 @@ class Client {
   };
 
   static notes = {
-    all: ({objectId, id, limit = 5, page}) => {
+    all: ({objectId, id, limit = 5, page, portalId}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
+      const url = `/api/${portalId}/hubspot-object-notes/${objectId}/${id}`;
       return HttpClient.get(url, {
         limit,
         page: page,
       });
     },
-    createnote: ({objectId, id, noteBody, attachmentId}) => {
+    createnote: ({objectId, id, noteBody, attachmentId, portalId}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/1/hubspot-object-notes/${objectId}/${id}`;
+      const url = `/api/${portalId}/hubspot-object-notes/${objectId}/${id}`;
       return HttpClient.post(url, {noteBody: noteBody, attachmentId: attachmentId});
     },
-    updateNote: ({objectId, id, note, note_id}) => {
+    updateNote: ({objectId, id, note, note_id, portalId}) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/1/hubspot-object-notes/${objectId}/${id}/${note_id}`;
+      const url = `/api/${portalId}/hubspot-object-notes/${objectId}/${id}/${note_id}`;
       return HttpClient.put(url, note);
     },
     imageUpload: (me, fileId, path, data) => {
@@ -113,10 +113,10 @@ class Client {
         }
       ),
 
-    byObjectId: ({ path, objectId, id, mediatorObjectTypeId, mediatorObjectRecordId }) =>
+    byObjectId: ({ path, objectId, id, mediatorObjectTypeId, mediatorObjectRecordId, portalId }) =>
       HttpClient.get(
         // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
-        `/api/1/hubspot-object-data/${objectId}/${id}${mediatorObjectTypeId && mediatorObjectRecordId ? '?mediatorObjectTypeId='+mediatorObjectTypeId+'&mediatorObjectRecordId='+mediatorObjectRecordId : ''}`
+        `/api/${portalId}/hubspot-object-data/${objectId}/${id}${mediatorObjectTypeId && mediatorObjectRecordId ? '?mediatorObjectTypeId='+mediatorObjectTypeId+'&mediatorObjectRecordId='+mediatorObjectRecordId : ''}`
       ),
   };
 

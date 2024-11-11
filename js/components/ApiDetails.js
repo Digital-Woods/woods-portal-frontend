@@ -14,9 +14,12 @@ const ApiDetails = ({ path, objectId, id }) => {
   const [galleryDialog, setGalleryDialog] = useState(false);
 
   const setActiveTabFucntion = (active) => {
-    console.log('setActiveTabFucntion2', true)
     setParam("t", active)
     setActiveTab(active)
+  }
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
   }
 
   const { mutate: getData, error, isLoading } = useMutation({
@@ -26,7 +29,8 @@ const ApiDetails = ({ path, objectId, id }) => {
         objectId: objectId,
         id: id,
         mediatorObjectTypeId,
-        mediatorObjectRecordId
+        mediatorObjectRecordId,
+        portalId
       }),
     onSuccess: (data) => {
       const associations = data.data.associations

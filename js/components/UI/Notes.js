@@ -26,6 +26,11 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
 
   }
 
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
+
   const updateNoteMutation = useMutation(
     async (newNote) => {
       return await Client.notes.updateNote({
@@ -33,6 +38,7 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
         id: id,
         note: newNote,
         note_id: note.hs_object_id,
+        portalId: portalId
       });
     },
 
@@ -178,6 +184,11 @@ const Notes = ({ path, objectId, id }) => {
   const [alert, setAlert] = useState(null);
   const [attachmentId, setAttachmentId] = useState("");
 
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
+
   const limit = 20;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", page],
@@ -187,6 +198,7 @@ const Notes = ({ path, objectId, id }) => {
         id: id,
         limit: limit,
         page: page,
+        portalId: portalId
       }),
     refetchInterval: env.NOTE_INTERVAL_TIME,
   });
@@ -236,7 +248,8 @@ const Notes = ({ path, objectId, id }) => {
         objectId: objectId,
         id: id,
         noteBody: editorContent,
-        attachmentId: attachmentId
+        attachmentId: attachmentId,
+        portalId: portalId
       });
     },
 
