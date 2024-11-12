@@ -17,13 +17,13 @@ const DetailsHeaderCard = ({
           valueObject &&
           valueObject.isPrimaryDisplayProperty
         ) {
-          displayValue = valueObject.value;
+          displayValue = isObject(valueObject.value) ? valueObject.value.label : valueObject.value;
         }
         if (
           valueObject &&
           valueObject.isSecondaryDisplayProperty
         ) {
-          displayValue2 = valueObject.value;
+          displayValue2 = isObject(valueObject.value) ? valueObject.value.label : valueObject.value;
         }
       }
     }

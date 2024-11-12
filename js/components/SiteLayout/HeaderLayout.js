@@ -60,7 +60,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
 
   return (
     <nav className="flex justify-between items-center p-6 dark:bg-dark-200">
-      <Breadcrumb id={id} title={title} path={path}/>
+      <Breadcrumb id={id} title={title} path={path} />
 
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
@@ -80,6 +80,10 @@ const HeaderLayout = ({ title, path, id = null }) => {
 
       <div>
         <div className="flex gap-x-4">
+          <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
+            <SyncButton />
+          </div>
+
           <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
@@ -157,7 +161,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
             </div>
             <hr className="border-t border-gray-200 dark:border-gray-600" />
             <div className="flex flex-col gap-y-1  p-2">
-              { env.DATA_SOURCE_SET === false &&
+              {env.DATA_SOURCE_SET === false &&
                 <NavLink
                   to="/profile"
                   className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"

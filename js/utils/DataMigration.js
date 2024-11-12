@@ -272,7 +272,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
         className="text-primary dark:text-white font-semibold border-input rounded-md"
         to={associationPath}
       >
-        {value}
+        {isObject(value) ? value.label : value}
       </Link>
     )
   }
@@ -282,17 +282,16 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
         className="text-primary dark:text-white font-semibold border-input rounded-md"
         to={`${path}/${hubspotObjectTypeId}/${itemId}`}
       >
-        {value}
+        {isObject(value) ? value.label : value}
       </Link>
     )
   }
   if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
-    return formatDate(value);
+    return formatDate(isObject(value) ? value.label : value);
   }
   if (!value) {
     return '--';
   }
-  if(isObject(value)) console.log('value', value)
   if(isObject(value)) return value.label || '--';
 
   const { truncated, isTruncated } = truncateString(value || "");

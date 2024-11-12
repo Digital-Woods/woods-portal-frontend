@@ -48,13 +48,14 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                           sortData(item, 'associations').map((value, index) => (
                             <tr key={value.key}>
                               <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{value.label}:</td>
+                              {console.log('value.value', value.value.label)}
                               <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">{renderCellContent(
                                 value.value, 
                                 value, 
                                 item.hs_object_id.value, 
                                 `/${association.labels.plural}`, 
                                 association.objectTypeId, 'associations', 
-                                `/${setParamHash(value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
+                                `/${setParamHash(isObject(value.value) ? value.value.label : value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
                               </td>
                             </tr>
                           ))}

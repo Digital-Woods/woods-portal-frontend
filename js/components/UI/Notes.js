@@ -26,6 +26,11 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
 
   }
 
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
+
   const updateNoteMutation = useMutation(
     async (newNote) => {
       return await Client.notes.updateNote({
@@ -33,6 +38,7 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
         id: id,
         note: newNote,
         note_id: note.hs_object_id,
+        portalId: portalId
       });
     },
 
@@ -177,6 +183,12 @@ const Notes = ({ path, objectId, id }) => {
   const [page, setPage] = useState(1);
   const [alert, setAlert] = useState(null);
   const [attachmentId, setAttachmentId] = useState("");
+  const { sync, setSync } = useSync();
+
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
 
   const limit = 20;
   const { data, error, isLoading, refetch } = useQuery({
@@ -187,7 +199,16 @@ const Notes = ({ path, objectId, id }) => {
         id: id,
         limit: limit,
         page: page,
+        portalId: portalId,
+        cache: sync ? false : true
       }),
+      onSuccess: (data) => {
+        setSync(false)
+      },
+      onError: (error) => {
+        setSync(false)
+        console.error("Error fetching file details:", error);
+      },
     refetchInterval: env.NOTE_INTERVAL_TIME,
   });
   // const createNoteMutation = useMutation(
@@ -226,6 +247,10 @@ const Notes = ({ path, objectId, id }) => {
   //   };
   //   createNoteMutation.mutate();
   // };
+  
+  useEffect(() => {
+    if (sync == true) refetch()
+  }, [sync]);
 
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
     mutationKey: [
@@ -236,7 +261,8 @@ const Notes = ({ path, objectId, id }) => {
         objectId: objectId,
         id: id,
         noteBody: editorContent,
-        attachmentId: attachmentId
+        attachmentId: attachmentId,
+        portalId: portalId
       });
     },
 
