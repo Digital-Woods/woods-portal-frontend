@@ -99,11 +99,10 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
   const objectTypeName = getParam("objectTypeName")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  // let portalId;
-  // if (env.DATA_SOURCE_SET != true) {
-  //   portalId = getPortal().portalId
-  // }
-  // const portalId = getPortal().portalId
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
 
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
