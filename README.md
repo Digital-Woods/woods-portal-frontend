@@ -1,8 +1,8 @@
 # WoodsPortal Frontend Customization Guide
 
-This codebase is designed to extend the capabilities of HubSpot’s membership portal using React, enabling a fully customizable, single-page application (SPA) experience. It integrates seamlessly with **Woods Portal**—our hosted, enterprise-level membership portal for HubSpot—offering unlimited customization potential.
+This codebase is designed to extend the capabilities of HubSpot’s membership portal using React, enabling a fully customizable, single-page application (SPA) experience. It integrates seamlessly with **WoodsPortal**—our hosted, enterprise-level membership portal for HubSpot—offering unlimited customization potential.
 
-For feature requests, feel free to reach out at [support@digitalwoods.io](mailto:support@digitalwoods.io).
+For feature requests, feel free to reach out at [dev@digitalwoods.io](mailto:dev@digitalwoods.io).
 
 ---
 
