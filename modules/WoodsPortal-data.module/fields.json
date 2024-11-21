@@ -1,0 +1,1316 @@
+[ {
+  "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",
+  "name" : "hubspot_data_source",
+  "display_width" : null,
+  "label" : "HubSpot Data Source",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "44c02d86-d5ac-515b-5959-d040308ed6b1",
+  "name" : "backend_server_url",
+  "display_width" : null,
+  "label" : "Backend Server URL",
+  "required" : false,
+  "locked" : false,
+  "validation_regex" : "",
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "NOT_EQUAL",
+    "access" : null
+  },
+  "allow_new_line" : false,
+  "show_emoji_picker" : false,
+  "type" : "text",
+  "default" : "https://app.demo.digitalwoods.io"
+}, {
+  "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
+  "name" : "page_editor_preview_",
+  "display_width" : null,
+  "label" : "Enable Dashboard Preview",
+  "help_text" : "",
+  "inline_help_text" : "Please disable the preview before Publishing",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "bbc85b65-2e27-0ec1-10a5-21ceb79f51d1",
+  "name" : "see_documentation",
+  "display_width" : null,
+  "label" : "View Quickstart Guide",
+  "help_text" : "",
+  "inline_help_text" : "",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "page_editor_preview_",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : false
+}, {
+  "id" : "492fa57e-894f-64bc-7bd5-8a25b5f7c40a",
+  "name" : "add_home_tab",
+  "display_width" : null,
+  "label" : "Add Home Tab",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "9a6edab5-4b55-2deb-25ae-d4296815500e",
+  "name" : "home_tab",
+  "display_width" : null,
+  "label" : " Home Tab",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : 1,
+    "max" : 1,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_home_tab",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "84ad91c0-b166-29f6-5f5a-a3135cac9d3a",
+    "name" : "tab_name",
+    "display_width" : null,
+    "label" : "Tab Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Home"
+  }, {
+    "id" : "f60179ff-76c4-fee1-d35d-1b8359918f97",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "company"
+  }, {
+    "id" : "e52e24d4-4784-b251-c297-fda3279eeff4",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "dealname,dealstage,amount"
+  }, {
+    "id" : "5c9ae80f-a878-73ff-5f22-6fb2dcd5fe12",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Associated Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "display" : "text",
+    "step" : 1,
+    "type" : "number",
+    "default" : 0
+  }, {
+    "id" : "6eb1f720-f63d-a88e-e7fc-fe7149e98eb0",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "0-2"
+  }, {
+    "id" : "05fcab51-dabc-8230-b501-5dc3b00c01f6",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "company",
+    "list_object_properties" : "dealname,dealstage,amount",
+    "association_object_type_id" : 0,
+    "object_type_id" : "0-2",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+    "tab_name" : "Home"
+  } ]
+}, {
+  "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
+  "name" : "home_tab_banner_details",
+  "display_width" : null,
+  "label" : "Home Tab Banner Details",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_home_tab",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
+    "name" : "title",
+    "display_width" : null,
+    "label" : "Title",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Welcome to Woods Portal. The HubSpot Solution"
+  }, {
+    "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
+    "name" : "description",
+    "display_width" : null,
+    "label" : "Description",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus."
+  }, {
+    "id" : "082643eb-96a9-1535-2588-474fd68ee854",
+    "name" : "button_text",
+    "display_width" : null,
+    "label" : "Button text",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Get Partnership"
+  }, {
+    "id" : "076f638c-cc42-7d31-103b-d1d69e63c6a7",
+    "name" : "button_url",
+    "display_width" : null,
+    "label" : "Button Url",
+    "required" : false,
+    "locked" : false,
+    "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+    "type" : "url",
+    "default" : {
+      "content_id" : null,
+      "href" : "https://hub.digitalwoods.io",
+      "type" : "EXTERNAL"
+    }
+  }, {
+    "id" : "473873ea-c361-d919-71d7-b768362269cc",
+    "name" : "background_image",
+    "display_width" : null,
+    "label" : "Background image",
+    "required" : false,
+    "locked" : false,
+    "responsive" : true,
+    "resizable" : false,
+    "show_loading" : false,
+    "type" : "image",
+    "default" : {
+      "size_type" : "auto",
+      "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+      "alt" : "Banner-woods-portal",
+      "loading" : "lazy",
+      "width" : 848,
+      "height" : 309,
+      "max_width" : 848,
+      "max_height" : 309
+    }
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "title" : "Welcome to Woods Portal. The HubSpot Solution",
+    "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
+    "button_text" : "Get Partnership",
+    "button_url" : {
+      "content_id" : null,
+      "href" : "https://hub.digitalwoods.io",
+      "type" : "EXTERNAL"
+    },
+    "background_image" : {
+      "size_type" : "auto",
+      "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+      "alt" : "Banner-woods-portal",
+      "loading" : "lazy",
+      "width" : 848,
+      "height" : 309,
+      "max_width" : 848,
+      "max_height" : 309
+    }
+  }
+}, {
+  "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
+  "name" : "add_right_sidebar",
+  "display_width" : null,
+  "label" : "Add Right Sidebar",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "f06ac208-a6a4-bb4b-13f1-52e2d323a457",
+  "name" : "right_sidebar_object",
+  "display_width" : null,
+  "label" : "Right Sidebar Object",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : 1,
+    "max" : 2,
+    "sorting_label_field" : null,
+    "default" : 2
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_right_sidebar",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "7fc1aca2-d7ce-8931-e5f9-24120ede2a19",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Ticket"
+  }, {
+    "id" : "5f21af54-2728-6f53-e016-ad5141acb3fb",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "subject,hs_pipeline_stage,hs_pipeline"
+  }, {
+    "id" : "542b99e2-50e3-5725-2b64-53ccf129e716",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Associated Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "display" : "text",
+    "step" : 1,
+    "type" : "number",
+    "default" : 15
+  }, {
+    "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "0-5"
+  }, {
+    "id" : "43518b07-391d-24fa-3cdf-2da018624b6e",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "Ticket",
+    "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+    "association_object_type_id" : 15,
+    "object_type_id" : "0-5",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  }, {
+    "list_object_name" : "Ticket",
+    "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+    "association_object_type_id" : 15,
+    "object_type_id" : "0-5",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ]
+}, {
+  "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
+  "name" : "hubspot_defined_object",
+  "display_width" : null,
+  "label" : "Hubspot Defined Object",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "2448d2e9-dc1b-552c-2731-a00855e1c1d8",
+  "name" : "objects",
+  "display_width" : null,
+  "label" : "Objects",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : null,
+    "max" : null,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_defined_object",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "421e3e26-9834-2827-daae-5af486df2cc3",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "deal"
+  }, {
+    "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "dealname,dealstage,amount"
+  }, {
+    "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Associated Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "display" : "text",
+    "step" : 1,
+    "type" : "number",
+    "default" : 4
+  }, {
+    "id" : "7c126648-95fd-7a87-3fb9-fe5deaf04aee",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text"
+  }, {
+    "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "deal",
+    "list_object_properties" : "dealname,dealstage,amount",
+    "association_object_type_id" : 4,
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ]
+}, {
+  "id" : "49155e57-6695-78de-cce9-e05e90a399c1",
+  "name" : "hubspot_custom_object",
+  "display_width" : null,
+  "label" : "Hubspot Custom Object",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : false
+}, {
+  "id" : "4ead23fa-98bf-7348-0024-e87eb0a11ade",
+  "name" : "hubspot_custom_objects",
+  "display_width" : null,
+  "label" : "Hubspot Custom Objects",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : null,
+    "max" : null,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_custom_object",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "f0467f72-bad2-c77e-c943-2b779c5862dd",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : ""
+  }, {
+    "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text"
+  }, {
+    "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Associated Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "display" : "text",
+    "step" : 1,
+    "type" : "number"
+  }, {
+    "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text"
+  }, {
+    "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ]
+}, {
+  "id" : "97ed5f0f-5ac2-1cc8-2290-7fad244a1973",
+  "name" : "style",
+  "display_width" : null,
+  "label" : "Style",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
+    "name" : "home_tab_styles",
+    "display_width" : null,
+    "label" : "Home Tab Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
+      "name" : "home_tab_banner_text_color",
+      "display_width" : null,
+      "label" : "Title Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "0dfda916-6aa6-344f-546b-5d16f1ea0533",
+      "name" : "description_color",
+      "display_width" : null,
+      "label" : "Description Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "efda18b7-39cc-4402-54b5-ea93e09bb5e9",
+      "name" : "button_styles",
+      "display_width" : null,
+      "label" : "Button Styles",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "15f07d17-dc13-0be0-c4eb-8e091c56a4e8",
+        "name" : "background_color",
+        "display_width" : null,
+        "label" : "Background Color",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "01e4a5d8-532a-9929-07be-aadffbb44bd4",
+        "name" : "text_color",
+        "display_width" : null,
+        "label" : "Text Color",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "default" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      }
+    }, {
+      "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
+      "name" : "banner_overlayer_color",
+      "display_width" : null,
+      "label" : "Banner Overlayer Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#ffffff",
+        "opacity" : 50
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "home_tab_banner_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "description_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "button_styles" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      },
+      "banner_overlayer_color" : {
+        "color" : "#ffffff",
+        "opacity" : 50
+      }
+    }
+  }, {
+    "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
+    "name" : "sidebar_styles",
+    "display_width" : null,
+    "label" : "Sidebar Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "3fb5a5f8-3b5d-2c0b-50e9-4380dd35c9ed",
+      "name" : "sidebar_background_color",
+      "display_width" : null,
+      "label" : "Sidebar Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
+    "name" : "details_page_styles",
+    "display_width" : null,
+    "label" : "Details Page Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "e898e4ce-46ca-a2c4-3a50-bdfaa2d3981d",
+      "name" : "banner_background_options",
+      "display_width" : null,
+      "label" : "Banner Background Options",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "54067526-66c2-7d40-26ae-5f512e3fa605",
+        "name" : "banner_color_1",
+        "display_width" : null,
+        "label" : "Banner Color 1",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "99720ee2-3c7c-3ef8-643f-733cb7a4fceb",
+        "name" : "banner_color_2",
+        "display_width" : null,
+        "label" : "Banner Color 2",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "default" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      }
+    }, {
+      "id" : "db027850-c7ed-f436-f9ae-93787c6bce31",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "banner_background_options" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
+    "name" : "sidebar_details_background_colors",
+    "display_width" : null,
+    "label" : "Right Sidebar Details Background Colors",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "54733607-eb81-1c21-df3a-03d8068d4f16",
+      "name" : "color_1",
+      "display_width" : null,
+      "label" : "Color 1",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
+      "name" : "color_2",
+      "display_width" : null,
+      "label" : "Color 2",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#15803D",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "color_1" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "color_2" : {
+        "color" : "#15803D",
+        "opacity" : 100
+      }
+    }
+  } ],
+  "tab" : "STYLE",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "home_tab_styles" : {
+      "home_tab_banner_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "description_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "button_styles" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      },
+      "banner_overlayer_color" : {
+        "color" : "#ffffff",
+        "opacity" : 50
+      }
+    },
+    "sidebar_styles" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "details_page_styles" : {
+      "banner_background_options" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "sidebar_details_background_colors" : {
+      "color_1" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "color_2" : {
+        "color" : "#15803D",
+        "opacity" : 100
+      }
+    }
+  }
+}, {
+  "id" : "9b29ea6c-a0cd-4cd7-d092-8e3f356d8871",
+  "name" : "other_options",
+  "display_width" : null,
+  "label" : "Other Options",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "a64db76d-d2ff-4e31-2319-8a038d3e7cc1",
+    "name" : "company_options",
+    "display_width" : null,
+    "label" : "Company Options",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "3a631ccb-c71e-a66a-5968-602b720e77af",
+      "name" : "logo",
+      "display_width" : null,
+      "label" : "Logo",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
+        "loading" : "lazy",
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
+      }
+    }, {
+      "id" : "44cde3d6-4cd9-54cd-6802-4a9c90b6697e",
+      "name" : "small_logo",
+      "display_width" : null,
+      "label" : "Small Logo",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
+        "loading" : "lazy",
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
+      }
+    }, {
+      "id" : "bd45fd06-6aba-0238-39de-f7b9339705d4",
+      "name" : "show_small_logo_on_sidebar",
+      "display_width" : null,
+      "label" : "Show Small Logo On Sidebar",
+      "required" : false,
+      "locked" : false,
+      "display" : "checkbox",
+      "type" : "boolean",
+      "default" : true
+    }, {
+      "id" : "b675141e-9014-d0ab-3867-d7c2c4d8940a",
+      "name" : "show_company_name",
+      "display_width" : null,
+      "label" : "Show Company Name",
+      "required" : false,
+      "locked" : false,
+      "display" : "checkbox",
+      "type" : "boolean",
+      "default" : true
+    }, {
+      "id" : "6deba33a-0ad3-265a-1fb2-913295dca4f1",
+      "name" : "company_name",
+      "display_width" : null,
+      "label" : "Company name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "other_options.company_options.show_company_name",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "CompanyName"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
+        "loading" : "lazy",
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
+      },
+      "small_logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
+        "loading" : "lazy",
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
+      },
+      "show_small_logo_on_sidebar" : true,
+      "show_company_name" : true,
+      "company_name" : "CompanyName"
+    }
+  }, {
+    "id" : "c077d677-6815-7789-f81e-ad337959d9d3",
+    "name" : "show_sidebar_cta",
+    "display_width" : null,
+    "label" : "Show sidebar CTA",
+    "required" : false,
+    "locked" : false,
+    "display" : "checkbox",
+    "type" : "boolean",
+    "default" : false
+  }, {
+    "id" : "809b00e0-388d-cb9b-8a22-5b931af517ca",
+    "name" : "sidebar_cta_details",
+    "display_width" : null,
+    "label" : "Sidebar CTA Details",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "other_options.show_sidebar_cta",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "1b5b5550-38ba-b702-2c86-6507ecdfc4df",
+      "name" : "title",
+      "display_width" : null,
+      "label" : "Title",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Get early access to our best apps, themes, and modules"
+    }, {
+      "id" : "0e035591-23c0-76b2-d948-257ecad27e28",
+      "name" : "button_text",
+      "display_width" : null,
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Click Me"
+    }, {
+      "id" : "61637da3-86f7-7afb-9e61-1680c08bad86",
+      "name" : "button_url",
+      "display_width" : null,
+      "label" : "Button Url",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+      "type" : "url",
+      "default" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "title" : "Get early access to our best apps, themes, and modules",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    }
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "company_options" : {
+      "logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
+        "loading" : "lazy",
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
+      },
+      "small_logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
+        "loading" : "lazy",
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
+      },
+      "show_small_logo_on_sidebar" : true,
+      "show_company_name" : true,
+      "company_name" : "CompanyName"
+    },
+    "show_sidebar_cta" : false,
+    "sidebar_cta_details" : {
+      "title" : "Get early access to our best apps, themes, and modules",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    }
+  }
+} ]

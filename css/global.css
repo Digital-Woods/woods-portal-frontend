@@ -360,6 +360,15 @@
   right: 0px;
 }
 
+.hide-scrollbar {
+  overflow-y: scroll; 
+  scrollbar-width: none; 
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; 
+}
+
 
 /* theme settings css variables */
 
@@ -438,6 +447,10 @@
 
 
   /* Headings */
+  :root{
+    --primary-color:{{primary_color}};
+    --secondary-color:{{secondary_color}};
+  }
 
 h1,
 .h1 {
@@ -516,25 +529,29 @@ table {
 
 /* Table cells */
 
-td,
-th {
+td {
   {{ table_border }}
   {{ table_cell_spacing }}
+  color: {{ table_font_color }};
+}
+th {
+  {{ table_border }};
+  padding:8px 24px 8px 24px;
   color: {{ table_font_color }};
 }
 
 /* Table header */
 
 thead th {
-  background-color: {{ table_head_bg_color }};
-  color: {{ table_head_font_color }};
+  background-color: #F5F8FA;
+  color: #525259;
 }
 
 /* Table footer */
 
 tfoot td {
-  background-color: {{ table_footer_bg_color }};
-  color: {{ table_footer_font_color }};
+  background-color: #F5F8FA;
+  color: #525259;
 }
 
 .rotate{

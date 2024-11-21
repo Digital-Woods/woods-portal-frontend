@@ -59,18 +59,23 @@ const HeaderLayout = ({ title, path, id = null }) => {
   }, []);
 
   return (
-    <nav className="flex justify-between items-center p-6 dark:bg-dark-200">
-      <Breadcrumb id={id} title={title} path={path} />
-
+    <nav className="flex bg-sidelayoutColor dark:bg-dark-300 justify-between items-center px-6 py-2 dark:bg-dark-200">
+      {env.DATA_SOURCE_SET != true ? (
+        <Breadcrumb id={id} title={title} path={path} />
+      ) : (
+        <div className="text-xs capitalize dark:text-cleanWhite">
+          {title}
+        </div>
+      )}
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
-          <p className="text-primary font-semibold  dark:text-white">
+          <p className="text-sidelayoutTextColor font-semibold  dark:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
-              className="dark:fill-white fill-black"
+              className="dark:fill-white fill-sidelayoutTextColor"
             >
               <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
             </svg>
@@ -79,61 +84,23 @@ const HeaderLayout = ({ title, path, id = null }) => {
       </div>
 
       <div>
-        <div className="flex gap-x-4">
-          <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
-            <SyncButton />
-          </div>
-
-          <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
+        <div className="flex gap-4 ">
+          {env.DATA_SOURCE_SET != true ? (
+            <div className="bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400">
+              <SyncButton />
+            </div>
+          ) : ('')
+          }
+          <div className="bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
 
           <div
-            className="flex flex-col justify-center items-center bg-cleanWhite rounded-md pl-2 cursor-pointer dark:bg-dark-400 profile-section"
+            className=" bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400  cursor-pointer  profile-section"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >
-            <div className="flex">
-              <div className="flex flex-col items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="2"
-                  viewBox="0 0 16 2"
-                  className="dark:fill-white mb-[3px] mr-1"
-                >
-                  <path
-                    d="M1 1H15"
-                    stroke="#2F2F33"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    className="dark:stroke-white"
-                  />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="2"
-                  viewBox="0 0 16 2"
-                  className="dark:fill-white  mr-1"
-                >
-                  <path
-                    d="M1 1H15"
-                    stroke="#2F2F33"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    className="dark:stroke-white"
-                  />
-                </svg>
-              </div>
-              <div className="w-8 pr-2">
-                <Avatar
-                  src={
-                    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-                  }
-                />
-              </div>
-            </div>
+                <NewAvater  />
           </div>
         </div>
 
@@ -153,7 +120,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
                   <div className="font-semibold dark:text-white break-all">
                     {firstName}
                   </div>
-                  <p className="text-xs text-secondary dark:text-gray-400 break-all">
+                  <p className="text-xs text-primary dark:text-gray-400 break-all">
                     {email}
                   </p>
                 </div>

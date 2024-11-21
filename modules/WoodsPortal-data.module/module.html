@@ -12,8 +12,49 @@
 {% do iframeDatas.append({'name': name, 'url': url}) %}
 {% endfor %}
 
+{% set dynamicSidebarList = [] %}
+
+{% if module.add_right_sidebar %}
+{% for item in module.right_sidebar_object %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicSidebarList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
 
 {% set dynamicRouteList = [] %}
+
+{% if module.add_home_tab %}
+{% for item in module.home_tab %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+tabName: item.tab_name,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
 
 {% if module.hubspot_defined_object %}
 {% for item in module.objects %}
@@ -94,7 +135,49 @@ route.listObjectProperties) %}
 
 {% else %}
 
+{% set dynamicSidebarList = [] %}
+
+{% if module.add_right_sidebar %}
+{% for item in module.right_sidebar_object %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicSidebarList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
 {% set dynamicRouteList = [] %}
+
+{% if module.add_home_tab %}
+{% for item in module.home_tab %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
 
 {% if module.hubspot_defined_object %}
 {% for item in module.objects %}
@@ -135,6 +218,7 @@ objectType: "USER_DEFINED",
 {% endif %}
 
 {% if module.page_editor_preview_ %}
+{% if module.hubspot_data_source %}
 
 <div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
   <p>
@@ -691,6 +775,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
 {% endif %}
 {% endif %}
 {% endif %}
+{% endif %}
 
 
 <script>
@@ -702,7 +787,38 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
       window.open(target, "_blank");
     }
   }
+  let moduleStyles = {
+    homeTabStyles:{
+      headingColor:"{{ module.style.home_tab_styles.home_tab_banner_text_color.color }}",
+      descriptionColor:"{{ module.style.home_tab_styles.description_color.color }}",
+      buttonStyles :{
+        backgroundColor:"{{ module.style.home_tab_styles.button_styles.background_color.color }}",
+        textColor:"{{ module.style.home_tab_styles.button_styles.text_color.color }}",
+      },
+      overlayer:{
+        color:"{{ module.style.home_tab_styles.banner_overlayer_color.color }}",
+        opacity:"{{ module.style.home_tab_styles.banner_overlayer_color.opacity }}",
+      }
+    },
+    sidebarStyles:{
+      textColor:"{{ module.style.sidebar_styles.text_color.color }}",
+      backgroundColor:"{{ module.style.sidebar_styles.sidebar_background_color.color }}",
+    },
+    detailsPageStyles:{
+      textColor:"{{ module.style.details_page_styles.text_color.color }}",
+      bannerColors:{
+        color1:"{{ module.style.details_page_styles.banner_background_options.banner_color_1.color }}",
+        color2:"{{ module.style.details_page_styles.banner_background_options.banner_color_2.color }}",
+      }
+    },
+    rightSidebarDetailsColors:{
+        color1:"{{ module.style.sidebar_details_background_colors.color_1.color }}",
+        color2:"{{ module.style.sidebar_details_background_colors.color_2.color }}",
+      }
+  }
   let testData = {{ dynamicRouteList | tojson | safe }};
+  let sidebarListData = {{ dynamicSidebarList | tojson | safe }};
+  let showSidebarListData = {{ module.add_right_sidebar}};
   let sidebarCta = {
     title: "{{ module.other_options.sidebar_cta_details.title }}",
     buttonText: "{{ module.other_options.sidebar_cta_details.button_text }}",
@@ -711,7 +827,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
   let moduleCompanyOptions = {
     logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
     companyName: "{{ module.other_options.company_options.company_name }}",
-    logoUrl: "{{ module.other_options.company_options.logo_url.href|escape_url }}",
+    smallLogo: "{{ module.other_options.company_options.small_logo.src|escape_url }}",
   };
   let moduleDashBoardTitle = {
     lineChartTitle: "{{ module.other_options.line_chart_title }}",
@@ -719,13 +835,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     dataTableTitle: "{{ module.other_options.data_table_title }}",
   }
   let moduleBannerDetails = {
-    title: "{{ module.other_options.banner_details.title }}",
-    tagText: "{{ module.other_options.banner_details.tag_text }}",
-    description: "{{ module.other_options.banner_details.description }}",
-    buttonText: "{{ module.other_options.banner_details.button_text }}",
-    buttonUrl: "{{ module.other_options.banner_details.button_url.href|escape_url }}",
-    backgroundImage: "{{ module.other_options.banner_details.background_image.src }}",
+    title: "{{ module.home_tab_banner_details.title }}",
+    description: "{{ module.home_tab_banner_details.description }}",
+    buttonText: "{{ module.home_tab_banner_details.button_text }}",
+    buttonUrl: "{{ module.home_tab_banner_details.button_url.href|escape_url }}",
+    backgroundImage: "{{ module.home_tab_banner_details.background_image.src|escape_url }}",
   };
+  
   let loggedInUserDetails = {{ loggedInUser | tojson | safe }};
   let objList = {{ objectList | tojson | safe }};
   let iframeTest = {{ iframeDatas  | tojson | safe }};
@@ -734,4 +850,9 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
   let PodCastsEpisodes = {{ podCasts | safe || [] }};
   let lineChartDatas = {{ lineChart | safe || [] }};
   let dataSource = {{ module.hubspot_data_source }};
+  let showCompanyName = {{ module.other_options.company_options.show_company_name }};
+  let showSidebarCta = {{ module.other_options.show_sidebar_cta }};
+  let showSamllLogo = {{ module.other_options.company_options.show_small_logo_on_sidebar }};
+  let addHomeTab = {{module.add_home_tab}};
+  let apiBaseUrl = "{{ module.backend_server_url }}";
 </script>

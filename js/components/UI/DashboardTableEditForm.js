@@ -1,94 +1,28 @@
-const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch }) => {
+const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, showEditData, refetch }) => {
   const { sync, setSync } = useSync();
+  const [isSata, setisData] = useState(false);
   const [data, setData] = useState([]);
-  const { mutate: getData, isLoading } = useMutation({
-    mutationKey: [
-      "TableFormData"
-    ],
-    mutationFn: async () => {
-      return await Client.form.fields({ API: apis.formAPI });
-    },
-
-    onSuccess: (response) => {
-      if (response.statusCode === "200") {
-        console.log('response.data', response.data)
-        return setData(sortFormData(response.data))
-      }
-    },
-    onError: () => {
-      setData([]);
-    },
-  });
-
-  useEffect(() => {
-    getData();
-  }, []);
-
+  const [initialValues, setInitialValues] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const { z } = Zod;
 
   const createValidationSchema = (data) => {
     const schemaShape = {};
-
     data.forEach((field) => {
-      // if (field.requiredProperty && field.fieldType === 'string') {
       if (field.requiredProperty) {
-        // Add validation for required fields based on your criteria
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
         });
       } else {
         schemaShape[field.name] = z.string().nullable();
       }
-      // Add more field types as needed, such as numbers, booleans, etc.
-      // Example:
-      // if (field.type === 'number') {
-      //   schemaShape[field.name] = z.number().min(1, {
-      //     message: `${field.customLabel || field.label} must be at least 1.`,
-      //   });
-      // }
+
     });
-    // if (Object.keys(schemaShape).length != 0) return z.object(schemaShape);
     return z.object(schemaShape);
   };
 
   const validationSchema = createValidationSchema(data);
-
-  const { mutate: addData, isLoading: submitLoading } = useMutation({
-    mutationKey: ["addData"],
-    mutationFn: async (input) => {
-      try {
-        const response = await Client.form.create({
-          API: apis.createAPI,
-          data: input
-        });
-        return response;
-      } catch (error) {
-        throw error;
-      }
-    },
-    onSuccess: async (response) => {
-      setAlert({ message: response.statusMsg, type: "success" });
-      setSync(true)
-      setOpenModal(false)
-    },
-
-    onError: (error) => {
-      let errorMessage = "An unexpected error occurred.";
-
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.errors;
-        setServerError(errors);
-
-        errorMessage =
-          typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
-      }
-
-      setAlert({ message: errorMessage, type: "error" });
-    },
-  });
 
   const { mutate: getStags, isLoading: stageLoading } = useMutation({
     mutationKey: ["getStageData"],
@@ -116,8 +50,72 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
   });
 
+  const { mutate: getData, isLoading } = useMutation({
+    mutationKey: [
+      "TableFormData"
+    ],
+    mutationFn: async () => {
+      return await Client.form.fields({ API: apis.formAPI });
+    },
+
+    onSuccess: (response) => {
+      if (response.statusCode === "200") {
+        setData(
+          response.data.sort((a, b) => {
+            if (a.primaryDisplayProperty) return -1;
+            if (b.primaryDisplayProperty) return 1;
+            if (a.secondaryDisplayProperty) return -1;
+            if (b.secondaryDisplayProperty) return 1;
+            return 0;
+          })
+        )
+        setisData(true)
+      }
+    },
+    onError: () => {
+      setData([]);
+      setisData(false)
+    },
+  });
+
+  const { mutate: editData, isLoading: submitLoading } = useMutation({
+    mutationKey: ["editData"],
+    mutationFn: async (input) => {
+      try {
+        const response = await Client.form.update({
+          API: `${apis.updateAPI}${showEditData.hs_object_id}`,
+          data: input
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: async (response) => {
+      setAlert({ message: response.statusMsg, type: "success" });
+      // refetch()
+      setSync(true)
+      setOpenModal(false)
+    },
+
+    onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data.detailedMessage;
+        const errors = error.response.data.errors;
+        setServerError(errors);
+
+        errorMessage =
+          typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
+      }
+
+      setAlert({ message: errorMessage, type: "error" });
+    },
+  });
+
   const onSubmit = (data) => {
-    addData(data);
+    editData(data);
   };
 
   const onChangeSelect = (filled, selectedValue) => {
@@ -125,6 +123,27 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       getStags(selectedValue)
     }
   };
+
+  useEffect(() => {
+    if (isSata) {
+      const mapData = Object.fromEntries(
+        Object.entries(showEditData).map(([key, value]) => {
+          if (key === "hs_pipeline") {
+            getStags(value.value);
+          }
+          return [
+            key,
+            typeof value === 'object' && value !== null && 'value' in value ? value.value : value
+          ];
+        })
+      );
+      setInitialValues(mapData)
+    }
+  }, [showEditData, isSata]);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div>
@@ -138,7 +157,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px]">
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-start text-xl dark:text-white font-semibold">
-            Add {title}
+            Edit {title}
           </h3>
           {isLoading ?
             <div className="loader-line"></div>
@@ -148,11 +167,12 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
                 serverError={serverError}
+                initialValues={initialValues}
                 className="dark:bg-[#181818]"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2 gap-1">
+                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2">
                       {data.map((filled) => (
                         <div>
                           <FormItem className="mb-0">
@@ -194,7 +214,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         className=" "
                         isLoading={submitLoading}
                       >
-                        Create
+                        Save
                       </Button>
                     </div>
                   </div>
@@ -203,7 +223,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
             </div>
           }
         </div>
-      </Dialog>
-    </div>
+      </Dialog >
+    </div >
   );
 };
