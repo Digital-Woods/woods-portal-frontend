@@ -1,4 +1,42 @@
-const Select = ({ children, buttonText, spanText, showSpan }) => {
+const { Controller } = ReactHookForm;
+
+const Select = ({ label, name, options, value = "", control, filled = null, onChangeSelect = null }) => {
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    if (onChangeSelect) onChangeSelect(filled, value);
+  };
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      defaultValue={value}
+      render={({ field }) => (
+        <select
+          {...field}
+          onChange={(e) => {
+            field.onChange(e);
+            handleChange(e)
+          }}
+          value={field.value}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option value="" selected="selected" disabled hidden>
+            {label}
+          </option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      )}
+    />
+  );
+};
+
+const CustomCheckboxSelect = ({ children, buttonText, spanText, showSpan }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 

@@ -33,6 +33,7 @@ const ApiDetails = ({ path, objectId, id }) => {
         mediatorObjectTypeId,
         mediatorObjectRecordId,
         portalId,
+        hubId,
         cache: sync ? false : true
       }),
     onSuccess: (data) => {
@@ -94,15 +95,15 @@ const ApiDetails = ({ path, objectId, id }) => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading && !item) {
     return (
       <div className="loader-line"></div>
     );
   }
 
   return (
-    <div className="h-full dark:bg-dark-200 w-[100%] p-6">
-      {/* {isLoading && !item && } */}
+    <div className="h-full dark:bg-dark-200 w-[100%] p-6 rounded-tl-xl">
+      {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
         <div className=" flex ">

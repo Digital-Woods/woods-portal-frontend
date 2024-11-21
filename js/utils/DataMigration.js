@@ -266,6 +266,9 @@ const sortData = (list, type = 'list') => {
 // };
 
 const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '', detailsView = true) => {
+  if (!value) {
+    return '--';
+  }
   if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath && detailsView) {
     return (
       <Link
@@ -289,13 +292,10 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
     return formatDate(isObject(value) ? value.label : value);
   }
-  if (!value) {
-    return '--';
-  }
-  if(isObject(value)) return value.label || '--';
+  if (isObject(value)) return value.label || '--';
 
   const { truncated, isTruncated } = truncateString(value || "");
-  return  type == 'list' && isTruncated ?
+  return type == 'list' && isTruncated ?
     <Tooltip right content={value}>
       <Link
         className="dark:text-white"
@@ -735,5 +735,25 @@ function formatCustomObjectLabel(label) {
 // format column labels 
 
 function formatColumnLabel(label) {
-  return label.replace(/_/g, ' ');
+  return typeof label === 'string' ? label.replace(/_/g, ' ') : '';
+}
+
+function sortFormData(data) {
+  return data.sort((a, b) => {
+    // Define priority scores for sorting
+    const getPriority = (item) => {
+      if (item.customLabel.toLowerCase().includes('name')) return 1; // First
+      if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
+      if (item.name === 'hs_pipeline') return 3; // Third
+      if (item.name === 'hs_pipeline_stage') return 4; // Fourth
+      if (item.secondaryDisplayProperty) return 5; // Fifth
+      return 6; // Default to others
+    };
+
+    // Compare by priority
+    const priorityA = getPriority(a);
+    const priorityB = getPriority(b);
+
+    return priorityA - priorityB; // Sort in ascending order of priority
+  });
 }

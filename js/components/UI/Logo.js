@@ -13,9 +13,9 @@ const Logo = ({ className }) => {
         me.hubspotPortals &&
         me.hubspotPortals.portalSettings &&
         me.hubspotPortals.portalSettings.logo &&
-        isValidUrl(me.hubspotPortals.portalSettings.logo)
+        isValidUrl(hubSpotUserDetails.hubspotPortals.portalSettings.logo)
       ) {
-        setLogoSrc(me.hubspotPortals.portalSettings.logo);
+        setLogoSrc(hubSpotUserDetails.hubspotPortals.portalSettings.logo);
       } else {
         setLogoSrc("");
       }
@@ -38,7 +38,7 @@ const Logo = ({ className }) => {
 
   const logoToDisplay =
     logoSrc ||
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6VUACD-UCfCix84c3iUXMvU0N7ewxBtDKvg&s";
+    hubSpotUserDetails.hubspotPortals.portalSettings.logo;
 
   return (
     <div>

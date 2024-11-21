@@ -25,8 +25,10 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDPOINT, detailsView = true }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showEditData, setShowEditData] = useState(false);
   const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
@@ -114,7 +116,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
       me,
       // portalId,
       // hubspotObjectTypeId,
-      API_ENDPOINT,
+      apis.tableAPI,
       filterPropertyName,
       filterOperator,
       filterValue,
@@ -129,7 +131,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT,
+        API_ENDPOINT: apis.tableAPI,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -245,11 +247,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
           <p className="text-primary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
-          <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+          <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {endItem}
           </span>
-          <span>/</span>
-          <span className="rounded-md font-medium">{totalItems}</span>
+          <span  className="text-primary dark:text-gray-300">/</span>
+          <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
           <p className="text-primary font-normal text-sm dark:text-gray-300">
             Results
           </p>
@@ -272,7 +274,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
                   {tableHeader.map((column) => (
                     <TableHead
                       key={column.key}
-                      className="whitespace-nowrap dark:text-white cursor-pointer"
+                      className="whitespace-nowrap dark:text-primary cursor-pointer"
                       onClick={() => handleSort(column.key)}
                     >
                       <div className="flex columns-center">
@@ -305,6 +307,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
                   {env.DATA_SOURCE_SET === true &&
                     <TableHead className="font-semibold text-xs">
 
+                    </TableHead>
+                  }
+                  {editView &&
+                    <TableHead className="font-semibold text-xs">
+                      Actions
                     </TableHead>
                   }
                 </TableRow>
@@ -348,6 +355,18 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
                           >
                             View Details
                           </Link>
+                        </div>
+                      </TableCell>
+                    }
+                    {editView &&
+                      <TableCell>
+                        <div className="flex items-center space-x-2 gap-x-5">
+                          <Button size="sm" className="text-white" onClick={() => {
+                            setShowEditDialog(true);
+                            setShowEditData(item);
+                          }}>
+                            Edit
+                          </Button>
                         </div>
                       </TableCell>
                     }
@@ -404,7 +423,8 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
           </div>
         </Dialog>
       }
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
+      {showEditDialog && <DashboardTableEditForm openModal={showEditDialog} setOpenModal={setShowEditDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} showEditData={showEditData} refetch={getData} />}
     </div >
   );
 };

@@ -9,9 +9,16 @@ const Tickets = ({ path, objectId, id }) => {
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
   }
-  const API_ENDPOINT = `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}${param}`
-// {portalId}/hubspot-object-tickets/{objectTypeId}/{objetRowId}
+
+  const apis = {
+    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}${param}`,
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/forms`,
+    stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/stages/`, // concat pipelineId
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}`,
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}/` // concat ticketId
+  }
+
   return (
-    <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} API_ENDPOINT={API_ENDPOINT} detailsView={false} />
+    <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} editView={true} />
   );
 };
