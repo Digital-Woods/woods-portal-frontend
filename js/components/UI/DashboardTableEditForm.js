@@ -1,16 +1,80 @@
 const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, showEditData, refetch }) => {
   const { sync, setSync } = useSync();
   const [isSata, setisData] = useState(false);
+  const [is1st, setis1st] = useState(false);
+  const [defaultValues, setDefaultValues] = useState(null);
   const [data, setData] = useState([]);
   const [initialValues, setInitialValues] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const { z } = Zod;
 
+  const { mutate: getFormData, isLoading: stageLoadingFormData } = useMutation({
+    mutationKey: [
+      "getFormData"
+    ],
+    mutationFn: async () => {
+      return await Client.form.formData(
+        {
+          API: apis.formDataAPI,
+          params: {
+            objectId: showEditData.hs_object_id
+          }
+        }
+      );
+    },
+    onSuccess: (response) => {
+      if (response.statusCode === "200") {
+        const mapData = Object.fromEntries(
+          Object.entries(response.data).map(([key, value]) => {
+            // if (key === "hs_pipeline" || key === "pipeline") {
+            //   getStags(value.value.value);
+            // }
+            const mValue = value.value;
+            return [
+              key,
+              typeof mValue === 'object' && mValue !== null && 'value' in mValue ? mValue.value : mValue
+            ];
+          })
+        );
+        setInitialValues(mapData)
+        setDefaultValues(response.data)
+      }
+    },
+    onError: () => {
+      let errorMessage = "An unexpected error occurred.";
+      setAlert({ message: errorMessage, type: "error" });
+    },
+  });
+
+  // const { mutate: getFormData, isLoading: stageLoadingFormData } = useMutation({
+  //   mutationKey: ["getFormData"],
+  //   mutationFn: async () => {
+  //     try {
+  //       const response = await Client.form.formData({
+  //         API: apis.formDataAPI,
+  //         params: {
+  //           objectId: showEditData.hs_object_id
+  //         }
+  //       });
+  //       return response;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   },
+  //   onSuccess: async (response) => {
+
+  //   },
+  //   onError: (error) => {
+  //     let errorMessage = "An unexpected error occurred.";
+  //     setAlert({ message: errorMessage, type: "error" });
+  //   },
+  // });
+
   const createValidationSchema = (data) => {
     const schemaShape = {};
     data.forEach((field) => {
-      if (field.requiredProperty) {
+      if (field.requiredField || field.primaryProperty) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
         });
@@ -29,7 +93,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationFn: async (pipelineId) => {
       try {
         const response = await Client.form.stages({
-          API: `${apis.stagesAPI}${pipelineId}`,
+          API: `${apis.stagesAPI}${pipelineId}/stages`,
         });
         return response;
       } catch (error) {
@@ -37,11 +101,14 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       }
     },
     onSuccess: async (response) => {
+      console.log('stage data', data)
       const updatedProperties = data.map((property) =>
         property.name === "hs_pipeline_stage"
           ? { ...property, options: response.data }
           : property
       );
+      console.log('updatedProperties', updatedProperties)
+
       setData(updatedProperties)
     },
     onError: (error) => {
@@ -50,6 +117,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     },
   });
 
+  // get form
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableFormData"
@@ -60,21 +128,17 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        setData(
-          response.data.sort((a, b) => {
-            if (a.primaryDisplayProperty) return -1;
-            if (b.primaryDisplayProperty) return 1;
-            if (a.secondaryDisplayProperty) return -1;
-            if (b.secondaryDisplayProperty) return 1;
-            return 0;
-          })
-        )
+        // console.log('getData', response.data.properties)
+        // setData(sortFormData(response.data.properties))
+        setData(response.data.properties)
         setisData(true)
+        // setis1st(!is1st ? true : false)
       }
     },
     onError: () => {
       setData([]);
       setisData(false)
+      // setis1st(false)
     },
   });
 
@@ -83,7 +147,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationFn: async (input) => {
       try {
         const response = await Client.form.update({
-          API: `${apis.updateAPI}${showEditData.hs_object_id}`,
+          API: apis.updateAPI.replace(":formId", showEditData.hs_object_id),
           data: input
         });
         return response;
@@ -119,17 +183,45 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   };
 
   const onChangeSelect = (filled, selectedValue) => {
-    if (filled.name === "hs_pipeline") {
+    if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
       getStags(selectedValue)
     }
   };
 
+  // useEffect(() => {
+  //   if (isSata) {
+  //     const mapData = Object.fromEntries(
+  //       Object.entries(showEditData).map(([key, value]) => {
+  //         if (key === "hs_pipeline" || key === "pipeline") {
+  //           getStags(value.value);
+  //         }
+  //         return [
+  //           key,
+  //           typeof value === 'object' && value !== null && 'value' in value ? value.value : value
+  //         ];
+  //       })
+  //     );
+  //     console.log('mapData', mapData)
+  //     setInitialValues(mapData)
+  //   }
+  // }, [showEditData, isSata]);
+  useEffect(() => {
+    console.log('initialValues', initialValues)
+    if (initialValues) getData();
+  }, [initialValues,]);
+
+  useEffect(() => {
+    getFormData();
+
+  }, []);
+
   useEffect(() => {
     if (isSata) {
+      console.log('defaultValues', defaultValues)
       const mapData = Object.fromEntries(
-        Object.entries(showEditData).map(([key, value]) => {
-          if (key === "hs_pipeline") {
-            getStags(value.value);
+        Object.entries(defaultValues).map(([key, value]) => {
+          if (key === "hs_pipeline" || key === "pipeline") {
+            getStags(value.value.value);
           }
           return [
             key,
@@ -137,14 +229,9 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
           ];
         })
       );
-      setInitialValues(mapData)
+      // setInitialValues(mapData)
     }
   }, [showEditData, isSata]);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
     <div>
       {alert && (
@@ -159,7 +246,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
           <h3 className="text-start text-xl dark:text-white font-semibold">
             Edit {title}
           </h3>
-          {isLoading ?
+          {isLoading || stageLoadingFormData ?
             <div className="loader-line"></div>
             :
             <div className="w-full text-left">
@@ -168,31 +255,71 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 validationSchema={validationSchema}
                 serverError={serverError}
                 initialValues={initialValues}
-                className="dark:bg-[#181818]"
+                className="dark:bg-[#181818] m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2">
+                    <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
                         <div>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>
-                            {filled.fieldType == 'select' ?
+                            {/* {filled.fieldType == 'select' ?
                               <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>
                                 <div>
-                                  <Input
-                                    height="medium"
-                                    placeholder={filled.customLabel}
-                                    className=""
-                                    {...register(filled.name)}
-                                  />
+                                  {filled.fieldType == 'textarea' ?
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                    :
+                                    <Input
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  }
                                 </div>
                               </FormControl>
-                            }
+                            } */}
+
+                            <FormControl>
+                              <div>
+                                {
+                                  filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                    <Select
+                                      label={`Select ${filled.customLabel}`}
+                                      name={filled.name}
+                                      options={filled.options}
+                                      control={control}
+                                      filled={filled}
+                                      onChangeSelect={onChangeSelect}
+                                    />
+                                  ) : filled.fieldType === 'textarea' ? (
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  ) : (
+                                    <Input
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  )
+                                }
+                              </div>
+                            </FormControl>
 
                             {errors[filled.name] && (
                               <FormMessage className="text-red-600 dark:text-red-400">
@@ -208,13 +335,13 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                       >
-                        Close
+                        Calcel
                       </Button>
                       <Button
                         className=" "
                         isLoading={submitLoading}
                       >
-                        Save
+                        Save {title}
                       </Button>
                     </div>
                   </div>

@@ -25,7 +25,7 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
@@ -37,7 +37,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("hs_createdate");
+  const [sortConfig, setSortConfig] = useState("-hs_createdate");
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
@@ -106,7 +106,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
     portalId = getPortal().portalId
   }
 
-  const { mutate: getData, isLoading } = useMutation({
+  const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
       path,
@@ -240,6 +240,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
           <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
+          {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
+            <p className="text-primary text-2xl dark:text-gray-300">
+              {tableAPiData.data.configurations.associationMessage}
+            </p>
+          }
         </div>
       )}
       <div className="flex justify-between items-center px-6 py-5">
@@ -250,7 +255,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
           <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {endItem}
           </span>
-          <span  className="text-primary dark:text-gray-300">/</span>
+          <span className="text-primary dark:text-gray-300">/</span>
           <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
           <p className="text-primary font-normal text-sm dark:text-gray-300">
             Results
@@ -258,9 +263,10 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         </div>
 
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
-        {env.DATA_SOURCE_SET != true &&
+        {/* {tableAPiData && tableAPiData.data && console.log('tableAPiData', tableAPiData.data.configurations.createFormButton)} */}
+        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
           <Button className="text-white" onClick={() => setShowAddDialog(true)}>
-            <span className="mr-2"> + </span> Add {title}
+            <span className="mr-2"> + </span> Create {title}
           </Button>
         }
       </div>
@@ -333,16 +339,41 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
                             path
                           )} */}
                           {/* {console.log('item', item)} */}
-                          {renderCellContent(
+                          {/* {renderCellContent(
                             item[column.key],
                             column,
                             item.hs_object_id,
                             path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                             path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                             'list',
-                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                             detailsView
-                          )}
+                          )} */}
+
+                          {
+                            viewName === 'ticket'
+                              ? renderCellContent(
+                                item[column.key],
+                                column,
+                                item.hs_object_id,
+                                path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                                path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                                'list',
+                                `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}`,
+                                detailsView
+                              )
+                              : renderCellContent(
+                                item[column.key],
+                                column,
+                                item.hs_object_id,
+                                path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                                path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                                'list',
+                                path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                                detailsView
+                              )
+                          }
+
                         </div>
                       </TableCell>
                     ))}

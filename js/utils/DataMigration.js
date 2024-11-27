@@ -40,6 +40,7 @@ function isNull(data) {
 }
 
 function isObject(data) {
+  if(data == null) return false
   return typeof data === "object";
 }
 
@@ -289,7 +290,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
       </Link>
     )
   }
-  if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
+  if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate'  || column.key == 'createdate')) {
     return formatDate(isObject(value) ? value.label : value);
   }
   if (isObject(value)) return value.label || '--';
@@ -746,7 +747,8 @@ function sortFormData(data) {
       if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
       if (item.name === 'hs_pipeline') return 3; // Third
       if (item.name === 'hs_pipeline_stage') return 4; // Fourth
-      if (item.secondaryDisplayProperty) return 5; // Fifth
+      if ((item.secondaryProperty || item.secondaryDisplayProperty) && item.fieldType != 'textarea') return 5; // Fifth
+      if (item.fieldType === 'textarea') return 7; // Fifth
       return 6; // Default to others
     };
 
