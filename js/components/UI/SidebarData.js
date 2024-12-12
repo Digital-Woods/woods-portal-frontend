@@ -1,5 +1,5 @@
 
-const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false }) => {
+const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, apis, companyAsMediator, detailsView = true, editView = false, viewName = '', detailsUrl = '' }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -8,7 +8,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
@@ -70,7 +70,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
       setTableHeader(sortData(columns));
     }
   };
-
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   const parentObjectTypeName = getParam("parentObjectTypeName")
@@ -78,6 +77,10 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
   const objectTypeName = getParam("objectTypeName")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param = companyAsMediator
+    ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
@@ -108,7 +111,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: apis.tableAPI,
+        API_ENDPOINT: `${apis.tableAPI}${param}`,
+        // API_ENDPOINT: `${apis.tableAPI}?parentObjectTypeId=${hubspotObjectTypeId}&mediatorObjectTypeId=${mediatorObjectTypeId}`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -186,9 +190,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
       ));
     }
   }, [currentTableData, currentPage, itemsPerPage]);
-  // useEffect(() => {
-  //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
-  // }, [inputValue]);
+
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true) {
@@ -214,40 +216,47 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md px-4 pt-4 w-full max-w-md dark:bg-dark-300">
+    <div className="bg-white rounded-lg px-4 pt-4 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
+      <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
+        <div className="flex items-center justify-between gap-x-2 ">
+          <span>
+            <AssociationIcon />
+          </span>
+          <span>
+            <span className="dark:text-white">{title}</span>
+            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+              {totalItems}
+            </span>
+          </span>
+        </div>
+        {isExpanded ? <IconMinus className='font-semibold' /> : <IconPlus className='font-semibold' />}
+      </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-primary text-2xl dark:text-gray-300">
+          <p className="text-primary text-base md:text-xl dark:text-gray-300">
             No records found
           </p>
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-2xl dark:text-gray-300">
+            <p className="text-primary text-base md:text-2xl dark:text-gray-300">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }
         </div>
       )}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
-          <Button variant='outline' size='sm' onClick={() => setShowAddDialog(true)}>+ {title}</Button>
-        }
-      </div>
-
       {tableData.length > 0 && (
         <React.Fragment>
-          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
+          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
             {tableData.map((item) => (
-              <li key={item.id} className="flex items-start text-primary dark:text-white p-2 flex-col gap-1 border rounded-md justify-between">
+              <table key={item.id} className="flex items-start text-primary bg-white dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border dark:border-gray-600 rounded-md justify-between">
                 {tableHeader.map((column) => (
-                  <div
+                  <tr
                     key={column.value}
-                    className="flex items-start space-x-1"
+                    className=""
                   >
-                    <div className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{column.value}:</div>
+                    <td className="pr-1 text-xs whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white !p-[3px]">{column.value}: </td>
 
-                    <div className="dark:text-white text-xs ">
+                    <td className="dark:text-white text-xs whitespace-wrap  break-all  !p-[3px]">
                       {/* {console.log('item', item)} */}
                       {renderCellContent(
                         item[column.key],
@@ -259,44 +268,20 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
                         path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                         detailsView
                       )}
-                    </div>
-                  </div>
+                    </td>
+                  </tr>
                 ))}
-                {/* {env.DATA_SOURCE_SET === true &&
-                      <TableCell>
-                        <div className="flex items-center space-x-2 gap-x-5">
-                          <Link
-                            className="text-xs px-2 py-1 border border-input dark:text-white rounded-md whitespace-nowrap "
-                            to={`${path}/${hubspotObjectTypeId}/${item.id}`}
-                          >
-                            View Details
-                          </Link>
-                        </div>
-                      </TableCell>
-                    }
-                    {editView &&
-                      <TableCell>
-                        <div className="flex items-center space-x-2 gap-x-5">
-                          <Button size="sm" className="text-white" onClick={() => {
-                            setShowEditDialog(true);
-                            setShowEditData(item);
-                          }}>
-                            Edit
-                          </Button>
-                        </div>
-                      </TableCell>
-                    } */}
-              </li>
+              </table>
 
             ))}
           </ul>
           {tableData.length > 0 &&
-            <div className="flex justify-between mt-3 items-center">
-              <div className="text-end">
+            <div className="flex lg:flex-row flex-col justify-between items-center">
+              {/* <div className="text-end">
                 {env.DATA_SOURCE_SET != true &&
                   <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
                 }
-              </div>
+              </div> */}
               <Pagination
                 numOfPages={numOfPages}
                 currentPage={currentPage}

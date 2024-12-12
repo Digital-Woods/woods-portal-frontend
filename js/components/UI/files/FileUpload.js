@@ -1,14 +1,14 @@
-const CloseIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    viewBox="0 -960 960 960"
-    width="24px"
-    className="fill-black dark:fill-white"
-  >
-    <path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z" />
-  </svg>
-);
+// const CloseIcon = () => (
+//   <svg
+//     xmlns="http://www.w3.org/2000/svg"
+//     height="24px"
+//     viewBox="0 -960 960 960"
+//     width="24px"
+//     className="fill-black dark:fill-white"
+//   >
+//     <path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z" />
+//   </svg>
+// );
 
 const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
   id }) => {
@@ -138,11 +138,11 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
 
   return (
     <div className="fileupload-view relative">
-      <div className="row justify-content-center m-0">
+      <div className="row justify-center m-0">
         <div className="col-md-6">
           <div className="card mt-5">
             <div className="card-body">
-              <div className="kb-data-box">
+              <div className="kb-data-box md:w-[450px] w-[280px]">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
                     <div
@@ -152,10 +152,10 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                       <CloseIcon />
                     </div>
 
-                    <h6>File Upload</h6>
+                    <h6 className=" dark:text-white">File Upload</h6>
                   </div>
                 </div>
-                <form onSubmit={fileUploadSubmit}>
+                <form onSubmit={fileUploadSubmit} className="max-w-screen">
                   <div className="kb-file-upload">
                     <div className="file-upload-box">
                       <div>
@@ -174,7 +174,6 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                         id="fileupload"
                         className="file-upload-input"
                         onChange={inputChange}
-                        multiple
                       />
                       <p> Drag and drop </p>
                       <p> or </p>

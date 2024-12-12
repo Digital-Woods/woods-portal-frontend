@@ -136,7 +136,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px]">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px] min-w-[305px]">
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-start text-xl dark:text-white font-semibold">
             Add {title}
@@ -149,7 +149,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
                 serverError={serverError}
-                className="dark:bg-[#181818] m-0"
+                className="dark:bg-dark-200 m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>

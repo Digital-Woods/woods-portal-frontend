@@ -22,7 +22,10 @@
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/ApiDetails.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/ModuleDetails.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/TnstackQuery.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/PreLogin.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/Login.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/FinalLogin.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/ExistingUserRegister.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/TwoFa.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/ForgetPassword.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/auth/ResetPassword.js")}}'></script>
@@ -44,6 +47,7 @@
 
 <!-- UI -->
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/HomeBanner.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/IframeViewDialog.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/SidebarData.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/SidebarTable.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/SyncButton.js")}}'></script>
@@ -54,10 +58,8 @@
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Logo.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Button.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/ActivityLog.js")}}'></script>
-<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Timeline.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Tabs.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Avatar.js")}}'></script>
-<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/NewAvater.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Form.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Select.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Pagination.js")}}'></script>
@@ -83,6 +85,7 @@
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/DashboardTableForm.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/DashboardTableEditForm.js")}}'></script>
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/Attachments.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/pages/components/details/DetailsViewUpdate.js")}}'></script>
 
 <!--Profile-->
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/components/UI/profile/ChangePassword.js")}}'></script>
@@ -113,8 +116,30 @@
 <!-- Store -->
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/utils/dataMigration.js")}}'></script>
 <script src='{{get_asset_url("../../../js/utils/twMerge.js")}}'></script>
+<script src='{{get_asset_url("../../../js/utils/UseResponsive.js")}}'></script>
 <script src='{{get_asset_url("../../../js/utils/param.js")}}'></script>
 <script src='{{get_asset_url("../../../js/utils/generateApiUrl.js")}}'></script>
+
+
+<!-- Icons -->
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/editIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/closeIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/animateCircles.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/tickIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/detailsIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/arrow.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/associationIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/IconMinus.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/IconPlus.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/SIdebarTogglerIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/LogOutIcon.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/HamburgerMenu.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/NewAvater.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/SuccessMessage.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/ErrorMessage.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/Chevron.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/IconHome.js")}}'></script>
+<script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/assets/icons/DefaultIcon.js")}}'></script>
 
 <!-- Main APP -->
 <script type="text/babel" data-presets="react" data-source-map="inline" src='{{get_asset_url("../../../js/App.js")}}'></script>
