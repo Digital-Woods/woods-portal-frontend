@@ -21,8 +21,9 @@ const Tabs = ({ children, activeTab, setActiveTab = null, className }) => {
   }
 
   // Map over tabs and contents to generate JSX elements
-  const tabsList = React.Children.map(tabs[0].props.children, (trigger) => (
-    <TabsTrigger
+  const filteredTabls = tabs[0].props.children.filter(item => item !== null && item !== false && item !== undefined);
+  const tabsList = React.Children.map(filteredTabls, (trigger) => (
+    <TabsTrigger className="rounded-md"
       key={trigger.props.value}
       value={trigger.props.value}
       isActive={selectedValue === trigger.props.value}
@@ -59,13 +60,13 @@ const TabsList = ({ children, className }) => (
 
 const TabsTrigger = ({ value, isActive, onClick, children }) => (
   <li
-    className={`me-2 TabsTrigger ${isActive ? "active" : ""}`}
+    className={`TabsTrigger ${isActive ? "active" : ""}`}
     role="tab"
     aria-selected={isActive}
     onClick={() => onClick(value)}
   >
     <button
-      className={`inline-block px-4 py-2  rounded-full cursor-pointer rounded-md ${
+      className={`inline-block px-4 py-2  rounded-md cursor-pointer rounded-md ${
         isActive
           ? "bg-cleanWhite dark:bg-dark-400 text-white"
           : "dark:bg-dark-300"

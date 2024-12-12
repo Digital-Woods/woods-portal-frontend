@@ -241,7 +241,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px]">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px] min-w-[305px]">
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-start text-xl dark:text-white font-semibold">
             Edit {title}
@@ -255,7 +255,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 validationSchema={validationSchema}
                 serverError={serverError}
                 initialValues={initialValues}
-                className="dark:bg-[#181818] m-0"
+                className="dark:bg-dark-200 m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
@@ -335,7 +335,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                       >
-                        Calcel
+                        Cancel
                       </Button>
                       <Button
                         className=" "

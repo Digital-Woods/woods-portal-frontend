@@ -1,5 +1,5 @@
 
-const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false }) => {
+const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, companyAsMediator, apis, detailsView = true, editView = false }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -8,7 +8,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
@@ -68,7 +68,6 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
       setTableHeader(sortData(columns));
     }
   };
-
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   const parentObjectTypeName = getParam("parentObjectTypeName")
@@ -76,6 +75,10 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
   const objectTypeName = getParam("objectTypeName")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param = companyAsMediator
+    ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
@@ -106,7 +109,8 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: apis.tableAPI,
+        API_ENDPOINT: `${apis.tableAPI}${param}`,
+        // API_ENDPOINT: `${apis.tableAPI}?parentObjectTypeId=${hubspotObjectTypeId}&mediatorObjectTypeId=${mediatorObjectTypeId}`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -212,45 +216,53 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md px-4 pt-4 w-full max-w-md dark:bg-dark-300">
+    <div className="bg-white rounded-lg px-4 pt-4 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
+      <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
+        <div className="flex items-center justify-between gap-x-2 ">
+          <span>
+            <AssociationIcon />
+          </span>
+          <span>
+            <span className="dark:text-white">{title}</span>
+            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+              {totalItems}
+            </span>
+          </span>
+        </div>
+        {isExpanded ? <IconMinus className='font-semibold' /> : <IconPlus className='font-semibold' />}
+      </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-primary text-2xl dark:text-gray-300">
+          <p className="text-primary text-base md:text-xl dark:text-gray-300">
             No records found
           </p>
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-2xl dark:text-gray-300">
+            <p className="text-primary text-base md:text-2xl dark:text-gray-300">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }
         </div>
       )}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
-          <Button variant='outline' size='sm' onClick={() => setShowAddDialog(true)}>+ {title}</Button>
-        }
-      </div>
       {/* {activities.map((activity, index) => ( */}
       <div>
         {/* <h3 className="text-sm font-semibold text-gray-500">
             {activity.date} <span className="font-normal">{activity.day}</span>
           </h3> */}
-        <ul className={`mt-2 space-y-4   transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
+        <ul className={`mt-2 space-y-4   transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
           {tableData.map((item, index) => (
-            <li
+            <table
               key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
                 }`}
             >
               {tableHeader.map((column) => (
-                <div
+                <tr
                   key={column.value}
-                  className="flex items-start space-x-1"
+                  className=""
                 >
-                  <div className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{column.value}:</div>
-                  <div className="dark:text-white text-xs">
+                  <td className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white !p-[3px]">{column.value}:</td>
+                  <td className="dark:text-white text-xs  break-all !p-[3px]">
                     {/* {console.log('item', item)} */}
                     {renderCellContent(
                       item[column.key],
@@ -262,19 +274,19 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
                       path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                       detailsView
                     )}
-                  </div>
-                </div>
+                  </td>
+                </tr>
               ))}
-            </li>
+            </table>
           ))}
         </ul>
         {tableData.length > 0 &&
-          <div className="flex justify-between mt-3 items-center">
-            <div className="text-end">
+          <div className="flex lg:flex-row flex-col justify-between items-center">
+            {/* <div className="text-end">
               {env.DATA_SOURCE_SET != true &&
                 <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
               }
-            </div>
+            </div> */}
             <Pagination
               numOfPages={numOfPages}
               currentPage={currentPage}

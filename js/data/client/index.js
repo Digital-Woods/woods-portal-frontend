@@ -1,6 +1,9 @@
 class Client {
   static authentication = {
+    preLogin: (data) => HttpClient.post(API_ENDPOINTS.PRE_LOGIN, data),
     login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
+    existingUserRegister: (data) => HttpClient.post(API_ENDPOINTS.EXISTING_USER_REGISTER, data),
+    verifyEmail: (data) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL, data),
     verifyOtp: (data) => HttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),
     register: (data) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
     Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT),
@@ -10,7 +13,8 @@ class Client {
       HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
     resetPassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USER_RESET_PASSWORD, data),
-    resendEmail: (data) => HttpClient.get(API_ENDPOINTS.RESEND_EMAIL, data),
+    resendEmail: (data) => HttpClient.post(API_ENDPOINTS.RESEND_EMAIL, data),
+    verifyEmailResend: (data) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL_RESEND, data),
   };
 
   static fetchAllFeatures = {
@@ -160,5 +164,16 @@ class Client {
       HttpClient.get(API),
     create: ({API, data}) => HttpClient.post(API, data),
     update: ({API, data}) => HttpClient.put(API, data),
+  };
+
+  static details = {
+    update: ({data, params}) => {
+      const apiUrl = generateApiUrl({route:API_ENDPOINTS.DETAILS_SAVE, params})
+      return HttpClient.put(apiUrl, data)
+    },
+    stages: ({params}) => {
+      const apiUrl = generateApiUrl({route:API_ENDPOINTS.STAGES, params})
+      return HttpClient.get(apiUrl)
+    },
   };
 }
