@@ -8,11 +8,11 @@ function withOpacity(variableName) {
   };
 }
 
-{% set primary_color = theme.global_colors.primary.color  %}
+{% set primary_color = theme.global_colors.primary.color %}
 {% set secondary_color = theme.global_colors.secondary.color %}
 
 let primarycolor = "{{ primary_color }}";
-let secondarycolor ="{{ secondary_color }}";
+let secondarycolor = "{{ secondary_color }}";
 
 tailwind.config = {
   content: [
@@ -57,11 +57,14 @@ tailwind.config = {
       },
       colors: {
         cleanWhite: "#FFFFFF",
-        white: "#FAF9F6",
+        white: "#fdfdfd",
         graySecondary: "#F2F2F2",
         richRed: "#FF0000",
         lightblue: "#005fad",
         defaultPrimary: "var(--primary-color)",
+        rsbackground: `${moduleStylesOptions.rightTables.backgroundColor || "#2d3e5014"}`,
+        rstextcolor: `${moduleStylesOptions.rightTables.textColor || "#2d3e50"}`,
+        rscardbackhround: `${moduleStylesOptions.rightTables.cardBackgroundColor || "#2d3e5030"}`,
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey
